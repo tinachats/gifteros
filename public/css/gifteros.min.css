@@ -12,7 +12,7 @@
 }
 
 
-/* Utility Classes .gift-label */
+/* Utility Classes .star-rating */
 
 :root {
     --text-warning-white: #f39c12;
@@ -3154,8 +3154,12 @@ a:hover,
 
 /* /.Settings Sidebar */
 
-.star-rating {
+.star-rating li {
     margin-left: -12px;
+}
+
+.star-rating li:first-child {
+    margin-left: 0;
 }
 
 #showcase-carousel {

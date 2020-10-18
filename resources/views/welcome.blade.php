@@ -8,6 +8,9 @@
 <div class="container page-content" id="index-page">
     {{-- Showcase Products --}}
     @include('layouts.includes.showcase')
+    <div class="owl-carousel owl-theme carousel-autoplay showcase-gifts">
+        @yield('categories')
+    </div>
 
     @yield('customizable_gifts')
     @yield('kitchenware')

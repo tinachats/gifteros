@@ -16,6 +16,9 @@ class Gifts extends Controller
     public function index()
     {
         $title = 'Gifteros';
+        $showcase_gifts = DB::table('gifts')
+                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                            ->get();
         $customized_gifts = DB::table('gifts')
                             ->join('categories', 'categories.id', '=', 'gifts.category_id')
                             ->select('gifts.*', 'categories.category_name')
@@ -51,6 +54,7 @@ class Gifts extends Controller
                             ->take(4)
                             ->get();
         $data = [
+            'showcase_gifts'   => $showcase_gifts,
             'customized_gifts' => $customized_gifts, 
             'kitchenware'      => $kitchenware,
             'plasticware'      => $plasticware,
@@ -85,12 +89,50 @@ class Gifts extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug, $id)
     {
-        //
+        $gift = Gift::where(['slug' => $slug, 'id' => $id])->firstOrFail();
+        $greeting_cards = DB::table('gifts')
+                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                            ->where([
+                                ['category_name', '=', 'greeting cards'],
+                                ['gifts.id', '!=', $id]
+                            ])
+                            ->orderBy('usd_price', 'asc')
+                            ->get();
+        $wrappers = DB::table('gifts')
+                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                            ->where([
+                                ['category_name', '=', 'wrappers'],
+                                ['gifts.id', '!=', $id]
+                            ])
+                            ->orderBy('usd_price', 'asc')
+                            ->get();
+        $accesories = DB::table('gifts')
+                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                            ->where([
+                                ['category_name', '=', 'flowers'],
+                                ['category_name', '=', 'pastries'],
+                                ['category_name', '=', 'confectionery'],
+                                ['gifts.id', '!=', $id]
+                            ])
+                            ->orderBy('usd_price', 'asc')
+                            ->get();
+        $title = DB::table('gifts')
+                    ->where('id', $id)
+                    ->value('gift_name');
+        $data = [
+            'title' => $title,
+            'gift'  => $gift,
+            'greeting_cards' => $greeting_cards,
+            'wrappers' => $wrappers,
+            'accesories' => $accesories
+        ];
+        return view('/details.show')->with($data);
     }
 
     /**

@@ -18,6 +18,7 @@ use App\Http\Controllers\AccountController;
 
 // Gift Routes
 Route::get('/', [Gifts::class, 'index'])->name('index');
+Route::get('/details/{slug}/{id}', [Gifts::class, 'show'])->name('details.show');
 
 Auth::routes();
 
