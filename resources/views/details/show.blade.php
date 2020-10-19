@@ -56,15 +56,8 @@
                             </div>
                             <div class="d-flex justify-content-around border-top border-bottom py-1">
                                 <div class="d-block justify-content-center text-center" id="product-star-rating">
-                                    <!-- Product star rating will show up here -->
-                                    <ul class="list-inline align-items-center star-rating">
-                                        <li class="list-inline-item star-rating text-faded">&star;</li>
-                                        <li class="list-inline-item star-rating text-faded">&star;</li>
-                                        <li class="list-inline-item star-rating text-faded">&star;</li>
-                                        <li class="list-inline-item star-rating text-faded">&star;</li>
-                                        <li class="list-inline-item star-rating text-faded">&star;</li>
-                                        <p class="text-sm my-0 text-faded">0/0 (0 reviews)</p>
-                                    </ul>
+                                    <!-- Gift star rating will show up here -->
+                                    {!!dpStarRating($gift->id)!!}
                                 </div>
                                 <div class="border-right mr-1"></div>
                                 <div class="d-block text-center">
@@ -95,10 +88,15 @@
                             </div>
                             <div class="d-flex align-items-center justify-content-around mt-3" id="action-btns">
                                 <!-- Action Buttons will show up here -->
-                                <button class="btn btn-sm btn-block rounded-pill font-600 d-flex align-items-center justify-content-center mr-1 visitor-wishes" id="4" data-name="customiized_mug">
-                                    <i class="material-icons text-primary mr-1">favorite_border</i>
-                                    <span class="text-primary">Wishlist</span>
-                                </button>
+                                @guest
+                                    <button class="btn btn-sm btn-block rounded-pill font-600 d-flex align-items-center justify-content-center mr-1 visitor-wishes" id="4" data-name="customiized_mug">
+                                        <i class="material-icons text-primary mr-1">favorite_border</i>
+                                        <span class="text-primary">Wishlist</span>
+                                    </button>
+                                @endguest
+                                @auth
+                                    {!!wishlistBtn($gift->id, Auth::user()->id)!!}
+                                @endauth
                                 <button class="btn btn-primary btn-sm btn-block rounded-pill font-600 d-flex align-items-center justify-content-center m-0" disabled>
                                     <i class="material-icons mr-1">accessible</i> Disabled
                                 </button>
@@ -133,47 +131,7 @@
                                 </div>
                             </div>
                             <div class="d-block" id="progress-rating">
-                                <!-- Product Progress Rating will show up here -->
-                                <div class="d-flex align-items-center">
-                                    <h6 class="my-0 mr-1 p-0 text-faded">5</h6>
-                                    <div class="progress progess-sm rounded-pill">
-                                        <div class="progress-bar bg-gold" role="progressbar" aria-valuemin="0" aria-valuenow="0" aria-valuemax="100" style="width:0%;">
-                                            <span class="text-muted font-400"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center mt-1">
-                                    <h6 class="my-0 mr-1 p-0 text-faded">4</h6>
-                                    <div class="progress progess-sm rounded-pill">
-                                        <div class="progress-bar bg-gold" role="progressbar" aria-valuemin="0" aria-valuenow="0" aria-valuemax="100" style="width:0%;">
-                                            <span class="text-muted font-400"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center mt-1">
-                                    <h6 class="my-0 mr-1 p-0 text-faded">3</h6>
-                                    <div class="progress progess-sm rounded-pill">
-                                        <div class="progress-bar bg-gold" role="progressbar" aria-valuemin="0" aria-valuenow="0" aria-valuemax="100" style="width:0%;">
-                                            <span class="text-muted font-400"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center mt-1">
-                                    <h6 class="my-0 mr-1 p-0 text-faded">2</h6>
-                                    <div class="progress progess-sm rounded-pill">
-                                        <div class="progress-bar bg-gold" role="progressbar" aria-valuemin="0" aria-valuenow="0" aria-valuemax="100" style="width:0%;">
-                                            <span class="text-muted font-400"></span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center mt-1">
-                                    <h6 class="my-0 mr-1 p-0 text-faded">1</h6>
-                                    <div class="progress progess-sm rounded-pill">
-                                        <div class="progress-bar bg-gold" role="progressbar" aria-valuemin="0" aria-valuenow="0" aria-valuemax="100" style="width:0%;">
-                                            <span class="text-muted font-400"></span>
-                                        </div>
-                                    </div>
-                                </div>
+                                {!!progressBarRating($gift->id)!!}
                             </div>
                         </div>
                         <div class="row justify-content-center mt-3 pb-3">

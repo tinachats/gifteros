@@ -1035,7 +1035,7 @@
         <!-- /.Geolocation details -->
 
         <!-- Cookie Policy Banner -->
-        <div class="policy-banner container-fluid box-shadow-lg bg-whitesmoke d-grid">
+        <div class="policy-banner container-fluid box-shadow-lg bg-whitesmoke d-grid d-none">
             <div class="m-auto">
                 <div class="row align-items-md-center">
                     <div class="col-12 col-md-9">

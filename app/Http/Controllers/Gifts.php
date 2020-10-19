@@ -105,23 +105,25 @@ class Gifts extends Controller
                             ->orderBy('usd_price', 'asc')
                             ->get();
         $wrappers = DB::table('gifts')
-                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                            ->where([
-                                ['category_name', '=', 'wrappers'],
-                                ['gifts.id', '!=', $id]
-                            ])
-                            ->orderBy('usd_price', 'asc')
-                            ->get();
+                        ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                        ->where([
+                            ['category_name', '=', 'wrappers'],
+                            ['gifts.id', '!=', $id]
+                        ])
+                        ->orderBy('usd_price', 'asc')
+                        ->get();
         $accesories = DB::table('gifts')
-                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                            ->where([
-                                ['category_name', '=', 'flowers'],
-                                ['category_name', '=', 'pastries'],
-                                ['category_name', '=', 'confectionery'],
-                                ['gifts.id', '!=', $id]
-                            ])
-                            ->orderBy('usd_price', 'asc')
-                            ->get();
+                        ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                        ->where([
+                            ['category_name', '=', 'flowers'],
+                            ['gifts.id', '!=', $id]
+                        ])
+                        ->orWhere([
+                            ['category_name', '=', 'pastries'],
+                            ['category_name', '=', 'confectionery']
+                        ])
+                        ->orderBy('usd_price', 'asc')
+                        ->get();
         $title = DB::table('gifts')
                     ->where('id', $id)
                     ->value('gift_name');
