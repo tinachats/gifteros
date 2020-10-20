@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Gifts;
+use App\Http\Controllers\Search;
+use App\Http\Controllers\Categories;
 use App\Http\Controllers\AccountController;
 
 /*
@@ -19,6 +21,9 @@ use App\Http\Controllers\AccountController;
 // Gift Routes
 Route::get('/', [Gifts::class, 'index'])->name('index');
 Route::get('/details/{slug}/{id}', [Gifts::class, 'show'])->name('details.show');
+Route::get('/search', [Search::class, 'index'])->name('search');
+Route::post('/search/fetch', [Search::class, 'fetch'])->name('search.fetch');
+Route::get('/category/{category_id}/{category}', [Gifts::class, 'category'])->name('category');
 
 Auth::routes();
 

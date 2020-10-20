@@ -138,6 +138,32 @@ class Gifts extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  string  $category
+     * @param int $category_id
+     * @return \Illuminate\Http\Response
+     */
+    public function category($category_id, $category){
+        $gifts = DB::table('gifts')
+                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                    ->join('sub_categories', 'sub_categories.id', '=', 'sub_category_id')
+                    ->where('category_name', $category)
+                    ->orderBy('usd_price', 'asc')
+                    ->get();
+        $sub_categories = DB::table('sub_categories')
+                          ->distinct('sub_categories.id', 'sub_categories.name', 'sub_categories.image')
+                          ->where('category_id', $category_id)
+                          ->get();
+        $data = [
+            'title' => strtoupper($category .' Gifts'),
+            'gifts' => $gifts,
+            'sub_categories' => $sub_categories
+        ];
+        return view('/category.index')->with($data);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id

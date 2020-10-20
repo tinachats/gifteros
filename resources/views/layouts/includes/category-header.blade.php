@@ -1,3 +1,4 @@
+@include('layouts.includes.header')
 <style>
     @media(max-width: 660px){
         .range-slider-settings{
@@ -14,7 +15,7 @@
                 Filter Options
             </h6>
             <h6 class="font-600 text-faded d-none d-md-block">
-                Showing results for <span class="text-faded text-capitalize"><?= $category_name; ?></span>
+                FILTER <span class="text-faded text-capitalize">{{ $title }}</span>
             </h6>
             <div class="d-none d-md-block mt-md-1">
                 <h6 class="text-sm text-capitalize">Refine by Price</h6>
@@ -67,7 +68,7 @@
                 <hr>
                 <h6 class="text-sm text-capitalize">Average customer ratings</h6>
                 <a href="#" class="customer-rated-value" id="above-4-rating">
-                    <ul class="list-inline align-items-center container my-0 py-0">
+                    <ul class="list-inline align-items-center container star-rating">
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
@@ -77,7 +78,7 @@
                     </ul>
                 </a>
                 <a href="#" class="customer-rated-value" id="above-3-rating">
-                    <ul class="list-inline align-items-center container my-0 py-0">
+                    <ul class="list-inline align-items-center container star-rating">
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
@@ -87,7 +88,7 @@
                     </ul>
                 </a>
                 <a href="#" class="customer-rated-value" id="above-2-rating">
-                    <ul class="list-inline align-items-center container my-0 py-0">
+                    <ul class="list-inline align-items-center container star-rating">
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
@@ -97,7 +98,7 @@
                     </ul>
                 </a>
                 <a href="#" class="customer-rated-value" id="above-1-rating">
-                    <ul class="list-inline align-items-center container my-0 py-0" class="customer-rated-value" id="above-1-rating">
+                    <ul class="list-inline align-items-center container star-rating" class="customer-rated-value" id="above-1-rating">
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
@@ -159,6 +160,24 @@
 
         <!-- Main Content -->
         <div class="main-content">
-            <!-- Categories Chips Slider -->
-            @include('product-chips')
+           <!-- Categories Chips Slider -->
+            <div class="chip-sliders bg-whitesmoke box-shadow-sm border-bottom">
+                <div class="owl-carousel owl-theme category-filters m-2">
+                    @foreach ($sub_categories as $sub_category)
+                        <!-- Category Item -->
+                        <div class="item">
+                            <!-- Category Chip -->
+                            <a role="button" href="">
+                                <div class="category-chip rounded-pill">
+                                    <img src="/storage/sub-categories/{{ $sub_category->image }}" class="img-circle rounded-circle mr-2" width="40" height="40" alt="">
+                                    <span class="text-lowercase text-faded">{{ mb_strimwidth($sub_category->name, 0, 10, '...') }}
+                                    </span>
+                                </div>
+                            </a>
+                            <!-- /.Category Chip -->
+                        </div>
+                        <!-- /.Category Item -->
+                    @endforeach
+                </div>
+            </div>
             <!-- /.Categories Chips Slider -->

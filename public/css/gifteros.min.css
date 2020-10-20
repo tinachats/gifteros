@@ -12,7 +12,7 @@
 }
 
 
-/* Utility Classes .star-rating */
+/* Utility Classes #search-list */
 
 :root {
     --text-warning-white: #f39c12;
@@ -2915,6 +2915,10 @@ a:hover,
     display: none;
 }
 
+#search-list li:hover {
+    background-color: rgba(0, 0, 0, .1);
+}
+
 .product-price {
     font-weight: 600;
     font-size: 1.2rem
@@ -3489,7 +3493,7 @@ a:hover,
 .btn-cart-placeholder {
     background-color: var(--cloud-grey);
     height: 34px;
-    width: 50%
+    width: 90%
 }
 
 .compare-btn-placeholder {
