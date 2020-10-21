@@ -51,7 +51,7 @@
             <!-- Side-menu-item -->
             <li class="side-menu-item p-2">
                 <a href="/" class="d-flex align-items-center">
-                    <i class="material-icons mr-2">home</i>
+                    <i class="material-icons mr-2">store</i>
                     <span class="text-capitalize">Home</span>
                 </a>
             </li>

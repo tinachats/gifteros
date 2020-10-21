@@ -9,7 +9,7 @@
 
         <div class="form-group mb-1 pb-1">
             <label for="email" class="mb-0 font-600 text-sm">Email</label>
-            <input type="email" name="email" id="email" class="form-control form-control-sm @error('email') is-invalid @enderror" value="{{ old('email') }}" required autocomplete="email">
+            <input type="email" name="email" id="email" class="form-control form-control-sm @error('email') is-invalid @enderror" value="{{ old('email') }}" required autofocus autocomplete="email">
             @error('email')
                 <small class="invalid-feedback font-600" id="nameError">{{ $message }}</small>
             @enderror

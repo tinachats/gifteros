@@ -47,7 +47,7 @@
             } else if($row->label == 'hot-offer'){
                 $gift_label = '
                     <div class="gift-label bg-transparent">
-                        <img src="../img/app/product-labels/hot.gif" alt="" height="22" width="56" class="img-fluid">
+                        <img src="'.asset('img/app/product-labels/hot.gif').'" alt="" height="22" width="56" class="img-fluid">
                     </div>
                 ';
             } else if($row->label == 'sale'){
@@ -358,14 +358,33 @@
         return $output;
     }
 
+    // Get gift's category
+    function categoryName($gift_id){
+        $category_name = DB::table('gifts')
+                           ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                           ->where('gifts.id', $gift_id)
+                           ->value('category_name');
+        return $category_name;
+    }
+
+    // Get gift's category
+    function categoryId($gift_id){
+        $category_id = DB::table('gifts')
+                           ->where('id', $gift_id)
+                           ->value('category_id');
+        return $category_id;
+    }
+
     // Related gifts
     function relatedGifts($gift_id, $category_id){
         $output = '';
         $relatives = DB::table('gifts')
                         ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                         ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                        ->where('gifts.id', '!=', $gift_id)
-                        ->where('gifts.category_id', '=', $category_id)
+                        ->where([
+                            ['gifts.id', '!=', $gift_id],
+                            ['gifts.category_id', '=', $category_id]
+                        ])
                         ->orderBy('usd_price', 'asc')
                         ->get();
         if(count($relatives) > 0){
@@ -380,16 +399,11 @@
                 $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
                 $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
 
-                $gift_label = giftLabel($gift_id);
-
                 $output .= '
                     <!-- Related Gift -->
                     <div class="item w-100">
                         <a href="'.route('details.show', [$gift->slug, $gift->id]).'" class="stretched-link">
                             <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
-                                <div class="gift-actions d-flex align-items-center justify-content-between w-100">
-                                    '.$gift_label.'
-                                </div>
                                 <img src="/storage/gifts/'.$gift->gift_image.'" height="150" class="card-img-top w-100 rounded-0">
                                 <div class="gift-content mx-1">
                                     <h6 class="my-0 py-0 text-capitalize font-600 text-primary">'.mb_strimwidth($gift->gift_name, 0, 17, '...').'</h6>

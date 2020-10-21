@@ -32,27 +32,27 @@ class Gifts extends Controller
                             ->orderBy('usd_price', 'asc')
                             ->take(4)
                             ->get();
-        $plasticware =  DB::table('gifts')
-                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                            ->select('gifts.*', 'categories.category_name')
-                            ->where('category_id', 21)
-                            ->orderBy('usd_price', 'asc')
-                            ->take(4)
-                            ->get();
-        $combo_gifts =  DB::table('gifts')
-                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                            ->select('gifts.*', 'categories.category_name')
-                            ->where('category_id', 34)
-                            ->orderBy('usd_price', 'asc')
-                            ->take(4)
-                            ->get();
-        $appliances =  DB::table('gifts')
-                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                            ->select('gifts.*', 'categories.category_name')
-                            ->where('category_id', 8)
-                            ->orderBy('usd_price', 'asc')
-                            ->take(4)
-                            ->get();
+        $plasticware = DB::table('gifts')
+                        ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                        ->select('gifts.*', 'categories.category_name')
+                        ->where('category_id', 21)
+                        ->orderBy('usd_price', 'asc')
+                        ->take(4)
+                        ->get();
+        $combo_gifts = DB::table('gifts')
+                        ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                        ->select('gifts.*', 'categories.category_name')
+                        ->where('category_id', 34)
+                        ->orderBy('usd_price', 'asc')
+                        ->take(4)
+                        ->get();
+        $appliances = DB::table('gifts')
+                        ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                        ->select('gifts.*', 'categories.category_name')
+                        ->where('category_id', 8)
+                        ->orderBy('usd_price', 'asc')
+                        ->take(4)
+                        ->get();
         $data = [
             'showcase_gifts'   => $showcase_gifts,
             'customized_gifts' => $customized_gifts, 
@@ -127,14 +127,17 @@ class Gifts extends Controller
         $title = DB::table('gifts')
                     ->where('id', $id)
                     ->value('gift_name');
+        $category_name = categoryName($id);
         $data = [
             'title' => $title,
-            'gift'  => $gift,
+            'category_name' => $category_name,
+            'gift' => $gift,
+            'id' => $id,
             'greeting_cards' => $greeting_cards,
             'wrappers' => $wrappers,
             'accesories' => $accesories
         ];
-        return view('/details.show')->with($data);
+        return view('details.show')->with($data);
     }
 
     /**
@@ -152,7 +155,7 @@ class Gifts extends Controller
                     ->orderBy('usd_price', 'asc')
                     ->get();
         $sub_categories = DB::table('sub_categories')
-                          ->distinct('sub_categories.id', 'sub_categories.name', 'sub_categories.image')
+                          ->distinct()
                           ->where('category_id', $category_id)
                           ->get();
         $data = [
@@ -160,7 +163,7 @@ class Gifts extends Controller
             'gifts' => $gifts,
             'sub_categories' => $sub_categories
         ];
-        return view('/category.index')->with($data);
+        return view('category.index')->with($data);
     }
 
     /**

@@ -10,6 +10,7 @@
     </div>
     <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="all-gifts">
         <!-- All recommended products will show up here -->
+        @csrf
         @foreach ($gifts as $gift)
             <?php
                 // Gift star rating

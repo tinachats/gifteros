@@ -8,13 +8,13 @@
                 <h5 class="text-capitalize font-600 m-0 p-0">{{ $gift->gift_name }}</h5>
                 <ol class="breadcrumb float-sm-right d-flex justify-content-between align-items-center bg-transparent">
                     <li class="breadcrumb-item d-none d-md-inline">
-                        <a href="index.php" class="d-flex align-items-center text-primary">
+                        <a href="/" class="d-flex align-items-center text-primary">
                             <i class="material-icons">store</i>
-                            <span class="d-none d-md-inline text-primary">Store</span>
+                            <span class="d-none d-md-inline text-primary">Home</span>
                         </a>
                     </li>
                     <li class="breadcrumb-item active">
-                        <a href="/category/{{ $gift->category_id }}" class="text-capitalize">Category</a>
+                        <a href="/category/{{ $gift->category_id }}/{{ $category_name }}" class="text-capitalize">{{ $category_name }}</a>
                     </li>
                 </ol>
             </div>
@@ -42,6 +42,7 @@
                     <div class="col-12 col-md-6 pl-md-5 product-details">
                         <div class="d-block info-section">
                             <h5 class="font-500 lead lead-2x text-capitalize font-600 mb-0 pb-0 ml-md-2" id="product-title">{{ $gift->gift_name }}</h5>
+                            <a href="/category/{{ $gift->category_id }}/{{ $category_name }}" class="text-capitalize ml-md-2 my-0 py-0">{{ $category_name }}</a>
                             <p class="text-capitalize text-faded my-0 py-0 ml-md-2">{{ $gift->units }} In stock</p>
                             <div class="customizing-link ml-md-2 bg-transparent">
                                 <!-- Customization link -->
@@ -437,7 +438,7 @@
         <!-- Related Gifts -->
         <div class="container-fluid border-top">
             <!-- Related gifts will be shown here -->
-            {!!relatedGifts($gift->id, $gift->category_id)!!}
+            {!! relatedGifts($id, categoryId($id)) !!}
         </div>
         <!-- /.Related Gifts -->
     </div>
@@ -503,16 +504,16 @@
             <div class="modal-body">
                 <p class="text-justify">
                     You need to be signed in with your account to have your contributions about 
-                    <span class="text-primary text-capitalize">{{ $gift->gift_name }}</span> saved.
+                    <span class="text-primary text-capitalize">{{ $title }}</span> saved.
                 </p>
                 <div class="row justify-content-center w-100 px-0 mx-0">
                     <div class="col">
-                        <a role="button" href="" class="btn border-primary text-primary btn-sm btn-block font-600">
+                        <a role="button" href="/login" class="btn border-primary text-primary btn-sm btn-block font-600">
                             Sign in
                         </a>
                     </div>
                     <div class="col">
-                        <a role="button" href="" class="btn btn-primary btn-sm btn-block font-600 ml-1">
+                        <a role="button" href="/register" class="btn btn-primary btn-sm btn-block font-600 ml-1">
                             Sign up
                         </a>
                     </div>
@@ -523,3 +524,7 @@
 </div>
 <!-- /.signin-first modal -->
 @endguest
+
+<script>
+    var _token = $('input[name="_token"]').val();
+</script>
