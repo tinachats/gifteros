@@ -161,6 +161,7 @@
                         <div class="row no-gutters border-top py-3">
                             <div class="d-flex align-items-center w-100">
                                 <h6 class="font-600 my-0 py-0 text-uppercase text-faded">Customer reviews</h6>
+                                @if($reviews->count() > 5)
                                 <h6 class="text-inverse font-500 ml-auto my-0 py-0 toggle-reviews">
                                     <a class="view-reviews" href="javascript:void()">
                                         <span class="d-flex align-items-center text-faded font-600">
@@ -175,9 +176,98 @@
                                         </span>
                                     </a>
                                 </h6>
+                                @endif
                             </div>
                             <div id="product-reviews" class="col-12 col-md-10 mt-md-3">
-                                <!-- Product reviews will be shown here -->
+                                @if (count($reviews) > 0)
+                                    <!-- Product reviews will be shown here -->
+                                    @foreach ($reviews as $review)
+                                        <!-- Product Review -->
+                                        <div class="media review-post">
+                                            <img src="/storage/users/{{ $review->profile_pic }}" alt="{{ $review->name }}" height="40" width="40" class="rounded-circle align-self-start mt-2 mr-2">
+                                            <div class="media-body">
+                                                <div class="d-block user-details">
+                                                    <p class="font-500 text-capitalize my-0 py-0">{{ $review->name }}</p>
+                                                    {{ verifiedPurchase($review->gift_id, $review->user_id)  }}
+                                                    {!! customerRating($review->id, $review->gift_id, $review->user_id) !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- User\'s Post -->
+                                        <div class="customer-post">
+                                            <p class="text-justify text-faded">
+                                                {{ $review->customer_review }}
+                                            </p>
+                                            <p class="text-sm text-faded">
+                                                {!! reviewLikes($review->id, $review->gift_id) !!}
+                                            </p>
+                                            <div class="mt-2 post-actions border-top border-bottom w-100 py-2">
+                                                <span>
+                                                    @auth
+                                                        {!! helpful_btn($review->id, $review->gift_id, Auth::user()->id) !!}
+                                                    @endauth
+                                                    @guest
+                                                        <div class="d-flex d-cursor align-items-center text-sm mx-md-4 text-faded review-action" data-url="" data-toggle="modal" href="#write-review">
+                                                            <i class="tiny material-icons mr-1">thumb_up</i>
+                                                            <span class="d-none d-md-inline">helpful</span>
+                                                        </div>
+                                                    @endguest
+                                                </span>
+                                                <span class="mx-md-4">
+                                                    @auth
+                                                        {!! unhelpful_btn($review->id, $review->gift_id, Auth::user()->id) !!}
+                                                    @endauth
+                                                    @guest
+                                                        <div class="d-flex d-cursor align-items-center text-sm mx-md-4 text-faded review-action" data-url="" data-toggle="modal" href="#write-review">
+                                                            <i class="tiny material-icons mr-1">thumb_down</i>
+                                                            <span class="d-none d-md-inline">unhelpful</span>
+                                                        </div>
+                                                    @endguest
+                                                </span>
+                                                <div class="d-flex d-cursor align-items-center text-sm text-faded review-action toggle-comments" data-post_id="{{ $review->id }}" data-user_id="{{ $review->user_id }}">
+                                                    <i class="tiny material-icons mr-1">sms</i> comment
+                                                </div>
+                                                <div class="d-flex d-cursor align-items-center text-sm text-faded ml-md-auto toggle-comments" data-post_id="{{ $review->id }}" data-user_id="{{ $review->user_id }}">
+                                                    <i class="tiny material-icons mr-1">forum</i> <span class="d-none d-md-inline mr-1">Comments</span> ({{ countReviewComments($review->id) }})
+                                                </div>
+                                            </div>
+                                            <!-- Commend section -->
+                                            <div class="comment-section my-2" id="comment-box{{ $review->id }}">
+                                                <div id="old-comments{{ $review->id }}">
+                                                    <!-- Review comments will show up here -->
+                                                </div>
+                                                @auth
+                                                    <!-- Comment form -->
+                                                    <div class="d-flex align-items-center">
+                                                        <img src="/storage/users/{{ Auth::user()->profile_pic }}" height="30" width="30" alt="" class="rounded-circle mr-1">
+                                                        <input type="text" class="form-control form-control-sm comment-input rounded-pill" placeholder="Press enter to submit comment" name="add-comment" id="add-comment{{ $review->id }}" data-post_id="{{ $review->id }}" data-user_id="{{ $review->user_id }}" required>
+                                                        <div class="send-btn d-sm-inline-block d-md-none" id="send-btn{{ $review->id }}">
+                                                            <button type="button" class="btn btn-primary btn-sm rounded-circle ml-1 comment-btn d-grid" id="send-btn{{ $review->id }}" data-post_id="{{ $review->id }}" data-user_id="{{ $review->user_id }}">
+                                                                <i class="material-icons text-white m-auto">send</i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.comment form -->
+                                                @endauth
+                                            </div>
+                                            <!-- /.Commend section -->
+                                        </div>
+                                        <!-- /.User\'s Post -->
+                                        <!-- /.Product review -->
+                                    @endforeach
+                                @else
+                                    <div class="row justify-content-center my-5">
+                                        <div class="col-10 col-md-12 text-center no-content">
+                                            <i class="material-icons text-muted lead">forum</i>
+                                            <h5 class="font-600">There are no gift reviews to show at the moment.</h5>
+                                            <p class="text-sm">
+                                                Sign in to post your review about this gift. It helps others in deciding 
+                                                to purchase this gift
+                                            </p>
+                                            <a href="#" class="btn btn-primary btn-sm px-3">Post a review</a>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -226,7 +316,7 @@
                                     $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
                                     $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
                                     $zwl_before = number_format(($gift->zwl_price + ($gift->zwl_price * 0.275)), 2);
-                                    $short_name = mb_strimwidth($gift->gift_name, 0, 20, '...');
+                                    $short_name = mb_strimwidth($gift->gift_name, 0, 20, '..');
 
                                     $gift_usd_price = explode('.', $gift->usd_price);
                                     $usd_notes = $gift_usd_price[0];
@@ -271,12 +361,12 @@
                                         <input name="sale_usd_price" value="{{ $sale_usd_price ?? ''}}" id="sale-usd-price{{ $gift->id }}" type="hidden">
                                         <input name="sale_zar_price" value="{{ $sale_zar_price ?? ''}}" id="sale-zar-price{{ $gift->id }}" type="hidden">
                                         <input name="sale_zwl_price" value="{{ $sale_zwl_price ?? ''}}" id="sale-zwl-price{{ $gift->id }}" type="hidden">
-                                        <input name="end-time" value="'.$gift->end_time }}" id="end-time{{ $gift->id }}" type="hidden">
+                                        <input name="end-time" value="{{ $gift->ends_on }}" id="end-time{{ $gift->id }}" type="hidden">
                                         <input value="{{ $gift->category_name }}" id="category-name{{ $gift->id }}" type="hidden">
                                         <input value="{{ $gift->units }}" id="product-units{{ $gift->id }}" type="hidden">
                                         <input value="1" id="quantity{{ $gift->id }}" type="hidden">
                                         <input type="hidden" name="sale-end-date" id="sale-end-date" value="{{ date('y, m, d, h, m, s', strtotime($gift->ends_on)) }}">
-                                        <input value="'.$gift->gift_description.'" id="description{{ $gift->id }}" type="hidden">
+                                        <input value="{{ $gift->description }}" id="description{{ $gift->id }}" type="hidden">
                                         <button class="btn btn-sm btn-outline-primary d-grid rounded-0 add-card-btn" data-id="{{ $gift->id }}" data-label="{{ $gift->label }}">
                                             <i class="material-icons m-auto">add</i>
                                         </button>
@@ -298,7 +388,7 @@
                                     $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
                                     $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
                                     $zwl_before = number_format(($gift->zwl_price + ($gift->zwl_price * 0.275)), 2);
-                                    $short_name = mb_strimwidth($gift->gift_name, 0, 20, '...');
+                                    $short_name = mb_strimwidth($gift->gift_name, 0, 20, '..');
 
                                     $gift_usd_price = explode('.', $gift->usd_price);
                                     $usd_notes = $gift_usd_price[0];
@@ -343,12 +433,12 @@
                                         <input name="sale_usd_price" value="{{ $sale_usd_price ?? ''}}" id="sale-usd-price{{ $gift->id }}" type="hidden">
                                         <input name="sale_zar_price" value="{{ $sale_zar_price ?? ''}}" id="sale-zar-price{{ $gift->id }}" type="hidden">
                                         <input name="sale_zwl_price" value="{{ $sale_zwl_price ?? ''}}" id="sale-zwl-price{{ $gift->id }}" type="hidden">
-                                        <input name="end-time" value="'.$gift->end_time }}" id="end-time{{ $gift->id }}" type="hidden">
+                                        <input name="end-time" value="{{ $gift->ends_on }}" id="end-time{{ $gift->id }}" type="hidden">
                                         <input value="{{ $gift->category_name }}" id="category-name{{ $gift->id }}" type="hidden">
                                         <input value="{{ $gift->units }}" id="product-units{{ $gift->id }}" type="hidden">
                                         <input value="1" id="quantity{{ $gift->id }}" type="hidden">
                                         <input type="hidden" name="sale-end-date" id="sale-end-date" value="{{ date('y, m, d, h, m, s', strtotime($gift->ends_on)) }}">
-                                        <input value="'.$gift->gift_description.'" id="description{{ $gift->id }}" type="hidden">
+                                        <input value="{{ $gift->description }}" id="description{{ $gift->id }}" type="hidden">
                                         <button class="btn btn-sm btn-outline-primary d-grid rounded-0 add-card-btn" data-id="{{ $gift->id }}" data-label="{{ $gift->label }}">
                                             <i class="material-icons m-auto">add</i>
                                         </button>
@@ -370,7 +460,7 @@
                                     $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
                                     $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
                                     $zwl_before = number_format(($gift->zwl_price + ($gift->zwl_price * 0.275)), 2);
-                                    $short_name = mb_strimwidth($gift->gift_name, 0, 20, '...');
+                                    $short_name = mb_strimwidth($gift->gift_name, 0, 20, '..');
 
                                     $gift_usd_price = explode('.', $gift->usd_price);
                                     $usd_notes = $gift_usd_price[0];
@@ -415,12 +505,12 @@
                                         <input name="sale_usd_price" value="{{ $sale_usd_price ?? ''}}" id="sale-usd-price{{ $gift->id }}" type="hidden">
                                         <input name="sale_zar_price" value="{{ $sale_zar_price ?? ''}}" id="sale-zar-price{{ $gift->id }}" type="hidden">
                                         <input name="sale_zwl_price" value="{{ $sale_zwl_price ?? ''}}" id="sale-zwl-price{{ $gift->id }}" type="hidden">
-                                        <input name="end-time" value="'.$gift->end_time }}" id="end-time{{ $gift->id }}" type="hidden">
+                                        <input name="end-time" value="{{ $gift->ends_on }}" id="end-time{{ $gift->id }}" type="hidden">
                                         <input value="{{ $gift->category_name }}" id="category-name{{ $gift->id }}" type="hidden">
                                         <input value="{{ $gift->units }}" id="product-units{{ $gift->id }}" type="hidden">
                                         <input value="1" id="quantity{{ $gift->id }}" type="hidden">
                                         <input type="hidden" name="sale-end-date" id="sale-end-date" value="{{ date('y, m, d, h, m, s', strtotime($gift->ends_on)) }}">
-                                        <input value="'.$gift->gift_description.'" id="description{{ $gift->id }}" type="hidden">
+                                        <input value="{{ $gift->description }}" id="description{{ $gift->id }}" type="hidden">
                                         <button class="btn btn-sm btn-outline-primary d-grid rounded-0 add-card-btn" data-id="{{ $gift->id }}" data-label="{{ $gift->label }}">
                                             <i class="material-icons m-auto">add</i>
                                         </button>

@@ -200,6 +200,7 @@
                                         @else
                                             <div class="row justify-content-center my-5">
                                                 <div class="col-10 col-md-12 text-center no-content">
+                                                    <i class="material-icons text-muted lead">forum</i>
                                                     <h5 class="font-600">There are no posts to show at the moment.</h5>
                                                     <p class="text-sm">
                                                         Write content about any occasion that you feel people should be educated on. Let people know what you know and see the world through your eyes.

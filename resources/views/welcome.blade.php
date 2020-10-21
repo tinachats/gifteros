@@ -14,9 +14,15 @@
 
     @yield('customizable_gifts')
     @yield('kitchenware')
+    @yield('personal-care')
     @yield('plasticware')
     @yield('combo-gifts')
     @yield('appliances')
+     <!-- Customer Reviews -->
+     <h6 class="font-600 text-uppercase mt-4">Customer Reviews</h6>
+     <div class="owl-carousel owl-theme reviews-carousel">
+        {!! appReviews() !!}
+     </div>
 </div>
 <!-- /.Page Content -->
 @include('layouts.includes.footer')

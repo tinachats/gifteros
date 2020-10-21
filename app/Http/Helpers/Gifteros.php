@@ -74,6 +74,40 @@
         return $gift_label;
     }
 
+    // Fetch user rating for particular product
+    function customerRating($rating_id, $gift_id, $user_id){
+        $stars = $star = $color = '';
+        $rating = DB::table('gift_ratings')
+                    ->select('customer_rating')
+                    ->where([
+                        'id' => $rating_id,
+                        'gift_id' => $gift_id,
+                        'user_id' => $user_id
+                    ])
+                    ->value('customer_rating');
+        $user_rating = round($rating);
+        // gift star rating
+        $stars = '
+            <ul class="list-inline star-rating">
+        ';
+        for($i = 1; $i <= 5; $i++){
+            if($i <= $user_rating){
+                $star = '&starf;';
+                $color = 'text-warning';
+            } else {
+                $star = '&star;';
+                $color = 'text-muted';
+            }
+            $stars .= '
+                <li class="list-inline-item '.$color.'">'.$star.'</li>
+            ';
+        }
+        $stars .= '
+            </ul>
+        ';
+        return $stars;
+    }
+
     // Get gift ratings and reviews
     function giftRating($gift_id){
         $gift_rating = DB::table('gift_ratings')
@@ -452,13 +486,198 @@
         return $count;
     }
 
+    // Determine if gift in question is in user's ordered gift list
+    function verifiedPurchase($gift_id, $user_id){
+        $purchase_label = '';
+        $orders = DB::table('orders')
+                   ->join('users', 'users.id', '=', 'orders.user_id')
+                   ->join('ordered_gifts', 'ordered_gifts.order_id', '=', 'orders.id')
+                   ->where([
+                        'orders.user_id' => $user_id,
+                        'gift_id' => $gift_id
+                   ])
+                   ->get();
+        $count = $orders->count();
+        if($count > 0){
+            $purchase_label = '
+                <div class="d-flex align-items-center font-500 text-capitalize text-sm text-faded">
+                    <i class="material-icons text-success">verified_user</i> verified purchase
+                </div>
+            ';
+        }
+        return $purchase_label;
+    }
+
+    // Count of people who found review post helpful
+    function reviewLikes($rating_id, $gift_id){
+        $output = '';
+        $count = DB::table('review_helpful')
+                   ->where([
+                       'rating_id' => $rating_id,
+                       'gift_id' => $gift_id
+                   ])
+                   ->count();
+        if($count == 1){
+                $output = '
+                    <span id="helpful-count">1</span> person found this helpful
+                ';
+            } else {
+                $output = '
+                    <span id="helpful-count">'.$count.'</span> people found this helpful
+                ';
+            }
+        return $output;
+    }
+
+    // Count review post's comments
+    function countReviewComments($rating_id){
+        $count = DB::table('gift_comments')
+                   ->where('rating_id', $rating_id)
+                   ->count();
+        return $count;
+    }
+
+    // Helpful button
+    function helpful_btn($rating_id, $gift_id, $user_id){
+        $output = '';
+        $count = DB::table('review_helpful')
+                   ->where([
+                        'rating_id' => $rating_id,
+                        'gift_id' => $gift_id,
+                        'user_id' => $user_id
+                   ])
+                   ->count();
+        if($count > 0){
+            $output = '
+                <div class="d-flex d-cursor align-items-center text-sm text-faded review-action helpful-btn" data-post="'.$rating_id.'" data-id="'.$gift_id.'" data-action="unhelpful">
+                    <i class="tiny material-icons text-success mr-1">thumb_up</i>
+                    <span class="d-none d-md-inline">helpful</span>
+                </div>
+            ';
+        } else {
+            $output = '
+                <div class="d-flex d-cursor align-items-center text-sm text-faded review-action helpful-btn" data-post="'.$rating_id.'" data-id="'.$gift_id.'" data-action="helpful">
+                    <i class="tiny material-icons mr-1">thumb_up</i>
+                    <span class="d-none d-md-inline">helpful</span>
+                </div>
+            ';
+        }
+        return $output;
+    }
+
+    // Unhelpful button
+    function unhelpful_btn($rating_id, $gift_id, $user_id){
+        $output = '';
+        $count = DB::table('review_unhelpful')
+                   ->where([
+                        'rating_id' => $rating_id,
+                        'gift_id' => $gift_id,
+                        'user_id' => $user_id
+                   ])
+                   ->count();
+        if($count > 0){
+            $output = '
+                <div class="d-flex d-cursor align-items-center text-sm text-faded review-action unhelpful-btn" data-post="'.$rating_id.'" data-id="'.$gift_id.'" data-action="like">
+                    <i class="tiny material-icons text-danger mr-1">thumb_down</i>
+                    <span class="d-none d-md-inline">unhelpful</span>
+                </div>
+            ';
+        } else {
+            $output = '
+                <div class="d-flex d-cursor align-items-center text-sm text-faded review-action unhelpful-btn" data-post="'.$rating_id.'" data-id="'.$gift_id.'" data-action="unlike">
+                    <i class="tiny material-icons mr-1">thumb_down</i>
+                    <span class="d-none d-md-inline">unhelpful</span>
+                </div>
+            ';
+        }
+        return $output;
+    }
+
+    // Customer app reviews
+    function appReviews(){
+        $output = $color = $star = $stars = $city = '';
+        $app_reviews = DB::table('app_ratings')
+                     ->join('users', 'users.id', '=', 'app_ratings.user_id')
+                     ->orderBy('app_ratings.created_at', 'desc')
+                     ->distinct()
+                     ->get();
+        $count = $app_reviews->count();
+        if($count > 0){
+            foreach($app_reviews as $review){
+                $rating = round($review->performance_rating/2);
+                if($review->city !== ''){
+                    $city = '
+                        <p class="my-0 py-0 d-flex align-items-center">
+                            <i class="material-icons mr-1 text-muted">location_on</i>
+                            <span class="text-capitalize text-muted text-sm">'.$review->city.'</span>
+                        </p>
+                    ';
+                }
+                $city = $review->city;
+                // Stars list
+                $stars = '
+                    <ul class="list-inline align-items-center star-rating mb-0 pb-0">
+                ';
+                for($i = 1; $i <= 5; $i++){
+                    if($i <= $rating){
+                        $star = '&starf;';
+                        $color = 'text-warning';
+                    } else {
+                        $star = '&star;';
+                        $color = 'text-muted';
+                    }
+                    if($i == 1){
+                        $description = 'Very Poor Perfomance';
+                    } else if($i == 2){
+                        $description = 'Poor Perfomance';
+                    } else if($i == 3){
+                        $description = 'Fair Perfomance';
+                    } else if($i == 4){
+                        $description = 'Good Perfomance';
+                    } else {
+                        $description = 'Awesome Perfomance';
+                    }
+                    $stars .= '
+                        <li class="list-inline-item star-rating '.$color.'" title="'.$description.'" data-index="'.$i.'" class="rating-summary">'.$star.'</li>
+                    ';
+                }
+                $stars .= '</ul>';
+                $output .= '
+                    <!-- App Review -->
+                    <div class="item w-100 my-1">
+                        <div class="app-rating-card bg-whitesmoke border-0 rounded-0 box-shadow-sm p-2">
+                            <div class="media">
+                                <img src="/storage/users/'.$review->profile_pic.'" alt="'.$review->name.'" height="50" width="50" class="align-self-start rounded-circle mr-2">
+                                <div class="media-body">
+                                    <h6 class="text-primary py-0 my-0 text-capitalize">'.$review->name.'</h6>
+                                    <div class="d-block lh-100">
+                                        <div class="d-flex align-items-center justify-content-between w-100">
+                                            '.$stars.'
+                                            <span class="text-faded text-sm">'.timestamp($review->created_at).'</span>
+                                        </div>
+                                        '.$city.'
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mt-3 text-justify">'.$review->comment.'</p>
+                        </div>
+                    </div>
+                    <!-- /.App Review -->
+                ';
+            }
+        }
+        return $output;
+    }
+
     /*** Progress-bar star ratings ***/ 
     // Five Star Rating
     function fiveStarRating($gift_id){
         $count = DB::table('gift_ratings')
-                    ->select('customer_rating', DB::raw('count(*) as customer_rating and round(customer_rating) = 5'))
-                    ->groupBy('customer_rating')
-                    ->where('gift_id', $gift_id)
+                    ->select('customer_rating')
+                    ->where([
+                        'gift_id' => $gift_id
+                    ])
+                    ->whereBetween('customer_rating', [4.5, 5])
                     ->count();
         return $count;
     }
@@ -466,9 +685,11 @@
     // Four Star Rating
     function fourStarRating($gift_id){
         $count = DB::table('gift_ratings')
-                    ->select('customer_rating', DB::raw('count(*) as customer_rating and round(customer_rating) = 4'))
-                    ->groupBy('customer_rating')
-                    ->where('gift_id', $gift_id)
+                    ->select('customer_rating')
+                    ->where([
+                        'gift_id' => $gift_id
+                    ])
+                    ->whereBetween('customer_rating', [3.5, 4.4])
                     ->count();
         return $count;
     }
@@ -476,19 +697,23 @@
     // Three Star Rating
     function threeStarRating($gift_id){
         $count = DB::table('gift_ratings')
-                ->select('customer_rating', DB::raw('count(*) as customer_rating and round(customer_rating) = 3'))
-                ->groupBy('customer_rating')
-                ->where('gift_id', $gift_id)
-                ->count();
+                    ->select('customer_rating')
+                    ->where([
+                        'gift_id' => $gift_id
+                    ])
+                    ->whereBetween('customer_rating', [2.5, 3.4])
+                    ->count();
         return $count;
     }
 
     // Two Star Rating
     function twoStarRating($gift_id){
         $count = DB::table('gift_ratings')
-                    ->select('customer_rating', DB::raw('count(*) as customer_rating and round(customer_rating) = 2'))
-                    ->groupBy('customer_rating')
-                    ->where('gift_id', $gift_id)
+                    ->select('customer_rating')
+                    ->where([
+                        'gift_id' => $gift_id
+                    ])
+                    ->whereBetween('customer_rating', [1.5, 2.4])
                     ->count();
         return $count;
     }
@@ -496,12 +721,83 @@
     // One Star Rating
     function oneStarRating($gift_id){
         $count = DB::table('gift_ratings')
-                    ->select('customer_rating', DB::raw('count(*) as customer_rating and round(customer_rating) = 1'))
-                    ->groupBy('customer_rating')
-                    ->where('gift_id', $gift_id)
+                    ->select('customer_rating')
+                    ->where([
+                        'gift_id' => $gift_id
+                    ])
+                    ->whereBetween('customer_rating', [0, 1.4])
                     ->count();
         return $count;
     }
 
     /*** End of Progress Bar Functions ***/
+
+     // Timeago Function
+     function timestamp($time){
+        $saved_time = strtotime($time);
+        $date_diff = date('d') - date('d', $saved_time);
+
+        if ($date_diff == 0) {
+            return 'Today, ' . date('H:s', $saved_time);
+        } else if ($date_diff == 1) {
+            return 'Yesterday, ' .date('H:s', $saved_time);
+        } else {
+            return date('F d, Y', $saved_time);
+        }
+        return $time;
+    }
+
+    // Notification Timeago Function
+    function timeago($time){
+        //$time is data to be calculated to give the time spent
+        $timeago = strtotime($time);
+        $current_time = time();
+        $time_difference = $current_time - $timeago;
+        $seconds = $time_difference;
+        $minutes = round($seconds / 60);
+        $hours   = round($seconds / 3600);
+        $days    = round($seconds / 86400);
+        $weeks   = round($seconds / 604800);
+        $months  = round($seconds / 2629800); //((365 + 365 + 365 + 366)/4/12) * 24 * 3600
+        $years   = round($seconds / 31557600); //$months * 12
+
+        if ($seconds < 60) {
+            return 'Just now';
+        } else if ($minutes < 60) {
+            if ($minutes == 1) {
+                return '1m ago';
+            } else {
+                return $minutes."m ago";
+            }
+        } else if ($hours < 24) {
+            if ($hours == 1) {
+                return '1h ago';
+            } else {
+                return $hours."h ago";
+            }
+        } else if ($days < 7) {
+            if ($days == 1) {
+                return '1d ago';
+            } else {
+                return $days."d ago";
+            }
+        } else if ($weeks < 4) {
+            if ($weeks == 1) {
+                return '1w ago';
+            } else {
+                return $weeks."w ago";
+            }
+        } else if ($months < 12) {
+            if ($months == 1) {
+                return '1mn ago';
+            } else {
+                return $months."mn ago";
+            }
+        } else if ($years == 1) {
+            return '1y ago';
+        } else {
+            return $years."y ago";
+        }
+        return $time;
+    } 
 ?>

@@ -32,6 +32,13 @@ class Gifts extends Controller
                             ->orderBy('usd_price', 'asc')
                             ->take(4)
                             ->get();
+        $personal_care = DB::table('gifts')
+                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                            ->select('gifts.*', 'categories.category_name')
+                            ->where('category_id', 12)
+                            ->orderBy('usd_price', 'asc')
+                            ->take(4)
+                            ->get();
         $plasticware = DB::table('gifts')
                         ->join('categories', 'categories.id', '=', 'gifts.category_id')
                         ->select('gifts.*', 'categories.category_name')
@@ -57,6 +64,7 @@ class Gifts extends Controller
             'showcase_gifts'   => $showcase_gifts,
             'customized_gifts' => $customized_gifts, 
             'kitchenware'      => $kitchenware,
+            'personal_care'    => $personal_care,
             'plasticware'      => $plasticware,
             'combo_gifts'      => $combo_gifts, 
             'appliances'       => $appliances,
@@ -124,6 +132,12 @@ class Gifts extends Controller
                         ])
                         ->orderBy('usd_price', 'asc')
                         ->get();
+        $reviews = DB::table('gift_ratings')
+                     ->join('users', 'users.id', '=', 'gift_ratings.user_id')
+                     ->join('gifts', 'gifts.id', '=', 'gift_ratings.gift_id')
+                     ->where('gifts.id', $id)
+                     ->orderBy('gift_ratings.created_at', 'desc')
+                     ->get();
         $title = DB::table('gifts')
                     ->where('id', $id)
                     ->value('gift_name');
@@ -135,7 +149,8 @@ class Gifts extends Controller
             'id' => $id,
             'greeting_cards' => $greeting_cards,
             'wrappers' => $wrappers,
-            'accesories' => $accesories
+            'accesories' => $accesories,
+            'reviews' => $reviews
         ];
         return view('details.show')->with($data);
     }
