@@ -20,7 +20,7 @@
     @yield('appliances')
      <!-- Customer Reviews -->
      <h6 class="font-600 text-uppercase mt-4">Customer Reviews</h6>
-     <div class="owl-carousel owl-theme reviews-carousel">
+     <div class="owl-carousel owl-theme reviews-carousel pb-md-5">
         {!! appReviews() !!}
      </div>
 </div>

@@ -44,7 +44,7 @@
         <!-- /.Progress Indicator -->
 
         <!-- Main Content -->
-        <div class="content mb-5 pb-5">
+        <div class="content mb-0 pb-0">
             <!-- Page Backdrop -->
             <div class="app-backdrop d-none"></div>
 

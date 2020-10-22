@@ -260,10 +260,18 @@
                                         <div class="col-10 col-md-12 text-center no-content">
                                             <i class="material-icons text-muted lead">forum</i>
                                             <h5 class="font-600">There are no gift reviews to show at the moment.</h5>
-                                            <p class="text-sm">
-                                                Sign in to post your review about this gift. It helps others in deciding 
-                                                to purchase this gift
-                                            </p>
+                                            @auth
+                                                <p class="text-sm">
+                                                    Post your review about this gift. It helps others in deciding 
+                                                    to purchase this gift
+                                                </p>
+                                            @endauth
+                                            @guest
+                                                <p class="text-sm">
+                                                    Sign in to post your review about this gift. It helps others in deciding 
+                                                    to purchase this gift
+                                                </p> 
+                                            @endguest
                                             <a href="#" class="btn btn-primary btn-sm px-3">Post a review</a>
                                         </div>
                                     </div>
