@@ -616,128 +616,34 @@
                         <i class="material-icons icon text-faded">search</i>
                         <input type="search" name="search" id="search" class="form-control" placeholder="What are you looking for?">
                         <ul class="list-group" id="search-list">
-                            <!-- Search results loading -->
-                            <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div class="d-flex w-100">
-                                        <!-- Product Item -->
-                                        <div class="media align-items-center">
-                                            <div class="cart-item-img-placeholder rounded-2 align-self-center mr-2"></div>
+                            @for ($i = 0; $i < 5; $i++)
+                                <!-- Search results loading -->
+                                <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">
+                                    <div class="d-flex justify-content-between align-items-start">
+                                        <div class="d-flex w-100">
+                                            <!-- Product Item -->
+                                            <div class="media align-items-center">
+                                                <div class="cart-item-img-placeholder rounded-2 align-self-center mr-2"></div>
 
-                                            <!-- Product Item Details -->
-                                            <div class="media-body cart-details-placeholder">
-                                                <div class="content-placeholder cart-item-name-placeholder"></div>
-                                                <div class="content-placeholder cart-category-placeholder"></div>
-                                                <div class="cart-rating-placeholder content-placeholder"></div>
-                                                <div class="content-placeholder cart-stock-placeholder"></div>
+                                                <!-- Product Item Details -->
+                                                <div class="media-body cart-details-placeholder">
+                                                    <div class="content-placeholder cart-item-name-placeholder"></div>
+                                                    <div class="content-placeholder cart-category-placeholder"></div>
+                                                    <div class="cart-rating-placeholder content-placeholder"></div>
+                                                    <div class="content-placeholder cart-stock-placeholder"></div>
+                                                </div>
+                                                <!-- Product Item Details -->
                                             </div>
-                                            <!-- Product Item Details -->
+                                            <!-- /.Product Item -->
                                         </div>
-                                        <!-- /.Product Item -->
-                                    </div>
-                                    <div class="d-block text-center">
-                                        <p class="content-placeholder my-0 pt-0 pb-1 cart-item-price"></p>
-                                        <button class="btn btn-cart-placeholder pt-1"></button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div class="d-flex w-100">
-                                        <!-- Product Item -->
-                                        <div class="media align-items-center">
-                                            <div class="cart-item-img-placeholder rounded-2 align-self-center mr-2"></div>
-
-                                            <!-- Product Item Details -->
-                                            <div class="media-body cart-details-placeholder">
-                                                <div class="content-placeholder cart-item-name-placeholder"></div>
-                                                <div class="content-placeholder cart-category-placeholder"></div>
-                                                <div class="cart-rating-placeholder content-placeholder"></div>
-                                                <div class="content-placeholder cart-stock-placeholder"></div>
-                                            </div>
-                                            <!-- Product Item Details -->
+                                        <div class="d-block text-center">
+                                            <p class="content-placeholder my-0 pt-0 pb-1 cart-item-price"></p>
+                                            <button class="btn btn-cart-placeholder pt-1"></button>
                                         </div>
-                                        <!-- /.Product Item -->
                                     </div>
-                                    <div class="d-block text-center">
-                                        <p class="content-placeholder my-0 pt-0 pb-1 cart-item-price"></p>
-                                        <button class="btn btn-cart-placeholder pt-1"></button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div class="d-flex w-100">
-                                        <!-- Product Item -->
-                                        <div class="media align-items-center">
-                                            <div class="cart-item-img-placeholder rounded-2 align-self-center mr-2"></div>
-
-                                            <!-- Product Item Details -->
-                                            <div class="media-body cart-details-placeholder">
-                                                <div class="content-placeholder cart-item-name-placeholder"></div>
-                                                <div class="content-placeholder cart-category-placeholder"></div>
-                                                <div class="cart-rating-placeholder content-placeholder"></div>
-                                                <div class="content-placeholder cart-stock-placeholder"></div>
-                                            </div>
-                                            <!-- Product Item Details -->
-                                        </div>
-                                        <!-- /.Product Item -->
-                                    </div>
-                                    <div class="d-block text-center">
-                                        <p class="content-placeholder my-0 pt-0 pb-1 cart-item-price"></p>
-                                        <button class="btn btn-cart-placeholder pt-1"></button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div class="d-flex w-100">
-                                        <!-- Product Item -->
-                                        <div class="media align-items-center">
-                                            <div class="cart-item-img-placeholder rounded-2 align-self-center mr-2"></div>
-
-                                            <!-- Product Item Details -->
-                                            <div class="media-body cart-details-placeholder">
-                                                <div class="content-placeholder cart-item-name-placeholder"></div>
-                                                <div class="content-placeholder cart-category-placeholder"></div>
-                                                <div class="cart-rating-placeholder content-placeholder"></div>
-                                                <div class="content-placeholder cart-stock-placeholder"></div>
-                                            </div>
-                                            <!-- Product Item Details -->
-                                        </div>
-                                        <!-- /.Product Item -->
-                                    </div>
-                                    <div class="d-block text-center">
-                                        <p class="content-placeholder my-0 pt-0 pb-1 cart-item-price"></p>
-                                        <button class="btn btn-cart-placeholder pt-1"></button>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div class="d-flex w-100">
-                                        <!-- Product Item -->
-                                        <div class="media align-items-center">
-                                            <div class="cart-item-img-placeholder rounded-2 align-self-center mr-2"></div>
-
-                                            <!-- Product Item Details -->
-                                            <div class="media-body cart-details-placeholder">
-                                                <div class="content-placeholder cart-item-name-placeholder"></div>
-                                                <div class="content-placeholder cart-category-placeholder"></div>
-                                                <div class="cart-rating-placeholder content-placeholder"></div>
-                                                <div class="content-placeholder cart-stock-placeholder"></div>
-                                            </div>
-                                            <!-- Product Item Details -->
-                                        </div>
-                                        <!-- /.Product Item -->
-                                    </div>
-                                    <div class="d-block text-center">
-                                        <p class="content-placeholder my-0 pt-0 pb-1 cart-item-price"></p>
-                                        <button class="btn btn-cart-placeholder pt-1"></button>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- /.Search Results Loading -->
+                                </li>
+                                <!-- /.Search Results Loading -->
+                            @endfor
                             <!-- Search results will be shown here -->
                         </ul>
                     </div>

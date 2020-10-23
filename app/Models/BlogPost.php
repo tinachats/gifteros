@@ -10,7 +10,7 @@ class BlogPost extends Model
     use HasFactory;
 
     // Table name
-    protected $table = 'blog_posts';
+    protected $table = 'blog';
 
     // Primary Key
     public $primaryKey = 'id';

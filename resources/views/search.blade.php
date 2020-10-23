@@ -1,7 +1,1 @@
-<script>
-    searchResult();
-    function searchResult(){
-        $output = 'This is a search result';
-        $('#search-list').html($output);
-    }
-</script>
+<!-- Show all search results associated with a gift -->

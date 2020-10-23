@@ -122,7 +122,7 @@
         <div class="d-grid grid-4 grid-p-1">
         @foreach($posts as $post)
             <!-- Blog Post -->
-            <a href="/blog_posts/{{ $post->id }}" class="stretched-link">
+            <a href="/blog/{{ $post->id }}" class="stretched-link">
                 <div class="card blog-post-card bg-whitesmoke border-0 box-shadow-sm">
                     <div class="post-stats bg-secondary shadow-sm d-grid">
                         <h6 class="m-auto text-center lh-100">
@@ -131,7 +131,7 @@
                     </div>
                     <div class="card-body m-0 p-0">
                         <div class="post-img-wrapper">
-                            <img src="/storage/blog_posts/{{ $post->cover_image }}" alt="" class="card-img-top h-100">
+                            <img src="/storage/blog/{{ $post->cover_image }}" alt="" class="card-img-top h-100">
                             <div class="post-img-details w-100 px-3">
                                 <h5 class="font-600 text-capitalize text-white my-0 py-0">
                                     {{ $post->title }}

@@ -27,7 +27,7 @@ class BlogPostController extends Controller
     public function index()
     {
         $posts = BlogPost::orderBy('id', 'DESC')->get();
-        return view('blog_posts.index')->with('posts', $posts);
+        return view('blog.index')->with('posts', $posts);
     }
 
     /**
@@ -37,7 +37,7 @@ class BlogPostController extends Controller
      */
     public function create()
     {
-        return view('blog_posts.create');
+        return view('blog.create');
     }
 
     /**
@@ -63,7 +63,7 @@ class BlogPostController extends Controller
             // Filename to store
             $cover_image = uniqid(true) . '.' . $ext;
             // Upload cover image
-            $path = $request->file('cover-image')->storeAs('public/blog_posts', $cover_image);
+            $path = $request->file('cover-image')->storeAs('public/blog', $cover_image);
         } else {
             $cover_image = 'default-cover-img.jpg';
         }
@@ -76,7 +76,7 @@ class BlogPostController extends Controller
         $post->cover_image = $cover_image;
         $post->save();
 
-        return redirect('/blog_posts')->with('success', 'Blog post successfully created.');
+        return redirect('blog')->with('success', 'Blog post successfully created.');
     }
 
     /**
@@ -88,7 +88,7 @@ class BlogPostController extends Controller
     public function show($id)
     {
         $post = BlogPost::find($id);
-        return view('blog_posts.show')->with('post', $post);
+        return view('blog.show')->with('post', $post);
     }
 
     /**
@@ -100,7 +100,7 @@ class BlogPostController extends Controller
     public function edit($id)
     {
         $post = BlogPost::find($id);
-        return view('blog_posts.edit')->with('post', $post);
+        return view('blog.edit')->with('post', $post);
     }
 
     /**
@@ -127,7 +127,7 @@ class BlogPostController extends Controller
             // Filename to store
             $cover_image = uniqid(true) . '.' . $ext;
             // Upload cover image
-            $path = $request->file('cover-image')->storeAs('public/blog_posts', $cover_image);
+            $path = $request->file('cover-image')->storeAs('public/blog', $cover_image);
         }
 
         // Create new blog post

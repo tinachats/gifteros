@@ -15,7 +15,7 @@
                                     Updated on {{ date('d F, Y', strtotime($post->updated_at)) }} at {{ date('H:ia', strtotime($post->updated_at)) }}
                                 </h6>
                             </div>
-                            <a class="ml-3" href="/blog_posts/{{ $post->id }}/edit">
+                            <a class="ml-3" href="/blog/{{ $post->id }}/edit">
                                 <span role="button" class="material-icons fa-2x text-white">edit</span>
                             </a>
                             {!! Form::open(['action' => ['App\Http\Controllers\BlogPostController@destroy', $post->id], 'method' => 'POST', 'class' => 'ml-auto']) !!}
@@ -25,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-                <img src="/storage/blog_posts/{{ $post->cover_image }}" alt="" class="w-100 blog-image">
+                <img src="/storage/blog/{{ $post->cover_image }}" alt="" class="w-100 blog-image">
             </div>
             <div class="d-flex align-items-center justify-content-between">
                 <div class="media">

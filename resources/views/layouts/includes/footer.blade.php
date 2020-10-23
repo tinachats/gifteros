@@ -113,7 +113,7 @@
                                 <a href="about.php">About {{ config('app.name') }}</a>
                             </li>
                             <li class="list-inline-item text-sm agreement" data-value="strongly-disagree">
-                                <a href="/blog_posts">Blog</a>
+                                <a href="/blog">Blog</a>
                             </li>
                             <li class="list-inline-item text-sm agreement" data-value="strongly-disagree">
                                 <a href="">Become an affiliate</a>
