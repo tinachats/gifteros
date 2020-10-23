@@ -20,7 +20,6 @@ use App\Http\Controllers\AccountController;
 
 // Gift Routes
 Route::get('/', [Gifts::class, 'index'])->name('index');
-Route::get('/shop', [Gifts::class, 'shop'])->name('index.shop');
 Route::get('/details/{slug}/{id}', [Gifts::class, 'show'])->name('details.show');
 Route::get('/search', [Search::class, 'fetch'])->name('search.fetch');
 Route::get('/category/{category_id}/{category}', [Gifts::class, 'category'])->name('category');

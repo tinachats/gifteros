@@ -8,7 +8,7 @@
 <div class="container page-content" id="index-page">
     {{-- Showcase Products --}}
     @include('layouts.includes.showcase')
-    <div class="owl-carousel owl-theme carousel-autoplay" id="gift-categories">
+    <div class="owl-carousel owl-theme carousel-autoplay showcase-gifts">
         @yield('categories')
     </div>
 
@@ -26,6 +26,3 @@
 </div>
 <!-- /.Page Content -->
 @include('layouts.includes.footer')
-<script>
-    homepageGifts();
-</script>

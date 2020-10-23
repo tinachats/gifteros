@@ -1100,5 +1100,32 @@
         }
         ?>
         <!-- <div class="elfsight-app-019c0e60-b4a1-4b1f-bd14-04f718ab31e9"></div> -->
+
+        <script>
+            // Gift search suggestions
+            $(document).on('keyup', '#search', function() {
+                let search = $(this).val();
+                let val = search.length;
+                if (val > 0) {
+                    $('.line').css('display', 'block');
+                    $('#search-list').css('display', 'block');
+                    $.ajax({
+                        url: '{{ route("search.fetch") }}',
+                        method: 'get',
+                        data: {
+                            search: search
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            $('#search-list').html(data.results);
+                            userCurrency();
+                        }
+                    });
+                } else {
+                    $('.line').css('display', 'none');
+                    $('#search-list').css('display', 'none');
+                }
+            });
+        </script>
     </body>
 </html>

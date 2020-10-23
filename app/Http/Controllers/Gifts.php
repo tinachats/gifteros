@@ -10,79 +10,67 @@ class Gifts extends Controller
 {
     /**
      * Display a listing of the resource.
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return view('index');
-    }
-
-    /**
-    * Display a listing of the resource.
-    * @param  \Illuminate\Http\Request  $request
-    * @return \Illuminate\Http\Response
-    */
-    public function shop(Request $request){
-        if($request->ajax()){
-            if($request->get('shop')){
-                $title = 'Gifteros';
-                $gift_categories = DB::table('gifts')
-                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                                    ->get();
-                $customized_gifts = DB::table('gifts')
-                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                                    ->select('gifts.*', 'categories.category_name')
-                                    ->where('label', 'customizable')
-                                    ->take(4)
-                                    ->get();
-                $kitchenware = DB::table('gifts')
-                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                                    ->select('gifts.*', 'categories.category_name')
-                                    ->where('category_id', 9)
-                                    ->orderBy('usd_price', 'asc')
-                                    ->take(4)
-                                    ->get();
-                $personal_care = DB::table('gifts')
-                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                                    ->select('gifts.*', 'categories.category_name')
-                                    ->where('category_id', 12)
-                                    ->orderBy('usd_price', 'asc')
-                                    ->take(4)
-                                    ->get();
-                $plasticware = DB::table('gifts')
-                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                                ->select('gifts.*', 'categories.category_name')
-                                ->where('category_id', 21)
-                                ->orderBy('usd_price', 'asc')
-                                ->take(4)
-                                ->get();
-                $combo_gifts = DB::table('gifts')
-                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                                ->select('gifts.*', 'categories.category_name')
-                                ->where('category_id', 34)
-                                ->orderBy('usd_price', 'asc')
-                                ->take(4)
-                                ->get();
-                $appliances = DB::table('gifts')
-                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                                ->select('gifts.*', 'categories.category_name')
-                                ->where('category_id', 8)
-                                ->orderBy('usd_price', 'asc')
-                                ->take(4)
-                                ->get();
-                $data = [
-                    'gift_categories'   => $gift_categories,
-                    'customized_gifts' => $customized_gifts, 
-                    'kitchenware'      => $kitchenware,
-                    'personal_care'    => $personal_care,
-                    'plasticware'      => $plasticware,
-                    'combo_gifts'      => $combo_gifts, 
-                    'appliances'       => $appliances,
-                    'title'            => $title
-                ];
-                return json_encode($data);
-            }
-        }
+        $title = 'Gifteros';
+        $showcase_gifts = DB::table('gifts')
+                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                            ->get();
+        $customized_gifts = DB::table('gifts')
+                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                            ->select('gifts.*', 'categories.category_name')
+                            ->where('label', 'customizable')
+                            ->take(4)
+                            ->get();
+        $kitchenware = DB::table('gifts')
+                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                            ->select('gifts.*', 'categories.category_name')
+                            ->where('category_id', 9)
+                            ->orderBy('usd_price', 'asc')
+                            ->take(4)
+                            ->get();
+        $personal_care = DB::table('gifts')
+                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                            ->select('gifts.*', 'categories.category_name')
+                            ->where('category_id', 12)
+                            ->orderBy('usd_price', 'asc')
+                            ->take(4)
+                            ->get();
+        $plasticware = DB::table('gifts')
+                        ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                        ->select('gifts.*', 'categories.category_name')
+                        ->where('category_id', 21)
+                        ->orderBy('usd_price', 'asc')
+                        ->take(4)
+                        ->get();
+        $combo_gifts = DB::table('gifts')
+                        ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                        ->select('gifts.*', 'categories.category_name')
+                        ->where('category_id', 34)
+                        ->orderBy('usd_price', 'asc')
+                        ->take(4)
+                        ->get();
+        $appliances = DB::table('gifts')
+                        ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                        ->select('gifts.*', 'categories.category_name')
+                        ->where('category_id', 8)
+                        ->orderBy('usd_price', 'asc')
+                        ->take(4)
+                        ->get();
+        $data = [
+            'showcase_gifts'   => $showcase_gifts,
+            'customized_gifts' => $customized_gifts, 
+            'kitchenware'      => $kitchenware,
+            'personal_care'    => $personal_care,
+            'plasticware'      => $plasticware,
+            'combo_gifts'      => $combo_gifts, 
+            'appliances'       => $appliances,
+            'title'            => $title
+        ];
+        return view('index')->with($data);
     }
 
     /**
@@ -154,6 +142,11 @@ class Gifts extends Controller
                     ->where('id', $id)
                     ->value('gift_name');
         $category_name = categoryName($id);
+        $app_reviews = DB::table('app_ratings')
+                     ->join('users', 'users.id', '=', 'app_ratings.user_id')
+                     ->orderBy('app_ratings.created_at', 'desc')
+                     ->distinct()
+                     ->get();
         $data = [
             'title' => $title,
             'category_name' => $category_name,
@@ -162,7 +155,8 @@ class Gifts extends Controller
             'greeting_cards' => $greeting_cards,
             'wrappers' => $wrappers,
             'accesories' => $accesories,
-            'reviews' => $reviews
+            'reviews' => $reviews,
+            'app_reviews' => $app_reviews
         ];
         return view('details.show')->with($data);
     }
