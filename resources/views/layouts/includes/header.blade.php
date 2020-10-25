@@ -403,30 +403,88 @@
                         <li class="nav-item dropdown ml-3">
                             <a href="#" class="nav-link icon-link" id="shopping-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="material-icons">redeem</i>
-                                <span class="badge nav-badge gift-count"></span>
+                                <span class="badge nav-badge gift-count">4</span>
                             </a>
                             <ul class="dropdown-menu dropdown-menu-right rounded-0 box-shadow-sm cart-menu">
                                 <div class="shopping-bag">
                                     <!-- Shopping Cart details will be shown here -->
+                                    @for ($i = 0; $i < 4; $i++)
+                                        <!-- Cart Item -->
+                                        <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">
+                                            <div class="d-flex justify-content-between align-items-start">
+                                                <div class="d-flex w-100">
+                                                    <!-- Product Item -->
+                                                    <div class="media align-items-center">
+                                                        <div class="cart-menu-img-wrapper">
+                                                            <div class="d-sm-flex d-xl-none flex-column justify-content-center text-center cart-actions-sm">
+                                                                <i role="button" class="fa fa-chevron-circle-up text-success-warning subtract-product"></i>
+                                                                <span class="font-600 text-success-warning">2</span>
+                                                                <i role="button" class="fa fa-chevron-circle-down text-success-warning increase-qty"></i>
+                                                            </div>
+                                                            <img src="/storage/gifts/15f47b9066c522.jpg" height="55" width="55" alt="" class="rounded-2 align-self-center menu-item-img mr-2">
+                                                        </div>
+
+                                                        <!-- Product Item Details -->
+                                                        <div class="media-body cart-item-details" id="cart-item-details'.$values['product_id'].'">
+                                                            <p class="text-sm font-600 text-capitalize my-0 py-0">
+                                                                Sculp Massager
+                                                            </p>
+                                                            <p class="text-sm font-weight-light text-lowercase text-faded my-0 py-0">Personal Care</p>
+                                                            <ul class="list-inline star-rating">
+                                                                <li class="list-inline-item text-warning">&starf;</li>
+                                                                <li class="list-inline-item text-warning star-rating">&starf;</li>
+                                                                <li class="list-inline-item text-warning star-rating">&starf;</li>
+                                                                <li class="list-inline-item text-warning star-rating">&starf;</li>
+                                                                <li class="list-inline-item text-faded star-rating">&star;</li>
+                                                                <li class="list-inline-item text-faded star-rating text-sm font-600">(125)</li>
+                                                            </ul>
+                                                            <p class="text-sm font-500 text-lowercase text-faded my-0 py-0 d-flex">
+                                                                <span class="pr-2">2 in giftbox</span>
+                                                            </p>
+                                                        </div>
+                                                        <!-- Product Item Details -->
+                                                        <!-- Cart Actions -->
+                                                        <div class="hidden-product-actions w-100">
+                                                            <div class="d-flex align-items-center justify-content-center m-0 p-0">
+                                                                <span role="button" class="product-actions material-icons text-success subtract-product">remove_circle</span>
+                                                                <span role="button" class="product-actions text-faded mx-4">2</span>
+                                                                <span role="button" class="product-actions material-icons text-success increase-qty">add_circle</span>
+                                                            </div>
+                                                        </div>
+                                                        <!-- /.Cart Actions -->
+                                                    </div>
+                                                    <!-- /.Product Item -->
+
+                                                </div>
+                                                <div class="d-block text-center">
+                                                    <p class="font-600 my-0 pt-0 pb-1 text-sm usd-price">US$12.99</p>
+                                                    <p class="font-600 my-0 pt-0 pb-1 text-sm zar-price d-none">R214.34</p>
+                                                    <p class="font-600 my-0 pt-0 pb-1 text-sm zwl-price d-none">ZW$1299</p>
+                                                    <i role="button" class="fa fa-trash-o fa-2x text-danger remove-item" title="Remove Item" data-action="remove-product"></i>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <!-- /.Cart Item -->
+                                    @endfor
                                 </div>
                                 <!-- Cart Subtotal -->
                                 <li class="list-group-item rounded-0 lh-100 font-600 text-sm" id="cart-action-btns">
                                     <div class="usd-price">
                                         <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
                                             <span class="text-capitalize">Subtotal Amount:</span>
-                                            <span class="usd-total"></span>
+                                            <span class="usd-total">US$25.98</span>
                                         </h6>
                                     </div>
                                     <div class="zar-price d-none">
                                         <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
                                             <span class="text-capitalize">Subtotal Amount:</span>
-                                            <span class="zar-total"></span>
+                                            <span class="zar-total">428.67</span>
                                         </h6>
                                     </div>
                                     <div class="zwl-price d-none">
                                         <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
                                             <span class="text-capitalize">Subtotal Amount:</span>
-                                            <span class="zwl-total"></span>
+                                            <span class="zwl-total">ZW$2598</span>
                                         </h6>
                                     </div>
                                     <div class="cart-action-btns">
@@ -435,7 +493,16 @@
                                                 <i class="material-icons mr-1">delete_sweep</i>
                                                 Clear Cart
                                             </button>
-                                            {{-- Checkout button will be show here --}}
+                                            @auth
+                                                <a role="button" href="/checkout" class="btn btn-primary btn-sm btn-block font-600 d-flex align-items-center justify-content-center checkout-btn m-0">
+                                                    <i class="material-icons mr-1">directions_run</i> Checkout
+                                                </a>
+                                            @endauth
+                                            @guest
+                                                <a role="button" href="/login" class="btn btn-primary btn-sm btn-block font-600 d-flex align-items-center justify-content-center checkout-btn m-0">
+                                                    <i class="material-icons mr-1">directions_run</i> Checkout
+                                                </a>
+                                            @endguest
                                         </div>
                                     </div>
                                 </li>
@@ -526,9 +593,9 @@
                             <!-- Signed-in User -->
                             <!-- Wishlist -->
                             <li class="nav-item dropdown ml-3" title="View your Wishlist">
-                                <a href="wishlist.php" class="nav-link icon-link wishlist">
+                                <a href="{{ route('wishlist') }}" class="nav-link icon-link wishlist">
                                     <i class="material-icons">favorite_border</i>
-                                    <span class="badge nav-badge" id="count-wishlist"></span>
+                                    <span class="badge nav-badge" id="count-wishlist">{{ $count_wishlist ?? '' }}</span>
                                 </a>
                             </li>
                             <!-- /.Wishlist -->
@@ -548,11 +615,14 @@
                                 <img src="/storage/users/{{ Auth::user()->profile_pic }}" height="30" width="30" alt="{{ Auth::user()->name }}" class="rounded-circle prof-pic d-cursor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <div class="dropdown-menu dropdown-menu-right user-menu box-shadow-sm rounded-0">
                                     <div class="text-center pb-2">
-                                        <label class="mb-0 d-cursor" for="profile-pic" onclick="triggerClick()">
-                                            <img src="/storage/users/{{ Auth::user()->profile_pic }}" id="profile-image" class="rounded-circle mt-2 prof-pic" height="80" width="80" alt="{{ Auth::user()->name }}">
-                                            <span role="button" class="fa fa-camera circled-icon"></span>
-                                        </label>
-                                        <input class="d-none" type="file" name="profile-pic" id="profile-pic" onchange="displayImg(this)" accept="image/*">
+                                        <form action="/profile_pic" method="post">
+                                            @csrf
+                                            <label class="mb-0 d-cursor" for="profile-pic" onclick="triggerClick()">
+                                                <input class="d-none" type="file" name="profile-pic" id="profile-pic" onchange="displayImg(this)" accept="image/*">
+                                                <img src="/storage/users/{{ Auth::user()->profile_pic }}" id="profile-image" class="rounded-circle mt-2 prof-pic" height="80" width="80" alt="{{ Auth::user()->name }}">
+                                                <span role="button" class="fa fa-camera circled-icon"></span>
+                                            </label>
+                                        </form>
                                         <div class="d-block lh-100 rounded-0 mb-1" style="margin-top: -1rem">
                                             <h6 class="font-weight-bold mb-0 text-capitalize text-navy">
                                                 {{ Auth::user()->name }}

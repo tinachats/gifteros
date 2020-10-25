@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CartController extends Controller
 {
@@ -34,7 +35,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //    
     }
 
     /**
@@ -80,5 +81,19 @@ class CartController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function checkout()
+    {
+        $suburbs = DB::table('suburbs')
+                    ->orderBy('suburb_name', 'asc')
+                    ->distinct()
+                    ->get();
+        $title = 'Checkout Page';
+        $data = [
+            'suburbs' => $suburbs,
+            'title' => $title
+        ];
+        return view('checkout')->with($data);
     }
 }

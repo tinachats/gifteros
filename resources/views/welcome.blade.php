@@ -26,3 +26,8 @@
 </div>
 <!-- /.Page Content -->
 @include('layouts.includes.footer')
+<script>
+    $(function(){
+        showcase();
+    });
+</script>

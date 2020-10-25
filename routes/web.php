@@ -6,6 +6,9 @@ use App\Http\Controllers\Gifts;
 use App\Http\Controllers\Search;
 use App\Http\Controllers\Categories;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\Wishlist;
+use App\Http\Controllers\Users;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,16 +23,27 @@ use App\Http\Controllers\AccountController;
 
 // Gift Routes
 Route::get('/', [Gifts::class, 'index'])->name('index');
+Route::post('/showcase', [Gifts::class, 'showcase'])->name('showcase');
 Route::get('/details/{slug}/{id}', [Gifts::class, 'show'])->name('details.show');
 Route::get('/search', [Search::class, 'fetch'])->name('search.fetch');
 Route::get('/category/{category_id}/{category}', [Gifts::class, 'category'])->name('category');
 
-Auth::routes();
+// Cart Routes
+Route::post('/', [CartController::class, 'store'])->name('purchase');
+Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+
+// Wishlist Routes
+Route::get('/wishlist', [Wishlist::class, 'index'])->name('wishlist');
+Route::get('/wishlist/data', [Wishlist::class, 'data'])->name('wishlist.data');
 
 // Account Routes
+Auth::routes();
 Route::get('login/facebook', [LoginController::class, 'redirectToProvider']);
 Route::get('login/facebook/callback', [LoginController::class, 'handleProviderCallback']);
 Route::get('/account', [AccountController::class, 'index'])->name('account');
+
+// User Actions
+Route::post('/profile_pic', [Users::class, 'profile_pic'])->name('profile_pic');
 
 // Blog Routes
 Route::resource('blog', 'App\Http\Controllers\BlogPostController');

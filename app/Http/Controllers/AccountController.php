@@ -26,6 +26,11 @@ class AccountController extends Controller
     {
         $user_id = auth()->user()->id;
         $user = User::find($user_id);
-        return view('account')->with('posts', $user->posts);
+        $title = strtoupper($user->name);
+        $data = [
+            'title' => $title,
+            'posts' => $user->posts
+        ];
+        return view('account')->with($data);
     }
 }

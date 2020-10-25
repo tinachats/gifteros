@@ -333,16 +333,16 @@
                     </div>
                     <div class="modal-body">
                         <p class="text-justify" id="wishlist-modal-text">
-                            You need to be signed in with your account to add <span class="text-capitalize" id="visitor-wish-item"></span> to your Wishlist.
+                            You need to be signed in with your account to add <span class="text-capitalize text-primary" id="visitor-wish-item"></span> to your Wishlist.
                         </p>
                         <div class="row justify-content-center w-100 px-0 mx-0">
                             <div class="col">
-                                <a role="button" id="wishlist-modal-signin" class="btn border-primary text-primary btn-sm btn-block font-600">
+                                <a role="button" href="/login" id="wishlist-modal-signin" class="btn border-primary text-primary btn-sm btn-block font-600">
                                     Sign in
                                 </a>
                             </div>
                             <div class="col">
-                                <a role="button" id="wishlist-modal-signup" class="btn btn-primary btn-sm btn-block text-white ml-1">
+                                <a role="button" href="/register" id="wishlist-modal-signup" class="btn btn-primary btn-sm btn-block text-white ml-1">
                                     Sign up
                                 </a>
                             </div>
@@ -507,7 +507,7 @@
                                             </div>
                                         </label>
                                         <input type="file" class="d-none" name="upload-greeting-card" id="upload-greeting-card" onchange="displayGreetingCard(this)" accept="image/*" required>
-                                        <img src="{{ asset('img/products/a58e93d5-ac91-4c41-a7b6-2da258a55467._CR0,0,1251,1251_PT0_SX300__.jpg') }}" class="w-100" id="custom-greeting-card" height="400">
+                                        <img src="/storage/gifts/a58e93d5-ac91-4c41-a7b6-2da258a55467._CR0,0,1251,1251_PT0_SX300__.jpg" class="w-100" id="custom-greeting-card" height="400">
                                     </div>
                                     <div class="flip-card-back bg-whitesmoke">
                                         <div class="form-group">
@@ -586,7 +586,7 @@
                                                 <h4 class="lead-2x font-600 text-white custom-text-screen d-none"></h4>
                                             </div>
                                             <input type="file" class="d-none" name="gift-custom-img" id="gift-custom-img" onchange="showCustomImg(this)" accept="image/*" required>
-                                            <img src="{{ asset('img/products/15f479f840ad60.jpg') }}" height="350" class="customizable-gift-img w-100" id="user-custom-file">
+                                            <img src="/storage/gifts/15f479f840ad60.jpg" height="350" class="customizable-gift-img w-100" id="user-custom-file">
                                             <div id="toggle-custom-settings" class="d-none">
                                                 <button role="button" class="btn btn-sm rounded-pill px-3 text-warning font-600" id="toggle-custom-text">
                                                     Add custom text
@@ -1083,49 +1083,12 @@
         <!-- Elfsight -->
         <script src="https://apps.elfsight.com/p/platform.js" defer></script>
         <!-- Show the user login dropdown sign in form if user has been redirected -->
-        <?php
-        // Scripts that will run when the user is signed-in
-        if (isset($_SESSION['user_id'])) {
-            echo "
-                <script>
-                    wishlist();
-                    notifications();
-                </script>
-            ";
-        }
-
-        // Check to see if the redirect variable is set
-        if (isset($GET['redirect'])) {
-            echo "<script>$('.user-menu').toggleClass('show');</script>";
-        }
-        ?>
+        @auth
+            <script>
+                // wishlist();
+                // notifications();
+            </script>
+        @endauth
         <!-- <div class="elfsight-app-019c0e60-b4a1-4b1f-bd14-04f718ab31e9"></div> -->
-
-        <script>
-            // Gift search suggestions
-            $(document).on('keyup', '#search', function() {
-                let search = $(this).val();
-                let val = search.length;
-                if (val > 0) {
-                    $('.line').css('display', 'block');
-                    $('#search-list').css('display', 'block');
-                    $.ajax({
-                        url: '{{ route("search.fetch") }}',
-                        method: 'get',
-                        data: {
-                            search: search
-                        },
-                        dataType: 'json',
-                        success: function(data) {
-                            $('#search-list').html(data.results);
-                            userCurrency();
-                        }
-                    });
-                } else {
-                    $('.line').css('display', 'none');
-                    $('#search-list').css('display', 'none');
-                }
-            });
-        </script>
     </body>
 </html>
