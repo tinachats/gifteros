@@ -1,5 +1,15 @@
 <?php
     use Illuminate\Support\Facades\DB;
+    use Illuminate\Support\Facades\Auth;
+
+    // Username
+    function username(){
+        $name = explode(' ', strtolower(Auth::user()->name));
+        $first_name = $name[0];
+        $last_name = $name[1];
+        $username = $first_name . '.' .$last_name;
+        return $username; 
+    }
 
     // User greeting
     function greeting(){
@@ -667,6 +677,25 @@
             }
         }
         return $output;
+    }
+
+    // Get total number of products bought by customer
+    function totalBought($user_id){
+        $total_products = DB::table('orders')
+                    ->join('ordered_gifts', 'ordered_gifts.order_id', '=', 'orders.id')
+                    ->join('users', 'users.id', '=', 'orders.user_id')
+                    ->where('orders.user_id', $user_id)
+                    ->sum('quantity');
+        return $total_products;
+    }
+
+    // Get total amount spent on the site by the user 
+    function totalSpent($user_id){
+        $total_spent = DB::table('orders')
+                   ->select('usd_total')
+                   ->where('user_id', $user_id)
+                   ->sum('usd_total');
+        return number_format($total_spent, 2);
     }
 
     /*** Progress-bar star ratings ***/ 

@@ -139,7 +139,7 @@ class BlogPostController extends Controller
         }
         $post->save();
 
-        return redirect('/blog_posts')->with('success', 'Blog post updated successfully.');
+        return redirect('/blog')->with('success', 'Blog post updated successfully.');
     }
 
     /**
@@ -153,9 +153,9 @@ class BlogPostController extends Controller
         $post = BlogPost::find($id);
         if($post->cover_image != 'default-cover-img.jpg'){
             // Delete image
-            Storage::delete('/storage/blog_posts/'.$post->cover_image);
+            Storage::delete('/storage/blog/'.$post->cover_image);
         }
         $post->delete();
-        return redirect('/blog_posts')->with('success', 'Blog post successfully deleted!');
+        return redirect('/blog')->with('success', 'Blog post successfully deleted!');
     }
 }

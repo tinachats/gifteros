@@ -60,7 +60,7 @@
             @auth
             <!-- Side-menu-item -->
             <li class="side-menu-item p-2">
-                <a href="/account" class="d-flex align-items-center">
+                <a href="/account/{{ username() }}" class="d-flex align-items-center">
                     <i class="material-icons mr-2">person</i>
                     <span class="text-capitalize">Account</span>
                 </a>

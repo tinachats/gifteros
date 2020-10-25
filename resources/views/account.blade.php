@@ -28,7 +28,7 @@
             <!-- User Details -->
             <div class="col-12 col-md-4 col-lg-5 col-xl-3">
                 <!-- User Profile Card -->
-                <div class="main-card" id="user-details">
+                <div class="main-card" id="user-data">
                     <!-- user account details will be show here -->
                     <div class="card delivery-pad box-shadow-sm rounded-0">
                         <div class="box-shadow-lg img-frame">
@@ -88,16 +88,16 @@
                             </div>
                         </a>
                         @endif
-                        <a class="nav-item nav-link rounded-0" id="nav-settings-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="false">
-                            <div class="d-flex align-items-center font-500">
-                                <i class="material-icons">person_outline</i>
-                                <span class="text-capitalize ml-1 d-none d-md-inline">My Account</span>
-                            </div>
-                        </a>
                         <a class="nav-item nav-link rounded-0" id="nav-recipients-tab" data-toggle="tab" href="#nav-recipients" role="tab" aria-controls="nav-home" aria-selected="false">
                             <div class="d-flex align-items-center font-500">
                                 <i class="material-icons">people</i>
                                 <span class="text-capitalize ml-1 d-none d-md-inline">My Recipients</span>
+                            </div>
+                        </a>
+                        <a class="nav-item nav-link rounded-0" id="nav-settings-tab" data-toggle="tab" href="#nav-settings" role="tab" aria-controls="nav-home" aria-selected="false">
+                            <div class="d-flex align-items-center font-500">
+                                <i class="material-icons">settings</i>
+                                <span class="text-capitalize ml-1 d-none d-md-inline">Settings</span>
                             </div>
                         </a>
                     </div>
@@ -145,7 +145,7 @@
                                                                         Updated on {{ date('d F, Y', strtotime($post->updated_at)) }} at {{ date('H:ia', strtotime($post->updated_at)) }}
                                                                     </h6>
                                                                 </div>
-                                                                <a class="ml-3" href="/blog_posts/{{ $post->id }}/edit">
+                                                                <a class="ml-3" href="/blog/{{ $post->id }}/edit">
                                                                     <span role="button" class="material-icons fa-2x text-white">edit</span>
                                                                 </a>
                                                                 {!! Form::open(['action' => ['App\Http\Controllers\BlogPostController@destroy', $post->id], 'method' => 'POST', 'class' => 'ml-auto']) !!}
@@ -155,7 +155,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <img src="/storage/blog_posts/{{ $post->cover_image }}" alt="" class="w-100 blog-image">
+                                                    <img src="/storage/blog/{{ $post->cover_image }}" alt="" class="w-100 blog-image">
                                                 </div>
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <div class="media">
@@ -205,7 +205,7 @@
                                                     <p class="text-sm">
                                                         Write content about any occasion that you feel people should be educated on. Let people know what you know and see the world through your eyes.
                                                     </p>
-                                                    <a href="/blog_posts/create" class="btn btn-primary btn-sm px-3">Create Post</a>
+                                                    <a href="/blog/create" class="btn btn-primary btn-sm px-3">Create Post</a>
                                                 </div>
                                             </div>
                                         @endif
@@ -213,6 +213,18 @@
                                 </div>
                             </div>
                             <!-- Blog Posts -->
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-recipients" role="tabpanel" aria-labelledby="nav-recipients-tab">
+                        <div class="content p-3">
+                            <div class="d-flex justify-content-between align-items-center title py-1">
+                                <h6 class="font-600 text-uppercase">your recipient list</h6>
+                            </div>
+                            <!-- My Recipients -->
+                            <div id="order-recipients">
+                                <!-- All recipients will show up here -->
+                            </div>
+                            <!-- My Recipients -->
                         </div>
                     </div>
                     <div class="tab-pane fade" id="nav-settings" role="tabpanel" aria-labelledby="nav-settings-tab">
@@ -241,8 +253,8 @@
                                                 <label class="text-sm font-600 mb-0 text-faded" for="mobile-number">Mobile No.</label>
                                                 <div class="row no-gutters align-items-center w-100">
                                                     <div class="phone-code col-4 col-md-3">
-                                                        <img src="dist/img/country-flag/flag-of-Zimbabwe.png" alt="" height="15" width="25" class="country-flag">
-                                                        <input type="text" name="country-code" id="country-code" class="form-control subscription-input text-primary country-code" disabled>
+                                                        <img src="{{ asset('img/country-flag/flag-of-Zimbabwe.png') }}" alt="" height="15" width="25" class="country-flag">
+                                                        <input type="text" name="country-code" id="country-code" class="form-control subscription-input text-primary country-code" value="263" disabled>
                                                     </div>
                                                     <div class="phone-number col-8 col-md-9">
                                                         <input type="text" class="form-control mobile-number" id="mobile-number" name="mobile-number" placeholder="Mobile Number" data-inputmask='"mask": "999999999"' required data-mask>
@@ -362,23 +374,17 @@
                             </div>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="nav-recipients" role="tabpanel" aria-labelledby="nav-recipients-tab">
-                        <div class="content p-3">
-                            <div class="d-flex justify-content-between align-items-center title py-1">
-                                <h6 class="font-600 text-uppercase">your recipient list</h6>
-                            </div>
-                            <!-- My Recipients -->
-                            <div id="order-recipients">
-                                <!-- All recipients will show up here -->
-                            </div>
-                            <!-- My Recipients -->
-                        </div>
-                    </div>
                 </div>
             </div>
+            <!-- /.Account Settings -->
         </div>
     </div>
     <!-- Page Content -->
 </div>
 <!-- /.Page Content -->
 @include('layouts.includes.footer')
+<script>
+    $(function(){
+        userProfile();
+    });
+</script>

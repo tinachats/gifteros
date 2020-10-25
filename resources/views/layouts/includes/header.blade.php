@@ -632,7 +632,7 @@
                                             </small>
                                         </div>
                                     </div>
-                                    <a class="dropdown-item border-top font-500" href="/account">
+                                    <a class="dropdown-item border-top font-500" href="/account/{{ username() }}">
                                         <div class="d-flex align-items-center text-faded">
                                             <i class="nav-icon material-icons mr-3">person_outline</i> Account Settings
                                         </div>

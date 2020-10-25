@@ -6,6 +6,7 @@
 </style>
 <!-- Page Content -->
 <div class="container page-content" id="index-page">
+    @csrf
     {{-- Showcase Products --}}
     @include('layouts.includes.showcase')
     <div class="owl-carousel owl-theme carousel-autoplay showcase-gifts">

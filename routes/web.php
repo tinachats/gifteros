@@ -36,14 +36,17 @@ Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::get('/wishlist', [Wishlist::class, 'index'])->name('wishlist');
 Route::get('/wishlist/data', [Wishlist::class, 'data'])->name('wishlist.data');
 
-// Account Routes
+// Login Routes
 Auth::routes();
 Route::get('login/facebook', [LoginController::class, 'redirectToProvider']);
 Route::get('login/facebook/callback', [LoginController::class, 'handleProviderCallback']);
-Route::get('/account', [AccountController::class, 'index'])->name('account');
 
 // User Actions
 Route::post('/profile_pic', [Users::class, 'profile_pic'])->name('profile_pic');
+
+// Account Routes
+Route::get('/account/{name}', [AccountController::class, 'index'])->name('account');
+Route::post('/account/data', [AccountController::class, 'profile'])->name('profile');
 
 // Blog Routes
 Route::resource('blog', 'App\Http\Controllers\BlogPostController');
