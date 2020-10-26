@@ -120,41 +120,41 @@
     <!-- /.Showcase Owl Carousel Slider -->
     @if($posts->count() > 0)
         <div class="d-grid grid-4 grid-p-1">
-        @foreach($posts as $post)
-            <!-- Blog Post -->
-            <a href="/blog/{{ $post->id }}" class="stretched-link">
-                <div class="card blog-post-card bg-whitesmoke border-0 box-shadow-sm">
-                    <div class="post-stats bg-secondary shadow-sm d-grid">
-                        <h6 class="m-auto text-center lh-100">
-                            <span class="text-white font-600 my-0 py-0">15m</span>
-                        </h6>
-                    </div>
-                    <div class="card-body m-0 p-0">
-                        <div class="post-img-wrapper">
-                            <img src="/storage/blog/{{ $post->cover_image }}" alt="" class="card-img-top h-100">
-                            <div class="post-img-details w-100 px-3">
-                                <h5 class="font-600 text-capitalize text-white my-0 py-0">
-                                    {{ $post->title }}
-                                </h5>
-                                <p class="text-white text-sm my-0 py-0 text-capitalize">
-                                    {{ date('d F Y', strtotime($post->created_at)) }}
-                                </p>
+            @foreach($posts as $post)
+                <!-- Blog Post -->
+                <a href="/blog/{{ $post->id }}" class="stretched-link">
+                    <div class="card blog-post-card bg-whitesmoke border-0 box-shadow-sm">
+                        <div class="post-stats bg-secondary shadow-sm d-grid">
+                            <h6 class="m-auto text-center lh-100">
+                                <span class="text-white font-600 my-0 py-0">15m</span>
+                            </h6>
+                        </div>
+                        <div class="card-body m-0 p-0">
+                            <div class="post-img-wrapper">
+                                <img src="/storage/blog/{{ $post->cover_image }}" alt="" class="card-img-top h-100">
+                                <div class="post-img-details w-100 px-3">
+                                    <h5 class="font-600 text-capitalize text-white my-0 py-0">
+                                        {{ $post->title }}
+                                    </h5>
+                                    <p class="text-white text-sm my-0 py-0 text-capitalize">
+                                        {{ date('d F Y', strtotime($post->created_at)) }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-whitesmoke">
+                            <div class="media">
+                                <img src="/storage/users/{{ $post->user->profile_pic }}" alt="" height="30" width="30" class="rounded-circle align-self-center mr-2">
+                                <div class="media-body">
+                                    <h6 class="text-primary text-capitalize font-600 my-0 py-0">{{ $post->user->name }}</h6>
+                                    <h6 class="text-sm text-faded text-capitalize my-0 py-0">On Christmas Gifts</h6>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer bg-whitesmoke">
-                        <div class="media">
-                            <img src="/storage/users/{{ $post->user->profile_pic }}" alt="" height="30" width="30" class="rounded-circle align-self-center mr-2">
-                            <div class="media-body">
-                                <h6 class="text-primary text-capitalize font-600 my-0 py-0">{{ $post->user->name }}</h6>
-                                <h6 class="text-sm text-faded text-capitalize my-0 py-0">On Christmas Gifts</h6>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            <!-- /.Blog Post -->
-        @endforeach
+                </a>
+                <!-- /.Blog Post -->
+            @endforeach
         </div>
     @else
         <div class="container-fluid my-3">

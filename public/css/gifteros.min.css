@@ -9,7 +9,7 @@
 }
 
 
-/* Utility Classes #search-list */
+/* Utility Classes .icon-form-group */
 
 :root {
     --text-warning-white: #f39c12;
@@ -148,6 +148,21 @@
 
 .app-name {
     color: hsl(208, 56%, 31%) !important;
+}
+
+.recipient-card {
+    max-height: 307px;
+}
+
+.recipient-card>.picture-frame {
+    position: relative;
+    height: 100px;
+}
+
+.recipient-card>.picture-frame>.user-thumbnail {
+    position: absolute;
+    top: 60px;
+    left: 10px;
 }
 
 
@@ -2896,6 +2911,12 @@ a:hover,
 .icon-form-group>.icon {
     position: absolute;
     top: 8px;
+    left: 5px
+}
+
+#user-info .icon-form-group .labelled-icon {
+    position: absolute;
+    top: 30px;
     left: 5px
 }
 

@@ -69,6 +69,40 @@ class Users extends Controller
 
     }
 
+    public function cover_page(Request $request)
+    {
+        if($request->ajax()){
+            // Save user's profile picture
+            $this->validate($request, [
+                'cover-img' => 'image|nullable|max:4999'
+            ]);
+
+            // Handle file upload
+            if($request->hasFile('cover-img')){
+                // Get extension
+                $ext = $request->file('cover-img')->getClientOriginalExtension();
+                // Filename to store
+                $cover_page = uniqid(true) . '.' . $ext;
+                // Upload cover image
+                $path = $request->file('cover-img')->storeAs('public/cover-page', $cover_page);
+            } else {
+                $cover_page = 'default-coverpage.png';
+            }
+
+            // Update user's profile
+            $update = DB::table('users')
+                         ->where('id', Auth::user()->id)
+                         ->update([
+                            'cover_page' => $cover_page
+                         ]);
+
+            return response()->json([
+                'message' => 'Cover page successfully updated!'
+            ]);
+        }
+
+    }
+
     /**
      * Display the specified resource.
      *
@@ -95,12 +129,27 @@ class Users extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update_profile(Request $request)
     {
-        //
+        if($request->ajax()){
+            if($request->action){
+                DB::table('users')
+                    ->where('id', Auth::user()->id)
+                    ->update([
+                        'name'         => $request->post('name'),
+                        'email'        => $request->post('email'),
+                        'mobile_phone' => $request->post('mobile_phone'),
+                        'address'      => $request->post('address'),
+                        'city'         => $request->post('city')        ,
+                        'birthday'     => $request->post('bithday'),
+                    ]);
+                return response()->json([
+                    'message' => 'updated'
+                ]);
+            }
+        }
     }
 
     /**

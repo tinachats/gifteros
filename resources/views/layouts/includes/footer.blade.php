@@ -398,12 +398,12 @@
                                     <div class="form-group subscription-fg">
                                         <label class="text-sm font-600 mb-0 text-faded" for="mobile-number">Mobile No.</label>
                                         <div class="row no-gutters align-items-center w-100">
-                                            <div class="phone-code col-4 col-md-3">
+                                            <div class="phone-code bg-transparent col-4 col-md-3">
                                                 <img src="{{ asset('img/country-flag/flag-of-Zimbabwe.png') }}" alt="" height="15" width="25" class="country-flag">
-                                                <input type="text" name="country-code" id="country-code" class="form-control subscription-input country-code text-primary" value="263" disabled>
+                                                <input type="text" name="country-code" id="country-code" class="form-control subscription-input text-primary country-code bg-transparent" value="263" disabled>
                                             </div>
                                             <div class="phone-number col-8 col-md-9">
-                                                <input type="text" class="form-control mobile-number" id="mobile-number" name="mobile-number" placeholder="Mobile Number" data-inputmask='"mask": "999999999"' required data-mask>
+                                                <input type="text" class="form-control mobile-number" id="mobile-number" name="mobile-number" placeholder="Mobile Number" data-inputmask='"mask": "999999999"' value="{{ Auth::user()->mobile_phone }}" required data-mask>
                                             </div>
                                         </div>
                                         <span class="invalid-feedback">9 digit mobile no. required</span>

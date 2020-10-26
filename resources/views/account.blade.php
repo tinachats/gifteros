@@ -12,8 +12,8 @@
                             <i class="material-icons">store</i>
                         </a>
                     </li>
-                    <li class="breadcrumb-item text-capitalize d-none d-md-inline">{{ Auth::user()->user_type }}</a></li>
-                    <li class="breadcrumb-item active">Account</a></li>
+                    <li class="breadcrumb-item text-capitalize d-none d-md-inline">Account</li>
+                    <li class="breadcrumb-item active">{{ Auth::user()->name }}</a></li>
                 </ol>
             </div>
             <!-- /.row -->
@@ -71,7 +71,7 @@
             <!-- /.User Details -->
 
             <!-- Account Settings -->
-            <div class="col-12 col-md-8 col-lg-7 col-xl-8 pl-md-0">
+            <div class="col-12 col-md-8 col-lg-7 col-xl-9 pl-md-0">
                 <nav class="rounded-0 bg-whitesmoke box-shadow-sm agents-info">
                     <div class="nav nav-tabs px-0 w-100" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link rounded-0 active" id="nav-activity-tab" data-toggle="tab" href="#nav-activity" role="tab" aria-controls="nav-home" aria-selected="true">
@@ -106,13 +106,49 @@
                     <div class="tab-pane fade show active" id="nav-activity" role="tabpanel" aria-labelledby="nav-activity-tab">
                         <div class="content p-3">
                             <div class="d-flex justify-content-between align-items-center title py-1">
-                                <h6 class="font-600 text-uppercase">My Activity</h6>
+                                <h6 class="font-600 text-uppercase">
+                                    <span class="count-user-reviews">My Gift Reviews</span>
+                                </h6>
                             </div>
                             <!-- My Activity -->
                             <div class="container">
                                 <div class="row">
-                                    <div class="col-12 col-xl-7 product-reviews" id="user-activity">
-                                        <!-- All my review posts and comments will show up here -->
+                                    <div class="w-100" id="gift-reviews">
+                                        <div class="col-12 col-xl-8">
+                                            <!-- All my review posts and comments will show up here -->
+                                            @for ($i = 0; $i < 3; $i++)
+                                                <div class="user-review-card bg-whitesmoke box-shadow-lg rounded-3">
+                                                    <!-- Product Review -->
+                                                    <div class="media review-post pb-2 ml-1">
+                                                        <div class="placeholder-profile rounded-circle align-self-start mt-2 mr-2"></div>
+                                                        <div class="media-body">
+                                                            <div class="d-flex flex-column">
+                                                                <div class="content-placeholder username-placeholder"></div>
+                                                                <div class="content-placeholder rating-placeholder mt-2"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- User\'s Post -->
+                                                    <div class="customer-post">
+                                                        <div class="content-placeholder review-placeholder mx-3 mt-2 mb-0 pb-0"></div>
+                                                        <div class="content-placeholder review-placeholder mx-3 mt-0 pt-0"></div>
+                                                        <div class="content-placeholder half-review-placeholder mx-3 mt-0 pt-0"></div>
+                                                        <div class="reviewed-product"></div>
+                                                        <div class="content-placeholder helpful-placeholder mx-3 mt-0 pt-0"></div>
+                                                        <div class="mt-2 d-flex align-items-center border-top w-100 p-2">
+                                                        <div class="content-placeholder action-placeholders"></div>
+                                                        <div class="content-placeholder action-placeholders mx-2"></div>
+                                                        <div class="content-placeholder action-placeholders"></div>
+                                                            <div class="ml-auto">
+                                                                <div class="content-placeholder action-placeholders"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.User\'s Post -->
+                                                    <!-- /.Product review -->
+                                                </div>
+                                            @endfor
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -123,94 +159,66 @@
                         <div class="content p-3">
                             <div class="d-flex justify-content-between align-items-center title py-1">
                                 <h6 class="font-600 text-uppercase">
-                                    <span class="mr-1">{{ count($posts)}}</span> Blog Posts  
+                                    @if (count($posts) == 1)
+                                        <span class="mr-1">1</span> Blog Post
+                                    @else
+                                        <span class="mr-1">{{ count($posts)}}</span> Blog Posts
+                                    @endif  
                                 </h6>
                             </div>
                             <!-- Blog Posts -->
                             <div class="container">
-                                <div class="row">
-                                    <div class="col-12" id="blog-posts">
-                                        @if(count($posts) > 0)
-                                            <!-- All my blog posts and comments will show up here -->
-                                            @foreach($posts as $post)
-                                                <div class="blog-post item">
-                                                    <div class="blog-post-overlay d-grid">
-                                                        <div class="content m-auto">
-                                                            <div class="d-flex align-items-center">
-                                                                <div class="d-block">
-                                                                    <h4 class="font-600">
-                                                                        {{ $post->title}}
-                                                                    </h4>
-                                                                    <h6 class="my-0 py-0 text-white">
-                                                                        Updated on {{ date('d F, Y', strtotime($post->updated_at)) }} at {{ date('H:ia', strtotime($post->updated_at)) }}
-                                                                    </h6>
-                                                                </div>
-                                                                <a class="ml-3" href="/blog/{{ $post->id }}/edit">
-                                                                    <span role="button" class="material-icons fa-2x text-white">edit</span>
-                                                                </a>
-                                                                {!! Form::open(['action' => ['App\Http\Controllers\BlogPostController@destroy', $post->id], 'method' => 'POST', 'class' => 'ml-auto']) !!}
-                                                                {{ Form::hidden('_method', 'DELETE') }}
-                                                                {{ Form::submit('Delete', ['class' => 'btn btn-danger btn-sm']) }}
-                                                                {!!Form::close()!!}
+                                @if(count($posts) > 0)
+                                    <!-- All my blog posts and comments will show up here -->
+                                    <div class="d-grid grid-3 grid-p-1">
+                                        @foreach($posts as $post)
+                                            <!-- Blog Post -->
+                                            <a href="/blog/{{ $post->id }}">
+                                                <div class="card blog-post-card bg-whitesmoke border-0 box-shadow-sm">
+                                                    <div class="post-stats bg-secondary shadow-sm d-grid">
+                                                        <h6 class="m-auto text-center lh-100">
+                                                            <span class="text-white font-600 my-0 py-0">15m</span>
+                                                        </h6>
+                                                    </div>
+                                                    <div class="card-body m-0 p-0">
+                                                        <div class="post-img-wrapper">
+                                                            <img src="/storage/blog/{{ $post->cover_image }}" alt="" class="card-img-top h-100">
+                                                            <div class="post-img-details w-100 px-3">
+                                                                <h5 class="font-600 text-capitalize text-white my-0 py-0">
+                                                                    {{ $post->title }}
+                                                                </h5>
+                                                                <p class="text-white text-sm my-0 py-0 text-capitalize">
+                                                                    {{ date('d F Y', strtotime($post->created_at)) }}
+                                                                </p>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <img src="/storage/blog/{{ $post->cover_image }}" alt="" class="w-100 blog-image">
-                                                </div>
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <div class="media">
-                                                        <img src="/storage/users/{{ $post->user->profile_pic }}" alt="{{ $post->user->name }}" height="35" width="35" class="rounded-circle align-self-center mr-2">
-                                                        <div class="media-body mt-2">
-                                                            <h6 class="font-600 text-primary my-0 py-0 text-capitalize">{{ $post->user->name }}</h6>
-                                                            <ul class="list-inline lh-100">
-                                                                <li class="list-inline-item text-warning">&starf;</li>
-                                                                <li class="list-inline-item text-warning star-rating">&starf;</li>
-                                                                <li class="list-inline-item text-warning star-rating">&starf;</li>
-                                                                <li class="list-inline-item text-warning star-rating">&starf;</li>
-                                                                <li class="list-inline-item text-faded star-rating">&star;</li>
-                                                                <li class="list-inline-item text-faded star-rating text-sm font-600">(125)</li>
-                                                            </ul>
+                                                    <div class="card-footer bg-whitesmoke">
+                                                        <div class="media">
+                                                            <img src="/storage/users/{{ $post->user->profile_pic }}" alt="" height="30" width="30" class="rounded-circle align-self-center mr-2">
+                                                            <div class="media-body">
+                                                                <h6 class="text-primary text-capitalize font-600 my-0 py-0">{{ $post->user->name }}</h6>
+                                                                <h6 class="text-sm text-faded text-capitalize my-0 py-0">On Christmas Gifts</h6>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="d-block text-center border-left px-2">
-                                                        <h5 class="font-600 my-0 py-0 lead">15m</h5>
-                                                        <h6 class="text-sm my-0 py-0">Read</h6>
-                                                    </div>
                                                 </div>
-                                                <p class="text-justify blog-post-content">{!!$post->body!!}</p>
-                                                <div class="d-flex align-items-center justify-content-around border-top border-bottom py-2 w-100">
-                                                    <div class="d-flex align-items-center">
-                                                        <i class="material-icons mr-1">favorite_border</i>
-                                                        <span>Love</span>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-                                                        <i class="material-icons mr-1">bookmark</i>
-                                                        <span>Bookmark</span>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-                                                        <i class="material-icons mr-1">forum</i>
-                                                        <span>Comment</span>
-                                                    </div>
-                                                    <div class="d-flex align-items-center">
-                                                        <i class="material-icons mr-1">share</i>
-                                                        <span>Share</span>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        @else
-                                            <div class="row justify-content-center my-5">
-                                                <div class="col-10 col-md-12 text-center no-content">
-                                                    <i class="material-icons text-muted lead">forum</i>
-                                                    <h5 class="font-600">There are no posts to show at the moment.</h5>
-                                                    <p class="text-sm">
-                                                        Write content about any occasion that you feel people should be educated on. Let people know what you know and see the world through your eyes.
-                                                    </p>
-                                                    <a href="/blog/create" class="btn btn-primary btn-sm px-3">Create Post</a>
-                                                </div>
-                                            </div>
-                                        @endif
+                                            </a>
+                                            <!-- /.Blog Post -->
+                                        @endforeach
                                     </div>
-                                </div>
+                                @else
+                                    <div class="row justify-content-center my-5">
+                                        <div class="col-10 col-md-12 text-center no-content">
+                                            <i class="material-icons text-muted lead">forum</i>
+                                            <h5 class="font-600">There are no posts to show at the moment.</h5>
+                                            <p class="text-sm">
+                                                Write content about any occasion that you feel people should be educated on. Let people know what you know and see the world through your eyes.
+                                            </p>
+                                            <a href="/blog/create" class="btn btn-primary btn-sm px-3">Create Post</a>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                             <!-- Blog Posts -->
                         </div>
@@ -218,11 +226,55 @@
                     <div class="tab-pane fade" id="nav-recipients" role="tabpanel" aria-labelledby="nav-recipients-tab">
                         <div class="content p-3">
                             <div class="d-flex justify-content-between align-items-center title py-1">
-                                <h6 class="font-600 text-uppercase">your recipient list</h6>
+                                @if (count($recipients) == 1)
+                                    <h6 class="font-600 text-uppercase">1 Recipient</h6>
+                                @else
+                                    <h6 class="font-600 text-uppercase">{{ count($recipients) }} Recipients</h6>
+                                @endif
                             </div>
                             <!-- My Recipients -->
                             <div id="order-recipients">
-                                <!-- All recipients will show up here -->
+                                @if (count($recipients) > 0)
+                                    <div class="d-grid grid-3 grid-p-1 w-100">
+                                        @foreach ($recipients as $recipient)
+                                            <?php
+                                                $recipients_cell = $recipient->recipients_cell;
+                                                $orders = recipientOrders(Auth::user()->id, $recipients_cell);
+                                            ?>
+                                            <!-- All recipients will show up here -->
+                                            <div class="card recipient-card box-shadow-sm">
+                                                <div class="picture-frame">
+                                                    <img src="{{ recipientsCoverImg($recipients_cell) }}" alt="Cover Page" height="100" class="card-img-top">
+                                                    <img src="{{ recipientsPic($recipients_cell) }}" alt="" height="70" width="70" class="img-thumbnail user-thumbnail">
+                                                </div>
+                                                <div class="card-body px-2 pb-2 mt-3">
+                                                    <h6 class="font-600 my-0 py-0 text-capitalize">{{ recipientsName($recipients_cell) }}</h6>
+                                                    <address>
+                                                        <p class="text-sm my-0 py-0 text-capitalize">{{ recipientsAddress($recipients_cell) }}</p>
+                                                        <p class="text-sm my-0 py-0 text-capitalize">{{ recipientsCity($recipients_cell) }}</p>
+                                                        <p class="text-sm my-0 py-0 text-capitalize">{{ $recipients_cell }}</p>
+                                                        @if ($orders == 1)
+                                                            <p class="text-sm text-lowercase text-faded my-0 py-0">1 delivery</p>
+                                                        @else 
+                                                            <p class="text-sm text-lowercase text-faded my-0 py-0">{{ $orders }} deliveries</p>
+                                                        @endif
+                                                    </address>
+                                                    {!! recipientsStatus($recipients_cell) !!}
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @else
+                                    <div class="container justify-content-center w-100 my-5">
+                                        <div class="col-12 text-center no-content">
+                                            <i class="material-icons text-muted lead">people</i>
+                                            <h5 class="font-600">You've not sent any gift to anyone yet!</h5>
+                                            <p class="text-sm">
+                                                All your recipients will be shown here if you send a gift order to anyone.
+                                            </p>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                             <!-- My Recipients -->
                         </div>
@@ -239,42 +291,46 @@
                                     <div class="box-shadow-sm rounded-0 p-2 mt-2">
                                         <h6 class="font-600 mt-1">Personal Details</h6>
                                         <form method="post" class="needs-validation" id="user-info" novalidate>
-                                            <div class="form-group mb-1">
-                                                <label for="full-name" class="mb-0 text-sm font-600 text-faded">Full name</label>
-                                                <input type="text" name="full-name" id="full-name" class="form-control font-500 text-capitalize" value="{{ Auth::user()->name }}" required>
+                                            <div class="form-group mb-1 icon-form-group">
+                                                <label for="name" class="mb-0 text-sm font-600 text-faded">Full name</label>
+                                                <i class="material-icons mr-1 labelled-icon text-faded">person</i>
+                                                <input type="text" name="name" id="name" class="form-control font-500 text-capitalize" value="{{ Auth::user()->name }}" required>
                                                 <span class="invalid-feedback text-sm">Full name required!</span>
                                             </div>
-                                            <div class="form-group mb-1">
+                                            <div class="form-group mb-1 icon-form-group">
                                                 <label for="email" class="mb-0 text-sm font-600 text-faded">Email</label>
+                                                <i class="material-icons mr-1 labelled-icon text-faded">email</i>
                                                 <input type="email" name="email" id="email" class="form-control font-500" value="{{ Auth::user()->email }}" onblur="emailValidation(this)" required>
                                                 <span class="invalid-feedback text-sm">Email is invalid!</span>
                                             </div>
                                             <div class="form-group subscription-fg">
-                                                <label class="text-sm font-600 mb-0 text-faded" for="mobile-number">Mobile No.</label>
+                                                <label class="text-sm font-600 mb-0 text-faded" for="mobile-phone">Mobile No.</label>
                                                 <div class="row no-gutters align-items-center w-100">
-                                                    <div class="phone-code col-4 col-md-3">
+                                                    <div class="phone-code bg-transparent col-4 col-md-3">
                                                         <img src="{{ asset('img/country-flag/flag-of-Zimbabwe.png') }}" alt="" height="15" width="25" class="country-flag">
-                                                        <input type="text" name="country-code" id="country-code" class="form-control subscription-input text-primary country-code" value="263" disabled>
+                                                        <input type="text" name="country-code" id="country-code" class="form-control subscription-input text-primary country-code bg-transparent" value="263" disabled>
                                                     </div>
                                                     <div class="phone-number col-8 col-md-9">
-                                                        <input type="text" class="form-control mobile-number" id="mobile-number" name="mobile-number" placeholder="Mobile Number" data-inputmask='"mask": "999999999"' required data-mask>
+                                                        <input type="text" class="form-control mobile-phone" id="mobile-phone" name="mobile-phone" placeholder="Mobile Number" data-inputmask='"mask": "999999999"' value="{{ Auth::user()->mobile_phone }}" required data-mask>
                                                     </div>
                                                 </div>
                                                 <span class="invalid-feedback">9 digit mobile no. required</span>
                                             </div>
-                                            <div class="form-group mb-1">
+                                            <div class="form-group mb-1 icon-form-group">
                                                 <label for="address" class="mb-0 text-sm font-600 text-faded">Address</label>
-                                                <input type="text" name="address" id="address" class="form-control text-capitalize font-500" required>
+                                                <i class="material-icons mr-1 labelled-icon text-faded">home</i>
+                                                <input type="text" name="address" id="address" class="form-control text-capitalize font-500" value="{{ Auth::user()->address }}" placeholder="Your Address" required>
                                                 <span class="invalid-feedback text-sm">Address required!</span>
                                             </div>
-                                            <div class="form-group mb-1">
+                                            <div class="form-group mb-1 icon-form-group">
                                                 <label for="city" class="mb-0 text-sm font-600 text-faded">City</label>
-                                                <input type="text" name="city" id="city" class="form-control text-capitalize font-500" required>
+                                                <i class="material-icons mr-1 labelled-icon text-faded">business</i>
+                                                <input type="text" name="city" id="city" class="form-control text-capitalize font-500" value="{{ Auth::user()->city }}" placeholder="City name" required>
                                                 <span class="invalid-feedback text-sm">Address required!</span>
                                             </div>
                                             <div class="form-group mb-1">
                                                 <label for="birthday" class="mb-0 text-sm font-600 text-faded">Birthday</label>
-                                                {{-- Birthday Picker here --}}
+                                                {!! birthdayPicker() !!}
                                                 <span class="invalid-feedback text-sm">Birthday required!</span>
                                             </div>
                                             <div class="form-group mt-2">
@@ -288,6 +344,7 @@
                                     <div class="box-shadow-sm rounded-0 p-2 mt-2">
                                         <h6 class="font-600 mt-1">Account Security</h6>
                                         <form method="post" id="change-password" class="needs-validation" novalidate>
+                                            @csrf
                                             <div class="form-group mb-0">
                                                 <label for="password" class="mb-0 text-muted text-sm font-600">Current Password</label>
                                                 <input type="password" class="form-control font-500" name="password" id="password" placeholder="Current Password" onblur="checkPassword(this)" required>
@@ -386,5 +443,12 @@
 <script>
     $(function(){
         userProfile();
+        var birth_date = {{ $birth_date }};
+        var birthday = ("0" + birth_date).slice(-2);
+        var birth_month = "{{ $birth_month }}";
+        var birth_year = {{ $birth_year }};
+        $('.birthday-date').val(birthday);
+        $('.birth-month').val(birth_month);
+        $('.birth-year').val(birth_year);
     });
 </script>

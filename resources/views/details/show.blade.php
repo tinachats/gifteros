@@ -189,7 +189,7 @@
                                                 <div class="d-block user-details">
                                                     <p class="font-500 text-capitalize my-0 py-0">{{ $review->name }}</p>
                                                     {{ verifiedPurchase($review->gift_id, $review->user_id)  }}
-                                                    {!! customerRating($review->id, $review->gift_id, $review->user_id) !!}
+                                                    {!! customerRating($review->rating_id, $review->gift_id, $review->user_id) !!}
                                                 </div>
                                             </div>
                                         </div>

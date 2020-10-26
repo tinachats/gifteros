@@ -39,6 +39,178 @@
         return $icon;
     }
 
+    // Get all 31 calendar dates
+    function birthday_dates(){
+        $output = '
+            <div class="icon-form-group birth-date">
+                <i class="material-icons text-faded icon">today</i>
+                <select type="text" name="birthday-date" class="custom-control form-control font-500 birthday-date" required>
+        ';
+        for($i = 1; $i < 32; $i++){
+            $output .= '
+                <option value="'.sprintf('%02d', $i).'">'.sprintf('%02d', $i).'</option>
+            ';
+        }
+        $output .= '
+                </select>
+            </div>
+        ';
+        return $output;
+    }
+
+    // Get all months
+    function birthday_months(){
+        $output = '
+            <select type="text" name="birth-month" class="custom-control form-control birth-month rounded-0 font-500" required>
+                <option value="january">01 | January</option>
+                <option value="february">02 | February</option>
+                <option value="march">03 | March</option>
+                <option value="april">04 | April</option>
+                <option value="may">05 | May</option>
+                <option value="june">06 | June</option>
+                <option value="july">07 | July</option>
+                <option value="august">08 | August</option>
+                <option value="september">09 | September</option>
+                <option value="october">10 | October</option>
+                <option value="november">11 | November</option>
+                <option value="december">12 | December</option>
+            </select>
+        ';
+        return $output;
+    }
+
+    // Get birthday years
+    function birthday_years(){
+        $output = '
+            <select type="text" name="birth-year" class="custom-control form-control birth-year font-500" required>
+        ';
+        $allowed_age = date('Y') - 16;
+        for($i = 1900; $i < $allowed_age; $i++){
+            $output .= '
+                <option value="'.$i.'">'.$i.'</option>
+            ';
+        }
+        $output .= '
+            </select>
+        ';
+        return $output;
+    }
+
+    // Birthday dropdown
+    function birthdayPicker(){
+        $output = '
+            <div class="birthday-dropdown d-flex align-items-center">
+                '. birthday_dates() .'
+                '. birthday_months() .'
+                '. birthday_years() .'
+            </div>
+            <span class="invalid-feedback text-sm">Birthday required!</span>
+        ';
+        return $output;
+    }
+
+    // Count number of times a recipient's cell appears in the recipients table
+    function recipientOrders($user_id, $recipients_cell){
+        $count = DB::table('recipients')
+                   ->where([
+                       'user_id'         => $user_id,
+                       'recipients_cell' => $recipients_cell
+                   ])
+                   ->count();
+        return $count;
+    }
+
+    // Recipient's full name
+    function recipientsName($recipients_cell){
+        $name = '';
+        $result = DB::table('recipients')
+                    ->select('recipients_name', 'recipients_surname')
+                    ->where('recipients_cell', $recipients_cell)
+                    ->get();
+        foreach($result as $row){
+            $name = $row->recipients_name . ' ' . $row->recipients_surname;
+        }
+        return $name;
+    }
+
+    // Recipient's address
+    function recipientsAddress($recipients_cell){
+        $address = DB::table('recipients')
+                    ->select('recipients_address')
+                    ->where('recipients_cell', $recipients_cell)
+                    ->value('recipients_address');
+        return $address;
+    }
+
+    // Recipient's city
+    function recipientsCity($recipients_cell){
+        $city = DB::table('recipients')
+                    ->select('recipients_city')
+                    ->where('recipients_cell', $recipients_cell)
+                    ->value('recipients_city');
+        return $city;
+    }
+
+    // Recipient's status
+    function recipientsStatus($recipients_cell){
+        $button = $name = $friend_id = '';
+        $result = DB::table('recipients')
+                    ->select('friend_id', 'recipients_name', 'recipients_surname')
+                    ->where('recipients_cell', $recipients_cell)
+                    ->get();
+        foreach($result as $row){
+            $name = $row->recipients_name . '.' . $row->recipients_surname;
+            $friend_id = $row->friend_id;
+        }
+
+        if (!empty($friend_id)){
+            $button = '
+                <a href="/recipient/'. strtolower($name) .'" class="btn btn-outline-primary btn-block btn-sm font-600 rounded-0">View Profile</a>
+            ';
+        } else {
+            $button = '
+                <a href="/invite/'. $recipients_cell .'" class="btn btn-outline-primary btn-block btn-sm font-600 rounded-0">Invite</a>
+            ';
+        }
+        return $button;
+    }
+
+    // Recipient's Profile Picture
+    function recipientsPic($recipients_cell){
+        $profile_pic = '';
+        $result = DB::table('recipients')
+                    ->join('users', 'mobile_phone', '=', 'recipients_cell')
+                    ->where('recipients_cell', $recipients_cell)
+                    ->distinct()
+                    ->get();
+        if(count($result) > 0){
+            foreach($result as $row){
+                $profile_pic = '/storage/users/' . $row->profile_pic;
+            }
+        } else {
+            $profile_pic = '/storage/users/user.png'; 
+        }
+        return $profile_pic;
+    }
+
+    // Recipient's Cover Image
+    function recipientsCoverImg($recipients_cell){
+        $cover_img = '';
+        $result = DB::table('recipients')
+                    ->join('users', 'mobile_phone', '=', 'recipients_cell')
+                    ->where('recipients_cell', $recipients_cell)
+                    ->distinct()
+                    ->get();
+        if(count($result) > 0){
+            foreach($result as $row){
+                $cover_img = '/storage/cover-page/' . $row->cover_page;
+            }
+        } else {
+            $cover_img = '/storage/cover-page/default-coverpage.png'; 
+        }
+        return $cover_img;
+    }
+
     // Gift Label 
     function giftLabel($gift_id){
         $gift_label = '';
@@ -90,9 +262,9 @@
         $rating = DB::table('gift_ratings')
                     ->select('customer_rating')
                     ->where([
-                        'id' => $rating_id,
-                        'gift_id' => $gift_id,
-                        'user_id' => $user_id
+                        'rating_id' => $rating_id,
+                        'gift_id'   => $gift_id,
+                        'user_id'   => $user_id
                     ])
                     ->value('customer_rating');
         $user_rating = round($rating);
@@ -682,10 +854,10 @@
     // Get total number of products bought by customer
     function totalBought($user_id){
         $total_products = DB::table('orders')
-                    ->join('ordered_gifts', 'ordered_gifts.order_id', '=', 'orders.id')
                     ->join('users', 'users.id', '=', 'orders.user_id')
+                    ->select('ordered_items')
                     ->where('orders.user_id', $user_id)
-                    ->sum('quantity');
+                    ->sum('ordered_items');
         return $total_products;
     }
 

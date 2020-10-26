@@ -43,6 +43,8 @@ Route::get('login/facebook/callback', [LoginController::class, 'handleProviderCa
 
 // User Actions
 Route::post('/profile_pic', [Users::class, 'profile_pic'])->name('profile_pic');
+Route::post('/cover_page', [Users::class, 'cover_page'])->name('cover_page');
+Route::post('/account/update', [Users::class, 'update_profile'])->name('update_profile');
 
 // Account Routes
 Route::get('/account/{name}', [AccountController::class, 'index'])->name('account');

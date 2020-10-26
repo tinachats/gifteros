@@ -177,7 +177,7 @@
         </div>
     </div>
     <!-- Products -->
-    <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="kitchenware">
+    <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="personal-care-gifts">
         <!-- All fetched products will show up here -->
         @for ($i = 0; $i < 4; $i++)
             <!-- Product Placeholder Card -->
@@ -287,7 +287,7 @@
         </div>
     </div>
     <!-- Products -->
-    <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="combos">
+    <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="combo-gifts">
         <!-- All fetched products will show up here -->
         @for ($i = 0; $i < 4; $i++)
             <!-- Product Placeholder Card -->
