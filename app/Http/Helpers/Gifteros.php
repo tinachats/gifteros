@@ -574,6 +574,47 @@
         return $output;
     }
 
+    // Count all gifts in the same category
+    function categoriesGifts($category_id){
+        $count = DB::table('gifts')
+                   ->select('category_id')
+                   ->where('category_id', $category_id)
+                   ->count();
+        return $count;
+    }
+
+    // Get the highest rated gift in the category
+    function maxRatedInCategory($category_id){
+        $max = DB::table('gift_ratings')
+                 ->join('gifts', 'gifts.id', '=', 'gift_ratings.gift_id')
+                 ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                 ->select('customer_rating')
+                 ->where('gifts.category_id', $category_id)
+                 ->max('customer_rating');
+        return $max;
+    }
+
+    // Get the lowest priced gift in the category
+    function minPricedInCategory($category_id){
+        $max = DB::table('gifts')
+                 ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                 ->select('usd_price')
+                 ->where('gifts.category_id', $category_id)
+                 ->min('usd_price');
+        return $max;
+    }
+
+    // Count category gifts sold
+    function soldCategoryGifts($category_id){
+        $count = DB::table('ordered_gifts')
+                    ->join('gifts', 'gifts.id', '=', 'ordered_gifts.gift_id')
+                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                    ->select('quantity')
+                    ->where('categories.id', $category_id)
+                    ->count();
+        return $count;
+    }
+
     // Get gift's category
     function categoryName($gift_id){
         $category_name = DB::table('gifts')

@@ -17,12 +17,18 @@ class Gifts extends Controller
     public function index()
     {
         $title = 'Gifteros | Find your perfect gift';
-        $showcase_gifts = DB::table('gifts')
-                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                            ->get();
+        $categories = DB::table('categories')
+                        ->join('gifts', 'gifts.category_id', '=', 'categories.id')
+                        ->select(
+                            'categories.id', 'category_name', 
+                            'image', 'category_slug'
+                        )
+                        ->orderBy('category_name', 'asc')
+                        ->distinct()
+                        ->get();
         $data = [
-            'showcase_gifts' => $showcase_gifts,
-            'title' => $title
+            'categories' => $categories,
+            'title'      => $title
         ];
         return view('index')->with($data);
     }

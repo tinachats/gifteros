@@ -9,7 +9,7 @@
     @csrf
     {{-- Showcase Products --}}
     @include('layouts.includes.showcase')
-    <div class="owl-carousel owl-theme carousel-autoplay showcase-gifts">
+    <div class="owl-carousel owl-theme carousel-autoplay" id="gift-categories">
         @yield('categories')
     </div>
 

@@ -2939,7 +2939,6 @@ a:hover,
 
 .product-price {
     font-weight: 600;
-    font-size: 1.2rem
 }
 
 .carousel-item {
@@ -3462,6 +3461,12 @@ a:hover,
     background-color: var(--cloud-grey);
 }
 
+.placeholder-relative-img {
+    height: 150px;
+    width: 100%;
+    background-color: var(--cloud-grey);
+}
+
 .cart-details-placeholder {
     display: flex;
     flex-direction: column;
@@ -3501,6 +3506,32 @@ a:hover,
 
 .placeholder-card {
     position: relative
+}
+
+.related-gift.placeholder-card {
+    height: 243.1px
+}
+
+.placeholder-title {
+    width: 80%;
+    height: 15px
+}
+
+.gift-count-placeholder {
+    height: 15px;
+    width: 50%;
+    top: -5px
+}
+
+.gift-rating-placeholder {
+    height: 15px;
+    width: 30%;
+    top: -5px
+}
+
+.price-range-placeholder {
+    height: 15px;
+    width: 70%;
 }
 
 .btn-group-placeholder {

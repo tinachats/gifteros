@@ -1,47 +1,52 @@
 @extends('welcome')
 
 @section('categories')
-    @foreach($showcase_gifts as $gift)
-        <?php
-            // Gift star rating
-            $star_rating = giftStarRating($gift->id);
-
-            $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
-            $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
-            $zwl_before = number_format(($gift->zwl_price + ($gift->zwl_price * 0.275)), 2);
-            $short_name = mb_strimwidth($gift->gift_name, 0, 15, '...');
-        ?>
+    @foreach($categories as $gift)
         <!-- Related Gift -->
         <div class="item w-100">
-            <a href="details/{{ $gift->slug }}/{{ $gift->id }}" class="stretched-link">
+            <a href="/category/{{ $gift->id }}/{{ $gift->category_slug }}" class="stretched-link">
                 <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
-                    <div class="gift-actions d-flex align-items-center justify-content-between w-100">
-                        {!!giftLabel($gift->id)!!}
-                    </div>
-                    <img src="/storage/gifts/{{ $gift->gift_image }}" height="150" class="card-img-top w-100 rounded-0">
+                    <img src="/storage/categories/{{ $gift->image }}" height="150" class="card-img-top w-100 rounded-0">
                     <div class="gift-content mx-1">
-                        <h6 class="my-0 py-0 text-capitalize font-600 text-primary">{{ mb_strimwidth($gift->gift_name, 0, 17, '...') }}</h6>
-                        <div class="d-inline-block lh-100">
-                            <h6 class="my-0 py-0 text-sm text-capitalize">{{ $gift->category_name }}</h6>
-                            <div class="d-flex align-items-center justify-content-around">
-                                {!!$star_rating!!}
+                        <h6 class="my-0 py-0 text-capitalize text-sm">{{ mb_strimwidth($gift->category_name, 0, 17, '...') }}</h6>
+                        <div class="d-inline-block w-100 lh-100">
+                            @if (categoriesGifts($gift->id) == 1)
+                                <h6 class="my-0 py-0 text-sm text-capitalize">1 gift</h6>
+                            @else
+                                <h6 class="my-0 py-0 text-sm text-capitalize">{{ categoriesGifts($gift->id) }} gifts</h6> 
+                            @endif
+                            <div class="d-flex align-items-center justify-content-between w-100">
+                                <div>
+                                    @if (maxRatedInCategory($gift->id) > 0)
+                                        <div class="d-flex align-items-center">
+                                            <span class="text-warning mr-1">&starf;</span>
+                                            <span class="text-sm text-muted">{{ number_format(maxRatedInCategory($gift->id), 1) }}</span>
+                                        </div>
+                                    @else 
+                                        <div class="d-flex align-items-center">
+                                            <span class="text-muted mr-1">&star;</span>
+                                            <span class="text-sm text-muted">0.0</span>
+                                        </div>
+                                    @endif
+                                </div>
+                                @if (soldCategoryGifts($gift->id) > 0)
+                                    <span class="text-sm text-muted mr-2">{{ soldCategoryGifts($gift->id) }} Sold</span> 
+                                @endif
                             </div>
                         </div>
                         <div class="usd-price">
                             <div class="d-flex align-items-center">
-                                <h6 class="text-brick-red font-600">US${{ number_format($gift->usd_price, 2) }}</h6>
-                                <h6 class="text-muted strikethrough font-600 ml-3">US${{ $usd_before }}</h6>
+                                <h6 class="text-sm">From US${{ number_format(minPricedInCategory($gift->id), 2) }}</h6>
                             </div>
                         </div>
                         <div class="zar-price d-none">
                             <div class="d-flex align-items-center">
-                                <h6 class="text-brick-red font-600">R{{ number_format($gift->zar_price, 2) }}</h6>
-                                <h6 class="text-muted strikethrough font-600 ml-3">R{{ $zar_before }}</h6>
+                                <h6 class="text-sm">From R{{ number_format(minPricedInCategory($gift->id) * 16.5, 2) }}</h6>
                             </div>
                         </div>
                         <div class="zwl-price d-none">
                             <div class="d-flex align-items-center">
-                                <h6 class="text-brick-red font-600">ZW${{ number_format($gift->zwl_price, 2) }}</h6>
+                                <h6 class="text-sm">From ZW${{ number_format(minPricedInCategory($gift->id) * 100, 2) }}</h6>
                             </div>
                         </div>
                     </div>
