@@ -344,7 +344,6 @@
                                     <div class="box-shadow-sm rounded-0 p-2 mt-2">
                                         <h6 class="font-600 mt-1">Account Security</h6>
                                         <form method="post" id="change-password" class="needs-validation" novalidate>
-                                            @csrf
                                             <div class="form-group mb-0">
                                                 <label for="password" class="mb-0 text-muted text-sm font-600">Current Password</label>
                                                 <input type="password" class="form-control font-500" name="password" id="password" placeholder="Current Password" onblur="checkPassword(this)" required>
@@ -440,15 +439,21 @@
 </div>
 <!-- /.Page Content -->
 @include('layouts.includes.footer')
+@if (!empty(Auth::user()->birthday))
+    <script>
+        $(function(){
+            var birth_date = {{ $birth_date }};
+            var birthday = ("0" + birth_date).slice(-2);
+            var birth_month = "{{ $birth_month }}";
+            var birth_year = {{ $birth_year }};
+            $('.birthday-date').val(birthday);
+            $('.birth-month').val(birth_month);
+            $('.birth-year').val(birth_year);
+        });
+    </script>
+@endif
 <script>
     $(function(){
         userProfile();
-        var birth_date = {{ $birth_date }};
-        var birthday = ("0" + birth_date).slice(-2);
-        var birth_month = "{{ $birth_month }}";
-        var birth_year = {{ $birth_year }};
-        $('.birthday-date').val(birthday);
-        $('.birth-month').val(birth_month);
-        $('.birth-year').val(birth_year);
     });
 </script>
