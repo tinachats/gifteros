@@ -14,6 +14,48 @@ class MailingList extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function index(Request $request)
+    {
+        DB::table('users')
+            ->where('id', Auth::user()->id)
+            ->update([
+                'newsletter' => 'subscribed'
+            ]);
+        $mobile_phone = $address = $birthday = $gender = '';
+        if(!empty(Auth::user()->mobile_phone)){
+            $mobile_phone = Auth::user()->mobile_phone;
+        } else {
+            $mobile_phone = '';
+        }
+        if(!empty(Auth::user()->address)){
+            $address = Auth::user()->address;
+        } else {
+            $address = '';
+        }
+        if(!empty(Auth::user()->birthday)){
+            $birthday = Auth::user()->birthday;
+        } else {
+            $birthday = '';
+        }
+        if(!empty(Auth::user()->gender)){
+            $gender = Auth::user()->gender;
+        } else {
+            $gender = '';
+        }
+        DB::table('mailing_list')
+            ->insert([
+                'name'         => Auth::user()->name,
+                'email'        => Auth::user()->email,
+                'mobile_phone' => $mobile_phone,
+                'address'      => $address,
+                'birthday'     => $birthday,
+                'gender'       => $gender,
+            ]);
+        return response()->json([
+            'message' => 'success'
+        ]);
+    }
+
     public function subscribe(Request $request)
     {
         if($request->ajax()){
@@ -70,6 +112,25 @@ class MailingList extends Controller
                             );
                     } 
                 }  
+                return response()->json([
+                    'message' => 'success'
+                ]);
+            }
+        }
+    }
+
+    public function unsubscribe(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action){
+                DB::table('mailing_list')
+                    ->where('email', Auth::user()->email)
+                    ->delete();
+                DB::table('users')
+                    ->where('email', Auth::user()->email)
+                    ->update([
+                        'newsletter' => 'unsubscribed'
+                    ]); 
                 return response()->json([
                     'message' => 'success'
                 ]);
