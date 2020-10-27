@@ -1,4 +1,4 @@
-        <!-- Main Sidebar -->
+       <!-- Main Sidebar -->
         @include('layouts.includes.sidebar')
         <!-- /.Main Sidebar -->
 
@@ -77,7 +77,7 @@
                 </div>
                 <div class="subscription-info text-center w-50 mx-5">
                     <div class="input-group">
-                        <input type="text" class="form-control" data-toggle="modal" placeholder="Your email address" aria-label="Your email address" aria-describedby="subscribe" href="#mailing-list">
+                        <input type="text" class="form-control" placeholder="Your email address" aria-label="Your email address" id="toggle-mailing-list">
                         <div class="input-group-append">
                             <span class="input-group-text text-dark text-uppercase" id="subscribe">subscribe</span>
                         </div>
@@ -375,12 +375,13 @@
                         </p>
                         <hr class="my py-0">
                         <form class="needs-validation" method="post" id="subscription-form" novalidate>
+                            @csrf
                             <div class="row">
                                 <div class="col-12 col-md-6">
                                     <div class="form-group subscription-fg">
                                         <label class="text-sm font-600 mb-0 text-faded" for="fullname">Full name</label>
                                         <i class="material-icons text-faded">person</i>
-                                        <input type="text" class="form-control subscription-input text-capitalize" id="fullname" name="fullname" placeholder="Your name" required spellcheck="false">
+                                        <input type="text" class="form-control subscription-input text-capitalize" id="fullname" name="fullname" value="{{ Auth::user()->name ?? '' }}" placeholder="Your name" required spellcheck="false">
                                         <span class="invalid-feedback">Please provide your name.</span>
                                     </div>
                                 </div>
@@ -388,7 +389,7 @@
                                     <div class="form-group subscription-fg">
                                         <label class="text-sm font-600 mb-0 text-faded" for="email-address">Email address</label>
                                         <i class="material-icons text-faded">email</i>
-                                        <input type="email" class="form-control subscription-input" id="email-address" name="email-address" placeholder="name@example.com" required spellcheck="false">
+                                        <input type="email" class="form-control subscription-input" id="email-address" name="email-address" value="{{ Auth::user()->email ?? '' }}" placeholder="name@example.com" required spellcheck="false">
                                         <span class="invalid-feedback">Please provide your email.</span>
                                     </div>
                                 </div>
@@ -403,7 +404,7 @@
                                                 <input type="text" name="country-code" id="country-code" class="form-control subscription-input text-primary country-code bg-transparent" value="263" disabled>
                                             </div>
                                             <div class="phone-number col-8 col-md-9">
-                                                <input type="text" class="form-control mobile-number" id="mobile-number" name="mobile-number" placeholder="Mobile Number" data-inputmask='"mask": "999999999"' value="{{ Auth::user()->mobile_phone }}" required data-mask>
+                                                <input type="text" class="form-control mobile-number" id="mobile-number" name="mobile-number" placeholder="Mobile Number" data-inputmask='"mask": "999999999"' value="{{ Auth::user()->mobile_phone ?? '' }}" required data-mask>
                                             </div>
                                         </div>
                                         <span class="invalid-feedback">9 digit mobile no. required</span>
@@ -413,7 +414,7 @@
                                     <div class="form-group subscription-fg">
                                         <label class="text-sm font-600 mb-0 text-faded" for="customer-location">Location</label>
                                         <i class="material-icons text-faded">person_pin_circle</i>
-                                        <input type="text" class="form-control text-capitalize subscription-input" id="customer-location" name="customer-location" placeholder="Your location" required>
+                                        <input type="text" class="form-control text-capitalize subscription-input" id="customer-location" name="customer-location" placeholder="123 First St, Warren Hills, Harare" value="{{ Auth::user()->address ?? '' }}" required>
                                         <span class="invalid-feedback">Please provide your location.</span>
                                     </div>
                                 </div>
@@ -422,7 +423,8 @@
                                 <div class="col-12 col-md-6">
                                     <div class="form-group">
                                         <label for="birthday" class="mb-0 text-sm font-600 text-faded">Birthday</label>
-                                        {{-- Show birthday picker here --}}
+                                        {!! birthdayPicker() !!}
+                                        <span class="invalid-feedback text-sm">Birthday required!</span>
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6">
@@ -459,6 +461,41 @@
             </div>
         </div>
         <!-- /.Mailing List -->
+
+        <!-- Subscribe Newsletter -->
+        <div class="modal fade rounded-0" id="subscribed-modal" tabindex="-1" role="dialog" aria-labelledby="subscribed-modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content box-shadow-sm">
+                    <div class="modal-body">
+                        <div class="d-flex align-items-center">
+                            <a href="#" class="navbar-brand font-700">
+                                <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" width="35" alt=""> {{ config('app.name') }}
+                            </a>
+                        </div>
+                        <h5 class="lead my-2">You're part of our newsletter!</h5>
+                        <p class="text-sm text-justify">
+                            You subscribed to our mailing list to receive latest news, offers and product launches based on your location. 
+                            @auth
+                            You can unsubscribe at any time by visiting the preference settings in your account settings page. 
+                            @endauth
+                            @guest
+                                You can unsubscribe at any time by visiting the preference settings once you've an account setup with us. 
+                            @endguest
+                        </p>
+                        <div class="row justify-content-center my-1">
+                            <button class="btn btn-primary btn-sm rounded-pill px-3" data-dismiss="modal">Close</button>
+                            @auth
+                                <a href="/account/{{ username() }}" class="btn btn-link d-flex align-items-center ml-2">
+                                    Go to Account Settings 
+                                    <i class="material-icons ml-1">arrow_forward</i>
+                                </a>
+                            @endauth
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Subscribe Newsletter -->
 
         <!-- Greeting Card Modal -->
         @auth

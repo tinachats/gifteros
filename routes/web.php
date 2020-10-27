@@ -9,6 +9,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Wishlist;
 use App\Http\Controllers\Users;
+use App\Http\Controllers\MailingList;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +52,11 @@ Route::post('/account/change_password', [Users::class, 'change_password'])->name
 // Account Routes
 Route::get('/account/{name}', [AccountController::class, 'index'])->name('account');
 Route::post('/account/data', [AccountController::class, 'profile'])->name('profile');
+
+// Mailing list
+Route::post('/maiing_list', [MailingList::class, 'index'])->name('mailing_list');
+Route::post('/subscribe', [MailingList::class, 'subscribe'])->name('subscribe');
+Route::post('/unsubscribe', [MailingList::class, 'unsubscribe'])->name('unsubscribe');
 
 // Blog Routes
 Route::resource('blog', 'App\Http\Controllers\BlogPostController');
