@@ -45,7 +45,6 @@ class Wishlist extends Controller
                 $wishlist = DB::table('wishlist')
                         ->join('gifts', 'gifts.id', '=', 'wishlist.gift_id')
                         ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                        ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                         ->join('users', 'users.id', '=', 'wishlist.user_id')
                         ->where('users.id', Auth::user()->id)
                         ->orderBy('usd_price', 'asc')
