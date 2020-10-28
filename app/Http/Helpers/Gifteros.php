@@ -521,7 +521,7 @@
             ';
         } else {
             $wishlist_icon = '
-                <span role="button" class="material-icons overlay-icon wishlist-icon" data-id="'.$gift_id.'" data-user="'.$user_id.'" data-action="unwish" title="Add to Wishlist">favorite_border</span>
+                <span role="button" class="material-icons overlay-icon wishlist-icon" data-id="'.$gift_id.'" data-user="'.$user_id.'" data-action="wish" title="Add to Wishlist">favorite_border</span>
             ';
         }
         return $wishlist_icon;

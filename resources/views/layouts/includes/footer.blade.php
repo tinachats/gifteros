@@ -1122,8 +1122,7 @@
         <!-- Show the user login dropdown sign in form if user has been redirected -->
         @auth
             <script>
-                // wishlist();
-                // notifications();
+                userInfo();
             </script>
         @endauth
         <!-- <div class="elfsight-app-019c0e60-b4a1-4b1f-bd14-04f718ab31e9"></div> -->

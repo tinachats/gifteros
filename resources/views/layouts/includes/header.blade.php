@@ -595,7 +595,7 @@
                             <li class="nav-item dropdown ml-3" title="View your Wishlist">
                                 <a href="{{ route('wishlist') }}" class="nav-link icon-link wishlist">
                                     <i class="material-icons">favorite_border</i>
-                                    <span class="badge nav-badge" id="count-wishlist">{{ $count_wishlist ?? '' }}</span>
+                                    <span class="badge nav-badge" id="count-wishlist"></span>
                                 </a>
                             </li>
                             <!-- /.Wishlist -->

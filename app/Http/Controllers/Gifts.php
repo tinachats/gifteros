@@ -80,7 +80,11 @@ class Gifts extends Controller
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center">
                                             <img role="button" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" alt="'. $gift->gift_name .'" class="rounded-circle">
                                         </a>
-                                        <div class="d-flex align-items-center ml-auto" title="Add to Wishlist">
+                                        <div class="d-flex align-items-center ml-auto mr-2" title="'. giftsSold($gift->id) .' gift(s) sold">
+                                            <span role="button" class="material-icons overlay-icon">add_shopping_cart</span>
+                                            <small class="text-light d-list-grid">'. giftsSold($gift->id) .'</small>
+                                        </div>
+                                        <div class="d-flex align-items-center" title="Add to Wishlist">
                                             '. $wishlist_icon .'
                                             <small class="text-light d-list-grid">'. totalWishes($gift->id) .'</small>
                                         </div>
@@ -201,12 +205,16 @@ class Gifts extends Controller
                                 <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top rounded-0">
                                 </a>
-                                <div class="overlay py-1 px-2">
+                                 <div class="overlay py-1 px-2">
                                     <div class="d-flex align-items-center">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center">
                                             <img role="button" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" alt="'. $gift->gift_name .'" class="rounded-circle">
                                         </a>
-                                        <div class="d-flex align-items-center ml-auto" title="Add to Wishlist">
+                                        <div class="d-flex align-items-center ml-auto mr-2" title="'. giftsSold($gift->id) .' gift(s) sold">
+                                            <span role="button" class="material-icons overlay-icon">add_shopping_cart</span>
+                                            <small class="text-light d-list-grid">'. giftsSold($gift->id) .'</small>
+                                        </div>
+                                        <div class="d-flex align-items-center" title="Add to Wishlist">
                                             '. $wishlist_icon .'
                                             <small class="text-light d-list-grid">'. totalWishes($gift->id) .'</small>
                                         </div>
@@ -327,12 +335,16 @@ class Gifts extends Controller
                                 <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top rounded-0">
                                 </a>
-                                <div class="overlay py-1 px-2">
+                                 <div class="overlay py-1 px-2">
                                     <div class="d-flex align-items-center">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center">
                                             <img role="button" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" alt="'. $gift->gift_name .'" class="rounded-circle">
                                         </a>
-                                        <div class="d-flex align-items-center ml-auto" title="Add to Wishlist">
+                                        <div class="d-flex align-items-center ml-auto mr-2" title="'. giftsSold($gift->id) .' gift(s) sold">
+                                            <span role="button" class="material-icons overlay-icon">add_shopping_cart</span>
+                                            <small class="text-light d-list-grid">'. giftsSold($gift->id) .'</small>
+                                        </div>
+                                        <div class="d-flex align-items-center" title="Add to Wishlist">
                                             '. $wishlist_icon .'
                                             <small class="text-light d-list-grid">'. totalWishes($gift->id) .'</small>
                                         </div>
@@ -453,12 +465,16 @@ class Gifts extends Controller
                                 <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top rounded-0">
                                 </a>
-                                <div class="overlay py-1 px-2">
+                                 <div class="overlay py-1 px-2">
                                     <div class="d-flex align-items-center">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center">
                                             <img role="button" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" alt="'. $gift->gift_name .'" class="rounded-circle">
                                         </a>
-                                        <div class="d-flex align-items-center ml-auto" title="Add to Wishlist">
+                                        <div class="d-flex align-items-center ml-auto mr-2" title="'. giftsSold($gift->id) .' gift(s) sold">
+                                            <span role="button" class="material-icons overlay-icon">add_shopping_cart</span>
+                                            <small class="text-light d-list-grid">'. giftsSold($gift->id) .'</small>
+                                        </div>
+                                        <div class="d-flex align-items-center" title="Add to Wishlist">
                                             '. $wishlist_icon .'
                                             <small class="text-light d-list-grid">'. totalWishes($gift->id) .'</small>
                                         </div>
@@ -579,12 +595,16 @@ class Gifts extends Controller
                                 <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top rounded-0">
                                 </a>
-                                <div class="overlay py-1 px-2">
+                                 <div class="overlay py-1 px-2">
                                     <div class="d-flex align-items-center">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center">
                                             <img role="button" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" alt="'. $gift->gift_name .'" class="rounded-circle">
                                         </a>
-                                        <div class="d-flex align-items-center ml-auto" title="Add to Wishlist">
+                                        <div class="d-flex align-items-center ml-auto mr-2" title="'. giftsSold($gift->id) .' gift(s) sold">
+                                            <span role="button" class="material-icons overlay-icon">add_shopping_cart</span>
+                                            <small class="text-light d-list-grid">'. giftsSold($gift->id) .'</small>
+                                        </div>
+                                        <div class="d-flex align-items-center" title="Add to Wishlist">
                                             '. $wishlist_icon .'
                                             <small class="text-light d-list-grid">'. totalWishes($gift->id) .'</small>
                                         </div>
@@ -705,12 +725,16 @@ class Gifts extends Controller
                                 <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top rounded-0">
                                 </a>
-                                <div class="overlay py-1 px-2">
+                                 <div class="overlay py-1 px-2">
                                     <div class="d-flex align-items-center">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center">
                                             <img role="button" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" alt="'. $gift->gift_name .'" class="rounded-circle">
                                         </a>
-                                        <div class="d-flex align-items-center ml-auto" title="Add to Wishlist">
+                                        <div class="d-flex align-items-center ml-auto mr-2" title="'. giftsSold($gift->id) .' gift(s) sold">
+                                            <span role="button" class="material-icons overlay-icon">add_shopping_cart</span>
+                                            <small class="text-light d-list-grid">'. giftsSold($gift->id) .'</small>
+                                        </div>
+                                        <div class="d-flex align-items-center" title="Add to Wishlist">
                                             '. $wishlist_icon .'
                                             <small class="text-light d-list-grid">'. totalWishes($gift->id) .'</small>
                                         </div>

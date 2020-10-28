@@ -439,19 +439,6 @@
 </div>
 <!-- /.Page Content -->
 @include('layouts.includes.footer')
-@if (!empty(Auth::user()->birthday))
-    <script>
-        $(function(){
-            var birth_date = {{ $birth_date }};
-            var birthday = ("0" + birth_date).slice(-2);
-            var birth_month = "{{ $birth_month }}";
-            var birth_year = {{ $birth_year }};
-            $('.birthday-date').val(birthday);
-            $('.birth-month').val(birth_month);
-            $('.birth-year').val(birth_year);
-        });
-    </script>
-@endif
 <script>
     $(function(){
         userProfile();

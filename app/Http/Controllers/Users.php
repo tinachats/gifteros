@@ -15,6 +15,7 @@ class Users extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    // Change profile picture
     public function profile_pic(Request $request)
     {
         if($request->ajax()){
@@ -49,6 +50,7 @@ class Users extends Controller
 
     }
 
+    // Change cover page
     public function cover_page(Request $request)
     {
         if($request->ajax()){
@@ -83,6 +85,7 @@ class Users extends Controller
 
     }
     
+    // Change account info
     public function update_profile(Request $request)
     {
         if($request->ajax()){
@@ -104,6 +107,7 @@ class Users extends Controller
         }
     }
 
+    // Check if password entered is same as one in storage
     public function check_password(Request $request)
     {
         if($request->ajax()){
@@ -125,6 +129,7 @@ class Users extends Controller
         }
     }
 
+    // Change user's acccount password
     public function change_password(Request $request)
     {
         if($request->ajax()){
@@ -144,6 +149,66 @@ class Users extends Controller
                         'message' => 'error'
                     ]);
                 }
+            }
+        }
+    }
+
+    // Fetch user's info
+    public function user_info(Request $request){
+        if($request->ajax()){
+            if($request->action == 'user-info'){
+                $count_wishlist = DB::table('wishlist')
+                                    ->where('user_id', Auth::user()->id)
+                                    ->count();
+                if(!empty(Auth::user()->birthday)){
+                    $birthday = explode('/', Auth::user()->birthday);
+                    $birth_year = $birthday[0];
+                    $birth_month = $birthday[1];
+                    $birth_date = $birthday[2];
+                } else {
+                    $birth_year = 1900;
+                    $birth_month = 'january';
+                    $birth_date = 01;
+                }
+                return response()->json([
+                    'count_wishlist' => $count_wishlist,
+                    'birth_date' => $birth_date,
+                    'birth_month'=> $birth_month,
+                    'birth_year' => $birth_year
+                ]);
+            }
+        }
+    }
+
+    // Add gift item to wishlist
+    public function wish(Request $request){
+        if($request->ajax()){
+            if($request->action == 'wish'){
+                $data = [
+                    'gift_id' => $request->post('gift_id'),
+                    'user_id' => $request->post('user_id')
+                ];
+                DB::table('wishlist')->insert($data);
+                return response()->json([
+                    'message' => 'Gift item added to your Wishlist'
+                ]);
+            }
+        }
+    }
+
+    // Remove gift item from wishlist
+    public function unwish(Request $request){
+        if($request->ajax()){
+            if($request->action == 'unwish'){
+                DB::table('wishlist')
+                    ->where([
+                        'gift_id' => $request->post('gift_id'),
+                        'user_id' => $request->post('user_id')
+                    ])
+                    ->delete();
+                return response()->json([
+                    'message' => 'Gift item removed from your Wishlist'
+                ]);
             }
         }
     }
