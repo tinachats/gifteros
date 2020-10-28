@@ -8,7 +8,8 @@
             <i role="button" class="material-icons view-option list-icon mx-3" data-view="list-view" title="List view">view_list</i>
         </div>
     </div>
-    <div class="d-grid grid-view grid-p-1 products-shelf products-preloader mt-3" id="all-gifts"></div>
+    <div class="d-grid grid-view grid-p-1 products-shelf mt-3" id="all-gifts"></div>
+    <div class="d-grid grid-view grid-p-1 products-shelf products-preloader"></div>
 </div>
 <!-- /.Page Content -->
 @include('includes.prooducts-footer')
