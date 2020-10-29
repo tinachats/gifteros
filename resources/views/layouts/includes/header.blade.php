@@ -73,7 +73,7 @@
             <!-- Header -->
             <header class="header fixed-top" id="header">
                 <!-- Navbar -->
-                <nav class="nav navbar-expand-md main-nav box-shadow-sm py-0 px-md-5">
+                <nav class="nav navbar-expand-md main-nav box-shadow-sm py-0 px-md-1">
                     <span role="button" class="material-icons menu-btn" title="Toggle Sidebar">menu</span>
                     <a href="/" class="navbar-brand font-700 ml-2">
                         <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" class="targets-logo" width="35" alt=""> 

@@ -49,6 +49,7 @@ class Gifts extends Controller
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'categories.category_name')
                                     ->where('label', 'customizable')
+                                    ->inRandomOrder()
                                     ->take(4)
                                     ->get();
                 foreach($customizables as $gift){
@@ -109,7 +110,7 @@ class Gifts extends Controller
                                         '. $star_rating .'
                                     </div>
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
-                                        '. mb_strimwidth($gift->description, 0, 70, '...') .'
+                                        '. mb_strimwidth($gift->description, 0, 60, '...') .'
                                     </p>
                                     <input value="'. $gift->id .'" id="product_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -178,7 +179,7 @@ class Gifts extends Controller
                                 ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                 ->select('gifts.*', 'categories.category_name')
                                 ->where('category_id', 9)
-                                ->orderBy('usd_price', 'asc')
+                                ->inRandomOrder()
                                 ->take(4)
                                 ->get();
                 foreach($kitchenware as $gift){
@@ -239,7 +240,7 @@ class Gifts extends Controller
                                         '. $star_rating .'
                                     </div>
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
-                                        '. mb_strimwidth($gift->description, 0, 70, '...') .'
+                                        '. mb_strimwidth($gift->description, 0, 60, '...') .'
                                     </p>
                                     <input value="'. $gift->id .'" id="product_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -308,7 +309,7 @@ class Gifts extends Controller
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'categories.category_name')
                                     ->where('category_id', 12)
-                                    ->orderBy('usd_price', 'asc')
+                                    ->inRandomOrder()
                                     ->take(4)
                                     ->get();
                 foreach($personal_care as $gift){
@@ -369,7 +370,7 @@ class Gifts extends Controller
                                         '. $star_rating .'
                                     </div>
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
-                                        '. mb_strimwidth($gift->description, 0, 70, '...') .'
+                                        '. mb_strimwidth($gift->description, 0, 60, '...') .'
                                     </p>
                                     <input value="'. $gift->id .'" id="product_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -438,7 +439,7 @@ class Gifts extends Controller
                                 ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                 ->select('gifts.*', 'categories.category_name')
                                 ->where('category_id', 21)
-                                ->orderBy('usd_price', 'asc')
+                                ->inRandomOrder()
                                 ->take(4)
                                 ->get();
                 foreach($plasticware as $gift){
@@ -499,7 +500,7 @@ class Gifts extends Controller
                                         '. $star_rating .'
                                     </div>
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
-                                        '. mb_strimwidth($gift->description, 0, 70, '...') .'
+                                        '. mb_strimwidth($gift->description, 0, 60, '...') .'
                                     </p>
                                     <input value="'. $gift->id .'" id="product_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -568,7 +569,7 @@ class Gifts extends Controller
                                 ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                 ->select('gifts.*', 'categories.category_name')
                                 ->where('category_id', 34)
-                                ->orderBy('usd_price', 'asc')
+                                ->inRandomOrder()
                                 ->take(4)
                                 ->get();
                 foreach($combo_gifts as $gift){
@@ -629,7 +630,7 @@ class Gifts extends Controller
                                         '. $star_rating .'
                                     </div>
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
-                                        '. mb_strimwidth($gift->description, 0, 70, '...') .'
+                                        '. mb_strimwidth($gift->description, 0, 60, '...') .'
                                     </p>
                                     <input value="'. $gift->id .'" id="product_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -698,7 +699,7 @@ class Gifts extends Controller
                                 ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                 ->select('gifts.*', 'categories.category_name')
                                 ->where('category_id', 8)
-                                ->orderBy('usd_price', 'asc')
+                                ->inRandomOrder()
                                 ->take(4)
                                 ->get();
                 foreach($appliances as $gift){
@@ -759,7 +760,7 @@ class Gifts extends Controller
                                         '. $star_rating .'
                                     </div>
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
-                                        '. mb_strimwidth($gift->description, 0, 70, '...') .'
+                                        '. mb_strimwidth($gift->description, 0, 60, '...') .'
                                     </p>
                                     <input value="'. $gift->id .'" id="product_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -932,19 +933,20 @@ class Gifts extends Controller
      * @param int $category_id
      * @return \Illuminate\Http\Response
      */
-    public function category($category_id, $category){
+    public function category($category_id, $category)
+    {
         $gifts = DB::table('gifts')
                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                    ->join('sub_categories', 'sub_categories.id', '=', 'sub_category_id')
+                    ->select('gifts.*', 'gifts.id as gift_id', 'categories.*')
                     ->where('category_name', $category)
                     ->orderBy('usd_price', 'asc')
                     ->get();
         $sub_categories = DB::table('sub_categories')
-                          ->distinct()
-                          ->where('category_id', $category_id)
-                          ->get();
+                            ->where('category_id', $category_id)
+                            ->distinct()
+                            ->get();
         $data = [
-            'title' => strtoupper($category .' Gifts'),
+            'title' => ucfirst($category .' Gifts'),
             'gifts' => $gifts,
             'sub_categories' => $sub_categories
         ];

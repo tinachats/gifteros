@@ -638,6 +638,7 @@
         $relatives = DB::table('gifts')
                         ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                         ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                        ->select('gifts.*', 'categories.*', 'sub_categories.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug')
                         ->where([
                             ['gifts.id', '!=', $gift_id],
                             ['gifts.category_id', '=', $category_id]
@@ -659,7 +660,7 @@
                 $output .= '
                     <!-- Related Gift -->
                     <div class="item w-100">
-                        <a href="'.route('details.show', [$gift->slug, $gift->id]).'" class="stretched-link">
+                        <a href="'.route('details.show', [$gift->gift_slug, $gift->gift_id]).'" class="stretched-link">
                             <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
                                 <img src="/storage/gifts/'.$gift->gift_image.'" height="150" class="card-img-top w-100 rounded-0">
                                 <div class="gift-content mx-1">

@@ -27,7 +27,10 @@ Route::get('/', [Gifts::class, 'index'])->name('index');
 Route::post('/showcase', [Gifts::class, 'showcase'])->name('showcase');
 Route::get('/details/{slug}/{id}', [Gifts::class, 'show'])->name('details.show');
 Route::get('/search', [Search::class, 'fetch'])->name('search.fetch');
-Route::get('/category/{category_id}/{category}', [Gifts::class, 'category'])->name('category');
+
+// Category Gifts
+Route::get('/category/{category_id}/{category}', [Categories::class, 'index'])->name('index');
+Route::post('/category/gifts', [Categories::class, 'gifts'])->name('category_gifts');
 
 // Cart Routes
 Route::post('/', [CartController::class, 'store'])->name('purchase');

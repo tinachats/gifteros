@@ -31,7 +31,7 @@ class AccountController extends Controller
         $birth_date = $birth_month = $birth_year = '';
         Auth::user()->id = auth()->user()->id;
         $user = User::find(Auth::user()->id);
-        $title = strtoupper($user->name);
+        $title = ucfirst($user->name);
         $recipients = DB::select('select distinct recipients_cell, count(*) as recipient from recipients where user_id = :user_id group by recipients_cell', ['user_id' => Auth::user()->id]);
         $data = [
             'title'      => $title,

@@ -17,12 +17,14 @@ class Search extends Controller
         //  
     }
 
-    public function fetch(Request $request){
+    public function fetch(Request $request)
+    {
         if($request->ajax()){
             $output = '';
             $query = $request->get('search');
             $results = DB::table('gifts')
                          ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                         ->select('gifts.*', 'gifts.id as gift_id', 'categories.*')
                          ->where('gift_name', 'like', '%'.$query.'%')
                          ->orderBy('usd_price', 'asc')
                          ->take(5)
@@ -38,13 +40,13 @@ class Search extends Controller
                         <!-- Search result -->
                         <li class="list-group-item rounded-0 lh-100 px-1 py-2">
                             <div class="d-flex justify-content-between align-items-start">
-                                <a href="'.route('details.show', [$gift->slug, $gift->id]).'">
+                                <a href="'.route('details.show', [$gift->slug, $gift->gift_id]).'">
                                     <div class="media">
                                         <img src="/storage/gifts/'.$gift->gift_image.'" height="55" width="55" alt="" class="rounded-2 align-self-center mr-2">
                                         <div class="media-body">
                                             <p class="text-sm font-600 text-capitalize my-0 py-0">'.mb_strimwidth($gift->gift_name, 0, 30, '...').'</p>
                                             <p class="text-sm font-weight-light text-lowercase text-faded my-0 py-0">'.$gift->category_name.'</p>
-                                            '.giftStarRating($gift->id).'
+                                            '.giftStarRating($gift->gift_id).'
                                             <p class="text-sm font-500 text-capitalize text-faded my-0 py-0 d-flex">
                                                 <span class="border-right pr-2">Only '.$gift->units.' left</span>
                                                 <span class="pl-2 text-capitalize">'.$gift->label.'</span>

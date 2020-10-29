@@ -14,33 +14,33 @@
                 <i class="fa fa-sliders mr-1 text-faded"></i>
                 Filter Options
             </h6>
-            <h6 class="font-600 text-faded d-none d-md-block">
-                FILTER <span class="text-faded text-capitalize">{{ $title }}</span>
+            <h6 class="text-faded d-none d-md-block">
+                Filter <span class="text-faded text-capitalize">{{ $title }}</span>
             </h6>
             <div class="d-none d-md-block mt-md-1">
                 <h6 class="text-sm text-capitalize">Refine by Price</h6>
                 <ul class="price-filters">
-                    <li class="text-sm text-capitalize mb-2 ml-2">
+                    <li class="text-sm text-capitalize mb-2 ml-2 price-filter" id="under-25">
                         <a href="" class="usd-price font-600">Under $25</a>
-                        <a href="" class="zar-price d-none font-600">Under R412.5</a>
+                        <a href="" class="zar-price d-none font-600">Under R412.50</a>
                         <a href="" class="zwl-price d-none font-600">Under ZW$2500</a>
                     </li>
-                    <li class="text-sm text-capitalize mb-2 ml-2">
+                    <li class="text-sm text-capitalize mb-2 ml-2 price-filter" id="5-to-20">
                         <a href="" class="usd-price font-600">US$5 to US$20</a>
-                        <a href="" class="zar-price font-600">R82.5 to R330</a>
-                        <a href="" class="zwl-price font-600">US$500 to US$2000</a>
+                        <a href="" class="zar-price font-600">R82.50 to R330</a>
+                        <a href="" class="zwl-price font-600">ZW$500 to ZW$2000</a>
                     </li>
-                    <li class="text-sm text-capitalize mb-2 ml-2">
+                    <li class="text-sm text-capitalize mb-2 ml-2 price-filter" id="20-to-50">
                         <a href="" class="usd-price font-600">US$20 to US$50</a>
                         <a href="" class="zar-price d-none font-600">R330 to R825</a>
                         <a href="" class="zwl-price d-none font-600">ZW$2000 to ZW$5000</a>
                     </li>
-                    <li class="text-sm text-capitalize mb-2 ml-2">
+                    <li class="text-sm text-capitalize mb-2 ml-2 price-filter" id="50-to-100">
                         <a href="" class="usd-price d-none font-600">US$50 to US$100</a>
                         <a href="" class="zar-price d-none font-600">R825 to R1,650</a>
                         <a href="" class="zwl-price d-none font-600">ZW$5000 to ZW$10000</a>
                     </li>
-                    <li class="text-sm text-capitalize mb-2 ml-2">
+                    <li class="text-sm text-capitalize mb-2 ml-2 price-filter" id="above-100">
                         <a href="" class="usd-price d-none font-600">US$100 and Above</a>
                         <a href="" class="zar-price d-none font-600">R1,650 and Above</a>
                         <a href="" class="zwl-price d-none font-600">ZW$10000 and Above</a>
@@ -68,7 +68,7 @@
                 <hr>
                 <h6 class="text-sm text-capitalize">Average customer ratings</h6>
                 <a href="#" class="customer-rated-value" id="above-4-rating">
-                    <ul class="list-inline align-items-center container star-rating">
+                    <ul class="list-inline align-items-center container star-rating mb-0 pb-0">
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
@@ -78,7 +78,7 @@
                     </ul>
                 </a>
                 <a href="#" class="customer-rated-value" id="above-3-rating">
-                    <ul class="list-inline align-items-center container star-rating">
+                    <ul class="list-inline align-items-center container star-rating mb-0 pb-0">
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
@@ -88,7 +88,7 @@
                     </ul>
                 </a>
                 <a href="#" class="customer-rated-value" id="above-2-rating">
-                    <ul class="list-inline align-items-center container star-rating">
+                    <ul class="list-inline align-items-center container star-rating mb-0 pb-0">
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
@@ -98,7 +98,7 @@
                     </ul>
                 </a>
                 <a href="#" class="customer-rated-value" id="above-1-rating">
-                    <ul class="list-inline align-items-center container star-rating" class="customer-rated-value" id="above-1-rating">
+                    <ul class="list-inline align-items-center container star-rating mb-0 pb-0" class="customer-rated-value" id="above-1-rating">
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
@@ -167,7 +167,7 @@
                         <!-- Category Item -->
                         <div class="item">
                             <!-- Category Chip -->
-                            <a role="button" href="">
+                            <a role="button" href="#">
                                 <div class="category-chip rounded-pill">
                                     <img src="/storage/sub-categories/{{ $sub_category->image }}" class="img-circle rounded-circle mr-2" width="40" height="40" alt="">
                                     <span class="text-lowercase text-faded">{{ mb_strimwidth($sub_category->name, 0, 10, '...') }}
