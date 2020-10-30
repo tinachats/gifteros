@@ -46,15 +46,12 @@ class Categories extends Controller
                 $sub_category_id = $request->sub_category_id;
 
                 // Filter gifts by their sub-category
-                if(!empty($sub_category_id)){
+                if($request->sub_category_id != ''){
                     $result = DB::table('gifts')
                                 ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                 ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                 ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                ->where([
-                                    'gifts.category_id' => $request->category_id,
-                                    'sub_category_id'   => $sub_category_id
-                                ])
+                                ->where('gifts.sub_category_id', $request->sub_category_id)
                                 ->orderBy('usd_price', 'asc')
                                 ->distinct()
                                 ->get();

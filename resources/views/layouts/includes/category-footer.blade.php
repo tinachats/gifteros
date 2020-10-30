@@ -111,6 +111,7 @@
         // Filter gifts by their sub-category
         $(document).on('click', '.sub-category-filter', function(e){
             e.preventDefault();
+            e.stopPropagation();
             $('.customer-rated-value').removeClass('active');
             $('.price-filter').removeClass('active');
             $('.sub-category-filter').not(this).removeClass('active');

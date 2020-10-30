@@ -66,7 +66,7 @@
                 </div>
             </div>
             <div class="floating-action toggle-actions bg-primary" title="Click to toggle actions">
-                <i class="material-icons m-auto">add</i>
+                <i class="material-icons m-auto text-white">add</i>
             </div>
             <!-- /.Floating Action Buttons -->
 
