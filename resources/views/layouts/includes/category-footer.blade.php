@@ -117,6 +117,7 @@
             $(this).addClass('active');
             var sub_category_id = $(this).data('id');
             categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating);
+            userCurrency();
         });
 
         // Fetch all gifts

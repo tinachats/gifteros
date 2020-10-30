@@ -66,7 +66,7 @@
                 </div>
             </div>
             <div class="floating-action toggle-actions bg-primary" title="Click to toggle actions">
-                <img src="{{ asset('img/app/gear.svg') }}" alt="" class="img-fluid m-auto">
+                <i class="material-icons m-auto">add</i>
             </div>
             <!-- /.Floating Action Buttons -->
 
@@ -673,7 +673,7 @@
                         @endauth
 
                         <li class="nav-item d-md-flex" id="app-settings" title="See more settings">
-                            <a class="toggle-settings nav-link material-icons">more_horiz</a>
+                            <a class="toggle-settings nav-link material-icons">settings</a>
                         </li>
                     </ul>
                 </nav>

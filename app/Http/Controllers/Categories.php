@@ -360,9 +360,9 @@ class Categories extends Controller
                     ';
                 }
                 if($count == 1){
-                    $gift_count = '1 gift item found';
+                    $gift_count = '1 gift item in stock';
                 } else {
-                    $gift_count = $count . ' gift items found';
+                    $gift_count = $count . ' gift items in stock';
                 }
                 return response()->json([
                     'gifts'      => $output,

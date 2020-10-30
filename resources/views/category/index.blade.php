@@ -4,7 +4,7 @@
     <div class="d-flex justify-content-between align-items-center title mt-3">
         <div class="d-block lh-100">
             <h6 class="font-600 text-uppercase">{{ $title }}</h6>
-            <p class="text-sm my-0 py-0" id="gift-count">0 gift items found</p>
+            <p class="text-sm my-0 py-0" id="gift-count">loading gift items in stock...</p>
         </div>
         <div class="d-flex justify-content-around align-items-center">
             <i role="button" class="material-icons view-option grid-icon active" data-view="grid-view" title="Grid View">view_comfy</i>
