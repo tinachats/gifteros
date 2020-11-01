@@ -710,6 +710,61 @@
         return $count;
     }
 
+    // Determine percentage of customers who bought category gifts 
+    // below $25.00 price range
+    function lowestPriceRange(){
+        $total_customers = DB::table('orders')->count();
+        $range_customers = DB::table('orders')
+                              ->where('usd_total', '<', 25)
+                              ->count();
+        $percentage = round(($range_customers / $total_customers) * 100);
+        return $percentage;
+    }
+
+    // Determine percentage of customers who bought category gifts 
+    // within $25.00-$50.00 price range
+    function lowerPriceRange(){
+        $total_customers = DB::table('orders')->count();
+        $range_customers = DB::table('orders')
+                              ->whereBetween('usd_total', [25, 50])
+                              ->count();
+        $percentage = round(($range_customers / $total_customers) * 100);
+        return $percentage;
+    }
+
+    // Determine percentage of customers who bought category gifts 
+    // within $50.00-$75.00 price range
+    function mediumPriceRange(){
+        $total_customers = DB::table('orders')->count();
+        $range_customers = DB::table('orders')
+                              ->whereBetween('usd_total', [50, 75])
+                              ->count();
+        $percentage = round(($range_customers / $total_customers) * 100);
+        return $percentage;
+    }
+
+    // Determine percentage of customers who bought category gifts 
+    // within $75.00-$100.00 price range
+    function highPriceRange(){
+        $total_customers = DB::table('orders')->count();
+        $range_customers = DB::table('orders')
+                              ->whereBetween('usd_total', [75, 100])
+                              ->count();
+        $percentage = round(($range_customers / $total_customers) * 100);
+        return $percentage;
+    }
+
+    // Determine percentage of customers who bought category gifts 
+    //abbove the $100.00 price range
+    function highestPriceRange(){
+        $total_customers = DB::table('orders')->count();
+        $range_customers = DB::table('orders')
+                              ->where('usd_total', '>', 100)
+                              ->count();
+        $percentage = round(($range_customers / $total_customers) * 100);
+        return $percentage;
+    }
+
     // Determine if gift in question is in user's ordered gift list
     function verifiedPurchase($gift_id, $user_id){
         $purchase_label = '';

@@ -613,7 +613,7 @@
                             <!-- Signed-in User -->
                             <li class="nav-item dropdown ml-3" title="Account Settings">
                                 <img src="/storage/users/{{ Auth::user()->profile_pic }}" height="30" width="30" alt="{{ Auth::user()->name }}" class="rounded-circle prof-pic d-cursor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <div class="dropdown-menu dropdown-menu-right user-menu box-shadow-sm rounded-0">
+                                <div class="dropdown-menu dropdown-menu-right user-menu box-shadow-sm rounded-2">
                                     <div class="text-center pb-2">
                                         <form action="/profile_pic" method="post">
                                             @csrf

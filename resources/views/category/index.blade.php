@@ -1,17 +1,66 @@
 @include('layouts.includes.category-header')
 <!-- Page Content -->
 <div class="container filtered-products">
+    @csrf
     <div class="d-flex justify-content-between align-items-center title mt-3">
+        <!-- Left Settings -->
         <div class="d-flex align-items-center lh-100">
+            <!-- Category Title & Results -->
             <div class="d-block lh-100">
                 <h6 class="font-600 text-uppercase">{{ $title }}</h6>
                 <p class="text-sm my-0 py-0" id="gift-count">loading gift items in stock...</p>
             </div>
+            <!-- /.Category Title & Results -->
+
+            <!-- Filter Progress Bars -->
+            <div class="filter-bars d-none">
+                <div class="d-flex ml-5 rating-bars">
+                    <div class="progress" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ lowestPriceRange() }}% of customers bought gifts in this price range.">
+                        <div id="lowest-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ lowestPriceRange() }}%" aria-valuenow="{{ lowestPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="progress" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ lowerPriceRange() }}% of customers bought gifts in this price range.">
+                        <div id="lower-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ lowerPriceRange() }}%" aria-valuenow="{{ lowerPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="progress" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ mediumPriceRange() }}% of customers bought gifts in this price range.">
+                        <div id="medium-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ mediumPriceRange() }}%" aria-valuenow="{{ mediumPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="progress" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ highPriceRange() }}% of customers bought gifts in this price range.">
+                        <div id="high-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ highPriceRange() }}%" aria-valuenow="{{ highPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <div class="progress"  data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ highestPriceRange() }}% of customers bought gifts in this price range.">
+                        <div id="highest-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ highestPriceRange() }}%" aria-valuenow="{{ highestPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.Filter Progress Bars -->
         </div>
+        <!-- /Left Settings -->
+
+        <!-- Right Settings -->
         <div class="d-flex justify-content-around align-items-center">
+            <div class="d-flex align-items-center">
+                <span class="text-sm">Sort by:</span>
+                <div class="d-flex align-items-center justify-content-around sorting-bar  ml-1 mr-3">
+                    <a href="#" class="px-1 py-1 text-sm border-right active">Trending</a>
+                    <a href="#" class="px-1 py-1 text-sm border-right">Orders</a>
+                    <a href="#" class="px-1 py-1 text-sm border-right">Newest</a>
+                    <div class="dropdown px-1 py-1">
+                        <a href="#" class="text-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Price</a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <div class="dropdown-item d-flex align-items-center text-sm py-1">
+                                <i class="fa fa-sort-amount-desc mr-1"></i> Price - Low to High
+                            </div>
+                            <div class="dropdown-item d-flex align-items-center text-sm py-1">
+                                <i class="fa fa-sort-amount-asc mr-1"></i> Price - High to Low
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <i role="button" class="material-icons view-option grid-icon active" data-view="grid-view" title="Grid View">view_comfy</i>
             <i role="button" class="material-icons view-option list-icon mx-3" data-view="list-view" title="List view">view_list</i>
         </div>
+        <!-- /.Right Settings -->
     </div>
     <div id="category-gifts">
         <!-- All category gifts will show up here -->

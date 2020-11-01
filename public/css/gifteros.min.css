@@ -9,7 +9,7 @@
 }
 
 
-/* Utility Classes .icon-form-group */
+/* Utility Classes .transparent */
 
 :root {
     --text-warning-white: #f39c12;
@@ -137,6 +137,31 @@
 
 
 /* /.dark mode */
+
+
+/* Gifts Page Filter Settings */
+
+.transparent {
+    opacity: 0 !important;
+}
+
+.rating-bars .progress {
+    width: 30px;
+    border-radius: 0;
+    margin: 0;
+    box-sizing: border-box;
+    transform: rotate(-90deg);
+    border: 1px solid #dee2e6;
+    margin-left: -14px;
+    background-color: transparent
+}
+
+.rating-bars .progress:first-child {
+    margin-left: 0
+}
+
+
+/* /.Gifts Page Filter Settings */
 
 .account-page {
     background: url('../img/backgrounds/account-page-bg.jpg') no-repeat center center/cover;
@@ -548,6 +573,10 @@ td,
 
 .sub-category-filter.active>.category-chip * {
     color: #0e1c29 !important
+}
+
+.sorting-bar {
+    border: 1px solid #dee2e6;
 }
 
 
@@ -1035,11 +1064,6 @@ i.icon-lg {
 .dropdown-menu,
 .dropdown-item,
 .product-card,
-.popover,
-.tooltip,
-.tooltip-body,
-.popover-body,
-.popover-header,
 .card,
 .card-body,
 .bg-whitesmoke,
@@ -1047,7 +1071,7 @@ i.icon-lg {
     background-color: var(--white);
 }
 
-.popover {
+.product-card .popover {
     /* Max Width of the popover (depending on the container!) */
     max-width: 28%;
 }
@@ -1191,7 +1215,7 @@ select,
     height: 10px;
 }
 
-.progress {
+#progress-rating .progress {
     width: auto
 }
 
@@ -1385,6 +1409,10 @@ select,
 
 .dark-text {
     color: #343a40 !important
+}
+
+.bg-grey {
+    background-color: #e0e2e6bc;
 }
 
 .bg-black {
@@ -4137,7 +4165,7 @@ a:hover,
     color: var(--warning);
 }
 
-.popover {
+.product-card .popover {
     border-radius: 0;
     width: 100%;
 }

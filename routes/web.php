@@ -31,6 +31,7 @@ Route::get('/search', [Search::class, 'fetch'])->name('search.fetch');
 // Category Gifts
 Route::get('/category/{category_id}/{category}', [Categories::class, 'index'])->name('index');
 Route::post('/category/gifts', [Categories::class, 'gifts'])->name('category_gifts');
+Route::post('/category/filter_ratings', [Categories::class, 'filter_ratings'])->name('filter_ratings');
 
 // Cart Routes
 Route::post('/', [CartController::class, 'store'])->name('purchase');
