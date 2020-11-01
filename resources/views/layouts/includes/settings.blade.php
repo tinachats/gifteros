@@ -44,8 +44,8 @@
         </p>
         <div class="d-flex align-items-center mt-2">
             <div class="form-check toggle-switch">
-                <input type="checkbox" class="form-check-input switch-btn" id="name-asc">
-                <label class="form-check-label" for="name-asc">Ascending</label>
+                <input type="checkbox" class="form-check-input switch-btn" id="name-asc" onchange="orderByName(this)" checked>
+                <label class="form-check-label" for="name-asc" id="name-sorting-order">Ascending</label>
             </div>
         </div>
         <hr class="w-100">
@@ -54,8 +54,8 @@
         </p>
         <div class="d-flex align-items-center mt-2">
             <div class="form-check toggle-switch">
-                <input type="checkbox" class="form-check-input switch-btn" id="ascending-prices" checked>
-                <label class="form-check-label" for="ascending-prices">Ascending</label>
+                <input type="checkbox" class="form-check-input switch-btn" id="price-ordering" onchange="orderByPrice(this)" checked>
+                <label class="form-check-label" for="price-ordering" id="price-ordering-label">Ascending</label>
             </div>
         </div>
         <hr class="w-100">

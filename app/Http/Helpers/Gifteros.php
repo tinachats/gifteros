@@ -501,6 +501,18 @@
         return $stars;
     }
 
+    // Get an array of the ids of all gifts wishlisted
+    function wishlistedGifts(){
+        $gifts = DB::table('wishlist')->pluck('gift_id');
+        return $gifts;
+    }
+
+    // Get an array of the ids of all ordered gifts
+    function orderedGifts(){
+        $gifts = DB::table('ordered_gifts')->pluck('gift_id');
+        return $gifts;
+    }
+
     // Total number of wishes of a gift
     function totalWishes($gift_id){
         $count = DB::table('wishlist')

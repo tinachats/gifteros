@@ -41,20 +41,17 @@
             <div class="d-flex align-items-center">
                 <span class="text-sm">Sort by:</span>
                 <div class="d-flex align-items-center justify-content-around sorting-bar  ml-1 mr-3">
-                    <a href="#" class="px-1 py-1 text-sm border-right active">Trending</a>
-                    <a href="#" class="px-1 py-1 text-sm border-right">Orders</a>
-                    <a href="#" class="px-1 py-1 text-sm border-right">Newest</a>
-                    <div class="dropdown px-1 py-1">
-                        <a href="#" class="text-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Price</a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <div class="dropdown-item d-flex align-items-center text-sm py-1">
-                                <i class="fa fa-sort-amount-desc mr-1"></i> Price - Low to High
-                            </div>
-                            <div class="dropdown-item d-flex align-items-center text-sm py-1">
-                                <i class="fa fa-sort-amount-asc mr-1"></i> Price - High to Low
-                            </div>
-                        </div>
-                    </div>
+                    <a href="#" class="trending-gifts sorting-filters px-1 py-1 text-sm border-right" title="Sort gifts by trending">Trending</a>
+                    <a href="#" class="liked-gifts sorting-filters px-1 py-1 text-sm border-right" title="Sort gifts by their wishlist">Likes</a>
+                    <a href="#" class="latest-gifts sorting-filters px-1 py-1 text-sm border-right" title="Sort gifts by the date they were added">Latest</a>
+                    <select name="price-sorting" id="price-sorting" class="custom-select-sm text-primary text-sm bg-transparent rounded-0 border-0 px-1 py-1">
+                        <option value="asc" class="d-flex align-items-center">
+                            Price - Low to High
+                        </option>
+                        <option value="desc" class="d-flex align-items-center">
+                            Price - High to low
+                        </option>
+                    </select>
                 </div>
             </div>
             <i role="button" class="material-icons view-option grid-icon active" data-view="grid-view" title="Grid View">view_comfy</i>

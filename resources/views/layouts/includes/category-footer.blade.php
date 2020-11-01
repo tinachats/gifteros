@@ -12,23 +12,17 @@
         var status = 'inactive';
         var filter = '';
         var rating = '';
+        var latest = '';
+        var likes = '';
+        var trending = '';
         var category_id = {{ $category_id }};
         var sub_category_id = '';
+        var price_ordering =  priceOrdering();
 
-        categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating);
-
-        // Reset the price range inputs
-        function resetRangeInputs(){
-            $('#min-price').val('');
-            $('#max-price').val('');
-            $('#min-price').removeClass('is-valid');
-            $('#max-price').removeClass('is-valid');
-            $('#min-price').removeClass('is-invalid');
-            $('#max-price').removeClass('is-invalid');
-        }
+        categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending);
 
         // Fetch category gifts
-        function categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating) {
+        function categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending) {
             var action = 'category-gifts';
             $.ajax({
                 url: '{{ route("category_gifts") }}',
@@ -43,6 +37,10 @@
                     min_price: min_price,
                     max_price: max_price,
                     rating: rating,
+                    price_ordering: price_ordering,
+                    latest: latest,
+                    likes: likes,
+                    trending: trending,
                     _token: _token
                 },
                 dataType: 'json',
@@ -128,9 +126,19 @@
             // Change the filter ratings background color based on price filter value
             filterBars(filter, min_price, max_price);
             resetRangeInputs();
-            categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating);
+            categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending);
             userCurrency();
         });
+
+        // Reset the price range inputs
+        function resetRangeInputs(){
+            $('#min-price').val('');
+            $('#max-price').val('');
+            $('#min-price').removeClass('is-valid');
+            $('#max-price').removeClass('is-valid');
+            $('#min-price').removeClass('is-invalid');
+            $('#max-price').removeClass('is-invalid');
+        }
 
         // Customer's price range
         $(document).on('click', '#submit-range', function(e){
@@ -162,7 +170,7 @@
                 // Show the filter-ratings bars
                 $('.filter-bars').removeClass('d-none');
                 filterBars(filter, min_price, max_price);
-                categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating);
+                categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending);
                 userCurrency();
             }
         });
@@ -170,30 +178,30 @@
         // Filter category gifts by customer ratigs
         $(document).on('click', '.customer-rated-value', function(e){
             e.preventDefault();
-            // Show the filter-ratings bars
-            $('.filter-bars').removeClass('d-none');
+            // Hide the filter-ratings bars
+            $('.filter-bars').addClass('d-none');
             $('.price-filter').removeClass('active');
             $('.customer-rated-value').not(this).removeClass('active');
             $('.sub-category-filter').removeClass('active');
             $(this).addClass('active');
             var rating = $(this).attr('id');
             resetRangeInputs();
-            categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating);
+            categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending);
         });
 
         // Filter gifts by their sub-category
         $(document).on('click', '.sub-category-filter', function(e){
             e.preventDefault();
             e.stopPropagation();
-            // Show the filter-ratings bars
-            $('.filter-bars').removeClass('d-none');
+            // Hide the filter-ratings bars
+            $('.filter-bars').addClass('d-none');
             $('.customer-rated-value').removeClass('active');
             $('.price-filter').removeClass('active');
             $('.sub-category-filter').not(this).removeClass('active');
             $(this).addClass('active');
             var sub_category_id = $(this).data('id');
             resetRangeInputs();
-            categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating);
+            categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending);
             userCurrency();
         });
 
@@ -205,7 +213,52 @@
             $('.sub-category-filter').removeClass('active');
             $('.price-filter').removeClass('active');
             resetRangeInputs();
-            categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating);
+            categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending);
+        });
+
+        // Fetch all category gifts based on date inserted
+        $('.latest-gifts').on('click', function(e){
+            e.preventDefault();
+            $('.sorting-filters').not(this).removeClass('active');
+            $(this).addClass('active');
+            latest = 'created_at';
+            categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending);
+            userCurrency();
+        }); 
+
+        // Fetch all category gifts based on likes
+        $('.liked-gifts').on('click', function(e){
+            e.preventDefault();
+            $('.sorting-filters').not(this).removeClass('active');
+            $(this).addClass('active');
+            likes = 'top-wishlisted';
+            categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending);
+            userCurrency();
+        });
+        
+        // Fetch all category gifts based on their orders
+        $('.trending-gifts').on('click', function(e){
+            e.preventDefault();
+            $('.sorting-filters').not(this).removeClass('active');
+            $(this).addClass('active');
+            trending = 'top-sold';
+            categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending);
+            userCurrency();
+        });
+
+        // Sorting category gifts by user prefence settings
+        $(document).on('change', '#price-sorting', function(e){
+            e.stopPropagation();
+            price_ordering = $(this).val();
+            localStorage.setItem('price-sorting-order', price_ordering);
+            categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending);
+            if(price_ordering == 'asc'){
+                $('#price-ordering-label').text('Ascending');
+                $('#price-ordering').attr('checked', true);
+            } else {
+                $('#price-ordering-label').text('Descending');
+                $('#price-ordering').attr('checked', false);
+            }
         });
     });
 </script>
