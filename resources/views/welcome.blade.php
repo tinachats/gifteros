@@ -28,5 +28,44 @@
 <!-- /.Page Content -->
 @include('layouts.includes.footer')
 <script>
-    showcase();
+    $(function(){
+        // Showcase all gift categories
+        showcase();
+        
+        // Wishlist actions
+        $(document).on('click', '.wishlist-icon', function() {
+            var gift_id = $(this).data('id');
+            var user_id = $(this).data('user');
+            var action = $(this).data('action');
+            $.ajax({
+                url: `/${action}`,
+                method: 'post',
+                data: {
+                    action: action,
+                    gift_id: gift_id,
+                    user_id: user_id,
+                    _token: _token
+                },
+                dataType: 'json',
+                success: function(data) {
+                    iziToast.show({
+                        theme: 'dark',
+                        timeout: 2000,
+                        closeOnClick: true,
+                        overlay: false,
+                        close: false,
+                        progressBar: false,
+                        backgroundColor: 'var(--success)',
+                        icon: 'ion-checkmark text-light',
+                        message: data.message,
+                        messageColor: '#fff',
+                        position: 'center'
+                    });
+                    showcase();
+                    userInfo();
+                    myWishlist();
+                }
+            });
+        });
+    });
 </script>

@@ -205,20 +205,11 @@
             userCurrency();
         });
 
-        // Fetch all gifts
-        $(document).on('click', '#fetch-all-btn', function(){
-            // Hide the filter-ratings bars
-            $('.filter-bars').addClass('d-none');
-            $('.customer-rated-value').removeClass('active');
-            $('.sub-category-filter').removeClass('active');
-            $('.price-filter').removeClass('active');
-            resetRangeInputs();
-            categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending);
-        });
-
         // Fetch all category gifts based on date inserted
         $('.latest-gifts').on('click', function(e){
             e.preventDefault();
+            // Hide the filter-ratings bars
+            $('.filter-bars').addClass('d-none');
             $('.sorting-filters').not(this).removeClass('active');
             $(this).addClass('active');
             latest = 'created_at';
@@ -229,6 +220,8 @@
         // Fetch all category gifts based on likes
         $('.liked-gifts').on('click', function(e){
             e.preventDefault();
+            // Hide the filter-ratings bars
+            $('.filter-bars').addClass('d-none');
             $('.sorting-filters').not(this).removeClass('active');
             $(this).addClass('active');
             likes = 'top-wishlisted';
@@ -239,6 +232,8 @@
         // Fetch all category gifts based on their orders
         $('.trending-gifts').on('click', function(e){
             e.preventDefault();
+            // Hide the filter-ratings bars
+            $('.filter-bars').addClass('d-none');
             $('.sorting-filters').not(this).removeClass('active');
             $(this).addClass('active');
             trending = 'top-sold';
@@ -259,6 +254,54 @@
                 $('#price-ordering-label').text('Descending');
                 $('#price-ordering').attr('checked', false);
             }
+        });
+
+        // Fetch all gifts
+        $(document).on('click', '#fetch-all-btn', function(){
+            // Hide the filter-ratings bars
+            $('.filter-bars').addClass('d-none');
+            $('.customer-rated-value').removeClass('active');
+            $('.sub-category-filter').removeClass('active');
+            $('.price-filter').removeClass('active');
+            $('.sorting-filters').removeClass('active');
+            resetRangeInputs();
+            location.reload();
+        });
+
+         // Wishlist actions
+         $(document).on('click', '.wishlist-icon', function() {
+            var gift_id = $(this).data('id');
+            var user_id = $(this).data('user');
+            var action = $(this).data('action');
+            $.ajax({
+                url: `/${action}`,
+                method: 'post',
+                data: {
+                    action: action,
+                    gift_id: gift_id,
+                    user_id: user_id,
+                    _token: _token
+                },
+                dataType: 'json',
+                success: function(data) {
+                    iziToast.show({
+                        theme: 'dark',
+                        timeout: 2000,
+                        closeOnClick: true,
+                        overlay: false,
+                        close: false,
+                        progressBar: false,
+                        backgroundColor: 'var(--success)',
+                        icon: 'ion-checkmark text-light',
+                        message: data.message,
+                        messageColor: '#fff',
+                        position: 'center'
+                    });
+                    categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending);
+                    userInfo();
+                    myWishlist();
+                }
+            });
         });
     });
 </script>

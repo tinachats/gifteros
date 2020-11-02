@@ -52,20 +52,20 @@
             <li class="side-menu-item p-2">
                 <a href="/" class="d-flex align-items-center">
                     <i class="material-icons mr-2">store</i>
-                    <span class="text-capitalize">Home</span>
+                    <span class="text-capitalize">Store</span>
                 </a>
             </li>
             <!-- /.Side-menu-item -->
 
             @auth
-            <!-- Side-menu-item -->
-            <li class="side-menu-item p-2">
-                <a href="/account/{{ username() }}" class="d-flex align-items-center">
-                    <i class="material-icons mr-2">person</i>
-                    <span class="text-capitalize">Account</span>
-                </a>
-            </li>
-            <!-- /.Side-menu-item -->
+                <!-- Side-menu-item -->
+                <li class="side-menu-item p-2">
+                    <a href="/account/{{ username() }}" class="d-flex align-items-center">
+                        <i class="material-icons mr-2">person</i>
+                        <span class="text-capitalize">Account</span>
+                    </a>
+                </li>
+                <!-- /.Side-menu-item -->
             @endauth
 
             <!-- Side-menu-item -->
@@ -93,50 +93,50 @@
             </div>
             <!-- /.Side-menu-item -->
 
-            <?php if(isset($_SESSION['user_id'])): ?>
-            <!-- Side-menu-item -->
-            <li class="side-menu-item p-2">
-                <a class="d-flex align-items-center" href="orders.php">
-                    <i class="material-icons mr-2">local_shipping</i>
-                    <span class="text-capitalize">My Orders</span>
-                    <span class="badge app-badge ml-auto">
-                        {{-- Count user's orders --}}
-                    </span>
-                </a>
-            </li>
-            <!-- /.Side-menu-item -->
+            @auth
+                <!-- Side-menu-item -->
+                <li class="side-menu-item p-2">
+                    <a class="d-flex align-items-center" href="orders.php">
+                        <i class="material-icons mr-2">local_shipping</i>
+                        <span class="text-capitalize">My Orders</span>
+                        <span class="badge app-badge ml-auto">
+                            {{ countOrders() }}
+                        </span>
+                    </a>
+                </li>
+                <!-- /.Side-menu-item -->
 
-            <?php if(countOrders($connect, $_SESSION['user_id']) > 0): ?>
-            <!-- Side-menu-item -->
-            <li class="d-flex align-items-center side-menu-item p-2">
-                <i class="material-icons mr-2">sync</i>
-                <span class="text-capitalize">Buy again</span>
-            </li>
-            <!-- /.Side-menu-item -->
+                @if(countOrders() > 0)
+                    <!-- Side-menu-item -->
+                    <li class="d-flex align-items-center side-menu-item p-2">
+                        <i class="material-icons mr-2">sync</i>
+                        <span class="text-capitalize">Buy again</span>
+                    </li>
+                    <!-- /.Side-menu-item -->
 
-            <!-- Side-menu-item -->
-            <li class="side-menu-item p-2">
-                <a href="fireplaces.php" class="d-flex align-items-center">
-                    <i class="material-icons mr-2">monetization_on</i>
-                    <span class="text-capitalize">my coupons</span>
-                </a>
-            </li>
-            <!-- /.Side-menu-item -->
-            <?php endif; ?>
-            <?php endif; ?>
+                    <!-- Side-menu-item -->
+                    <li class="side-menu-item p-2">
+                        <a href="fireplaces.php" class="d-flex align-items-center">
+                            <i class="material-icons mr-2">monetization_on</i>
+                            <span class="text-capitalize">my coupons</span>
+                        </a>
+                    </li>
+                    <!-- /.Side-menu-item -->
+                @endif
+            @endauth
 
             <hr class="border-inverse my-1">
 
-            <?php if(isset($_SESSION['user_id'])): ?>
-            <!-- Side-menu-item -->
-            <li class="side-menu-item p-2">
-                <a href="javascript:void()" class="d-flex align-items-center toggle-ratingbox">
-                    <i class="material-icons mr-2">stars</i>
-                    <span class="text-capitalize">rate & review</span>
-                </a>
-            </li>
-            <!-- /.Side-menu-item -->
-            <?php endif; ?>
+            @auth
+                <!-- Side-menu-item -->
+                <li class="side-menu-item p-2">
+                    <a href="javascript:void()" class="d-flex align-items-center toggle-ratingbox">
+                        <i class="material-icons mr-2">stars</i>
+                        <span class="text-capitalize">rate & review</span>
+                    </a>
+                </li>
+                <!-- /.Side-menu-item -->
+            @endauth
 
             <!-- Side-menu-item -->
             <li class="side-menu-item p-2">

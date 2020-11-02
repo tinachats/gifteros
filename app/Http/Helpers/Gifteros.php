@@ -109,6 +109,14 @@
         return $output;
     }
 
+    // Count user's orders
+    function countOrders(){
+        $count = DB::table('orders')
+                    ->where('user_id', Auth::user()->id)
+                    ->count(); 
+        return $count;
+    }
+
     // Count number of times a recipient's cell appears in the recipients table
     function recipientOrders($user_id, $recipients_cell){
         $count = DB::table('recipients')

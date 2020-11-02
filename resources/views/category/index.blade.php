@@ -1,7 +1,7 @@
 @include('layouts.includes.category-header')
 <!-- Page Content -->
 <div class="container filtered-products">
-    @csrf
+    {{ csrf_field() }}
     <div class="d-flex justify-content-between align-items-center title mt-3">
         <!-- Left Settings -->
         <div class="d-flex align-items-center lh-100">
