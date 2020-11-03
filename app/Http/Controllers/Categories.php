@@ -398,6 +398,7 @@ class Categories extends Controller
                         </div>
                     ';
                 }
+                
                 if($count == 1){
                     $gift_count = '1 gift item in stock';
                 } else {
