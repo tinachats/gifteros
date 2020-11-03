@@ -205,17 +205,6 @@
             userCurrency();
         });
 
-        // Fetch all gifts
-        $(document).on('click', '#fetch-all-btn', function(){
-            // Hide the filter-ratings bars
-            $('.filter-bars').addClass('d-none');
-            $('.customer-rated-value').removeClass('active');
-            $('.sub-category-filter').removeClass('active');
-            $('.price-filter').removeClass('active');
-            resetRangeInputs();
-            categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending);
-        });
-
         // Fetch all category gifts based on date inserted
         $('.latest-gifts').on('click', function(e){
             e.preventDefault();
@@ -259,6 +248,18 @@
                 $('#price-ordering-label').text('Descending');
                 $('#price-ordering').attr('checked', false);
             }
+        });
+
+        // Fetch all gifts
+        $(document).on('click', '#fetch-all-btn', function(){
+            // Hide the filter-ratings bars
+            $('.filter-bars').addClass('d-none');
+            $('.customer-rated-value').removeClass('active');
+            $('.sub-category-filter').removeClass('active');
+            $('.price-filter').removeClass('active');
+            $('.sorting-filters').removeClass('active');
+            resetRangeInputs();
+            location.reload();
         });
     });
 </script>
