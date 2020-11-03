@@ -926,6 +926,43 @@ class Gifts extends Controller
         return view('details.show')->with($data);
     }
 
+    // Show the user's gift item wishlist button
+    public function wishlist_btn(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action == 'wishlist-btn'){
+                $wishlist_btn = wishlistBtn($request->gift_id, Auth::user()->id);
+                return response()->json([
+                    'wishlist_btn' => $wishlist_btn
+                ]);
+            }
+        }
+    }
+
+    /**
+     * Fetch all gift ratings
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function gift_ratings(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action == 'gift-ratings'){
+                $progress_rating = progressBarRating($request->gift_id);
+                $star_rating = dpStarRating($request->gift_id);
+                $gift_rating = number_format(giftRating($request->gift_id), 1);
+                $count_ratings = countRatings($request->gift_id);
+                return response()->json([
+                    'progress_rating' => $progress_rating,
+                    'star_rating'     => $star_rating,
+                    'gift_rating'     => $gift_rating,
+                    'count_ratings'   => $count_ratings
+                ]);
+            }
+        }
+    }
+
     /**
      * Display the specified resource.
      *

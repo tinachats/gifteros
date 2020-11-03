@@ -69,15 +69,15 @@
                                 </div>
                             </div>
                             <div class="d-flex justify-content-around border-top border-bottom py-1">
-                                <div class="d-block justify-content-center text-center" id="product-star-rating">
+                                <div class="d-block justify-content-center text-center" id="gift-star-rating">
                                     <!-- Gift star rating will show up here -->
-                                    {!!dpStarRating($gift->id)!!}
+                                    {!!dpStarRating($id)!!}
                                 </div>
                                 <div class="border-right mr-1"></div>
                                 <div class="d-block text-center">
                                     <div class="d-flex align-items-center justify-content-center">
                                         <i class="material-icons text-primary">add_shopping_cart</i>
-                                        <span class="text-primary font-600">{{ giftsSold($gift->id) }}</span>
+                                        <span class="text-primary font-600">{{ giftsSold($id) }}</span>
                                     </div>
                                     <p class="text-sm text-faded my-0 py-0">total purchases</p>
                                 </div>
@@ -103,19 +103,25 @@
                             <div class="d-flex align-items-center justify-content-around mt-3" id="action-btns">
                                 <!-- Action Buttons will show up here -->
                                 @guest
-                                    <button class="btn btn-sm btn-block rounded-pill font-600 d-flex align-items-center justify-content-center mr-1 visitor-wishes" id="4" data-name="customiized_mug">
-                                        <i class="material-icons text-primary mr-1">favorite_border</i>
-                                        <span class="text-primary">Wishlist</span>
-                                    </button>
+                                    <div>
+                                        <button class="btn btn-sm btn-block rounded-pill font-600 d-flex align-items-center justify-content-center mr-1 guest-wishes" id="{{ $id }}" data-name="{{ $title }}">
+                                            <i class="material-icons text-primary mr-1">favorite_border</i>
+                                            <span class="text-primary">Wishlist</span>
+                                        </button>
+                                    </div>
                                 @endguest
+
                                 @auth
                                     <div id="wishlist-btn">
                                         {!!wishlistBtn($gift->id, Auth::user()->id)!!}
                                     </div>
                                 @endauth
-                                <button class="btn btn-primary btn-sm btn-block rounded-pill font-600 d-flex align-items-center justify-content-center m-0" disabled>
-                                    <i class="material-icons mr-1">accessible</i> Disabled
-                                </button>
+
+                                <div id="checkout-btn">
+                                    <button class="btn btn-primary btn-sm btn-block rounded-pill font-600 d-flex align-items-center justify-content-center m-0" disabled>
+                                        <i class="material-icons mr-1">accessible</i> Disabled
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -139,7 +145,7 @@
                                 <div class="m-md-auto rating">
                                     <h5 class="display-4 font-600 m-0 p-0 rating-score">{{  number_format(giftRating($gift->id), 1) ?? number_format(0, 1) }}</h5>
                                     <div class="d-md-block d-sm-flex">
-                                        <div class="m-0 p-0" id="product-rating"></div>
+                                        <div class="m-0 p-0" id="gift-rating"></div>
                                         <div class="d-flex justify-content-center text-muted align-items-center">
                                             <i class="material-icons text-muted mr-1">people</i> <span class="total-ratings text-muted mr-1">{{ countRatings($gift->id) }}</span> total
                                         </div>
@@ -594,35 +600,25 @@
 
 @guest
     <!-- SigninFirst Modal -->
-    <div class="modal text-sm p-0" id="write-review" tabindex="-1" role="dialog" aria-labelledby="write-review" aria-hidden="true">
-        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-            <div class="modal-content p-0">
-                <div class="modal-header pt-0 pb-1 shadow-sm">
-                    <div class="modal-title d-block" id="exampleModalLabel">
-                        <h5 class="mb-0 p-3">Want to contribute?</h5>
-                        <small class="mt-0 write-review-title text-capitalize">
-                        </small>
-                    </div>
-                    <button type="button" class="close mt-0" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
+    <div class="modal fade rounded-0" id="write-review" tabindex="-1" role="dialog" aria-labelledby="write-review" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content box-shadow-sm">
                 <div class="modal-body">
-                    <p class="text-justify">
+                    <div class="d-flex align-items-center">
+                        <a href="#" class="navbar-brand font-700">
+                            <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" width="35" alt=""> {{ config('app.name') }}
+                        </a>
+                    </div>
+                    <h5 class="lead my-2">Want to contribute?</h5>
+                    <p class="text-sm text-justify">
                         You need to be signed in with your account to have your contributions about 
                         <span class="text-primary text-capitalize">{{ $title }}</span> saved.
                     </p>
-                    <div class="row justify-content-center w-100 px-0 mx-0">
-                        <div class="col">
-                            <a role="button" href="/login" class="btn border-primary text-primary btn-sm btn-block font-600">
-                                Sign in
-                            </a>
-                        </div>
-                        <div class="col">
-                            <a role="button" href="/register" class="btn btn-primary btn-sm btn-block font-600 ml-1">
-                                Sign up
-                            </a>
-                        </div>
+                    <div class="row justify-content-end mr-2 my-1">
+                        <a href="#" class="btn btn-link" data-dismiss="modal">Close</a>
+                        <a href="/login" class="btn btn-primary btn-sm rounded-pill px-4 d-flex align-items-center ml-2">
+                            Sign in 
+                        </a>
                     </div>
                 </div>
             </div>
@@ -633,18 +629,81 @@
 
 <script>
     $(function(){
-        var acction = 'wishlist-btn';
-        $.ajax({
-            url: '/details/wishlist';
-            method: 'post',
-            data: {
-                action: action,
-                _token: _token
-            },
-            dataType: 'json',
-            success: function(data){
-                $('')
-            }
+        var gift_id = {{ $id }};
+
+        // Fetch wishlist button
+        wishlistBtn();
+        function wishlistBtn(){
+            var action = 'wishlist-btn';
+            $.ajax({
+                url: '{{ route("wishlist_btn") }}',
+                method: 'post',
+                data: {
+                    action: action,
+                    gift_id: gift_id,
+                    _token: _token
+                },
+                dataType: 'json',
+                success: function(data){
+                    $('#wishlist-btn').html(data.wishlist_btn);
+                }
+            });
+        }
+
+        // Gift rating
+        function starRating(){
+            $('#gift-rating').rateYo({
+                rating: {{ giftRating($id) }},
+                starWidth: "20px",
+                spacing: "5px",
+                readOnly: true
+            });
+        }
+
+        // Gift Ratings
+        giftRatings();
+        function giftRatings(){
+            var action = 'gift-ratings';
+            $.ajax({
+                url: '{{ route("gift_ratings") }}',
+                method: 'post',
+                data: {
+                    action: action,
+                    gift_id: gift_id,
+                    _token: _token
+                },
+                dataType: 'json',
+                success: function(data){
+                    starRating();
+                    $('#progress-rating').html(data.progress_rating);
+                    $('#gift-star-rating').html(data.star_rating);
+                    $('.rating-score').html(data.gift_rating);
+                    $('.total-ratings').html(data.count_ratings);
+                }
+            });
+        }
+
+        // Wishlist actions
+        $(document).on('click', '.details-wishlist-btn', function() {
+            var gift_id = $(this).data('id');
+            var user_id = $(this).data('user');
+            var action = $(this).data('action');
+            $.ajax({
+                url: `/${action}`,
+                method: 'post',
+                data: {
+                    action: action,
+                    gift_id: gift_id,
+                    user_id: user_id,
+                    _token: _token
+                },
+                dataType: 'json',
+                success: function(data) {
+                    wishlistBtn();
+                    userInfo();
+                    myWishlist();
+                }
+            });
         });
     });
 </script>

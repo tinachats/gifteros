@@ -319,33 +319,24 @@
 
         <!-- Wishlist Modal -->
         <div class="modal fade rounded-0" id="wishlist-modal" tabindex="-1" role="dialog" aria-labelledby="wishlist-modal" aria-hidden="true">
-            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header pt-0 pb-1 shadow-sm">
-                        <div class="modal-title d-block" id="wishlist-modalLabel">
-                            <h6 class="mb-0 p-3">You're not Signed in.</h6>
-                            <small class="mt-0 review-modal-title text-capitalize">
-                            </small>
-                        </div>
-                        <button type="button" class="close mt-0" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content box-shadow-sm">
                     <div class="modal-body">
-                        <p class="text-justify" id="wishlist-modal-text">
-                            You need to be signed in with your account to add <span class="text-capitalize text-primary" id="visitor-wish-item"></span> to your Wishlist.
+                        <div class="d-flex align-items-center">
+                            <a href="#" class="navbar-brand font-700">
+                                <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" width="35" alt=""> {{ config('app.name') }}
+                            </a>
+                        </div>
+                        <h5 class="lead my-2">Want to add to your Wishlist?</h5>
+                        <p class="text-sm text-justify">
+                            You need to be signed in with your account to add 
+                            <span class="text-primary text-capitalize" id="visitor-wish-item"></span> to your Wishlist.
                         </p>
-                        <div class="row justify-content-center w-100 px-0 mx-0">
-                            <div class="col">
-                                <a role="button" href="/login" id="wishlist-modal-signin" class="btn border-primary text-primary btn-sm btn-block font-600">
-                                    Sign in
-                                </a>
-                            </div>
-                            <div class="col">
-                                <a role="button" href="/register" id="wishlist-modal-signup" class="btn btn-primary btn-sm btn-block text-white ml-1">
-                                    Sign up
-                                </a>
-                            </div>
+                        <div class="row justify-content-end mr-2 my-1">
+                            <a href="#" class="btn btn-link" data-dismiss="modal">Close</a>
+                            <a href="/login" class="btn btn-primary btn-sm rounded-pill px-4 d-flex align-items-center ml-2">
+                                Sign in 
+                            </a>
                         </div>
                     </div>
                 </div>

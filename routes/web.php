@@ -26,7 +26,8 @@ use App\Http\Controllers\MailingList;
 Route::get('/', [Gifts::class, 'index'])->name('index');
 Route::post('/showcase', [Gifts::class, 'showcase'])->name('showcase');
 Route::get('/details/{slug}/{id}', [Gifts::class, 'show'])->name('details.show');
-Route::post('/details/wishlist', [Gifts::class, 'wishlist'])->name('wishlist_btn');
+Route::post('/details/wishlist_btn', [Gifts::class, 'wishlist_btn'])->name('wishlist_btn');
+Route::post('/details/gift_ratings', [Gifts::class, 'gift_ratings'])->name('gift_ratings');
 Route::get('/search', [Search::class, 'fetch'])->name('search.fetch');
 
 // Category Gifts
