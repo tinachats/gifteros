@@ -1,6 +1,7 @@
 <?php
     use Illuminate\Support\Facades\DB;
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Storage;
 
     // Username
     function username(){
@@ -278,7 +279,7 @@
         $user_rating = round($rating);
         // gift star rating
         $stars = '
-            <ul class="list-inline star-rating">
+            <ul class="list-inline star-rating my-0 py-0">
         ';
         for($i = 1; $i <= 5; $i++){
             if($i <= $user_rating){
@@ -301,9 +302,9 @@
     // Get gift ratings and reviews
     function giftRating($gift_id){
         $gift_rating = DB::table('gift_ratings')
-                   ->where('gift_id', $gift_id)
-                   ->groupBy('gift_id')
-                   ->avg('customer_rating');
+                        ->where('gift_id', $gift_id)
+                        ->groupBy('gift_id')
+                        ->avg('customer_rating');
         return $gift_rating;
     }
 
@@ -479,11 +480,11 @@
 
         if($count_ratings == 1){
             $reviews = '
-                <p class="text-sm my-0 text-faded">1/5 (1 review)</p>
+                <p class="text-sm my-0 text-faded">'.round($gift_rating).'/5 (1 review)</p>
             ';
         } else {
             $reviews = '
-                <p class="text-sm my-0 text-faded">'.number_format($gift_rating, 1).'/5 ('.$count_ratings.' reviews)</p>
+                <p class="text-sm my-0 text-faded">'.round($gift_rating).'/5 ('.$count_ratings.' reviews)</p>
             ';
         }
         // gift star rating
@@ -573,7 +574,7 @@
 
     // Show gift's supporting (preview) images
     function previewImages($gift_image){
-        $files = scandir('/storage/gifts/');
+        $files = Storage::files('/storage/gifts');
         $output = '<div id="gallery">';
         if($files){
             foreach($files as $file){
@@ -583,8 +584,8 @@
                 $filename = $img_props[0];
                 if('.' != $file && '..' != $file && $filename == $viewed_gift[0]){
                     $output .= '
-                        <a class="active" href="#" data-image="/storage/gifts/'.$file.'" data-zoom-image="/storage/gifts/'.$file.'">
-                            <img src="/storage/gifts/'.$file.'" />
+                        <a class="active" href="#" data-image="/storage/gifts/'. $gift_image .'" data-zoom-image="/storage/gifts/'. $gift_image .'">
+                            <img src="/storage/gifts/'. $gift_image .'" />
                         </a>
                     ';
                 }
@@ -672,10 +673,7 @@
             ';
             foreach($relatives as $gift){
                 // Gift star rating
-                $star_rating = giftStarRating($gift_id);
-
-                $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
-                $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
+                $star_rating = giftStarRating($gift->gift_id);
 
                 $output .= '
                     <!-- Related Gift -->
@@ -691,22 +689,11 @@
                                             '.$star_rating.'
                                         </div>
                                     </div>
-                                    <div class="usd-price">
-                                        <div class="d-flex align-items-center">
-                                            <h6 class="text-brick-red font-600">US$'.number_format($gift->usd_price, 2).'</h6>
-                                            <h6 class="text-muted strikethrough font-600 ml-3">US$'.$usd_before.'</h6>
-                                        </div>
-                                    </div>
-                                    <div class="zar-price d-none">
-                                        <div class="d-flex align-items-center">
-                                            <h6 class="text-brick-red font-600">R'.number_format($gift->zar_price, 2).'</h6>
-                                            <h6 class="text-muted strikethrough font-600 ml-3">R'.$zar_before.'</h6>
-                                        </div>
-                                    </div>
-                                    <div class="zwl-price d-none">
-                                        <div class="d-flex align-items-center">
-                                            <h6 class="text-brick-red font-600">ZW$'.number_format($gift->zwl_price, 2).'</h6>
-                                        </div>
+                                    <div class="d-flex align-items-center justify-content-between w-100">
+                                        <h6 class="usd-price text-grey text-sm font-600 mt-2">US$'.number_format($gift->usd_price, 2).'</h6>
+                                        <h6 class="zar-price d-none text-grey text-sm font-600 mt-2">R'.number_format($gift->zar_price, 2).'</h6>
+                                        <h6 class="zwl-price d-none text-grey text-sm font-600 mt-2">ZW$'.number_format($gift->zwl_price, 2).'</h6>
+                                        <span role="button" class="material-icons fa-2x text-success">add_circle_outline</span>
                                     </div>
                                 </div>
                             </div>

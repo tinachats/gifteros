@@ -35,6 +35,11 @@
                         <div class="product-images">
                             <img class="border border-warning" id="product-img" src="/storage/gifts/{{ $gift->gift_image }}" data-zoom-image="/storage/gifts/{{ $gift->gift_image }}" />
                             <!-- Show preview images here -->
+                            <div id="gallery">
+                                <a class="active" href="#" data-image="/storage/gifts/<?= $gift->gift_image; ?>" data-zoom-image="/storage/gifts/<?= $gift->gift_image; ?>">
+                                    <img src="/storage/gifts/<?= $gift->gift_image; ?>" />
+                                </a>
+                            </div>
                         </div>
                         <!-- /.Product Images -->
                     </div>
@@ -42,8 +47,16 @@
                     <div class="col-12 col-md-6 pl-md-5 product-details">
                         <div class="d-block info-section">
                             <h5 class="font-500 lead lead-2x text-capitalize font-600 mb-0 pb-0 ml-md-2" id="product-title">{{ $gift->gift_name }}</h5>
-                            <a href="/category/{{ $gift->category_id }}/{{ $category_name }}" class="text-capitalize ml-md-2 my-0 py-0">{{ $category_name }}</a>
-                            <p class="text-capitalize text-faded my-0 py-0 ml-md-2">{{ $gift->units }} In stock</p>
+                            <a href="/category/{{ $gift->category_id }}/{{ $category_name }}" class="text-capitalize ml-md-2 my-0 py-0">
+                                Category: {{ $category_name }}
+                            </a>
+                            <p class="text-capitalize text-faded my-0 py-0 ml-md-2">
+                                @if($gift->units > 0)
+                                    <span class="badge badge-pill badge-success">{{ $gift->units }} In Stock</span>
+                                @else 
+                                    <span class="badge badge-pill badge-danger">Out of Stock</span>
+                                @endif
+                            </p>
                             <div class="customizing-link ml-md-2 bg-transparent">
                                 <!-- Customization link -->
                             </div>
@@ -96,7 +109,9 @@
                                     </button>
                                 @endguest
                                 @auth
-                                    {!!wishlistBtn($gift->id, Auth::user()->id)!!}
+                                    <div id="wishlist-btn">
+                                        {!!wishlistBtn($gift->id, Auth::user()->id)!!}
+                                    </div>
                                 @endauth
                                 <button class="btn btn-primary btn-sm btn-block rounded-pill font-600 d-flex align-items-center justify-content-center m-0" disabled>
                                     <i class="material-icons mr-1">accessible</i> Disabled
@@ -188,8 +203,15 @@
                                             <div class="media-body">
                                                 <div class="d-block user-details">
                                                     <p class="font-500 text-capitalize my-0 py-0">{{ $review->name }}</p>
-                                                    {{ verifiedPurchase($review->gift_id, $review->user_id)  }}
-                                                    {!! customerRating($review->rating_id, $review->gift_id, $review->user_id) !!}
+                                                    {!! verifiedPurchase($review->gift_id, $review->user_id)  !!}
+                                                    <div class="d-flex align-items-center lh-100">
+                                                        <span class="mr-2 my-0 py-0">
+                                                            {!! customerRating($review->rating_id, $review->gift_id, $review->user_id) !!}
+                                                        </span>
+                                                        <span class="text-sm text-faded">
+                                                            {{ timestamp($review->created_at) }}
+                                                        </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -284,36 +306,22 @@
             </div>
             <!-- Customize product -->
             <div class="col-12 col-xl-4 pb-2 customizing-panel">
-                <h5 class="font-600 my-0 py-0">Accessories that go with this gift</h5>
-                <ul class="nav nav-pills my-3" id="customizing-tab" role="tablist">
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link nav-pills active" id="pills-customize-tab" data-toggle="pill" href="#pills-customize" role="tab" aria-controls="pills-customize" aria-selected="true">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <i class="material-icons">local_library</i>
-                                <span class="text-sm ml-1">cards</span>
-                            </div>
+                <nav class="rounded-0 bg-whitesmoke box-shadow-sm">
+                    <div class="nav nav-tabs justify-content-around px-0 w-100" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link rounded-0 active" id="nav-cards-tab" data-toggle="tab" href="#nav-cards" role="tab" aria-controls="nav-home" aria-selected="true">
+                            Cards
                         </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link nav-pills" id="pills-accesssories-tab" data-toggle="pill" href="#pills-accessories" role="tab" aria-controls="pills-accessories" aria-selected="false">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <i class="material-icons">cake</i>
-                                <span class="text-sm ml-1">add-ons</span>
-                            </div>
+                        <a class="nav-item nav-link rounded-0" id="nav-addons-tab" data-toggle="tab" href="#nav-addons" role="tab" aria-controls="nav-home" aria-selected="false">
+                            Add-ons
                         </a>
-                    </li>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link nav-pills" id="pills-wrappers-tab" data-toggle="pill" href="#pills-wrappers" role="tab" aria-controls="pills-wrappers" aria-selected="false">
-                            <div class="d-flex justify-content-center align-items-center">
-                                <i class="material-icons">card_giftcard</i>
-                                <span class="text-sm ml-1">wrappers</span>
-                            </div>
+                        <a class="nav-item nav-link rounded-0" id="nav-wrappers-tab" data-toggle="tab" href="#nav-wrappers" role="tab" aria-controls="nav-home" aria-selected="false">
+                            Wrappers
                         </a>
-                    </li>
-                </ul>
-                <div class="tab-content" id="customizing-tabContent">
-                    <div class="tab-pane fade show active" id="pills-customize" role="tabpanel" aria-labelledby="pills-customize-tab">
-                        <h5 class="font-600">Add a custom greeting card</h5>
+                    </div>
+                </nav>
+                <div class="tab-content bg-whitesmoke box-shadow-sm rounded-0" id="nav-tabContent" id="customizing-tabContent">
+                    <div class="tab-pane fade show active" id="nav-cards" role="tabpanel" aria-labelledby="nav-cards-tab">
+                        <h5 class="font-600 p-2">Add a custom greeting card</h5>
                         <div class="accessories-grid w-100" id="greeting-cards">
                             <!-- Greeting cards will show up here -->
                             @foreach ($greeting_cards as $gift)
@@ -342,52 +350,52 @@
                                     $zar_price = number_format($gift->zar_price, 2);
                                     $zwl_price = number_format($gift->zwl_price, 2);
                                 ?>
-                                <!-- Greeting Cards -->
-                                <div class="greeting-gift-card">
-                                    <a href="{{ route('details.show', [$gift->slug, $gift->id]) }}" title="View details">
-                                        <img src="/storage/gifts/{{ $gift->gift_image }}" height="100" class="card-img-top greeting-card-img pulse rounded-0">
+                                <!-- Accessories -->
+                                <div class="item w-100">
+                                    <a href="{{ route('details.show', [$gift->slug, $gift->id]) }}">
+                                        <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
+                                            <img src="/storage/gifts/{{ $gift->gift_image }}" height="150" class="card-img-top w-100 rounded-0">
+                                            <div class="gift-content mx-1">
+                                                <h6 class="my-0 py-0 text-capitalize font-600 text-primary">{{ mb_strimwidth($gift->gift_name, 0, 17, '...') }}</h6>
+                                                <div class="d-inline-block lh-100">
+                                                    <h6 class="my-0 py-0 text-sm text-capitalize">{{ $gift->category_name }}</h6>
+                                                    <div class="d-flex align-items-center justify-content-around">
+                                                        {!! $star_rating !!}
+                                                    </div>
+                                                </div>
+                                                <input value="{{ $gift->id }}" id="product_id" type="hidden">
+                                                <input value="{{ $gift->gift_name }}" id="name{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $gift->gift_image }}" id="image{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $usd_price }}" id="usd-price{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $zar_price }}" id="zar-price{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $zwl_price }}" id="zwl-price{{ $gift->id }}" type="hidden">
+                                                <input name="sale_usd_price" value="{{ $sale_usd_price ?? ''}}" id="sale-usd-price{{ $gift->id }}" type="hidden">
+                                                <input name="sale_zar_price" value="{{ $sale_zar_price ?? ''}}" id="sale-zar-price{{ $gift->id }}" type="hidden">
+                                                <input name="sale_zwl_price" value="{{ $sale_zwl_price ?? ''}}" id="sale-zwl-price{{ $gift->id }}" type="hidden">
+                                                <input name="end-time" value="{{ $gift->ends_on }}" id="end-time{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $gift->category_name }}" id="category-name{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $gift->units }}" id="product-units{{ $gift->id }}" type="hidden">
+                                                <input value="1" id="quantity{{ $gift->id }}" type="hidden">
+                                                <input type="hidden" name="sale-end-date" id="sale-end-date" value="{{ date('y, m, d, h, m, s', strtotime($gift->ends_on)) }}">
+                                                <input value="{{ $gift->description }}" id="description{{ $gift->id }}" type="hidden">
+                                                <div class="d-flex align-items-center justify-content-between w-100">
+                                                    <h6 class="usd-price text-grey text-sm font-600 mt-2">US${{ number_format($gift->usd_price, 2) }}</h6>
+                                                    <h6 class="zar-price d-none text-grey text-sm font-600 mt-2">R{{ number_format($gift->zar_price, 2) }}</h6>
+                                                    <h6 class="zwl-price d-none text-grey text-sm font-600 mt-2">ZW${{ number_format($gift->zwl_price, 2) }}</h6>
+                                                    <span role="button" class="material-icons fa-2x text-success">add_circle_outline</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </a>
-                                    <h6 class="font-500 text-capitalize mt-1 mb-0 pb-0">{{ $short_name }}</h6>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h5 class="font-600 my-0 py-0 card-price-tag">
-                                            <span class="currency-notes usd-price">
-                                                US${{ $usd_notes }}<sup class="font-700">{{ $usd_cents }}</sup>
-                                            </span>
-                                            <span class="currency-notes zar-price d-none">
-                                                R{{ $zar_notes }}<sup class="font-700">{{ $zar_cents }}</sup>
-                                            </span>
-                                            <span class="currency-notes zwl-price d-none">
-                                                ZW${{ $zwl_notes }}<sup class="font-700">{{ $zwl_cents }}</sup>
-                                            </span>
-                                        </h5>
-                                        <input value="{{ $gift->id }}" id="product_id" type="hidden">
-                                        <input value="{{ $gift->gift_name }}" id="name{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $gift->gift_image }}" id="image{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $usd_price }}" id="usd-price{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $zar_price }}" id="zar-price{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $zwl_price }}" id="zwl-price{{ $gift->id }}" type="hidden">
-                                        <input name="sale_usd_price" value="{{ $sale_usd_price ?? ''}}" id="sale-usd-price{{ $gift->id }}" type="hidden">
-                                        <input name="sale_zar_price" value="{{ $sale_zar_price ?? ''}}" id="sale-zar-price{{ $gift->id }}" type="hidden">
-                                        <input name="sale_zwl_price" value="{{ $sale_zwl_price ?? ''}}" id="sale-zwl-price{{ $gift->id }}" type="hidden">
-                                        <input name="end-time" value="{{ $gift->ends_on }}" id="end-time{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $gift->category_name }}" id="category-name{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $gift->units }}" id="product-units{{ $gift->id }}" type="hidden">
-                                        <input value="1" id="quantity{{ $gift->id }}" type="hidden">
-                                        <input type="hidden" name="sale-end-date" id="sale-end-date" value="{{ date('y, m, d, h, m, s', strtotime($gift->ends_on)) }}">
-                                        <input value="{{ $gift->description }}" id="description{{ $gift->id }}" type="hidden">
-                                        <button class="btn btn-sm btn-outline-primary d-grid rounded-0 add-card-btn" data-id="{{ $gift->id }}" data-label="{{ $gift->label }}">
-                                            <i class="material-icons m-auto">add</i>
-                                        </button>
-                                    </div>
                                 </div>
-                                <!-- /.Greeting Cards -->
+                                <!-- /.Accessories -->
                             @endforeach
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="pills-accessories" role="tabpanel" aria-labelledby="pills-accessories-tab">
-                        <h5 class="font-600">Make it extra special</h5>
-                        <div class="accessories-grid w-100" id="accessories">
-                            <!-- All product add-ons will be shown here -->
+                    <div class="tab-pane fade" id="nav-addons" role="tabpanel" aria-labelledby="nav-addons-tab">
+                        <h5 class="font-600 p-2">Make it extra special</h5>
+                        <div class="accessories-grid w-100" id="greeting-cards">
+                            <!-- Greeting cards will show up here -->
                             @foreach ($accesories as $gift)
                                 <?php
                                     // Gift star rating
@@ -414,52 +422,52 @@
                                     $zar_price = number_format($gift->zar_price, 2);
                                     $zwl_price = number_format($gift->zwl_price, 2);
                                 ?>
-                                <!-- Greeting Cards -->
-                                <div class="greeting-gift-card">
-                                    <a href="/details/{{ $gift->slug }}/{{ $gift->id }}" title="View details">
-                                        <img src="/storage/gifts/{{ $gift->gift_image }}" height="100" class="card-img-top greeting-card-img pulse rounded-0">
+                                <!-- Accessories -->
+                                <div class="item w-100">
+                                    <a href="{{ route('details.show', [$gift->slug, $gift->id]) }}">
+                                        <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
+                                            <img src="/storage/gifts/{{ $gift->gift_image }}" height="150" class="card-img-top w-100 rounded-0">
+                                            <div class="gift-content mx-1">
+                                                <h6 class="my-0 py-0 text-capitalize font-600 text-primary">{{ mb_strimwidth($gift->gift_name, 0, 17, '...') }}</h6>
+                                                <div class="d-inline-block lh-100">
+                                                    <h6 class="my-0 py-0 text-sm text-capitalize">{{ $gift->category_name }}</h6>
+                                                    <div class="d-flex align-items-center justify-content-around">
+                                                        {!! $star_rating !!}
+                                                    </div>
+                                                </div>
+                                                <input value="{{ $gift->id }}" id="product_id" type="hidden">
+                                                <input value="{{ $gift->gift_name }}" id="name{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $gift->gift_image }}" id="image{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $usd_price }}" id="usd-price{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $zar_price }}" id="zar-price{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $zwl_price }}" id="zwl-price{{ $gift->id }}" type="hidden">
+                                                <input name="sale_usd_price" value="{{ $sale_usd_price ?? ''}}" id="sale-usd-price{{ $gift->id }}" type="hidden">
+                                                <input name="sale_zar_price" value="{{ $sale_zar_price ?? ''}}" id="sale-zar-price{{ $gift->id }}" type="hidden">
+                                                <input name="sale_zwl_price" value="{{ $sale_zwl_price ?? ''}}" id="sale-zwl-price{{ $gift->id }}" type="hidden">
+                                                <input name="end-time" value="{{ $gift->ends_on }}" id="end-time{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $gift->category_name }}" id="category-name{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $gift->units }}" id="product-units{{ $gift->id }}" type="hidden">
+                                                <input value="1" id="quantity{{ $gift->id }}" type="hidden">
+                                                <input type="hidden" name="sale-end-date" id="sale-end-date" value="{{ date('y, m, d, h, m, s', strtotime($gift->ends_on)) }}">
+                                                <input value="{{ $gift->description }}" id="description{{ $gift->id }}" type="hidden">
+                                                <div class="d-flex align-items-center justify-content-between w-100">
+                                                    <h6 class="usd-price text-grey text-sm font-600 mt-2">US${{ number_format($gift->usd_price, 2) }}</h6>
+                                                    <h6 class="zar-price d-none text-grey text-sm font-600 mt-2">R{{ number_format($gift->zar_price, 2) }}</h6>
+                                                    <h6 class="zwl-price d-none text-grey text-sm font-600 mt-2">ZW${{ number_format($gift->zwl_price, 2) }}</h6>
+                                                    <span role="button" class="material-icons fa-2x text-success">add_circle_outline</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </a>
-                                    <h6 class="font-500 text-capitalize mt-1 mb-0 pb-0">{{ $short_name }}</h6>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h5 class="font-600 my-0 py-0 card-price-tag">
-                                            <span class="currency-notes usd-price">
-                                                US${{ $usd_notes }}<sup class="font-700">{{ $usd_cents }}</sup>
-                                            </span>
-                                            <span class="currency-notes zar-price d-none">
-                                                R{{ $zar_notes }}<sup class="font-700">{{ $zar_cents }}</sup>
-                                            </span>
-                                            <span class="currency-notes zwl-price d-none">
-                                                ZW${{ $zwl_notes }}<sup class="font-700">{{ $zwl_cents }}</sup>
-                                            </span>
-                                        </h5>
-                                        <input value="{{ $gift->id }}" id="product_id" type="hidden">
-                                        <input value="{{ $gift->gift_name }}" id="name{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $gift->gift_image }}" id="image{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $usd_price }}" id="usd-price{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $zar_price }}" id="zar-price{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $zwl_price }}" id="zwl-price{{ $gift->id }}" type="hidden">
-                                        <input name="sale_usd_price" value="{{ $sale_usd_price ?? ''}}" id="sale-usd-price{{ $gift->id }}" type="hidden">
-                                        <input name="sale_zar_price" value="{{ $sale_zar_price ?? ''}}" id="sale-zar-price{{ $gift->id }}" type="hidden">
-                                        <input name="sale_zwl_price" value="{{ $sale_zwl_price ?? ''}}" id="sale-zwl-price{{ $gift->id }}" type="hidden">
-                                        <input name="end-time" value="{{ $gift->ends_on }}" id="end-time{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $gift->category_name }}" id="category-name{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $gift->units }}" id="product-units{{ $gift->id }}" type="hidden">
-                                        <input value="1" id="quantity{{ $gift->id }}" type="hidden">
-                                        <input type="hidden" name="sale-end-date" id="sale-end-date" value="{{ date('y, m, d, h, m, s', strtotime($gift->ends_on)) }}">
-                                        <input value="{{ $gift->description }}" id="description{{ $gift->id }}" type="hidden">
-                                        <button class="btn btn-sm btn-outline-primary d-grid rounded-0 add-card-btn" data-id="{{ $gift->id }}" data-label="{{ $gift->label }}">
-                                            <i class="material-icons m-auto">add</i>
-                                        </button>
-                                    </div>
                                 </div>
-                                <!-- /.Greeting Cards -->
+                                <!-- /.Accessories -->
                             @endforeach
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="pills-wrappers" role="tabpanel" aria-labelledby="pills-wrappers-tab">
-                        <h5 class="font-600">Choose your gift wrapper</h5>
-                        <div class="accessories-grid w-100" id="gift-wrappers">
-                            <!-- All gift wrappers will be shown here -->
+                    <div class="tab-pane fade" id="nav-wrappers" role="tabpanel" aria-labelledby="nav-wrappers-tab">
+                        <h5 class="font-600 p-2">Choose your gift wrapper</h5>
+                        <div class="accessories-grid w-100" id="greeting-cards">
+                            <!-- Greeting cards will show up here -->
                             @foreach ($wrappers as $gift)
                                 <?php
                                     // Gift star rating
@@ -486,45 +494,45 @@
                                     $zar_price = number_format($gift->zar_price, 2);
                                     $zwl_price = number_format($gift->zwl_price, 2);
                                 ?>
-                                <!-- Greeting Cards -->
-                                <div class="greeting-gift-card">
-                                    <a href="/details/{{ $gift->slug }}/{{ $gift->id }}" title="View details">
-                                        <img src="/storage/gifts/{{ $gift->gift_image }}" height="100" class="card-img-top greeting-card-img pulse rounded-0">
+                                <!-- Accessories -->
+                                <div class="item w-100">
+                                    <a href="{{ route('details.show', [$gift->slug, $gift->id]) }}">
+                                        <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
+                                            <img src="/storage/gifts/{{ $gift->gift_image }}" height="150" class="card-img-top w-100 rounded-0">
+                                            <div class="gift-content mx-1">
+                                                <h6 class="my-0 py-0 text-capitalize font-600 text-primary">{{ mb_strimwidth($gift->gift_name, 0, 17, '...') }}</h6>
+                                                <div class="d-inline-block lh-100">
+                                                    <h6 class="my-0 py-0 text-sm text-capitalize">{{ $gift->category_name }}</h6>
+                                                    <div class="d-flex align-items-center justify-content-around">
+                                                        {!! $star_rating !!}
+                                                    </div>
+                                                </div>
+                                                <input value="{{ $gift->id }}" id="product_id" type="hidden">
+                                                <input value="{{ $gift->gift_name }}" id="name{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $gift->gift_image }}" id="image{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $usd_price }}" id="usd-price{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $zar_price }}" id="zar-price{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $zwl_price }}" id="zwl-price{{ $gift->id }}" type="hidden">
+                                                <input name="sale_usd_price" value="{{ $sale_usd_price ?? ''}}" id="sale-usd-price{{ $gift->id }}" type="hidden">
+                                                <input name="sale_zar_price" value="{{ $sale_zar_price ?? ''}}" id="sale-zar-price{{ $gift->id }}" type="hidden">
+                                                <input name="sale_zwl_price" value="{{ $sale_zwl_price ?? ''}}" id="sale-zwl-price{{ $gift->id }}" type="hidden">
+                                                <input name="end-time" value="{{ $gift->ends_on }}" id="end-time{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $gift->category_name }}" id="category-name{{ $gift->id }}" type="hidden">
+                                                <input value="{{ $gift->units }}" id="product-units{{ $gift->id }}" type="hidden">
+                                                <input value="1" id="quantity{{ $gift->id }}" type="hidden">
+                                                <input type="hidden" name="sale-end-date" id="sale-end-date" value="{{ date('y, m, d, h, m, s', strtotime($gift->ends_on)) }}">
+                                                <input value="{{ $gift->description }}" id="description{{ $gift->id }}" type="hidden">
+                                                <div class="d-flex align-items-center justify-content-between w-100">
+                                                    <h6 class="usd-price text-grey text-sm font-600 mt-2">US${{ number_format($gift->usd_price, 2) }}</h6>
+                                                    <h6 class="zar-price d-none text-grey text-sm font-600 mt-2">R{{ number_format($gift->zar_price, 2) }}</h6>
+                                                    <h6 class="zwl-price d-none text-grey text-sm font-600 mt-2">ZW${{ number_format($gift->zwl_price, 2) }}</h6>
+                                                    <span role="button" class="material-icons fa-2x text-success">add_circle_outline</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </a>
-                                    <h6 class="font-500 text-capitalize mt-1 mb-0 pb-0">{{ $short_name }}</h6>
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <h5 class="font-600 my-0 py-0 card-price-tag">
-                                            <span class="currency-notes usd-price">
-                                                US${{ $usd_notes }}<sup class="font-700">{{ $usd_cents }}</sup>
-                                            </span>
-                                            <span class="currency-notes zar-price d-none">
-                                                R{{ $zar_notes }}<sup class="font-700">{{ $zar_cents }}</sup>
-                                            </span>
-                                            <span class="currency-notes zwl-price d-none">
-                                                ZW${{ $zwl_notes }}<sup class="font-700">{{ $zwl_cents }}</sup>
-                                            </span>
-                                        </h5>
-                                        <input value="{{ $gift->id }}" id="product_id" type="hidden">
-                                        <input value="{{ $gift->gift_name }}" id="name{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $gift->gift_image }}" id="image{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $usd_price }}" id="usd-price{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $zar_price }}" id="zar-price{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $zwl_price }}" id="zwl-price{{ $gift->id }}" type="hidden">
-                                        <input name="sale_usd_price" value="{{ $sale_usd_price ?? ''}}" id="sale-usd-price{{ $gift->id }}" type="hidden">
-                                        <input name="sale_zar_price" value="{{ $sale_zar_price ?? ''}}" id="sale-zar-price{{ $gift->id }}" type="hidden">
-                                        <input name="sale_zwl_price" value="{{ $sale_zwl_price ?? ''}}" id="sale-zwl-price{{ $gift->id }}" type="hidden">
-                                        <input name="end-time" value="{{ $gift->ends_on }}" id="end-time{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $gift->category_name }}" id="category-name{{ $gift->id }}" type="hidden">
-                                        <input value="{{ $gift->units }}" id="product-units{{ $gift->id }}" type="hidden">
-                                        <input value="1" id="quantity{{ $gift->id }}" type="hidden">
-                                        <input type="hidden" name="sale-end-date" id="sale-end-date" value="{{ date('y, m, d, h, m, s', strtotime($gift->ends_on)) }}">
-                                        <input value="{{ $gift->description }}" id="description{{ $gift->id }}" type="hidden">
-                                        <button class="btn btn-sm btn-outline-primary d-grid rounded-0 add-card-btn" data-id="{{ $gift->id }}" data-label="{{ $gift->label }}">
-                                            <i class="material-icons m-auto">add</i>
-                                        </button>
-                                    </div>
                                 </div>
-                                <!-- /.Greeting Cards -->
+                                <!-- /.Accessories -->
                             @endforeach
                         </div>
                     </div>
@@ -546,83 +554,97 @@
 @include('layouts.includes.footer')
 
 @auth
-<!-- Review Modal -->
-<div class="modal text-sm p-0" id="write-review" tabindex="-1" role="dialog" aria-labelledby="write-review" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content box-shadow-sm rounded-2">
-            <div class="modal-header border-bottom d-block py-1 box-shadow-sm">
-                <h5 class="font-400 my-0 py-0">Write a review</h5>
-                <p class="font-400 my-0 py-0 text-capitalize" id="product-name"></p>
-            </div>
-            <div class="modal-body">
-                <div class="media mb-2">
-                    <img src="/storage/users/{{ Auth::user()->profile_pic }}" height="30" width="30" alt="" class="rounded-circle align-self-start mr-2 mt-1">
-                    <div class="media-body">
-                        <p class="font-600 my-0 py-0 text-capitalize">{{ Auth::user()->name }}</p>
-                        <p class="text-muted my-0 py-0">Posting publicly</p>
-                        <div class="d-flex align-items-center my-1">
-                            <div id="user-rating"></div>
-                            <span class="ml-2 font-500 text-faded"></span>
+    <!-- Review Modal -->
+    <div class="modal text-sm p-0" id="write-review" tabindex="-1" role="dialog" aria-labelledby="write-review" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content box-shadow-sm rounded-2">
+                <div class="modal-header border-bottom d-block py-1 box-shadow-sm">
+                    <h5 class="font-400 my-0 py-0">Write a review</h5>
+                    <p class="font-400 my-0 py-0 text-capitalize" id="product-name"></p>
+                </div>
+                <div class="modal-body">
+                    <div class="media mb-2">
+                        <img src="/storage/users/{{ Auth::user()->profile_pic }}" height="30" width="30" alt="" class="rounded-circle align-self-start mr-2 mt-1">
+                        <div class="media-body">
+                            <p class="font-600 my-0 py-0 text-capitalize">{{ Auth::user()->name }}</p>
+                            <p class="text-muted my-0 py-0">Posting publicly</p>
+                            <div class="d-flex align-items-center my-1">
+                                <div id="user-rating"></div>
+                                <span class="ml-2 font-500 text-faded"></span>
+                            </div>
                         </div>
                     </div>
+                    <form action="" method="post" id="ratingForm">
+                        <textarea name="user-review" id="user-review" cols="30" rows="7" class="form-control rounded-2 font-400 w-100" placeholder="Your feedback helps others to purchase this gift." onkeyup="emptyReview(this)"></textarea>
+                        <input type="hidden" name="product-id" id="product-id" value="{{ $gift->id }}">
+                        <input type="hidden" class="text-capitalize" name="product-name" id="product-name" value="{{ $gift->gift_name }}">
+                        <input type="hidden" id="star-rating" name="star-rating">
+                        <input type="hidden" name="action" value="post-review">
+                        <div class="d-flex align-items-center justify-content-end mt-2">
+                            <a role="button" href="javascript:void()" class="btn btn-link font-500" data-dismiss="modal">Cancel</a>
+                            <button type="submit" class="btn btn-primary btn-sm px-3 ml-2 font-500" id="submit-review" disabled>Post</button>
+                        </div>
+                    </form>
                 </div>
-                <form action="" method="post" id="ratingForm">
-                    <textarea name="user-review" id="user-review" cols="30" rows="7" class="form-control rounded-2 font-400 w-100" placeholder="Your feedback helps others to purchase this gift." onkeyup="emptyReview(this)"></textarea>
-                    <input type="hidden" name="product-id" id="product-id" value="{{ $gift->id }}">
-                    <input type="hidden" class="text-capitalize" name="product-name" id="product-name" value="{{ $gift->gift_name }}">
-                    <input type="hidden" id="star-rating" name="star-rating">
-                    <input type="hidden" name="action" value="post-review">
-                    <div class="d-flex align-items-center justify-content-end mt-2">
-                        <a role="button" href="javascript:void()" class="btn btn-link font-500" data-dismiss="modal">Cancel</a>
-                        <button type="submit" class="btn btn-primary btn-sm px-3 ml-2 font-500" id="submit-review" disabled>Post</button>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
-</div>
-<!-- /.Review Modal -->
+    <!-- /.Review Modal -->
 @endauth
 
 @guest
-<!-- SigninFirst Modal -->
-<div class="modal text-sm p-0" id="write-review" tabindex="-1" role="dialog" aria-labelledby="write-review" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-        <div class="modal-content p-0">
-            <div class="modal-header pt-0 pb-1 shadow-sm">
-                <div class="modal-title d-block" id="exampleModalLabel">
-                    <h5 class="mb-0 p-3">Want to contribute?</h5>
-                    <small class="mt-0 write-review-title text-capitalize">
-                    </small>
-                </div>
-                <button type="button" class="close mt-0" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <p class="text-justify">
-                    You need to be signed in with your account to have your contributions about 
-                    <span class="text-primary text-capitalize">{{ $title }}</span> saved.
-                </p>
-                <div class="row justify-content-center w-100 px-0 mx-0">
-                    <div class="col">
-                        <a role="button" href="/login" class="btn border-primary text-primary btn-sm btn-block font-600">
-                            Sign in
-                        </a>
+    <!-- SigninFirst Modal -->
+    <div class="modal text-sm p-0" id="write-review" tabindex="-1" role="dialog" aria-labelledby="write-review" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content p-0">
+                <div class="modal-header pt-0 pb-1 shadow-sm">
+                    <div class="modal-title d-block" id="exampleModalLabel">
+                        <h5 class="mb-0 p-3">Want to contribute?</h5>
+                        <small class="mt-0 write-review-title text-capitalize">
+                        </small>
                     </div>
-                    <div class="col">
-                        <a role="button" href="/register" class="btn btn-primary btn-sm btn-block font-600 ml-1">
-                            Sign up
-                        </a>
+                    <button type="button" class="close mt-0" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-justify">
+                        You need to be signed in with your account to have your contributions about 
+                        <span class="text-primary text-capitalize">{{ $title }}</span> saved.
+                    </p>
+                    <div class="row justify-content-center w-100 px-0 mx-0">
+                        <div class="col">
+                            <a role="button" href="/login" class="btn border-primary text-primary btn-sm btn-block font-600">
+                                Sign in
+                            </a>
+                        </div>
+                        <div class="col">
+                            <a role="button" href="/register" class="btn btn-primary btn-sm btn-block font-600 ml-1">
+                                Sign up
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<!-- /.signin-first modal -->
+    <!-- /.signin-first modal -->
 @endguest
 
 <script>
-    var _token = $('input[name="_token"]').val();
+    $(function(){
+        var acction = 'wishlist-btn';
+        $.ajax({
+            url: '/details/wishlist';
+            method: 'post',
+            data: {
+                action: action,
+                _token: _token
+            },
+            dataType: 'json',
+            success: function(data){
+                $('')
+            }
+        });
+    });
 </script>

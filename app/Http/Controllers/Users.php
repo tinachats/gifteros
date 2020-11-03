@@ -154,7 +154,8 @@ class Users extends Controller
     }
 
     // Fetch user's info
-    public function user_info(Request $request){
+    public function user_info(Request $request)
+    {
         if($request->ajax()){
             if($request->action == 'user-info'){
                 $count_wishlist = DB::table('wishlist')
@@ -181,7 +182,8 @@ class Users extends Controller
     }
 
     // Add gift item to wishlist
-    public function wish(Request $request){
+    public function wish(Request $request)
+    {
         if($request->ajax()){
             if($request->action == 'wish'){
                 $data = [
@@ -197,7 +199,8 @@ class Users extends Controller
     }
 
     // Remove gift item from wishlist
-    public function unwish(Request $request){
+    public function unwish(Request $request)
+    {
         if($request->ajax()){
             if($request->action == 'unwish'){
                 DB::table('wishlist')

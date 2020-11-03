@@ -65,9 +65,9 @@
         <div class="d-flex justify-content-around align-items-center">
             <i role="button" class="material-icons view-option grid-icon active" data-view="grid-view" title="Grid View">view_comfy</i>
             <i role="button" class="material-icons view-option list-icon mx-3" data-view="list-view" title="List view">view_list</i>
-            <a role="button" href="/category/25/customizable" class="btn btn-sm btn-outline-dark rounded-0" id="all-customizable">
-                <span class="text-dark-inverse">View all</span>
-                <i class="ion ion-chevron-right text-dark-inverse ml-2"></i>
+            <a role="button" href="/category/25/customizable" class="btn btn-sm bg-switch rounded-0" id="all-customizable">
+                <span class="text-white">View all</span>
+                <i class="ion ion-chevron-right text-white ml-2"></i>
             </a>
         </div>
     </div>
@@ -120,9 +120,9 @@
         <div class="d-flex justify-content-around align-items-center">
             <i role="button" class="material-icons view-option grid-icon active" data-view="grid-view" title="Grid View">view_comfy</i>
             <i role="button" class="material-icons view-option list-icon mx-3" data-view="list-view" title="List view">view_list</i>
-            <a role="button" href="/category/9/kitchenware" class="btn btn-sm btn-outline-dark rounded-0" id="all-kitchenware">
-                <span class="text-dark-inverse">View all</span>
-                <i class="ion ion-chevron-right text-dark-inverse ml-2"></i>
+            <a role="button" href="/category/9/kitchenware" class="btn btn-sm bg-switch rounded-0" id="all-kitchenware">
+                <span class="text-white">View all</span>
+                <i class="ion ion-chevron-right text-white ml-2"></i>
             </a>
         </div>
     </div>
@@ -175,9 +175,9 @@
         <div class="d-flex justify-content-around align-items-center">
             <i role="button" class="material-icons view-option grid-icon active" data-view="grid-view" title="Grid View">view_comfy</i>
             <i role="button" class="material-icons view-option list-icon mx-3" data-view="list-view" title="List view">view_list</i>
-            <a role="button" href="/category/12/personal care" class="btn btn-sm btn-outline-dark rounded-0" id="all-persomal-care">
-                <span class="text-dark-inverse">View all</span>
-                <i class="ion ion-chevron-right text-dark-inverse ml-2"></i>
+            <a role="button" href="/category/12/personal care" class="btn btn-sm bg-switch rounded-0" id="all-persomal-care">
+                <span class="text-white">View all</span>
+                <i class="ion ion-chevron-right text-white ml-2"></i>
             </a>
         </div>
     </div>
@@ -230,9 +230,9 @@
         <div class="d-flex justify-content-around align-items-center">
             <i role="button" class="material-icons view-option grid-icon active" data-view="grid-view" title="Grid View">view_comfy</i>
             <i role="button" class="material-icons view-option list-icon mx-3" data-view="list-view" title="List view">view_list</i>
-            <a role="button" href="/category/21/plasticware" class="btn btn-sm btn-outline-dark rounded-0" id="all-plasticware">
-                <span class="text-dark-inverse">View all</span>
-                <i class="ion ion-chevron-right text-dark-inverse ml-2"></i>
+            <a role="button" href="/category/21/plasticware" class="btn btn-sm bg-switch rounded-0" id="all-plasticware">
+                <span class="text-white">View all</span>
+                <i class="ion ion-chevron-right text-white ml-2"></i>
             </a>
         </div>
     </div>
@@ -285,9 +285,9 @@
         <div class="d-flex justify-content-around align-items-center">
             <i role="button" class="material-icons view-option grid-icon active" data-view="grid-view" title="Grid View">view_comfy</i>
             <i role="button" class="material-icons view-option list-icon mx-3" data-view="list-view" title="List view">view_list</i>
-            <a role="button" href="/category/34/combo" class="btn btn-sm btn-outline-dark rounded-0" id="all-combos">
-                <span class="text-dark-inverse">View all</span>
-                <i class="ion ion-chevron-right text-dark-inverse ml-2"></i>
+            <a role="button" href="/category/34/combo" class="btn btn-sm bg-switch rounded-0" id="all-combos">
+                <span class="text-white">View all</span>
+                <i class="ion ion-chevron-right text-white ml-2"></i>
             </a>
         </div>
     </div>
@@ -340,9 +340,9 @@
         <div class="d-flex justify-content-around align-items-center">
             <i role="button" class="material-icons view-option grid-icon active" data-view="grid-view" title="Grid View">view_comfy</i>
             <i role="button" class="material-icons view-option list-icon mx-3" data-view="list-view" title="List view">view_list</i>
-            <a role="button" href="/category/8/appliances" class="btn btn-sm btn-outline-dark rounded-0" id="all-appliances">
-                <span class="text-dark-inverse">View all</span>
-                <i class="ion ion-chevron-right text-dark-inverse ml-2"></i>
+            <a role="button" href="/category/8/appliances" class="btn btn-sm bg-switch rounded-0" id="all-appliances">
+                <span class="text-white">View all</span>
+                <i class="ion ion-chevron-right text-white ml-2"></i>
             </a>
         </div>
     </div>
