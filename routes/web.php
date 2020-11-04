@@ -57,6 +57,9 @@ Route::post('/account/check_password', [Users::class, 'check_password'])->name('
 Route::post('/account/change_password', [Users::class, 'change_password'])->name('change_password');
 Route::post('/wish', [Users::class, 'wish'])->name('wish');
 Route::post('/unwish', [Users::class, 'unwish'])->name('unwish');
+Route::post('/gift_review', [Users::class, 'gift_review'])->name('gift_review');
+Route::post('/helpful', [Users::class, 'helpful'])->name('helpful');
+Route::post('/unhelpful', [Users::class, 'unhelpful'])->name('unhelpful');
 
 // Account Routes
 Route::get('/account/{name}', [AccountController::class, 'index'])->name('account');

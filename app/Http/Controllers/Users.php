@@ -215,4 +215,109 @@ class Users extends Controller
             }
         }
     }
+
+    // Submit customer gift review
+    public function gift_review(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action == 'gift-review'){
+                $data = [
+                    'gift_id'         => $request->post('gift-id'),
+                    'user_id'         => Auth::user()->id,
+                    'customer_rating' => $request->post('star-rating'),
+                    'customer_review' => $request->post('user-review')
+                ];
+                DB::table('gift_ratings')->insert($data);
+                return response()->json([
+                    'message' => 'success'
+                ]);
+            }
+        }
+    }
+
+    // Click on the helpful button
+    public function helpful(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action == 'helpful'){
+                $data = [
+                    'rating_id'  => $request->rating_id,
+                    'gift_id'    => $request->gift_id,
+                    'user_id'    => Auth::user()->id
+                ];
+                DB::table('helpful')->insert($data);
+                $check = DB::table('unhelpful')
+                            ->select('rating_id')
+                            ->where('rating_id', $request->rating_id)
+                            ->get();
+                if($check->count() > 0){
+                    DB::table('unhelpful')
+                        ->where('rating_id', $request->rating_id)
+                        ->delete();
+                }
+                DB::table('notifications')->insert([
+                    'user_id'           => Auth::user()->id,
+                    'channel_id'        => $request->rating_id,
+                    'notification_type' => $request->notification_type
+                ]);
+                $queue = [
+                    'message'    => 'success'
+                ];
+                return response()->json($queue);
+            }
+        }
+    }
+
+    // Click on the unhelpful button
+    public function unhelpful(Request $request){
+        if($request->ajax()){
+            if($request->action == 'unhelpful'){
+                $data = [
+                    'rating_id'  => $request->rating_id,
+                    'gift_id'    => $request->gift_id,
+                    'user_id'    => Auth::user()->id
+                ];
+                DB::table('helpful')
+                        ->where($data)
+                        ->delete();
+                DB::table('notifications')
+                        ->where([
+                            'channel_id' => $request->rating_id,
+                            'user_id'   => Auth::user()->id
+                        ])
+                        ->delete();
+                $queue = [
+                    'message'    => 'success'
+                ];
+                return response()->json($queue);
+            }
+        }
+    }
+
+    // Click on the unlike button
+    public function unlike(Request $request){
+        if($request->ajax()){
+            if($request->action == 'unhelpful'){
+                $data = [
+                    'rating_id'  => $request->rating_id,
+                    'gift_id'    => $request->gift_id,
+                    'user_id'    => Auth::user()->id
+                ];
+                DB::table('unhelpful')->insert($data);
+                DB::table('helpful')
+                        ->where($data)
+                        ->delete();
+                DB::table('notifications')
+                        ->where([
+                            'rating_id' => $request->rating_id,
+                            'user_id'   => Auth::user()->id
+                        ])
+                        ->delete();
+                $queue = [
+                    'message'    => 'success'
+                ];
+                return response()->json($queue);
+            }
+        }
+    }
 }

@@ -897,16 +897,15 @@ class Gifts extends Controller
                         ])
                         ->orderBy('usd_price', 'asc')
                         ->get();
-        $reviews = DB::table('gift_ratings')
-                     ->join('users', 'users.id', '=', 'gift_ratings.user_id')
-                     ->join('gifts', 'gifts.id', '=', 'gift_ratings.gift_id')
-                     ->where('gifts.id', $id)
-                     ->orderBy('gift_ratings.created_at', 'desc')
-                     ->get();
         $title = DB::table('gifts')
                     ->where('id', $id)
                     ->value('gift_name');
         $category_name = categoryName($id);
+        $review_count = DB::table('gift_ratings')
+                            ->join('users', 'users.id', '=', 'gift_ratings.user_id')
+                            ->join('gifts', 'gifts.id', '=', 'gift_ratings.gift_id')
+                            ->where('gifts.id', $id)
+                            ->count();
         $app_reviews = DB::table('app_ratings')
                      ->join('users', 'users.id', '=', 'app_ratings.user_id')
                      ->orderBy('app_ratings.created_at', 'desc')
@@ -914,14 +913,14 @@ class Gifts extends Controller
                      ->get();
         $data = [
             'title' => $title,
-            'category_name' => $category_name,
-            'gift' => $gift,
-            'id' => $id,
+            'category_name'  => $category_name,
+            'gift'           => $gift,
+            'id'             => $id,
             'greeting_cards' => $greeting_cards,
-            'wrappers' => $wrappers,
-            'accesories' => $accesories,
-            'reviews' => $reviews,
-            'app_reviews' => $app_reviews
+            'wrappers'       => $wrappers,
+            'accesories'     => $accesories,
+            'review_count'   => $review_count,
+            'app_reviews'    => $app_reviews
         ];
         return view('details.show')->with($data);
     }
@@ -949,15 +948,138 @@ class Gifts extends Controller
     {
         if($request->ajax()){
             if($request->action == 'gift-ratings'){
+                $output = $user_msg = $helpful_btn = $unhelpful_btn = $comment_form = '';
                 $progress_rating = progressBarRating($request->gift_id);
                 $star_rating = dpStarRating($request->gift_id);
                 $gift_rating = number_format(giftRating($request->gift_id), 1);
                 $count_ratings = countRatings($request->gift_id);
+                $reviews = DB::table('gift_ratings')
+                            ->join('users', 'users.id', '=', 'gift_ratings.user_id')
+                            ->join('gifts', 'gifts.id', '=', 'gift_ratings.gift_id')
+                            ->select('gift_ratings.*', 'gift_ratings.created_at as posted_on', 'gifts.*', 'users.*')
+                            ->where('gifts.id', $request->gift_id)
+                            ->orderBy('gift_ratings.created_at', 'desc')
+                            ->get();
+                $count = $reviews->count();
+                if($count > 0){
+                    foreach ($reviews as $review){
+                        if(Auth::user()->id){
+                            $helpful_btn = helpful_btn($review->rating_id, $review->gift_id, Auth::user()->id);
+                            $unhelpful_btn = unhelpful_btn($review->rating_id, $review->gift_id, Auth::user()->id);
+                            $comment_form = '
+                                <!-- Comment form -->
+                                <div class="d-flex align-items-center">
+                                    <img src="/storage/users/'. Auth::user()->profile_pic .'" height="30" width="30" alt="" class="rounded-circle mr-1">
+                                    <input type="text" class="form-control form-control-sm comment-input rounded-pill" placeholder="Press enter to submit comment" name="add-comment" id="add-comment'. $review->rating_id .'" data-post_id="'. $review->rating_id .'" data-user_id="'. $review->user_id .'" required>
+                                    <div class="send-btn d-sm-inline-block d-md-none" id="send-btn'. $review->rating_id .'">
+                                        <button type="button" class="btn btn-primary btn-sm rounded-circle ml-1 comment-btn d-grid" id="send-btn'. $review->rating_id .'" data-post_id="'. $review->rating_id .'" data-user_id="'. $review->user_id .'">
+                                            <i class="material-icons text-white m-auto">send</i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- /.comment form -->
+                            ';
+                        } else {
+                            $helpful_btn = '
+                                <div class="d-flex d-cursor align-items-center text-sm mx-md-4 text-faded review-action" data-url="" data-toggle="modal" href="#write-review">
+                                    <i class="tiny material-icons mr-1">thumb_up</i>
+                                    <span class="d-none d-md-inline">helpful</span>
+                                </div>
+                            ';
+                            $unhelpful_btn = '
+                                <div class="d-flex d-cursor align-items-center text-sm mx-md-4 text-faded review-action" data-url="" data-toggle="modal" href="#write-review">
+                                    <i class="tiny material-icons mr-1">thumb_down</i>
+                                    <span class="d-none d-md-inline">unhelpful</span>
+                                </div>
+                            ';
+                        }
+                        $output .= '
+                            <!-- Product Review -->
+                            <div class="media review-post">
+                                <img src="/storage/users/'. $review->profile_pic .'" alt="'. $review->name .'" height="40" width="40" class="rounded-circle align-self-start mt-2 mr-2">
+                                <div class="media-body">
+                                    <div class="d-block user-details">
+                                        <p class="font-500 text-capitalize my-0 py-0">'. $review->name .'</p>
+                                        '. verifiedPurchase($review->gift_id, $review->user_id)  .'
+                                        <div class="d-flex align-items-center lh-100">
+                                            <span class="mr-2 my-0 py-0">
+                                                '. customerRating($review->rating_id, $review->gift_id, $review->user_id) .'
+                                            </span>
+                                            <span class="text-sm text-faded">
+                                                '. timestamp($review->posted_on) .'
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- User\'s Post -->
+                            <div class="customer-post">
+                                <p class="text-justify text-faded">
+                                    '. $review->customer_review .'
+                                </p>
+                                <p class="text-sm text-faded">
+                                    '. reviewLikes($review->rating_id, $review->gift_id) .'
+                                </p>
+                                <div class="mt-2 post-actions border-top border-bottom w-100 py-2">
+                                    <span>
+                                        '.$helpful_btn.'
+                                    </span>
+                                    <span class="mx-md-4">
+                                        '.$unhelpful_btn.'
+                                    </span>
+                                    <div class="d-flex d-cursor align-items-center text-sm text-faded review-action toggle-comments" data-post_id="'. $review->rating_id .'" data-user_id="'. $review->user_id .'">
+                                        <i class="tiny material-icons mr-1">sms</i> comment
+                                    </div>
+                                    <div class="d-flex d-cursor align-items-center text-sm text-faded ml-md-auto toggle-comments" data-post_id="'. $review->rating_id .'" data-user_id="'. $review->user_id .'">
+                                        <i class="tiny material-icons mr-1">forum</i> <span class="d-none d-md-inline mr-1">Comments</span> ('. countReviewComments($review->rating_id) .')
+                                    </div>
+                                </div>
+                                <!-- Commend section -->
+                                <div class="comment-section my-2" id="comment-box'. $review->rating_id .'">
+                                    <div id="old-comments'. $review->rating_id .'">
+                                        <!-- Review comments will show up here -->
+                                    </div>
+                                    '.$comment_form.'
+                                </div>
+                                <!-- /.Commend section -->
+                            </div>
+                            <!-- /.User\'s Post -->
+                            <!-- /.Product review -->
+                        ';
+                    }
+                } else {
+                    if(Auth::user()->id){
+                        $user_msg = '
+                            <p class="text-sm">
+                                Post your review about this gift. It helps others in deciding 
+                                to purchase this gift
+                            </p>
+                        ';
+                    } else {
+                        $user_msg = '
+                            <p class="text-sm">
+                                Sign in to post your review about this gift. It helps others in deciding 
+                                to purchase this gift
+                            </p> 
+                        ';
+                    }
+                    $output = '
+                        <div class="row justify-content-center my-5">
+                            <div class="col-10 col-md-12 text-center no-content">
+                                <i class="material-icons text-muted lead">forum</i>
+                                <h5 class="font-600">There are no gift reviews to show at the moment.</h5>
+                                '.$user_msg.'
+                                <a href="#" class="btn btn-primary btn-sm px-3">Post a review</a>
+                            </div>
+                        </div>
+                    ';
+                }
                 return response()->json([
                     'progress_rating' => $progress_rating,
                     'star_rating'     => $star_rating,
                     'gift_rating'     => $gift_rating,
-                    'count_ratings'   => $count_ratings
+                    'count_ratings'   => $count_ratings,
+                    'reviews'         =>  $output
                 ]);
             }
         }

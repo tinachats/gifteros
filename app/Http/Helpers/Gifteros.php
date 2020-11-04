@@ -301,10 +301,20 @@
 
     // Get gift ratings and reviews
     function giftRating($gift_id){
-        $gift_rating = DB::table('gift_ratings')
-                        ->where('gift_id', $gift_id)
-                        ->groupBy('gift_id')
-                        ->avg('customer_rating');
+        $gift_rating = 0;
+        $result = DB::table('gift_ratings')
+                          ->join('gifts', 'gifts.id', '=', 'gift_ratings.gift_id')
+                          ->where('gift_id', $gift_id)
+                          ->get();
+        $count = $result->count();
+        if($count > 0){
+            $gift_rating = DB::table('gift_ratings')
+                              ->where('gift_id', $gift_id)
+                              ->groupBy('gift_id')
+                              ->avg('customer_rating');
+        } else {
+            $gift_rating = 0;
+        }  
         return $gift_rating;
     }
 
@@ -668,7 +678,7 @@
                         ->get();
         if(count($relatives) > 0){
             $output .= '
-                <h4 class="display-5 font-600 mt-2">Related Gifts</h4>
+                <h4 class="display-5 font-600 mt-2">You may also like</h4>
                 <div class="owl-carousel owl-theme target-gifts">
             ';
             foreach($relatives as $gift){
@@ -797,7 +807,7 @@
     // Count of people who found review post helpful
     function reviewLikes($rating_id, $gift_id){
         $output = '';
-        $count = DB::table('review_helpful')
+        $count = DB::table('helpful')
                    ->where([
                        'rating_id' => $rating_id,
                        'gift_id' => $gift_id
@@ -826,7 +836,7 @@
     // Helpful button
     function helpful_btn($rating_id, $gift_id, $user_id){
         $output = '';
-        $count = DB::table('review_helpful')
+        $count = DB::table('helpful')
                    ->where([
                         'rating_id' => $rating_id,
                         'gift_id' => $gift_id,
@@ -854,7 +864,7 @@
     // Unhelpful button
     function unhelpful_btn($rating_id, $gift_id, $user_id){
         $output = '';
-        $count = DB::table('review_unhelpful')
+        $count = DB::table('unhelpful')
                    ->where([
                         'rating_id' => $rating_id,
                         'gift_id' => $gift_id,

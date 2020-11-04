@@ -26,6 +26,7 @@
 
     <!-- Page Content -->
     <div class="container-fluid mb-5 main-page">
+        {{ csrf_field() }}
         <div class="row">
             <div class="col-12 col-xl-8 details-section">
                 <!-- Product Info -->
@@ -182,128 +183,32 @@
                         <div class="row no-gutters border-top py-3">
                             <div class="d-flex align-items-center w-100">
                                 <h6 class="font-600 my-0 py-0 text-uppercase text-faded">Customer reviews</h6>
-                                @if($reviews->count() > 5)
-                                <h6 class="text-inverse font-500 ml-auto my-0 py-0 toggle-reviews">
-                                    <a class="view-reviews" href="javascript:void()">
-                                        <span class="d-flex align-items-center text-faded font-600">
-                                            See less
-                                            <i class="ion ion-chevron-up mt-1 ml-2 mr-1"></i>
-                                        </span>
-                                    </a>
-                                    <a class="view-reviews d-none" href="javascript:void()">
-                                        <span class="d-flex align-items-center text-faded font-600">
-                                            See more
-                                            <i class="ion ion-chevron-down mt-1 ml-2 mr-1"></i>
-                                        </span>
-                                    </a>
-                                </h6>
+                                {{ csrf_field() }}
+                                @if($review_count > 5)
+                                    <h6 class="text-inverse font-500 ml-auto my-0 py-0 toggle-reviews">
+                                        <a class="view-reviews" href="javascript:void()">
+                                            <span class="d-flex align-items-center text-faded font-600">
+                                                See less
+                                                <i class="ion ion-chevron-up mt-1 ml-2 mr-1"></i>
+                                            </span>
+                                        </a>
+                                        <a class="view-reviews d-none" href="javascript:void()">
+                                            <span class="d-flex align-items-center text-faded font-600">
+                                                See more
+                                                <i class="ion ion-chevron-down mt-1 ml-2 mr-1"></i>
+                                            </span>
+                                        </a>
+                                    </h6>
                                 @endif
                             </div>
-                            <div id="product-reviews" class="col-12 col-md-10 mt-md-3">
-                                @if (count($reviews) > 0)
-                                    <!-- Product reviews will be shown here -->
-                                    @foreach ($reviews as $review)
-                                        <!-- Product Review -->
-                                        <div class="media review-post">
-                                            <img src="/storage/users/{{ $review->profile_pic }}" alt="{{ $review->name }}" height="40" width="40" class="rounded-circle align-self-start mt-2 mr-2">
-                                            <div class="media-body">
-                                                <div class="d-block user-details">
-                                                    <p class="font-500 text-capitalize my-0 py-0">{{ $review->name }}</p>
-                                                    {!! verifiedPurchase($review->gift_id, $review->user_id)  !!}
-                                                    <div class="d-flex align-items-center lh-100">
-                                                        <span class="mr-2 my-0 py-0">
-                                                            {!! customerRating($review->rating_id, $review->gift_id, $review->user_id) !!}
-                                                        </span>
-                                                        <span class="text-sm text-faded">
-                                                            {{ timestamp($review->created_at) }}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- User\'s Post -->
-                                        <div class="customer-post">
-                                            <p class="text-justify text-faded">
-                                                {{ $review->customer_review }}
-                                            </p>
-                                            <p class="text-sm text-faded">
-                                                {!! reviewLikes($review->id, $review->gift_id) !!}
-                                            </p>
-                                            <div class="mt-2 post-actions border-top border-bottom w-100 py-2">
-                                                <span>
-                                                    @auth
-                                                        {!! helpful_btn($review->id, $review->gift_id, Auth::user()->id) !!}
-                                                    @endauth
-                                                    @guest
-                                                        <div class="d-flex d-cursor align-items-center text-sm mx-md-4 text-faded review-action" data-url="" data-toggle="modal" href="#write-review">
-                                                            <i class="tiny material-icons mr-1">thumb_up</i>
-                                                            <span class="d-none d-md-inline">helpful</span>
-                                                        </div>
-                                                    @endguest
-                                                </span>
-                                                <span class="mx-md-4">
-                                                    @auth
-                                                        {!! unhelpful_btn($review->id, $review->gift_id, Auth::user()->id) !!}
-                                                    @endauth
-                                                    @guest
-                                                        <div class="d-flex d-cursor align-items-center text-sm mx-md-4 text-faded review-action" data-url="" data-toggle="modal" href="#write-review">
-                                                            <i class="tiny material-icons mr-1">thumb_down</i>
-                                                            <span class="d-none d-md-inline">unhelpful</span>
-                                                        </div>
-                                                    @endguest
-                                                </span>
-                                                <div class="d-flex d-cursor align-items-center text-sm text-faded review-action toggle-comments" data-post_id="{{ $review->id }}" data-user_id="{{ $review->user_id }}">
-                                                    <i class="tiny material-icons mr-1">sms</i> comment
-                                                </div>
-                                                <div class="d-flex d-cursor align-items-center text-sm text-faded ml-md-auto toggle-comments" data-post_id="{{ $review->id }}" data-user_id="{{ $review->user_id }}">
-                                                    <i class="tiny material-icons mr-1">forum</i> <span class="d-none d-md-inline mr-1">Comments</span> ({{ countReviewComments($review->id) }})
-                                                </div>
-                                            </div>
-                                            <!-- Commend section -->
-                                            <div class="comment-section my-2" id="comment-box{{ $review->id }}">
-                                                <div id="old-comments{{ $review->id }}">
-                                                    <!-- Review comments will show up here -->
-                                                </div>
-                                                @auth
-                                                    <!-- Comment form -->
-                                                    <div class="d-flex align-items-center">
-                                                        <img src="/storage/users/{{ Auth::user()->profile_pic }}" height="30" width="30" alt="" class="rounded-circle mr-1">
-                                                        <input type="text" class="form-control form-control-sm comment-input rounded-pill" placeholder="Press enter to submit comment" name="add-comment" id="add-comment{{ $review->id }}" data-post_id="{{ $review->id }}" data-user_id="{{ $review->user_id }}" required>
-                                                        <div class="send-btn d-sm-inline-block d-md-none" id="send-btn{{ $review->id }}">
-                                                            <button type="button" class="btn btn-primary btn-sm rounded-circle ml-1 comment-btn d-grid" id="send-btn{{ $review->id }}" data-post_id="{{ $review->id }}" data-user_id="{{ $review->user_id }}">
-                                                                <i class="material-icons text-white m-auto">send</i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /.comment form -->
-                                                @endauth
-                                            </div>
-                                            <!-- /.Commend section -->
-                                        </div>
-                                        <!-- /.User\'s Post -->
-                                        <!-- /.Product review -->
-                                    @endforeach
-                                @else
-                                    <div class="row justify-content-center my-5">
-                                        <div class="col-10 col-md-12 text-center no-content">
-                                            <i class="material-icons text-muted lead">forum</i>
-                                            <h5 class="font-600">There are no gift reviews to show at the moment.</h5>
-                                            @auth
-                                                <p class="text-sm">
-                                                    Post your review about this gift. It helps others in deciding 
-                                                    to purchase this gift
-                                                </p>
-                                            @endauth
-                                            @guest
-                                                <p class="text-sm">
-                                                    Sign in to post your review about this gift. It helps others in deciding 
-                                                    to purchase this gift
-                                                </p> 
-                                            @endguest
-                                            <a href="#" class="btn btn-primary btn-sm px-3">Post a review</a>
-                                        </div>
+                            <div id="gift-reviews" class="col-12 col-md-10 mt-md-3">
+                                <!-- Product reviews will be shown here -->
+                                <div class="row justify-content-center my-5">
+                                    <div class="d-block text-center">
+                                        <img src="{{ asset('img/app/spinner.svg') }}" height="80" width="80" alt="" class="">
+                                        <h6 class="font-600 mt-2">Loading gift reviews...</h6>
                                     </div>
-                                @endif
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -369,7 +274,7 @@
                                                         {!! $star_rating !!}
                                                     </div>
                                                 </div>
-                                                <input value="{{ $gift->id }}" id="product_id" type="hidden">
+                                                <input value="{{ $gift->id }}" id="gift_id" type="hidden">
                                                 <input value="{{ $gift->gift_name }}" id="name{{ $gift->id }}" type="hidden">
                                                 <input value="{{ $gift->gift_image }}" id="image{{ $gift->id }}" type="hidden">
                                                 <input value="{{ $usd_price }}" id="usd-price{{ $gift->id }}" type="hidden">
@@ -441,7 +346,7 @@
                                                         {!! $star_rating !!}
                                                     </div>
                                                 </div>
-                                                <input value="{{ $gift->id }}" id="product_id" type="hidden">
+                                                <input value="{{ $gift->id }}" id="gift_id" type="hidden">
                                                 <input value="{{ $gift->gift_name }}" id="name{{ $gift->id }}" type="hidden">
                                                 <input value="{{ $gift->gift_image }}" id="image{{ $gift->id }}" type="hidden">
                                                 <input value="{{ $usd_price }}" id="usd-price{{ $gift->id }}" type="hidden">
@@ -513,7 +418,7 @@
                                                         {!! $star_rating !!}
                                                     </div>
                                                 </div>
-                                                <input value="{{ $gift->id }}" id="product_id" type="hidden">
+                                                <input value="{{ $gift->id }}" id="gift_id" type="hidden">
                                                 <input value="{{ $gift->gift_name }}" id="name{{ $gift->id }}" type="hidden">
                                                 <input value="{{ $gift->gift_image }}" id="image{{ $gift->id }}" type="hidden">
                                                 <input value="{{ $usd_price }}" id="usd-price{{ $gift->id }}" type="hidden">
@@ -566,7 +471,7 @@
             <div class="modal-content box-shadow-sm rounded-2">
                 <div class="modal-header border-bottom d-block py-1 box-shadow-sm">
                     <h5 class="font-400 my-0 py-0">Write a review</h5>
-                    <p class="font-400 my-0 py-0 text-capitalize" id="product-name"></p>
+                    <p class="font-400 my-0 py-0 text-capitalize">{{ $title }}</p>
                 </div>
                 <div class="modal-body">
                     <div class="media mb-2">
@@ -580,12 +485,12 @@
                             </div>
                         </div>
                     </div>
-                    <form action="" method="post" id="ratingForm">
+                    <form method="post" id="ratingForm">
+                        @csrf
                         <textarea name="user-review" id="user-review" cols="30" rows="7" class="form-control rounded-2 font-400 w-100" placeholder="Your feedback helps others to purchase this gift." onkeyup="emptyReview(this)"></textarea>
-                        <input type="hidden" name="product-id" id="product-id" value="{{ $gift->id }}">
-                        <input type="hidden" class="text-capitalize" name="product-name" id="product-name" value="{{ $gift->gift_name }}">
+                        <input type="hidden" name="gift-id" id="gift-id" value="{{ $id }}">
                         <input type="hidden" id="star-rating" name="star-rating">
-                        <input type="hidden" name="action" value="post-review">
+                        <input type="hidden" name="action" value="gift-review">
                         <div class="d-flex align-items-center justify-content-end mt-2">
                             <a role="button" href="javascript:void()" class="btn btn-link font-500" data-dismiss="modal">Cancel</a>
                             <button type="submit" class="btn btn-primary btn-sm px-3 ml-2 font-500" id="submit-review" disabled>Post</button>
@@ -630,6 +535,7 @@
 <script>
     $(function(){
         var gift_id = {{ $id }};
+        var gift_name = "{!! $title !!}";
 
         // Fetch wishlist button
         wishlistBtn();
@@ -653,7 +559,7 @@
         // Gift rating
         function starRating(){
             $('#gift-rating').rateYo({
-                rating: {{ giftRating($id) }},
+                rating:  {{ giftRating($id) }},
                 starWidth: "20px",
                 spacing: "5px",
                 readOnly: true
@@ -679,6 +585,7 @@
                     $('#gift-star-rating').html(data.star_rating);
                     $('.rating-score').html(data.gift_rating);
                     $('.total-ratings').html(data.count_ratings);
+                    $('#gift-reviews').html(data.reviews);
                 }
             });
         }
@@ -702,6 +609,108 @@
                     wishlistBtn();
                     userInfo();
                     myWishlist();
+                }
+            });
+        });
+
+        // User product_rating rating
+        $("#user-rating").rateYo({
+            onSet: function(rating, rateYoInstance) {
+                $(this).next().text('Rating of ' + rating);
+                $('#star-rating').val(rating);
+            },
+            normalFill: "#A0A0A0",
+            maxValue: 5,
+            starWidth: "20px",
+            spacing: "10px"
+        });
+
+        // Submit a gift rating and review
+        $(document).on('submit', '#ratingForm', function(e) {
+            e.preventDefault();
+            var form_data = $(this).serialize();
+            $.ajax({
+                url: '{{ route("gift_review") }}',
+                method: 'post',
+                data: form_data,
+                dataType: 'json',
+                success: function(data) {
+                    giftRatings();
+                    if (data.message == 'success') {
+                        $("#rate-product").rateYo({
+                            onSet: function(rating, rateYoInstance) {
+                                $(this).next().text(' ');
+                                $('#user-rating').val(' ');
+                            },
+                            rating: 0
+                        });
+                        $('#ratingForm')[0].reset();
+                        $('#write-review').modal('hide');
+                        $('#success-icon').html('check_circle');
+                        $('#success-message').html('Your rating for <span class="text-capitalize text-white">' + gift_name + '</span> has been submitted.');
+                        $('#success-modal').modal('show');
+                    } else {
+                        $('#success-icon').html('error');
+                        $('#success-message').html('Oops! Something went wrong. Try again!');
+                        $('#success-modal').modal('show');
+                    }
+                }
+            });
+        });
+
+        // Click on the helpful button
+        $(document).on('click', '.helpful-btn', function() {
+            var rating_id = $(this).data('post');
+            var gift_id = $(this).data('id');
+            var action = $(this).data('action');
+            $.ajax({
+                url: `/${action}`,
+                method: 'post',
+                data: {
+                    rating_id: rating_id,
+                    gift_id: gift_id,
+                    action: action,
+                    notification_type: 'likes',
+                    _token: _token
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if(data.message == 'success'){
+                        iziToast.show({
+                            theme: 'dark',
+                            timeout: 5000,
+                            overlay: false,
+                            icon: 'ion ion-checkmark text-light',
+                            backgroundColor: 'var(--success)',
+                            message: 'Thank you for your feedback!',
+                            messageColor: '#fff',
+                            position: 'bottomLeft'
+                        });
+                        giftRatings();
+                    }
+                }
+            });
+        });
+
+        // Click on the helpful button
+        $(document).on('click', '.unhelpful-btn', function() {
+            var rating_id = $(this).data('post');
+            var gift_id = $(this).data('id');
+            var action = $(this).data('action');
+            $.ajax({
+                url: `/${action}`,
+                method: 'post',
+                data: {
+                    rating_id: rating_id,
+                    gift_id: gift_id,
+                    action: action,
+                    _token: _token
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if(data.message == 'success'){
+                        giftRatings();
+                    }
                 }
             });
         });
