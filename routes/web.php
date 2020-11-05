@@ -60,6 +60,8 @@ Route::post('/unwish', [Users::class, 'unwish'])->name('unwish');
 Route::post('/gift_review', [Users::class, 'gift_review'])->name('gift_review');
 Route::post('/helpful', [Users::class, 'helpful'])->name('helpful');
 Route::post('/unhelpful', [Users::class, 'unhelpful'])->name('unhelpful');
+Route::post('/like', [Users::class, 'like'])->name('like');
+Route::post('/unlike', [Users::class, 'unlike'])->name('unlike');
 
 // Account Routes
 Route::get('/account/{name}', [AccountController::class, 'index'])->name('account');

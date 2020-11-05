@@ -675,24 +675,26 @@
                 },
                 dataType: 'json',
                 success: function(data) {
-                    if(data.message == 'success'){
+                    if(data.status == 'helpful'){
                         iziToast.show({
                             theme: 'dark',
                             timeout: 5000,
                             overlay: false,
                             icon: 'ion ion-checkmark text-light',
                             backgroundColor: 'var(--success)',
-                            message: 'Thank you for your feedback!',
+                            message: data.message,
                             messageColor: '#fff',
                             position: 'bottomLeft'
                         });
+                        giftRatings();
+                    } else {
                         giftRatings();
                     }
                 }
             });
         });
 
-        // Click on the helpful button
+        // Click on the unhelpful button
         $(document).on('click', '.unhelpful-btn', function() {
             var rating_id = $(this).data('post');
             var gift_id = $(this).data('id');
@@ -704,11 +706,24 @@
                     rating_id: rating_id,
                     gift_id: gift_id,
                     action: action,
+                    notification_type: 'dislikes',
                     _token: _token
                 },
                 dataType: 'json',
                 success: function(data) {
-                    if(data.message == 'success'){
+                    if(data.status == 'unhelpful'){
+                        iziToast.show({
+                            theme: 'dark',
+                            timeout: 5000,
+                            overlay: false,
+                            icon: 'ion ion-checkmark text-light',
+                            backgroundColor: 'var(--success)',
+                            message: data.message,
+                            messageColor: '#fff',
+                            position: 'bottomLeft'
+                        });
+                        giftRatings();
+                    } else {
                         giftRatings();
                     }
                 }

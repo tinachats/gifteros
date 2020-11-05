@@ -261,7 +261,8 @@ class Users extends Controller
                     'notification_type' => $request->notification_type
                 ]);
                 $queue = [
-                    'message'    => 'success'
+                    'status'     => 'helpful',
+                    'message'    => 'Thank you for your feedback!'
                 ];
                 return response()->json($queue);
             }
@@ -269,7 +270,8 @@ class Users extends Controller
     }
 
     // Click on the unhelpful button
-    public function unhelpful(Request $request){
+    public function unhelpful(Request $request)
+    {
         if($request->ajax()){
             if($request->action == 'unhelpful'){
                 $data = [
@@ -287,7 +289,36 @@ class Users extends Controller
                         ])
                         ->delete();
                 $queue = [
-                    'message'    => 'success'
+                    'status'     => 'unhelpful',
+                    'message'    => ''
+                ];
+                return response()->json($queue);
+            }
+        }
+    }
+
+    // Click on the like button
+    public function like(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action == 'like'){
+                $data = [
+                    'rating_id'  => $request->rating_id,
+                    'gift_id'    => $request->gift_id,
+                    'user_id'    => Auth::user()->id
+                ];
+                DB::table('unhelpful')
+                        ->where($data)
+                        ->delete();
+                DB::table('notifications')
+                        ->where([
+                            'channel_id' => $request->rating_id,
+                            'user_id'   => Auth::user()->id
+                        ])
+                        ->delete();
+                $queue = [
+                    'status'     => 'cancel',
+                    'message'    => ''
                 ];
                 return response()->json($queue);
             }
@@ -295,9 +326,10 @@ class Users extends Controller
     }
 
     // Click on the unlike button
-    public function unlike(Request $request){
+    public function unlike(Request $request)
+    {
         if($request->ajax()){
-            if($request->action == 'unhelpful'){
+            if($request->action == 'unlike'){
                 $data = [
                     'rating_id'  => $request->rating_id,
                     'gift_id'    => $request->gift_id,
@@ -307,14 +339,14 @@ class Users extends Controller
                 DB::table('helpful')
                         ->where($data)
                         ->delete();
-                DB::table('notifications')
-                        ->where([
-                            'rating_id' => $request->rating_id,
-                            'user_id'   => Auth::user()->id
-                        ])
-                        ->delete();
+                DB::table('notifications')->insert([
+                            'user_id'           => Auth::user()->id,
+                            'channel_id'        => $request->rating_id,
+                            'notification_type' => $request->notification_type
+                        ]);
                 $queue = [
-                    'message'    => 'success'
+                    'status'     => 'unhelpful',
+                    'message'    => 'Thank you for your feedback!'
                 ];
                 return response()->json($queue);
             }
