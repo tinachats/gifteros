@@ -688,26 +688,28 @@
                 $output .= '
                     <!-- Related Gift -->
                     <div class="item w-100">
-                        <a href="'.route('details.show', [$gift->gift_slug, $gift->gift_id]).'" class="stretched-link">
-                            <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
+                        <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
+                            <a href="'. route('details.show', [$gift->gift_slug, $gift->gift_id]) .'">
                                 <img src="/storage/gifts/'.$gift->gift_image.'" height="150" class="card-img-top w-100 rounded-0">
-                                <div class="gift-content mx-1">
+                            </a>
+                            <div class="gift-content mx-1">
+                                <a href="'. route('details.show', [$gift->gift_slug, $gift->gift_id]) .'">
                                     <h6 class="my-0 py-0 text-capitalize font-600 text-primary">'.mb_strimwidth($gift->gift_name, 0, 17, '...').'</h6>
-                                    <div class="d-inline-block lh-100">
-                                        <h6 class="my-0 py-0 text-sm text-capitalize">'.$gift->category_name.'</h6>
-                                        <div class="d-flex align-items-center justify-content-around">
-                                            '.$star_rating.'
-                                        </div>
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between w-100">
-                                        <h6 class="usd-price text-grey text-sm font-600 mt-2">US$'.number_format($gift->usd_price, 2).'</h6>
-                                        <h6 class="zar-price d-none text-grey text-sm font-600 mt-2">R'.number_format($gift->zar_price, 2).'</h6>
-                                        <h6 class="zwl-price d-none text-grey text-sm font-600 mt-2">ZW$'.number_format($gift->zwl_price, 2).'</h6>
-                                        <span role="button" class="material-icons fa-2x text-success">add_circle_outline</span>
+                                </a>
+                                <div class="d-inline-block lh-100">
+                                    <h6 class="my-0 py-0 text-sm text-capitalize">'.$gift->category_name.'</h6>
+                                    <div class="d-flex align-items-center justify-content-around">
+                                        '.$star_rating.'
                                     </div>
                                 </div>
+                                <div class="d-flex align-items-center justify-content-between w-100">
+                                    <h6 class="usd-price text-grey text-sm font-600 mt-2">US$'.number_format($gift->usd_price, 2).'</h6>
+                                    <h6 class="zar-price d-none text-grey text-sm font-600 mt-2">R'.number_format($gift->zar_price, 2).'</h6>
+                                    <h6 class="zwl-price d-none text-grey text-sm font-600 mt-2">ZW$'.number_format($gift->zwl_price, 2).'</h6>
+                                    <span role="button" class="material-icons fa-2x text-success">add_circle_outline</span>
+                                </div>
                             </div>
-                        </a>
+                        </div>
                     </div>
                     <!-- /.Related Gift -->
                 ';

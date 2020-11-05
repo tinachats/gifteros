@@ -144,8 +144,8 @@
         <!-- App-Rating -->
         <div class="app-rating-box p-2 box-shadow-sm">
             <div class="d-flex align-items-center justify-content-between">
-                <a href="index.php" class="navbar-brand font-700 ml-2">
-                    <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" width="35" alt=""> Targets
+                <a class="navbar-brand font-700 ml-2">
+                    <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" width="35" alt=""> {{ config('app.name') }}
                 </a>
                 <span role="button" class="material-icons toggle-ratingbox" id="close-ratingbox">cancel</span>
             </div>
@@ -239,7 +239,7 @@
                             <label for="app-review" class="font-600 mb-0">
                                 Add your app review
                             </label>
-                            <textarea type="text" cols="30" rows="5" name="app-review" id="app-review" class="form-control font-500" placeholder="Write your review" required></textarea>
+                            <textarea type="text" cols="30" rows="4" name="app-review" id="app-review" class="form-control font-500" placeholder="Write your review" required></textarea>
                             <span class="form-error text-danger text-sm" id="app-comment-error">Please write something</span>
                         </div>
                         <input type="hidden" name="p-rating" id="p-rating">
@@ -323,7 +323,7 @@
                 <div class="modal-content box-shadow-sm">
                     <div class="modal-body">
                         <div class="d-flex align-items-center">
-                            <a href="#" class="navbar-brand font-700">
+                            <a class="navbar-brand font-700">
                                 <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" width="35" alt=""> {{ config('app.name') }}
                             </a>
                         </div>
@@ -459,7 +459,7 @@
                 <div class="modal-content box-shadow-sm">
                     <div class="modal-body">
                         <div class="d-flex align-items-center">
-                            <a href="#" class="navbar-brand font-700">
+                            <a class="navbar-brand font-700">
                                 <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" width="35" alt=""> {{ config('app.name') }}
                             </a>
                         </div>

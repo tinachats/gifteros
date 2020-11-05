@@ -181,6 +181,185 @@ class Users extends Controller
         }
     }
 
+    // Fetch user's notifications
+    public function notifications(Request $request)
+    {
+        if($request->ajax()){
+            $message = $output = $fullname = $notification_type = '';
+            $notifications = DB::table('notifications')
+                                ->leftJoin('users', 'users.id', '=', 'notifications.user_id')
+                                ->leftJoin('orders', 'orders.user_id', '=', 'notifications.user_id')
+                                ->leftJoin('gift_ratings', 'gift_ratings.rating_id', '=', 'notifications.channel_id')
+                                ->leftJoin('gifts', 'gifts.id', '=', 'gift_ratings.gift_id')
+                                ->select('notifications.*', 'orders.*', 'users.*', 'gift_ratings.*', 'gifts.*', 'notifications.created_at as notified_at')
+                                ->where([
+                                    ['gift_ratings.user_id', '=', Auth::user()->id],
+                                    ['notifications.status', '=', 'not-seen'],
+                                    ['notifications.user_id', '<>', Auth::user()->id]
+                                ])
+                                ->orWhere('orders.user_id', Auth::user()->id)
+                                ->orderByDesc('notifications.created_at')
+                                ->get();
+            $count = $notifications->count();
+            if($count > 0){
+                if($count == 1){
+                    $message = '1 Notification';
+                } else {
+                    $message = $count . ' Notifications';
+                }
+                $output .= '
+                    <div class="dropdown-item text-sm border-bottom">
+                        <div class="d-flex align-items-center justify-content-around text-primary">
+                            <span class="text-capitalization font-600">'.$message.'</span>
+                            <span role="button" class="mx-2">Settings</span>
+                        </div>
+                    </div>
+                ';
+                foreach($notifications as $result){
+                    if(Auth::user()->name === $result->name){
+                        $fullname = 'Me';
+                    } else {
+                        $fullname = $result->name;
+                    }
+                    if($result->notification_type == 'comment'){
+                        $notification_type = '
+                            <!-- Notification -->
+                            <div class="dropdown-item my-0 py-1">
+                                <a href="'. route("details.show", [$result->slug, $result->gift_id]) .'">
+                                    <div class="media lh-100">
+                                        <img src="/storage/users/'.$result->profile_pic.'" height="40" width="40" alt="" class="rounded-circle align-self-center mr-2">
+                                        <div class="media-body text-sm">
+                                            <p class="my-0 py-0" id="subject">
+                                                <span class="font-600 text-capitalize">'.mb_strimwidth($fullname, 0, 30, '...').'</span> commented on
+                                            </p>
+                                            <p class="text-faded my-0 py-1">
+                                                '.mb_strimwidth($result->customer_review, 0, 38, '...').'
+                                            </p>
+                                            <div class="d-flex align-items-center text-faded">
+                                                <i class="tiny material-icons text-blue mr-1">forum</i> '.timeago($result->notified_at).'
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- /.Notification -->
+                        ';
+                    } else if($result->notification_type == 'like'){
+                        $notification_type = '
+                            <!-- Notification -->
+                            <div class="dropdown-item my-0 py-1">
+                                <a href="'. route("details.show", [$result->slug, $result->gift_id]) .'">
+                                    <div class="media lh-100">
+                                        <img src="/storage/users/'.$result->profile_pic.'" height="40" width="40" alt="" class="rounded-circle align-self-center mr-2">
+                                        <div class="media-body text-sm">
+                                            <p class="my-0 py-0" id="subject">
+                                                <span class="font-600 text-capitalize">'.mb_strimwidth($fullname, 0, 30, '...').'</span> found this helpful
+                                            </p>
+                                            <p class="text-faded my-0 py-1">
+                                                '.mb_strimwidth($result->customer_review, 0, 38, '...').'
+                                            </p>
+                                            <div class="d-flex align-items-center text-faded">
+                                                <i class="tiny material-icons text-success mr-1">thumb_up</i> '.timeago($result->notified_at).'
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- /.Notification -->
+                        ';
+                    } else if($result->notification_type == 'order-confirmed'){
+                        $notification_type = '
+                            <!-- Notification -->
+                            <div class="dropdown-item my-0 py-1">
+                                <a href="orders.php">
+                                    <div class="media lh-100">
+                                        <img src="'. asset("img/app/visionaries-logo.png") .'" height="40" width="40" alt="" class="rounded-circle align-self-center mr-2">
+                                        <div class="media-body text-sm">
+                                            <p class="my-0 py-0" id="subject">
+                                                <span class="font-600 text-capitalize">Targets</span>
+                                            </p>
+                                            <p class="text-faded my-0 py-1">
+                                                Your order has been confirmed!
+                                            </p>
+                                            <div class="d-flex align-items-center text-faded">
+                                                <i class="small material-icons text-blue mr-1">store</i> '.timeago($result->notified_at).'
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- /.Notification -->
+                        ';
+                    } else {
+                        $notification_type = '
+                            <!-- Notification -->
+                            <div class="dropdown-item my-0 py-1">
+                                <a href="'. route("orders") .'">
+                                    <div class="media lh-100">
+                                        <img src="dist/img/app/visionaries-logo.png" height="40" width="40" alt="" class="rounded-circle align-self-center mr-2">
+                                        <div class="media-body text-sm">
+                                            <p class="my-0 py-0" id="subject">
+                                                <span class="font-600 text-capitalize">Targets</span>
+                                            </p>
+                                            <p class="text-faded my-0 py-1">
+                                                Your order is now on the way!
+                                            </p>
+                                            <div class="d-flex align-items-center text-faded">
+                                                <i class="small material-icons text-blue mr-1">local_shipping</i> '.timeago($result->notified_at).'
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            <!-- /.Notification -->
+                        ';
+                    }
+                    $output .= $notification_type;
+                }
+            } else {
+                $output .= '
+                    <div class="dropdown-item my-0 py-2">
+                        <h6 class="font-600 text-sm">
+                            You\'ve no notifications at the moment.
+                        </h6>
+                    </div>
+                ';
+            }
+            if(!empty($request->status)){
+                $results = DB::table('notifications')
+                                ->leftJoin('users', 'users.id', '=', 'notifications.user_id')
+                                ->leftJoin('orders', 'orders.user_id', '=', 'notifications.user_id')
+                                ->leftJoin('gift_ratings', 'gift_ratings.rating_id', '=', 'notifications.channel_id')
+                                ->leftJoin('gifts', 'gifts.id', '=', 'gift_ratings.gift_id')
+                                ->select('notifications.*', 'orders.*', 'users.*', 'gift_ratings.*', 'gifts.*', 'notifications.created_at as notified_at')
+                                ->where([
+                                    ['gift_ratings.user_id', '=', Auth::user()->id],
+                                    ['notifications.status', '=', 'not-seen'],
+                                    ['notifications.user_id', '<>', Auth::user()->id]
+                                ])
+                                ->orWhere('orders.user_id', Auth::user()->id)
+                                ->orderByDesc('notifications.created_at')
+                                ->get();
+                foreach($results as $result){
+                    DB::table('notifications')
+                        ->where([
+                            'channel_id' => $result->channel_id
+                        ])
+                        ->orWhere([
+                            'channel_id' => $result->rating_id
+                        ])
+                        ->update(['status' => 'seen']);
+                }
+            }
+            $data = array(
+                'count'         => $count,
+                'notifications' => $output,
+                'notification'  => $message
+            );
+            return response()->json($data);
+        }
+    }
+
     // Add gift item to wishlist
     public function wish(Request $request)
     {

@@ -6,6 +6,7 @@ use App\Http\Controllers\Gifts;
 use App\Http\Controllers\Search;
 use App\Http\Controllers\Categories;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Orders;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Wishlist;
 use App\Http\Controllers\Users;
@@ -24,7 +25,7 @@ use App\Http\Controllers\MailingList;
 
 // App Functionality
 Route::post('/keep-token-alive', function(){
-    return 'Token must have been valid, and the session eexpiration has been extended.';
+    return 'Token must have been valid, and the session expiration has been extended.';
 });
 
 // Gift Routes
@@ -69,10 +70,14 @@ Route::post('/like', [Users::class, 'like'])->name('like');
 Route::post('/unlike', [Users::class, 'unlike'])->name('unlike');
 Route::post('/review_comments', [Users::class, 'review_comments'])->name('review_comments');
 Route::post('/submit_comment', [Users::class, 'submit_comment'])->name('submit_comment');
+Route::post('/notifications', [Users::class, 'notifications'])->name('notifications');
 
 // Account Routes
 Route::get('/account/{name}', [AccountController::class, 'index'])->name('account');
 Route::post('/account/data', [AccountController::class, 'profile'])->name('profile');
+
+// Orders Page
+Route::get('/orders', [Orders::class, 'index'])->name('orders');
 
 // Mailing list
 Route::post('/maiing_list', [MailingList::class, 'index'])->name('mailing_list');

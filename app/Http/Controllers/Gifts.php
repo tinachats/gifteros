@@ -871,6 +871,7 @@ class Gifts extends Controller
         $gift = Gift::where(['slug' => $slug, 'id' => $id])->firstOrFail();
         $greeting_cards = DB::table('gifts')
                             ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                            ->select('gifts.*', 'categories.*', 'gifts.id as gift_id')
                             ->where([
                                 ['category_name', '=', 'greeting cards'],
                                 ['gifts.id', '!=', $id]
@@ -879,6 +880,7 @@ class Gifts extends Controller
                             ->get();
         $wrappers = DB::table('gifts')
                         ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                        ->select('gifts.*', 'categories.*', 'gifts.id as gift_id')
                         ->where([
                             ['category_name', '=', 'wrappers'],
                             ['gifts.id', '!=', $id]
@@ -887,6 +889,7 @@ class Gifts extends Controller
                         ->get();
         $accesories = DB::table('gifts')
                         ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                        ->select('gifts.*', 'categories.*', 'gifts.id as gift_id')
                         ->where([
                             ['category_name', '=', 'flowers'],
                             ['gifts.id', '!=', $id]
@@ -930,7 +933,17 @@ class Gifts extends Controller
     {
         if($request->ajax()){
             if($request->action == 'wishlist-btn'){
-                $wishlist_btn = wishlistBtn($request->gift_id, Auth::user()->id);
+                $wishlist_btn = '';
+                if(isset(Auth::user()->id)){
+                    $wishlist_btn = wishlistBtn($request->gift_id, Auth::user()->id);
+                } else {
+                    $wishlist_btn = '
+                        <button class="btn btn-sm btn-block rounded-pill font-600 d-flex align-items-center justify-content-center mr-1 guest-wishes">
+                            <i class="material-icons text-primary mr-1">favorite_border</i>
+                            <span class="text-primary">Wishlist</span>
+                        </button>
+                    ';
+                }
                 return response()->json([
                     'wishlist_btn' => $wishlist_btn
                 ]);
@@ -1048,7 +1061,7 @@ class Gifts extends Controller
                         ';
                     }
                 } else {
-                    if(Auth::user()->id){
+                    if(isset(Auth::user()->id)){
                         $user_msg = '
                             <p class="text-sm">
                                 Post your review about this gift. It helps others in deciding 
@@ -1069,7 +1082,7 @@ class Gifts extends Controller
                                 <i class="material-icons text-muted lead">forum</i>
                                 <h5 class="font-600">There are no gift reviews to show at the moment.</h5>
                                 '.$user_msg.'
-                                <a href="#" class="btn btn-primary btn-sm px-3">Post a review</a>
+                                <a href="#write-review" class="btn btn-primary btn-sm px-3" data-toggle="modal">Post a review</a>
                             </div>
                         </div>
                     ';

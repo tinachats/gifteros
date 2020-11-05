@@ -719,7 +719,6 @@
                     </div>
                 </form>
                 <!-- /.Search form -->
-
             </header>
             <!-- /.Header -->
 
