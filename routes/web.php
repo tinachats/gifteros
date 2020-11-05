@@ -22,6 +22,11 @@ use App\Http\Controllers\MailingList;
 |
 */
 
+// App Functionality
+Route::post('/keep-token-alive', function(){
+    return 'Token must have been valid, and the session eexpiration has been extended.';
+});
+
 // Gift Routes
 Route::get('/', [Gifts::class, 'index'])->name('index');
 Route::post('/showcase', [Gifts::class, 'showcase'])->name('showcase');
@@ -62,6 +67,8 @@ Route::post('/helpful', [Users::class, 'helpful'])->name('helpful');
 Route::post('/unhelpful', [Users::class, 'unhelpful'])->name('unhelpful');
 Route::post('/like', [Users::class, 'like'])->name('like');
 Route::post('/unlike', [Users::class, 'unlike'])->name('unlike');
+Route::post('/review_comments', [Users::class, 'review_comments'])->name('review_comments');
+Route::post('/submit_comment', [Users::class, 'submit_comment'])->name('submit_comment');
 
 // Account Routes
 Route::get('/account/{name}', [AccountController::class, 'index'])->name('account');

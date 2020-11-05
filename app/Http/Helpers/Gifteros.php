@@ -827,7 +827,7 @@
 
     // Count review post's comments
     function countReviewComments($rating_id){
-        $count = DB::table('gift_comments')
+        $count = DB::table('review_comments')
                    ->where('rating_id', $rating_id)
                    ->count();
         return $count;

@@ -729,5 +729,148 @@
                 }
             });
         });
+
+        // Toggle comment section
+        $(document).on('click', '.toggle-comments', function() {
+            post_id = $(this).data('post_id');
+            user_id = $(this).data('user_id');
+            var action = 'review-comments';
+            $.ajax({
+                url: '{{ route("review_comments") }}',
+                method: 'post',
+                data: {
+                    action: action,
+                    post_id: post_id,
+                    user_id: user_id,
+                    _token: _token
+                },
+                dataType: 'json',
+                success: function(data) {
+                    $('#old-comments' + post_id).html(data.review_comments);
+                    $('#comment-box' + post_id).slideToggle('fast');
+                }
+            });
+        });
+
+        // Submitting a comment
+        $(document).on('keyup', '.comment-input', function(e) {
+            post_id = $(this).data('post_id');
+            user_id = $(this).data('user_id');
+            var comment = $('#add-comment' + post_id).val();
+            if (comment.length > 0) {
+                $('#add-comment' + post_id).removeClass('is-invalid');
+                $('#add-comment' + post_id).addClass('is-valid');
+                $('#send-btn' + post_id).show();
+                if (e.keyCode === 13) {
+                    var receiver_id = user_id;
+                    var action = 'submit-comment';
+                    if (comment != '') {
+                        $('#add-comment' + post_id).removeClass('is-invalid');
+                        $('#add-comment' + post_id).addClass('is-valid');
+                        $.ajax({
+                            url: '{{ route("submit_comment") }}',
+                            method: 'post',
+                            data: {
+                                action: action,
+                                post_id: post_id,
+                                receiver_id: receiver_id,
+                                comment: comment,
+                                _token: _token
+                            },
+                            dataType: 'json',
+                            success: function(data) {
+                                if (data.status == 'success') {
+                                    $('#comment-box' + post_id).slideUp('fast');
+                                    giftRatings();
+                                    iziToast.show({
+                                        theme: 'dark',
+                                        timeout: 5000,
+                                        backgroundColor: 'var(--success)',
+                                        icon: 'ion ion-checkmark text-light',
+                                        message: 'Your comment has been submitted.',
+                                        messageColor: '#fff',
+                                        position: 'center'
+                                    });
+                                } else {
+                                    iziToast.warning({
+                                        theme: 'dark',
+                                        timeout: 5000,
+                                        closeOnClick: true,
+                                        progressBar: false,
+                                        backgroundColor: 'var(--warning)',
+                                        icon: 'ion-android-alert text-dark',
+                                        message: 'Oops! Something went wrong!',
+                                        messageColor: '#000',
+                                        position: 'center'
+                                    });
+                                }
+                            }
+                        });
+                    } else {
+                        e.preventDefault();
+                        $('#add-comment' + post_id).removeClass('is-valid');
+                    }
+                }
+            } else {
+                $('#send-btn' + post_id).hide();
+                $('#add-comment' + post_id).removeClass('is-valid');
+            }
+        });
+
+        // Submitting by clicking the send button
+        $(document).on('click', '.comment-btn', function(e) {
+            e.preventDefault();
+            post_id = $(this).data('post_id');
+            user_id = $(this).data('user_id');
+            var comment = $('#add-comment' + post_id).val();
+            if (comment == '') {
+                $('#add-comment' + post_id).removeClass('is-valid');
+                $('#add-comment' + post_id).addClass('is-invalid');
+            } else {
+                $('#add-comment' + post_id).removeClass('is-invalid');
+                $('#add-comment' + post_id).addClass('is-valid');
+                var receiver_id = user_id;
+                var action = 'submit-comment';
+                $.ajax({
+                    url: '{{ route("submit_comment") }}',
+                    method: 'post',
+                    data: {
+                        action: action,
+                        post_id: post_id,
+                        receiver_id: receiver_id,
+                        comment: comment,
+                        _token: _token
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.status == 'success') {
+                            $('#comment-box' + post_id).slideUp('fast');
+                            giftRatings();
+                            iziToast.show({
+                                theme: 'dark',
+                                timeout: 5000,
+                                backgroundColor: 'var(--success)',
+                                icon: 'ion ion-checkmark text-light',
+                                message: 'Your comment has been submitted.',
+                                messageColor: '#fff',
+                                position: 'center'
+                            });
+                        } else {
+                            iziToast.warning({
+                                theme: 'dark',
+                                timeout: 5000,
+                                closeOnClick: true,
+                                progressBar: false,
+                                backgroundColor: 'var(--warning)',
+                                icon: 'ion-android-alert text-dark',
+                                message: 'Oops! Something went wrong!',
+                                messageColor: '#000',
+                                position: 'center'
+                            });
+                        }
+                    }
+                });
+            }
+        });
     });
 </script>

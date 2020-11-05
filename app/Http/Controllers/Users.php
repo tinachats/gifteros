@@ -352,4 +352,69 @@ class Users extends Controller
             }
         }
     }
+
+    // Fetch all gift review's comments
+    public function review_comments(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action == 'review-comments'){
+                $output = '';
+                $comments = DB::table('review_comments')
+                               ->join('users', 'users.id', '=', 'review_comments.user_id')
+                               ->select('review_comments.*', 'users.*', 'review_comments.created_at as commented_at', 'users.id as user_id')
+                               ->where('rating_id', $request->post_id)
+                               ->orderByDesc('review_comments.created_at')
+                               ->get();
+                $count = $comments->count();
+                if($count > 0){
+                    foreach($comments as $comment){
+                        $output .= ' 
+                            <!-- Comment -->
+                            <div class="comment mb-2">
+                                <div class="media">
+                                    <img src="/storage/users/'.$comment->profile_pic.'" height="30" width="30" alt="" class="rounded-circle align-self-start mt-1 mr-2">
+                                    <div class="comment-body media-body">
+                                        <p class="d-flex justify-content-between align-items-center text-sm font-600 my-0 py-0">
+                                            <span class="text-capitalize">'.$comment->name.'</span> 
+                                            <span class="text-sm text-muted">'.timeago($comment->commented_at).'</span>
+                                        </p>
+                                        <p class="mt-0 pt-0 text-sm text-faded text-justify">
+                                            '.$comment->comment.'
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.Comment -->
+                        ';
+                    }
+                }
+                return response()->json([
+                    'review_comments' => $output
+                ]);
+            }
+        }
+    }
+
+    // Submitting a gift review comment
+    public function submit_comment(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action == 'submit-comment'){
+                $data = array(
+                    'user_id'     => Auth::user()->id,
+                    'rating_id'   => $request->post_id,
+                    'comment'     => $request->comment
+                );
+                DB::table('review_comments')->insert($data);
+                DB::table('notifications')->insert([
+                    'user_id'           => Auth::user()->id,
+                    'channel_id'        => $request->post_id,
+                    'notification_type' => 'comment'
+                ]);
+                return response()->json([
+                    'status' => 'success'
+                ]);
+            }
+        }
+    }
 }
