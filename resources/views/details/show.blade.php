@@ -704,8 +704,10 @@
                             position: 'bottomLeft'
                         });
                         giftRatings();
+                        notifications();
                     } else {
                         giftRatings();
+                        notifications();
                     }
                 }
             });
@@ -740,8 +742,10 @@
                             position: 'bottomLeft'
                         });
                         giftRatings();
+                        notifications();
                     } else {
                         giftRatings();
+                        notifications();
                     }
                 }
             });
@@ -799,6 +803,7 @@
                                 if (data.status == 'success') {
                                     $('#comment-box' + post_id).slideUp('fast');
                                     giftRatings();
+                                    notifications();
                                     iziToast.show({
                                         theme: 'dark',
                                         timeout: 5000,
@@ -863,6 +868,7 @@
                         if (data.status == 'success') {
                             $('#comment-box' + post_id).slideUp('fast');
                             giftRatings();
+                            notifications();
                             iziToast.show({
                                 theme: 'dark',
                                 timeout: 5000,

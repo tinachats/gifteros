@@ -606,7 +606,7 @@
                                     <span class="badge nav-badge notifications-counter"></span>
                                 </a>
                                 <div class="dropdown-menu notification-menu dropdown-menu-right rounded-0 box-shadow-sm" id="notifications">
-                                <!-- Notifications will show up here -->
+                                    <!-- Notifications will show up here -->
                                 </div>
                             </li>
                             <!-- /.Notifications -->
