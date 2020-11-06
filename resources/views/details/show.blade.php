@@ -247,31 +247,6 @@
                         <div class="accessories-grid w-100" id="greeting-cards">
                             <!-- Greeting cards will show up here -->
                             @foreach ($accesories as $gift)
-                                <?php
-                                    // Gift star rating
-                                    $star_rating = giftStarRating($gift->id);
-
-                                    $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
-                                    $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
-                                    $zwl_before = number_format(($gift->zwl_price + ($gift->zwl_price * 0.275)), 2);
-                                    $short_name = mb_strimwidth($gift->gift_name, 0, 20, '..');
-
-                                    $gift_usd_price = explode('.', $gift->usd_price);
-                                    $usd_notes = $gift_usd_price[0];
-                                    $usd_cents =  $gift_usd_price[1]; 
-
-                                    $gift_zar_price = explode('.', $gift->zar_price);
-                                    $zar_notes = $gift_zar_price[0];
-                                    $zar_cents =  $gift_zar_price[1]; 
-
-                                    $gift_zwl_price = explode('.', $gift->zwl_price);
-                                    $zwl_notes = $gift_zwl_price[0];
-                                    $zwl_cents =  $gift_zwl_price[1]; 
-
-                                    $usd_price = number_format($gift->usd_price, 2);
-                                    $zar_price = number_format($gift->zar_price, 2);
-                                    $zwl_price = number_format($gift->zwl_price, 2);
-                                ?>
                                 <!-- Accessories -->
                                 <div class="item w-100">
                                     <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
@@ -285,15 +260,15 @@
                                             <div class="d-inline-block lh-100">
                                                 <h6 class="my-0 py-0 text-sm text-capitalize">{{ $gift->category_name }}</h6>
                                                 <div class="d-flex align-items-center justify-content-around">
-                                                    {!! $star_rating !!}
+                                                    {!! giftStarRating($gift->id) !!}
                                                 </div>
                                             </div>
                                             <input value="{{ $gift->id }}" id="gift_id" type="hidden">
                                             <input value="{{ $gift->gift_name }}" id="name{{ $gift->id }}" type="hidden">
                                             <input value="{{ $gift->gift_image }}" id="image{{ $gift->id }}" type="hidden">
-                                            <input value="{{ $usd_price }}" id="usd-price{{ $gift->id }}" type="hidden">
-                                            <input value="{{ $zar_price }}" id="zar-price{{ $gift->id }}" type="hidden">
-                                            <input value="{{ $zwl_price }}" id="zwl-price{{ $gift->id }}" type="hidden">
+                                            <input value="{{ number_format($gift->usd_price, 2) }}" id="usd-price{{ $gift->id }}" type="hidden">
+                                            <input value="{{ number_format($gift->zar_price, 2) }}" id="zar-price{{ $gift->id }}" type="hidden">
+                                            <input value="{{ number_format($gift->zwl_price, 2) }}" id="zwl-price{{ $gift->id }}" type="hidden">
                                             <input name="sale_usd_price" value="{{ $sale_usd_price ?? ''}}" id="sale-usd-price{{ $gift->id }}" type="hidden">
                                             <input name="sale_zar_price" value="{{ $sale_zar_price ?? ''}}" id="sale-zar-price{{ $gift->id }}" type="hidden">
                                             <input name="sale_zwl_price" value="{{ $sale_zwl_price ?? ''}}" id="sale-zwl-price{{ $gift->id }}" type="hidden">
@@ -321,31 +296,6 @@
                         <div class="accessories-grid w-100" id="greeting-cards">
                             <!-- Greeting cards will show up here -->
                             @foreach ($greeting_cards as $gift)
-                                <?php
-                                    // Gift star rating
-                                    $star_rating = giftStarRating($gift->id);
-
-                                    $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
-                                    $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
-                                    $zwl_before = number_format(($gift->zwl_price + ($gift->zwl_price * 0.275)), 2);
-                                    $short_name = mb_strimwidth($gift->gift_name, 0, 20, '..');
-
-                                    $gift_usd_price = explode('.', $gift->usd_price);
-                                    $usd_notes = $gift_usd_price[0];
-                                    $usd_cents =  $gift_usd_price[1]; 
-
-                                    $gift_zar_price = explode('.', $gift->zar_price);
-                                    $zar_notes = $gift_zar_price[0];
-                                    $zar_cents =  $gift_zar_price[1]; 
-
-                                    $gift_zwl_price = explode('.', $gift->zwl_price);
-                                    $zwl_notes = $gift_zwl_price[0];
-                                    $zwl_cents =  $gift_zwl_price[1]; 
-
-                                    $usd_price = number_format($gift->usd_price, 2);
-                                    $zar_price = number_format($gift->zar_price, 2);
-                                    $zwl_price = number_format($gift->zwl_price, 2);
-                                ?>
                                 <!-- Accessories -->
                                 <div class="item w-100">
                                     <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
@@ -359,15 +309,15 @@
                                             <div class="d-inline-block lh-100">
                                                 <h6 class="my-0 py-0 text-sm text-capitalize">{{ $gift->category_name }}</h6>
                                                 <div class="d-flex align-items-center justify-content-around">
-                                                    {!! $star_rating !!}
+                                                    {!! giftStarRating($gift->id) !!}
                                                 </div>
                                             </div>
                                             <input value="{{ $gift->id }}" id="gift_id" type="hidden">
                                             <input value="{{ $gift->gift_name }}" id="name{{ $gift->id }}" type="hidden">
                                             <input value="{{ $gift->gift_image }}" id="image{{ $gift->id }}" type="hidden">
-                                            <input value="{{ $usd_price }}" id="usd-price{{ $gift->id }}" type="hidden">
-                                            <input value="{{ $zar_price }}" id="zar-price{{ $gift->id }}" type="hidden">
-                                            <input value="{{ $zwl_price }}" id="zwl-price{{ $gift->id }}" type="hidden">
+                                            <input value="{{ number_format($gift->usd_price, 2) }}" id="usd-price{{ $gift->id }}" type="hidden">
+                                            <input value="{{ number_format($gift->zar_price, 2) }}" id="zar-price{{ $gift->id }}" type="hidden">
+                                            <input value="{{ number_format($gift->zwl_price, 2) }}" id="zwl-price{{ $gift->id }}" type="hidden">
                                             <input name="sale_usd_price" value="{{ $sale_usd_price ?? ''}}" id="sale-usd-price{{ $gift->id }}" type="hidden">
                                             <input name="sale_zar_price" value="{{ $sale_zar_price ?? ''}}" id="sale-zar-price{{ $gift->id }}" type="hidden">
                                             <input name="sale_zwl_price" value="{{ $sale_zwl_price ?? ''}}" id="sale-zwl-price{{ $gift->id }}" type="hidden">
@@ -395,31 +345,6 @@
                         <div class="accessories-grid w-100" id="greeting-cards">
                             <!-- Greeting cards will show up here -->
                             @foreach ($wrappers as $gift)
-                                <?php
-                                    // Gift star rating
-                                    $star_rating = giftStarRating($gift->id);
-
-                                    $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
-                                    $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
-                                    $zwl_before = number_format(($gift->zwl_price + ($gift->zwl_price * 0.275)), 2);
-                                    $short_name = mb_strimwidth($gift->gift_name, 0, 20, '..');
-
-                                    $gift_usd_price = explode('.', $gift->usd_price);
-                                    $usd_notes = $gift_usd_price[0];
-                                    $usd_cents =  $gift_usd_price[1]; 
-
-                                    $gift_zar_price = explode('.', $gift->zar_price);
-                                    $zar_notes = $gift_zar_price[0];
-                                    $zar_cents =  $gift_zar_price[1]; 
-
-                                    $gift_zwl_price = explode('.', $gift->zwl_price);
-                                    $zwl_notes = $gift_zwl_price[0];
-                                    $zwl_cents =  $gift_zwl_price[1]; 
-
-                                    $usd_price = number_format($gift->usd_price, 2);
-                                    $zar_price = number_format($gift->zar_price, 2);
-                                    $zwl_price = number_format($gift->zwl_price, 2);
-                                ?>
                                 <!-- Accessories -->
                                 <div class="item w-100">
                                     <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
@@ -433,15 +358,15 @@
                                             <div class="d-inline-block lh-100">
                                                 <h6 class="my-0 py-0 text-sm text-capitalize">{{ $gift->category_name }}</h6>
                                                 <div class="d-flex align-items-center justify-content-around">
-                                                    {!! $star_rating !!}
+                                                    {!! giftStarRating($gift->id) !!}
                                                 </div>
                                             </div>
                                             <input value="{{ $gift->id }}" id="gift_id" type="hidden">
                                             <input value="{{ $gift->gift_name }}" id="name{{ $gift->id }}" type="hidden">
                                             <input value="{{ $gift->gift_image }}" id="image{{ $gift->id }}" type="hidden">
-                                            <input value="{{ $usd_price }}" id="usd-price{{ $gift->id }}" type="hidden">
-                                            <input value="{{ $zar_price }}" id="zar-price{{ $gift->id }}" type="hidden">
-                                            <input value="{{ $zwl_price }}" id="zwl-price{{ $gift->id }}" type="hidden">
+                                            <input value="{{ number_format($gift->usd_price, 2) }}" id="usd-price{{ $gift->id }}" type="hidden">
+                                            <input value="{{ number_format($gift->zar_price, 2) }}" id="zar-price{{ $gift->id }}" type="hidden">
+                                            <input value="{{ number_format($gift->zwl_price, 2) }}" id="zwl-price{{ $gift->id }}" type="hidden">
                                             <input name="sale_usd_price" value="{{ $sale_usd_price ?? ''}}" id="sale-usd-price{{ $gift->id }}" type="hidden">
                                             <input name="sale_zar_price" value="{{ $sale_zar_price ?? ''}}" id="sale-zar-price{{ $gift->id }}" type="hidden">
                                             <input name="sale_zwl_price" value="{{ $sale_zwl_price ?? ''}}" id="sale-zwl-price{{ $gift->id }}" type="hidden">

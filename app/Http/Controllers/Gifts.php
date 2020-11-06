@@ -112,7 +112,7 @@ class Gifts extends Controller
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
                                         '. mb_strimwidth($gift->description, 0, 60, '...') .'
                                     </p>
-                                    <input value="'. $gift->id .'" id="product_id" type="hidden">
+                                    <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->label .'" id="label'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->gift_image .'" id="image'. $gift->id .'" type="hidden">
@@ -242,7 +242,7 @@ class Gifts extends Controller
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
                                         '. mb_strimwidth($gift->description, 0, 60, '...') .'
                                     </p>
-                                    <input value="'. $gift->id .'" id="product_id" type="hidden">
+                                    <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->label .'" id="label'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->gift_image .'" id="image'. $gift->id .'" type="hidden">
@@ -372,7 +372,7 @@ class Gifts extends Controller
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
                                         '. mb_strimwidth($gift->description, 0, 60, '...') .'
                                     </p>
-                                    <input value="'. $gift->id .'" id="product_id" type="hidden">
+                                    <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->label .'" id="label'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->gift_image .'" id="image'. $gift->id .'" type="hidden">
@@ -502,7 +502,7 @@ class Gifts extends Controller
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
                                         '. mb_strimwidth($gift->description, 0, 60, '...') .'
                                     </p>
-                                    <input value="'. $gift->id .'" id="product_id" type="hidden">
+                                    <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->label .'" id="label'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->gift_image .'" id="image'. $gift->id .'" type="hidden">
@@ -632,7 +632,7 @@ class Gifts extends Controller
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
                                         '. mb_strimwidth($gift->description, 0, 60, '...') .'
                                     </p>
-                                    <input value="'. $gift->id .'" id="product_id" type="hidden">
+                                    <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->label .'" id="label'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->gift_image .'" id="image'. $gift->id .'" type="hidden">
@@ -762,7 +762,7 @@ class Gifts extends Controller
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
                                         '. mb_strimwidth($gift->description, 0, 60, '...') .'
                                     </p>
-                                    <input value="'. $gift->id .'" id="product_id" type="hidden">
+                                    <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->label .'" id="label'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->gift_image .'" id="image'. $gift->id .'" type="hidden">
@@ -836,6 +836,70 @@ class Gifts extends Controller
                 return response()->json($data);
             }
         }
+    }
+
+    // Add gift comparison
+    public function add_comparison(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action == 'add-comparison'){
+                // store data in the session
+                $comparison = [
+                    'gift_id'          => $request->gift_id,
+                    'gift_name'        => $request->gift_name,
+                    'gift_image'       => $request->gift_img,
+                    'usd_price'        => $request->usd_price,
+                    'zar_price'        => $request->zar_price,
+                    'zwl_price'        => $request->zwl_price,
+                    'gift_description' => $request->gift_description,
+                    'category_name'    => $request->gift_category,
+                    'gift_quantity'    => $request->gift_quantity,
+                    'gift_units'       => $request->gift_units
+                ];
+                session($comparison);
+                if(!empty(session())){
+                    return response()->json([
+                        'message' => 'success'
+                    ]);
+                } else {
+                    return response()->json([
+                        'message' => 'error'
+                    ]);
+                }
+            }
+        }
+    }
+
+    // Remove a gift from the comparison session
+    public function remove_comparison(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action == 'remove-comparison'){
+                // determine if the gift item is present in the session
+                if($request->session()->has($request->gift_id)){
+                    // retrieve and delete the gift item from the session
+                    $request->session()->pull($request->gift_id);
+                }
+            }
+        }
+    }
+
+    // Clear the comparisons session
+    public function clear_comparisons(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action == 'clear-comparisons'){
+                $request->session()->flush();
+                return response()->json([
+                    'message' => 'session-cleared'
+                ]);
+            }
+        }
+    }
+
+    // Compare gifts comparisons page
+    public function compare_page(){
+        return view('compare_page');
     }
 
     /**

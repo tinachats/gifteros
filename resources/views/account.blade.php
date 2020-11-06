@@ -8,12 +8,12 @@
                 <h5 class="text-capitalize font-600 m-0 p-0">{{ Auth::user()->name }}</h5>
                 <ol class="breadcrumb float-sm-right bg-transparent">
                     <li class="breadcrumb-item d-none d-md-inline">
-                        <a href="index.php" class="d-flex align-items-center text-primary">
+                        <a href="/" class="d-flex align-items-center text-primary">
                             <i class="material-icons">store</i>
                         </a>
                     </li>
                     <li class="breadcrumb-item text-capitalize d-none d-md-inline">Account</li>
-                    <li class="breadcrumb-item active">{{ Auth::user()->name }}</a></li>
+                    <li class="breadcrumb-item active">{{ Auth::user()->name }}</li>
                 </ol>
             </div>
             <!-- /.row -->

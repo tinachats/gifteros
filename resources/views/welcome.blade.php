@@ -52,7 +52,7 @@
                         theme: 'dark',
                         timeout: 2000,
                         closeOnClick: true,
-                        overlay: false,
+                        overlay: true,
                         close: false,
                         progressBar: false,
                         backgroundColor: 'var(--success)',

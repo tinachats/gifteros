@@ -12,7 +12,7 @@
         <div class="comparison-pane d-none mt-2">
             <span role="button" class="material-icons" id="close-panel" title="Close panel">keyboard_arrow_down</span>
             <div class="compare-panel">
-                <form action="" class="compare-products" method="post" id="compare-form">
+                <form class="compare-products" method="post" id="compare-form">
                     <!-- Placeholder Product Pane -->
                     <div class="product-pane empty box-shadow-sm">
                         <div class="empty-content text-center p-2">
@@ -56,7 +56,7 @@
                     </div>
                     <!-- /.Placeholder Product Pane -->
                     <div class="d-grid mx-3">
-                        <button type="submit" class="btn btn-warning rounded-pill font-600 m-auto" id="submit-comparisons" disabled>Compare Selected</button>
+                        <a href="/compare_page" role="button" class="btn btn-warning rounded-pill font-600 m-auto" id="submit-comparisons" disabled>Compare Selected</a>
                     </div>
                 </form>
             </div>
