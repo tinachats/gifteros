@@ -1,17 +1,17 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AppRatings;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Gifts;
-use App\Http\Controllers\Search;
-use App\Http\Controllers\Categories;
 use App\Http\Controllers\AccountController;
-use App\Http\Controllers\Orders;
+use App\Http\Controllers\AppRatings;
 use App\Http\Controllers\CartController;
-use App\Http\Controllers\Wishlist;
-use App\Http\Controllers\Users;
+use App\Http\Controllers\Categories;
+use App\Http\Controllers\Gifts;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\MailingList;
+use App\Http\Controllers\Orders;
+use App\Http\Controllers\Search;
+use App\Http\Controllers\Users;
+use App\Http\Controllers\Wishlist;
 
 /*
 |--------------------------------------------------------------------------

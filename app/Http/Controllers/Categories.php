@@ -158,15 +158,37 @@ class Categories extends Controller
 
                 // Filter category gifts by customer price range
                 if(!empty($request->min_price) && !empty($request->max_price)){
-                    $result = DB::table('gifts')
-                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                                ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
-                                ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                ->where('gifts.category_id', $request->category_id)
-                                ->whereBetween('usd_price', [$request->min_price, $request->max_price])
-                                ->orderBy('usd_price', $request->price_ordering)
-                                ->distinct()
-                                ->get();
+                    if($request->currency == 'usd'){
+                        $result = DB::table('gifts')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where('gifts.category_id', $request->category_id)
+                                    ->whereBetween('usd_price', [$request->min_price, $request->max_price])
+                                    ->orderBy('usd_price', $request->price_ordering)
+                                    ->distinct()
+                                    ->get();
+                    } else if($request->currency == 'zar'){
+                        $result = DB::table('gifts')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where('gifts.category_id', $request->category_id)
+                                    ->whereBetween('zar_price', [$request->min_price, $request->max_price])
+                                    ->orderBy('zar_price', $request->price_ordering)
+                                    ->distinct()
+                                    ->get();
+                    } else {
+                        $result = DB::table('gifts')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where('gifts.category_id', $request->category_id)
+                                    ->whereBetween('zwl_price', [$request->min_price, $request->max_price])
+                                    ->orderBy('zwl_price', $request->price_ordering)
+                                    ->distinct()
+                                    ->get();
+                    }
                 }
 
                 // Filter category gifts by customer ratings
@@ -242,7 +264,7 @@ class Categories extends Controller
                 // Fetch all category gifts
                 if(empty($filter) && empty($request->min_price) && empty($request->max_price) 
                 && empty($request->rating) && empty($sub_category_id) && empty($request->latest)
-                && empty($request->likes) && empty($request->trending)){
+                && empty($request->likes) && empty($request->trending && $request->currency == 'usd')){
                     $result = DB::table('gifts')
                                 ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                 ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
