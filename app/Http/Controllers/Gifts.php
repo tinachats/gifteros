@@ -898,7 +898,8 @@ class Gifts extends Controller
     }
 
     // Compare gifts comparisons page
-    public function compare_page(){
+    public function compare_page()
+    {
         return view('compare_page');
     }
 

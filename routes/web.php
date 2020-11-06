@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AppRatings;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Gifts;
 use App\Http\Controllers\Search;
@@ -27,6 +28,7 @@ use App\Http\Controllers\MailingList;
 Route::post('/keep-token-alive', function(){
     return 'Token must have been valid, and the session expiration has been extended.';
 });
+Route::post('/app_rating', [AppRatings::class, 'store'])->name('app_rating');
 
 // Gift Routes
 Route::get('/', [Gifts::class, 'index'])->name('index');

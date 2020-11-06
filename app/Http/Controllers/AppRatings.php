@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class AppRatings extends Controller
 {
@@ -35,7 +36,20 @@ class AppRatings extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->ajax()){
+            if($request->action == 'app-rating'){
+                $data = array(
+                    'user_id'            => Auth::user()->id,
+                    'performance_rating' => $request->p_rating,
+                    'response_rating'    => $request->r_rating,
+                    'comment'            => $request->comment
+                );
+                DB::table('app_ratings')->insert($data);
+                return response()->json([
+                    'message' => 'success'
+                ]);
+            }
+        }
     }
 
     /**

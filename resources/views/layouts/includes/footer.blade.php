@@ -13,6 +13,7 @@
             <span role="button" class="material-icons" id="close-panel" title="Close panel">keyboard_arrow_down</span>
             <div class="compare-panel">
                 <form class="compare-products" method="post" id="compare-form">
+                    @csrf
                     <!-- Placeholder Product Pane -->
                     <div class="product-pane empty box-shadow-sm">
                         <div class="empty-content text-center p-2">
@@ -153,10 +154,11 @@
                 <h5 class="font-600 mb-0 pb-0">
                     Help us improve - how are we doing?
                 </h5>
-                <form method="post" id="targets-rating" class="needs-validation" novalidate>
+                <form method="post" id="app-rating" class="needs-validation" novalidate>
+                    @csrf
                     <div class="form-group">
                         <p class="mt-0 pt-0">
-                            I'm confident in {{ config('app.name') }}'s ability to perform well.
+                            I'm confident in {{ config('app.name') }}' ability to perform well.
                         </p>
                         <span class="form-error text-danger text-sm p-ratingError">Performance rating required.</span>
                         <div class="d-flex align-items-center justify-content-around">
@@ -196,7 +198,7 @@
                             <span class="text-sm agreement" data-value="strongly-agree">strongly agree</span>
                         </div>
                         <p>
-                            {{ config('app.name') }}'s will respond constructively if I have any problems.
+                            {{ config('app.name') }}' will respond constructively if I have any problems.
                         </p>
                         <span class="form-error text-danger text-sm r-ratingError">Response rating required.</span>
                         <div class="d-flex align-items-center justify-content-around">

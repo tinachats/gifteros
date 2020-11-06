@@ -2279,8 +2279,7 @@ input.form-control.lockscreen-input {
 /*** /.Lockscreen Styling ***/
 
 .app-rating-card {
-    min-height: 200px;
-    height: auto
+    height: 220px;
 }
 
 .related-gift {

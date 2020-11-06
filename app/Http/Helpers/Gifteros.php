@@ -896,7 +896,8 @@
         $output = $color = $star = $stars = $city = '';
         $app_reviews = DB::table('app_ratings')
                      ->join('users', 'users.id', '=', 'app_ratings.user_id')
-                     ->orderBy('app_ratings.created_at', 'desc')
+                     ->select('app_ratings.*', 'users.*', 'app_ratings.created_at as posted_on')
+                     ->orderByDesc('app_ratings.created_at')
                      ->distinct()
                      ->get();
         $count = $app_reviews->count();
@@ -951,13 +952,13 @@
                                     <div class="d-block lh-100">
                                         <div class="d-flex align-items-center justify-content-between w-100">
                                             '.$stars.'
-                                            <span class="text-faded text-sm">'.timestamp($review->created_at).'</span>
+                                            <span class="text-faded text-sm">'.timestamp($review->posted_on).'</span>
                                         </div>
                                         '.$city.'
                                     </div>
                                 </div>
                             </div>
-                            <p class="mt-3 text-justify">'.$review->comment.'</p>
+                            <p class="mt-3 text-justify">'. mb_strimwidth($review->comment, 0, 220, '...') .'</p>
                         </div>
                     </div>
                     <!-- /.App Review -->
