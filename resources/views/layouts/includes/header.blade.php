@@ -89,11 +89,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="anniversary-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=anniversary" class="d-flex align-items-center">
+                                                <a href="/category/anniversary_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">anniversary</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=anniversary" class="stretched-link"></a>
+                                                <a href="/category/anniversary_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -101,11 +101,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="birthday-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=birthday" class="d-flex align-items-center">
+                                                <a href="/category/birthday_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">Birthday</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=birthday" class="stretched-link"></a>
+                                                <a href="/category/birthday_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -113,11 +113,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="christmas-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=christmas" class="d-flex align-items-center">
+                                                <a href="/category/christmas_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">christmas</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=christmas" class="stretched-link"></a>
+                                                <a href="/category/christmas_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -125,11 +125,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="congrats-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=congrats" class="d-flex align-items-center">
+                                                <a href="/category/congrats_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">congrats</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=congrats" class="stretched-link"></a>
+                                                <a href="/category/congrats_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -137,11 +137,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="easter-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=easter" class="d-flex align-items-center">
+                                                <a href="/category/easter_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">easter</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=easter" class="stretched-link"></a>
+                                                <a href="/category/easter_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -149,11 +149,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="farewell-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=farewell" class="d-flex align-items-center">
+                                                <a href="/category/farewell_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">farewell</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=farewell" class="stretched-link"></a>
+                                                <a href="/category/farewell_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -161,11 +161,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="fathersday-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=fathers" class="d-flex align-items-center">
+                                                <a href="/category/for_him" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">father's day</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=fathers" class="stretched-link"></a>
+                                                <a href="/category/for_him" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -173,11 +173,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="getwell-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=getwell" class="d-flex align-items-center">
+                                                <a href="/category/getwell_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">get well</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=getwell" class="stretched-link"></a>
+                                                <a href="/category/getwell_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -185,11 +185,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="graduation-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=graduation" class="d-flex align-items-center">
+                                                <a href="/category/graduation_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">graduation</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=graduation" class="stretched-link"></a>
+                                                <a href="/category/graduation_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -197,11 +197,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="just-because-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=just because" class="d-flex align-items-center">
+                                                <a href="/category/because_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">just because</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=just because" class="stretched-link"></a>
+                                                <a href="/category/because_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -209,11 +209,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="mothersday-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=mothers" class="d-flex align-items-center">
+                                                <a href="/category/for_her" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">mother's day</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=mothers" class="stretched-link"></a>
+                                                <a href="/category/for_her" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -221,11 +221,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="newbaby-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=new-baby" class="d-flex align-items-center">
+                                                <a href="/category/baby_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">new baby</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=new-baby" class="stretched-link"></a>
+                                                <a href="/category/baby_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -233,11 +233,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="newhome-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=new-home" class="d-flex align-items-center">
+                                                <a href="/category/home_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">new home</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=new-home" class="stretched-link"></a>
+                                                <a href="/category/home_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -245,11 +245,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="newyear-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=new-year" class="d-flex align-items-center">
+                                                <a href="/category/newyear_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">new year</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=new-year" class="stretched-link"></a>
+                                                <a href="/category/newyear_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -257,11 +257,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="retirement-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=retirement" class="d-flex align-items-center">
+                                                <a href="/category/retirement_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">retirement</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=retirement" class="stretched-link"></a>
+                                                <a href="/category/retirement_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -269,11 +269,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="sympathy-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=sympathy" class="d-flex align-items-center">
+                                                <a href="/category/sympathy_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">sympathy</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=sympathy" class="stretched-link"></a>
+                                                <a href="/category/sympathy_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -281,11 +281,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="thanks-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=thanks" class="d-flex align-items-center">
+                                                <a href="/category/thanks_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">thank you</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=thanks" class="stretched-link"></a>
+                                                <a href="/category/thanks_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -293,11 +293,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="valentines-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=valentines" class="d-flex align-items-center">
+                                                <a href="/category/valentines_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">Valentine's</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=valentines" class="stretched-link"></a>
+                                                <a href="/category/valentines_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -305,11 +305,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="wedding-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=wedding" class="d-flex align-items-center">
+                                                <a href="/category/wedding_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">wedding</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=wedding" class="stretched-link"></a>
+                                                <a href="/category/wedding_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -317,11 +317,11 @@
                                         <!-- Occasion Card -->
                                         <div class="occasion-card d-grid" id="workplace-card">
                                             <div class="occassion-text m-auto">
-                                                <a href="occasion.php?slug=workplace" class="d-flex align-items-center">
+                                                <a href="/category/workplace_gifts" class="d-flex align-items-center">
                                                     <h5 class="display-5 my-0 py-0 font-600 text-capitalize">workplace</h5>
                                                     <span class="fa fa-caret-right go-there display-5 ml-2"></span>
                                                 </a>
-                                                <a href="occasion.php?slug=workplace" class="stretched-link"></a>
+                                                <a href="/category/workplace_gifts" class="stretched-link"></a>
                                             </div>
                                         </div>
                                         <!-- Occasion Card -->
@@ -330,10 +330,10 @@
                             </div>
                         </li>
                         <li class="nav-item d-none d-lg-inline">
-                            <a class="nav-link text-sm font-600" href="/trending">Trending</a>
+                            <a class="nav-link text-sm font-600" href="/category/trending_gifts">Trending</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-sm font-600" href="/deals">Hot Deals</a>
+                            <a class="nav-link text-sm font-600" href="/category/hot_deals">Hot Deals</a>
                         </li>
                     </ul>
                     <ul class="ml-auto justify-content-sm-around d-flex align-items-center m-0 p-0">

@@ -5,6 +5,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AppRatings;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Categories;
+use App\Http\Controllers\Departments;
 use App\Http\Controllers\Gifts;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\MailingList;
@@ -44,6 +45,8 @@ Route::get('/compare_page', [Gifts::class, 'compare_page'])->name('compare_page'
 
 // Category Gifts
 Route::get('/category/{category_id}/{category}', [Categories::class, 'index'])->name('index');
+Route::get('/category/{name}', [Departments::class, 'category'])->name('category');
+Route::post('/department_gifts', [Departments::class, 'department_gifts'])->name('department_gifts');
 Route::post('/category/gifts', [Categories::class, 'gifts'])->name('category_gifts');
 Route::post('/category/filter_ratings', [Categories::class, 'filter_ratings'])->name('filter_ratings');
 
