@@ -74,7 +74,7 @@
     </div>
     <div class="supporting-cards">
         <div class="display-shelf">
-            <a href="">
+            <a href="/category/for_her">
                 <div class="category-card p-1 bg-whitesmoke">
                     <div class="text-center p-2">
                         <img src="{{ asset('img/backgrounds/FOR-HER.jpg') }}" height="100" width="100" alt="">
@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </a>
-            <a href="">
+            <a href="/category/for_him">
                 <div class="category-card p-1 bg-whitesmoke">
                     <div class="text-center p-2">
                         <img src="{{ asset('img/backgrounds/FOR-HIM.jpg') }}" height="100" width="100" alt="">
@@ -94,7 +94,7 @@
                     </div>
                 </div>
             </a>
-            <a href="">
+            <a href="/category/kid_gifts">
                 <div class="category-card p-1 bg-whitesmoke">
                     <div class="text-center p-2">
                         <img src="{{ asset('img/backgrounds/FOR-KIDS.jpg') }}" height="100" width="100" alt="">
@@ -104,7 +104,7 @@
                     </div>
                 </div>
             </a>
-            <a href="">
+            <a href="/category/baby_gifts">
                 <div class="category-card p-1 bg-whitesmoke">
                     <div class="text-center p-2">
                         <img src="{{ asset('img/backgrounds/FOR-BABIES.jpg') }}" height="100" width="100" alt="">
@@ -114,7 +114,7 @@
                     </div>
                 </div>
             </a>
-            <a href="all-gifts.php?id=27&slug=flower gifts" class="d-sm-inline d-md-none">
+            <a href="/category/27/flowers" class="d-sm-inline d-md-none">
                 <div class="category-card p-1 bg-whitesmoke">
                     <div class="text-center p-2">
                         <img src="/storage/categories/flower-gifts.jpg" height="100" width="100" alt="">
@@ -124,7 +124,7 @@
                     </div>
                 </div>
             </a>
-            <a href="all-gifts.php?id=34&slug=combo gifts" class="d-sm-inline d-md-none">
+            <a href="/category/34/combo" class="d-sm-inline d-md-none">
                 <div class="category-card p-1 bg-whitesmoke">
                     <div class="text-center p-2">
                         <img src="/storage/categories/flowers-chocolates.jpg" height="100" width="100" alt="">
@@ -134,7 +134,7 @@
                     </div>
                 </div>
             </a>
-            <a href="all-gifts.php?id=9&slug=kitchenware gifts" class="d-sm-inline d-md-none">
+            <a href="/category/9/kitchenware" class="d-sm-inline d-md-none">
                 <div class="category-card p-1 bg-whitesmoke">
                     <div class="text-center p-2">
                         <img src="/storage/categories/kitchenware.jpg" height="100" width="100" alt="">
@@ -144,7 +144,7 @@
                     </div>
                 </div>
             </a>
-            <a href="all-gifts.php?id=25&slug=customizable gifts" class="d-sm-inline d-md-none">
+            <a href="/category/25/customizable" class="d-sm-inline d-md-none">
                 <div class="category-card p-1 bg-whitesmoke">
                     <div class="text-center p-2">
                         <img src="/storage/categories/customized.jpg" height="100" width="100" alt="">
@@ -154,7 +154,7 @@
                     </div>
                 </div>
             </a>
-            <a href="all-gifts.php?id=2&slug=sweet treats" class="d-sm-inline d-md-none">
+            <a href="/category/confectioneries" class="d-sm-inline d-md-none">
                 <div class="category-card p-1 bg-whitesmoke">
                     <div class="text-center p-2">
                         <img src="/storage/sub-categories/668652163.jpg" height="100" width="100" alt="">
@@ -164,7 +164,7 @@
                     </div>
                 </div>
             </a>
-            <a href="all-gifts.php?id=12&slug=personal care" class="d-sm-inline d-md-none">
+            <a href="/category/12/personal care" class="d-sm-inline d-md-none">
                 <div class="category-card p-1 bg-whitesmoke">
                     <div class="text-center p-2">
                         <img src="/storage/sub-categories/1087731911.jpg" height="100" width="100" alt="">
@@ -174,7 +174,7 @@
                     </div>
                 </div>
             </a>
-            <a href="all-gifts.php?id=8&slug=appliances" class="d-sm-inline d-md-none">
+            <a href="/category/8/appliances" class="d-sm-inline d-md-none">
                 <div class="category-card p-1 bg-whitesmoke">
                     <div class="text-center p-2">
                         <img src="/storage/sub-categories/1591895958.jpg" height="100" width="100" alt="">
@@ -184,7 +184,7 @@
                     </div>
                 </div>
             </a>
-            <a href="trending.php?slug=trending gifts" class="d-sm-inline d-md-none">
+            <a href="/category/trending_gifts" class="d-sm-inline d-md-none">
                 <div class="category-card p-1 bg-whitesmoke">
                     <div class="text-center p-2">
                         <img src="/storage/sub-categories/810Oc47Sv7L._AC_UL320_.jpg" height="100" width="100" alt="">

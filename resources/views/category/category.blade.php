@@ -63,7 +63,12 @@
         <!-- All category gifts will show up here -->
         <div class="d-grid grid-view grid-p-1 mt-3">
             <!-- All fetched products will show up here -->
-            @for ($i = 0; $i < 4; $i++)
+        </div>
+    </div>
+    <!-- Gifts Preloader -->
+    <div id="fuzzy-loader">
+        <div class="d-grid grid-view grid-p-1 mt-3 gifts-preloader">
+            @for ($i = 0; $i < 8; $i++)
                 <!-- Product Placeholder Card -->
                 <div class="card placeholder-card bg-whitesmoke border-0 rounded-0 box-shadow-sm">
                     <div class="img-wrapper-placeholder">
@@ -98,6 +103,7 @@
             @endfor
         </div>
     </div>
+    <!-- /.Gifts Preloader -->
 </div>
 <!-- /.Page Content -->
 @include('layouts.includes.dep-footer')

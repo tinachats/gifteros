@@ -44,7 +44,7 @@ Route::post('/clear_comparisons', [Gifts::class, 'clear_comparisons'])->name('cl
 Route::get('/compare_page', [Gifts::class, 'compare_page'])->name('compare_page');
 
 // Category Gifts
-Route::get('/category/{category_id}/{category}', [Categories::class, 'index'])->name('index');
+Route::get('/category/{category_id}/{category}', [Categories::class, 'index'])->name('gifts_category');
 Route::get('/category/{name}', [Departments::class, 'category'])->name('category');
 Route::post('/department_gifts', [Departments::class, 'department_gifts'])->name('department_gifts');
 Route::post('/category/gifts', [Categories::class, 'gifts'])->name('category_gifts');
