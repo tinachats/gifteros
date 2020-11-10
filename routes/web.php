@@ -5,10 +5,10 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AppRatings;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Categories;
-use App\Http\Controllers\Departments;
 use App\Http\Controllers\Gifts;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\MailingList;
+use App\Http\Controllers\Occasions;
 use App\Http\Controllers\Orders;
 use App\Http\Controllers\Search;
 use App\Http\Controllers\SubCategories;
@@ -46,11 +46,11 @@ Route::get('/compare_page', [Gifts::class, 'compare_page'])->name('compare_page'
 
 // Category Gifts
 Route::get('/category/{category_id}/{category}', [Categories::class, 'index'])->name('gifts_category');
-Route::get('/category/{name}', [Departments::class, 'category'])->name('category');
+Route::get('/category/{occasion}', [Occasions::class, 'occasion'])->name('occasion');
 Route::get('/category/{category_id}/{category}/{subcategory}', [SubCategories::class, 'index'])->name('gifts_subcategory');
 Route::post('/category/gifts', [Categories::class, 'gifts'])->name('category_gifts');
 Route::post('/category/filter_ratings', [Categories::class, 'filter_ratings'])->name('filter_ratings');
-Route::post('/department_gifts', [Departments::class, 'department_gifts'])->name('department_gifts');
+Route::post('/occasional_gifts', [Occasions::class, 'occasional_gifts'])->name('occasional_gifts');
 
 // Cart Routes
 Route::post('/', [CartController::class, 'store'])->name('purchase');

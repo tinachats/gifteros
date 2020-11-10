@@ -1,8 +1,8 @@
-@include('layouts.includes.category-header')
+@include('layouts.includes.occasion-header')
 <!-- Page Content -->
-<div class="container filtered-products">
+<div class="container occasions-container">
     {{ csrf_field() }}
-    <div class="d-sm-block d-xl-flex justify-content-xl-between align-items-center title mt-3">
+    <div class="d-flex justify-content-between align-items-center title mt-3">
         <!-- Left Settings -->
         <div class="d-flex align-items-center lh-100">
             <!-- Category Title & Results -->
@@ -15,19 +15,19 @@
             <!-- Filter Progress Bars -->
             <div class="filter-bars d-none">
                 <div class="d-flex ml-5 rating-bars">
-                    <div class="progress" id="lowest-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ lowestPriceRange() }}% of customers bought gifts in this price range.">
+                    <div class="progress" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ lowestPriceRange() }}% of customers bought gifts in this price range.">
                         <div id="lowest-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ lowestPriceRange() }}%" aria-valuenow="{{ lowestPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <div class="progress" id="lower-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ lowerPriceRange() }}% of customers bought gifts in this price range.">
+                    <div class="progress" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ lowerPriceRange() }}% of customers bought gifts in this price range.">
                         <div id="lower-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ lowerPriceRange() }}%" aria-valuenow="{{ lowerPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <div class="progress" id="medium-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ mediumPriceRange() }}% of customers bought gifts in this price range.">
+                    <div class="progress" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ mediumPriceRange() }}% of customers bought gifts in this price range.">
                         <div id="medium-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ mediumPriceRange() }}%" aria-valuenow="{{ mediumPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <div class="progress" id="high-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ highPriceRange() }}% of customers bought gifts in this price range.">
+                    <div class="progress" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ highPriceRange() }}% of customers bought gifts in this price range.">
                         <div id="high-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ highPriceRange() }}%" aria-valuenow="{{ highPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                    <div class="progress" id="highest-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ highestPriceRange() }}% of customers bought gifts in this price range.">
+                    <div class="progress"  data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ highestPriceRange() }}% of customers bought gifts in this price range.">
                         <div id="highest-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ highestPriceRange() }}%" aria-valuenow="{{ highestPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </div>
@@ -41,9 +41,6 @@
             <div class="d-flex align-items-center">
                 <span class="text-sm">Sort by:</span>
                 <div class="d-flex align-items-center justify-content-around sorting-bar  ml-1 mr-3">
-                    <a href="#" class="trending-gifts sorting-filters px-1 py-1 text-sm border-right" title="Sort gifts by trending">Trending</a>
-                    <a href="#" class="liked-gifts sorting-filters px-1 py-1 text-sm border-right" title="Sort gifts by their wishlist">Likes</a>
-                    <a href="#" class="latest-gifts sorting-filters px-1 py-1 text-sm border-right" title="Sort gifts by the date they were added">Latest</a>
                     <select name="price-sorting" id="price-sorting" class="custom-select-sm text-primary text-sm bg-transparent rounded-0 border-0 px-1 py-1">
                         <option value="asc" class="d-flex align-items-center">
                             Price - Low to High
@@ -59,7 +56,7 @@
         </div>
         <!-- /.Right Settings -->
     </div>
-    <div id="category-gifts">
+    <div id="occasional-gifts">
         <!-- All category gifts will show up here -->
         <div class="d-grid grid-view grid-p-1 mt-3">
             <!-- All fetched products will show up here -->
@@ -106,4 +103,4 @@
     <!-- /.Gifts Preloader -->
 </div>
 <!-- /.Page Content -->
-@include('layouts.includes.category-footer')
+@include('layouts.includes.occasion-footer')

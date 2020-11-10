@@ -9,7 +9,7 @@
 }
 
 
-/* Utility Classes .transparent */
+/* Utility Classes .filter-pane */
 
 :root {
     --text-warning-white: #f39c12;
@@ -5565,6 +5565,19 @@ a:hover,
     .modal-controls.right-controls {
         left: 96%
     }
+    .occasions-page {
+        width: 100%;
+        position: relative;
+        margin-top: 3rem
+    }
+    .occasions-page>.content {
+        display: grid;
+        grid-template-columns: 20% 80%;
+    }
+    .gifts-column .banner-gift {
+        margin-bottom: .5rem;
+        height: auto
+    }
     .page-content.filter-page>.content {
         position: relative;
         display: flex;
@@ -5584,10 +5597,20 @@ a:hover,
         width: 75%;
         z-index: 8;
     }
+    .occasions-container {
+        margin-top: 4rem
+    }
     .filter-pane,
     .chip-sliders {
         position: fixed;
         margin-top: 45px;
+    }
+    .showcase-pane {
+        box-sizing: border-box;
+        z-index: 20;
+        min-height: auto;
+        height: auto;
+        max-height: 1040px;
     }
     .filter-pane {
         height: 100%;

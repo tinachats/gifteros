@@ -240,15 +240,15 @@
                                 <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" width="35" alt=""> {{ config('app.name') }}
                             </a>
                             <button class="btn border-light d-flex align-items-center px-3">
-                                <i class="material-icons text-muted mr-1">language</i>
-                                <span class="text-muted text-sm">English</span>
+                                <i class="material-icons text-light mr-1">language</i>
+                                <span class="text-light text-sm">English</span>
                             </button>
                             <button class="btn border-light px-3 mx-3">
-                                <span class="text-muted text-sm">$ USD -  U.S Dollar</span>
+                                <span class="text-light text-sm">$ USD -  U.S Dollar</span>
                             </button>
                             <button class="btn border-light d-flex align-items-center py-2 px-3">
                                 <img src="{{ asset('img/country-flag/flag-of-Zimbabwe.png') }}" alt="" height="20" width="25">
-                                <span class="text-muted text-sm ml-1">Zimbabwe</span>
+                                <span class="text-light text-sm ml-1">Zimbabwe</span>
                             </button>
                         </div>
                     </div>

@@ -26,7 +26,7 @@ class Categories extends Controller
             'sub_categories' => $sub_categories,
             'title'          => ucfirst($category .' Gifts')
         ];
-        return view('category.index')->with($data);
+        return view('category.category')->with($data);
     }
 
      /**
