@@ -106,4 +106,4 @@
     <!-- /.Gifts Preloader -->
 </div>
 <!-- /.Page Content -->
-@include('layouts.includes.dep-footer')
+@include('layouts.includes.subcategory-footer')

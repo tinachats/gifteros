@@ -2491,7 +2491,7 @@ body {
     flex-direction: column;
     background-color: var(--light);
     font-size: 16px;
-    font-family: 'Trebuchet MS'
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
 
 .content {
@@ -4438,12 +4438,28 @@ a:hover,
     height: 100px;
 }
 
+.filter-page-footer {
+    margin-left: 20%
+}
+
+.filter-page-footer {
+    width: 80% !important
+}
+
 .footer {
     flex-shrink: 0;
     width: 100%;
     margin-right: auto;
     margin-left: auto;
     color: #fff;
+}
+
+.services-footer-section {
+    border-bottom: 1px solid #dee2e6;
+}
+
+.last-footer-section {
+    border-top: 1px solid #dee2e6;
 }
 
 
@@ -5567,6 +5583,36 @@ a:hover,
     .page-content.filter-page>.content>.main-content {
         width: 75%;
         z-index: 8;
+    }
+    .filter-pane,
+    .chip-sliders {
+        position: fixed;
+        margin-top: 45px;
+    }
+    .filter-pane {
+        height: 100%;
+        width: 20%
+    }
+    .main-products,
+    .chip-sliders {
+        box-sizing: border-box;
+        width: 80%;
+        z-index: 0
+    }
+    .chip-sliders {
+        margin-left: 20%;
+        z-index: 10;
+    }
+    .filtered-products {
+        margin-top: 3rem;
+        margin-left: 25%;
+        z-index: 3
+    }
+    .filter-page.page-content .footer {
+        top: 100%
+    }
+    .filter-page.page-content footer {
+        width: 80%
     }
 }
 

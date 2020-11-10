@@ -1,4 +1,4 @@
-       <!-- Main Sidebar -->
+        <!-- Main Sidebar -->
         @include('layouts.includes.sidebar')
         <!-- /.Main Sidebar -->
 
@@ -65,82 +65,208 @@
         <!-- /.Comparing Panel -->
 
         <!-- Ad Panel -->
-        @include('layouts.includes.banners')
+        {{-- @include('layouts.includes.banners') --}}
         <!-- /.Ad Panel -->
 
-        <!-- Footer -->
-        <footer class="footer d-flex flex-column bg-meshgrid box-shadow-sm">
-            <!-- Newsletter -->
-            <div class="newsletter d-flex justify-content-center align-items-center w-100">
-                <div class="d-block text-center w-50 mr-0 pr-0">
-                    <h2 class="lead text-white font-400 text-uppercase my-0 py-0">subscribe our newsletter</h2>
-                    <p class="text-white my-0 py-0">Stay up to date with our latest news and properties</p>
-                </div>
-                <div class="subscription-info text-center w-50 mx-5">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Your email address" aria-label="Your email address" id="toggle-mailing-list">
-                        <div class="input-group-append">
-                            <span class="input-group-text text-dark text-uppercase" id="subscribe">subscribe</span>
+        <!-- Filter-Page Footer -->
+        <footer class="footer bg-whitesmoke mt-5">
+            <!-- Ad Panel -->
+            @include('layouts.includes.banners')
+            <!-- /.Ad Panel -->
+
+            <!-- Mailing List Form -->
+            <div class="container-fluid my-3">
+                <div class="row align-items-center justify-content-around">
+                    <div class="col-12 col-md-7 border-right">
+                        <h6 class="font-600">Sign up to our newsletter</h6>
+                        <form method="post" class="needs-validation" novalidate>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Your email address" aria-label="Your email address" id="toggle-mailing-list">
+                                <div class="input-group-append">
+                                    <span class="input-group-text text-white text-uppercase bg-primary" id="subscribe">subscribe</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-12 col-md-5">
+                        <div class="d-flex align-items-center">
+                            <i class="material-icons fa-3x text-muted mr-2 align-self-center">location_on</i>
+                            <div class="d-block text-center">
+                                <h6 class="my-0 py-0 font-600">Gifts Finder</h6>
+                                <p class="text-faded">Find gifts trending in your area</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /.Newsletter -->
+            <!-- /.Mailing List Form -->
 
-            <hr class="bg-white my-0 py-0">
-
-            <!-- Copyright -->
-            <div class="copyrights">
-                <div class="container my-2">
-                    <div class="d-flex justify-content-between">
-                        <div class="d-flex flex-column justify-content-center order-md-2">
-                            <div class="d-flex justify-content-center align-items-center navbar-brand">
-                                <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" width="35" class="mr-2" alt="">
-                                <span class="text-white font-700">{{ config('app.name') }}</span>
-                            </div>
-                            <div class="d-flex app-earnings">
-                                <div class="d-inline-block text-center">
-                                    <h5 class="font-500 mb-0 pb-0 text-white items-sold">0</h5>
-                                    <p class="text-sm mt-0 pt-0 text-faded">items sold</p>
-                                </div>
-                                <div class="d-inline-block text-center ml-4">
-                                    <h5 class="font-500 mb-0 pb-0 text-white">US$<span class="total-sales text-white">0.00</span></h5>
-                                    <p class="text-sm mt-0 pt-0 text-faded">total earnings</p>
-                                </div>
-                            </div>
-                        </div>
-                        <ul id="app-footer-links" class="list-inline align-self-center order-md-1">
-                            <li class="list-inline-item text-sm agreement" data-value="strongly-disagree">
-                                <a href="about.php">About {{ config('app.name') }}</a>
-                            </li>
-                            <li class="list-inline-item text-sm agreement" data-value="strongly-disagree">
-                                <a href="/blog">Blog</a>
-                            </li>
-                            <li class="list-inline-item text-sm agreement" data-value="strongly-disagree">
-                                <a href="">Become an affiliate</a>
-                            </li>
-                            <li class="list-inline-item text-sm agreement" data-value="strongly-disagree">
-                                <a href="terms.php">Terms</a>
-                            </li>
-                            <li class="list-inline-item text-sm agreement" data-value="strongly-disagree">
-                                <a href="">Help Center</a>
-                            </li>
-                            <li class="list-inline-item text-sm agreement" data-value="strongly-disagree">
-                                <a href="contact-us.php">Site map</a>
-                            </li>
-                        </ul>
+            <!-- Services Offered -->
+            <div class="d-grid grid-4 border-top border-bottom bg-whitesmoke">
+                {{-- Block Panel --}}
+                <div class="block-panel d-grid border-right px-2">
+                    <div class="block-content text-center m-auto">
+                        <i class="fa fa-money fa-3x text-primary"></i>
+                        <h6 class="my-0 py-0 font-600 text-faded">Great Value</h6>
+                        <p class="text-sm text-faded my-0 py-0">We offer competitive prices on out 1000+ plus gift ranges</p>
                     </div>
-                    <div id="footer-bar" class="row justify-content-between align-items-center text-sm agreement" data-value="strongly-disagree">
-                        <div class="text-white">
-                            <span class="text-white d-none d-md-inline">Copyright</span> <i class="fa fa-copyright"></i> {{ date('Y') }} {{ config('app.name') }} Inc. All rights reserved.
+                </div>
+                {{-- /.Block Panel --}}
+
+                {{-- Block Panel --}}
+                <div class="block-panel d-grid border-right px-2">
+                    <div class="block-content text-center m-auto">
+                        <i class="material-icons fa-3x text-primary">local_shipping</i>
+                        <h6 class="my-0 py-0 font-600 text-faded">Nationwide Delivery</h6>
+                        <p class="text-sm text-faded my-0 py-0">We deliver your gifts anytime and anywhere around Zimbabwe</p>
+                    </div>
+                </div>
+                {{-- /.Block Panel --}}
+
+                {{-- Block Panel --}}
+                <div class="block-panel d-grid border-right px-2">
+                    <div class="block-content text-center m-auto">
+                        <i class="material-icons fa-3x text-primary">credit_card</i>
+                        <h6 class="my-0 py-0 font-600 text-faded">Safe Payment</h6>
+                        <p class="text-sm text-faded my-0 py-0">Pay with the world's most popular and secure payment methodss</p>
+                    </div>
+                </div>
+                {{-- /.Block Panel --}}
+
+                {{-- Block Panel --}}
+                <div class="block-panel d-grid px-2">
+                    <div class="block-content text-center m-auto">
+                        <i class="material-icons fa-3x text-primary">verified_user</i>
+                        <h6 class="my-0 py-0 font-600 text-faded">Shop with Confidence</h6>
+                        <p class="text-sm text-faded my-0 py-0">Our Buyer Protection covers your purchase from click to delivery</p>
+                    </div>
+                </div>
+                {{-- /.Block Panel --}}
+            </div>
+            <!-- Services Offered -->
+
+            <!-- Services and Policies -->
+            <div class="container-fluid bg-meshgrid w-100 py-2">
+                <div class="row justify-content-md-between align-content-md-center services-footer-section">
+                    <div class="col-12 col-md-9 order-md-2">
+                        <div class="row justify-content-md-around">
+                            <div class="col-12 col-md-4">
+                                <ul class="list-styled">
+                                    <h6 class="font-600 text-white">Shopping with us</h6>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Your Account</p>
+                                    </a>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Your Account</p>
+                                    </a>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Your Orders</p>
+                                    </a>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Gift Customizations</p>
+                                    </a>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Making Payments</p>
+                                    </a>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Delivery Options</p>
+                                    </a>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Buyer Protection</p>
+                                    </a>
+                                </ul>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <ul class="list-styled">
+                                    <h6 class="font-600 text-white">Customer Services</h6>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">FAQs</p>
+                                    </a>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Contact Us</p>
+                                    </a>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Returns & Exchanges</p>
+                                    </a>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Order Tracking</p>
+                                    </a>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Refunds</p>
+                                    </a>
+                                </ul>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <ul class="list-styled">
+                                    <h6 class="font-600 text-white">About Us</h6>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Jobs</p>
+                                    </a>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Terms & Conditions</p>
+                                    </a>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Sitemap</p>
+                                    </a>
+                                    <a href="">
+                                        <p class="text-sm text-white my-1">Blog</p>
+                                    </a>
+                                </ul>
+                            </div>
                         </div>
-                        <a class="text-white" href="https://twitter.com/TinaKing92">Designed & Developed by @TinaKing92</a>
+                    </div>
+                    <div class="col-12 col-md-3 order-md-1">
+                        <h6 class="font-600 text-white">Stay Connected</h6>
+                        <div class="d-flex align-items-center">
+                            <a href="" class="text-primary">
+                                <i class="fa fa-facebook fa-2x"></i>
+                            </a>
+                            <a href="" class="text-info mx-1">
+                                <i class="fa fa-twitter fa-2x"></i>
+                            </a>
+                            <a href="" class="text-brich-red mr-1">
+                                <i class="fa fa-instagram fa-2x"></i>
+                            </a>
+                            <a href="" class="text-success">
+                                <i class="fa fa-whatsapp fa-2x"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-grid user-location-details py-2">
+                    <div class="m-auto">
+                        <div class="d-flex align-items-center">
+                            <a class="navbar-brand font-700 ml-4 text-white mt-2">
+                                <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" width="35" alt=""> {{ config('app.name') }}
+                            </a>
+                            <button class="btn border-light d-flex align-items-center px-3">
+                                <i class="material-icons text-muted mr-1">language</i>
+                                <span class="text-muted text-sm">English</span>
+                            </button>
+                            <button class="btn border-light px-3 mx-3">
+                                <span class="text-muted text-sm">$ USD -  U.S Dollar</span>
+                            </button>
+                            <button class="btn border-light d-flex align-items-center py-2 px-3">
+                                <img src="{{ asset('img/country-flag/flag-of-Zimbabwe.png') }}" alt="" height="20" width="25">
+                                <span class="text-muted text-sm ml-1">Zimbabwe</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid last-footer-section">
+                    <div class="row justify-content-md-between align-items-center my-1">
+                        <p class="text-sm text-muted my-0 py-0">
+                            &copy;{{ date('Y') }} Gifteros Inc. All rights reserved.
+                        </p>
+                        <a href="/developer/tinashe.chaterera" class="text-sm text-muted">
+                            Designed & Developed by @TinaKing92
+                        </a>
                     </div>
                 </div>
             </div>
-            <!-- /.Copyright -->
+            <!-- /.Services and Policies -->
         </footer>
-        <!-- /.footer -->
+        <!-- /.Filter-Page footer -->
 
         <!-- App-Rating -->
         <div class="app-rating-box p-2 box-shadow-sm">
@@ -260,7 +386,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body text-center">
-                        <h6 class="font-600">Processing please wait...</h6>
+                        <h6 class="font-600 text-white">Processing please wait...</h6>
                         <img src="{{ asset('img/app/animated-spinner.svg') }}" height="80" width="80">
                     </div>
                 </div>

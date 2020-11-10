@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\MailingList;
 use App\Http\Controllers\Orders;
 use App\Http\Controllers\Search;
+use App\Http\Controllers\SubCategories;
 use App\Http\Controllers\Users;
 use App\Http\Controllers\Wishlist;
 
@@ -46,9 +47,10 @@ Route::get('/compare_page', [Gifts::class, 'compare_page'])->name('compare_page'
 // Category Gifts
 Route::get('/category/{category_id}/{category}', [Categories::class, 'index'])->name('gifts_category');
 Route::get('/category/{name}', [Departments::class, 'category'])->name('category');
-Route::post('/department_gifts', [Departments::class, 'department_gifts'])->name('department_gifts');
+Route::get('/category/{category_id}/{category}/{subcategory}', [SubCategories::class, 'index'])->name('gifts_subcategory');
 Route::post('/category/gifts', [Categories::class, 'gifts'])->name('category_gifts');
 Route::post('/category/filter_ratings', [Categories::class, 'filter_ratings'])->name('filter_ratings');
+Route::post('/department_gifts', [Departments::class, 'department_gifts'])->name('department_gifts');
 
 // Cart Routes
 Route::post('/', [CartController::class, 'store'])->name('purchase');

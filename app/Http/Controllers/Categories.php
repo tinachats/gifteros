@@ -41,6 +41,7 @@ class Categories extends Controller
             if($request->action == 'category-gifts'){
                 $output = $gift_count = '';
                 $result = [];
+                $count = 0;
                 $filter = $request->filter;
                 $filter_rating = $request->rating;
                 $sub_category_id = $request->sub_category_id;
@@ -55,6 +56,13 @@ class Categories extends Controller
                                 ->orderBy('gifts.created_at', 'desc')
                                 ->distinct()
                                 ->get();
+                    $count = DB::table('gifts')
+                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                ->where('gifts.category_id', $request->category_id)
+                                ->distinct()
+                                ->count();
                 }
 
                 // Filter category gifts by their wishlist rankings
@@ -69,6 +77,14 @@ class Categories extends Controller
                                 ->orderBy('usd_price', $request->price_ordering)
                                 ->distinct()
                                 ->get();
+                    $count = DB::table('gifts')
+                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                ->join('wishlist', 'wishlist.gift_id', '=', 'gifts.id')
+                                ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                ->where('gifts.category_id', $request->category_id)
+                                ->whereIn('gifts.id', wishlistedGifts())
+                                ->count();
                 }
 
                 // Filter category gifts by their wishlist rankings
@@ -83,10 +99,19 @@ class Categories extends Controller
                                 ->orderBy('usd_price', $request->price_ordering)
                                 ->distinct()
                                 ->get();
+                    $count = DB::table('gifts')
+                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                ->join('ordered_gifts', 'ordered_gifts.gift_id', '=', 'gifts.id')
+                                ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                ->where('gifts.category_id', $request->category_id)
+                                ->whereIn('gifts.id', orderedGifts())
+                                ->distinct()
+                                ->count();
                 }
 
                 // Filter category gifts by their sub-category
-                if($request->sub_category_id != ''){
+                if(isset($request->sub_category_id)){
                     $result = DB::table('gifts')
                                 ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                 ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
@@ -95,10 +120,17 @@ class Categories extends Controller
                                 ->orderBy('usd_price', $request->price_ordering)
                                 ->distinct()
                                 ->get();
+                    $count = DB::table('gifts')
+                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                ->where('gifts.sub_category_id', $request->sub_category_id)
+                                ->distinct()
+                                ->count();
                 }
 
                 // Filter category gifts by price
-                if(!empty($filter)){
+                if(isset($filter)){
                     if($filter == 'under-25'){
                         $result = DB::table('gifts')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
@@ -111,9 +143,19 @@ class Categories extends Controller
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
                                     ->get();
+                        $count = DB::table('gifts')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where([
+                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['usd_price', '<', 25]
+                                    ])
+                                    ->distinct()
+                                    ->count();
                     } else if($filter == '5-to-20'){
                         $result = DB::table('gifts')
-                        ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where('gifts.category_id', $request->category_id)
@@ -121,9 +163,17 @@ class Categories extends Controller
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
                                     ->get();
+                        $count = DB::table('gifts')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where('gifts.category_id', $request->category_id)
+                                    ->whereBetween('usd_price', [5, 20])
+                                    ->distinct()
+                                    ->count();
                     } else if($filter == '20-to-50'){
                         $result = DB::table('gifts')
-                        ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where('gifts.category_id', $request->category_id)
@@ -131,9 +181,17 @@ class Categories extends Controller
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
                                     ->get();
+                        $count = DB::table('gifts')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where('gifts.category_id', $request->category_id)
+                                    ->whereBetween('usd_price', [20, 50])
+                                    ->distinct()
+                                    ->count();
                     } else if($filter == '50-to-100'){
                         $result = DB::table('gifts')
-                        ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where('gifts.category_id', $request->category_id)
@@ -141,9 +199,17 @@ class Categories extends Controller
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
                                     ->get();
+                        $count = DB::table('gifts')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where('gifts.category_id', $request->category_id)
+                                    ->whereBetween('usd_price', [50, 100])
+                                    ->distinct()
+                                    ->count();
                     } else if($filter == 'above-100'){
                         $result = DB::table('gifts')
-                        ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
@@ -153,6 +219,16 @@ class Categories extends Controller
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
                                     ->get();
+                        $count = DB::table('gifts')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where([
+                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['usd_price', '>', 100]
+                                    ])
+                                    ->distinct()
+                                    ->count();
                     }
                 }
 
@@ -168,6 +244,14 @@ class Categories extends Controller
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
                                     ->get();
+                        $count = DB::table('gifts')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where('gifts.category_id', $request->category_id)
+                                    ->whereBetween('usd_price', [$request->min_price, $request->max_price])
+                                    ->distinct()
+                                    ->count();
                     } else if($request->currency == 'zar'){
                         $result = DB::table('gifts')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
@@ -178,6 +262,14 @@ class Categories extends Controller
                                     ->orderBy('zar_price', $request->price_ordering)
                                     ->distinct()
                                     ->get();
+                        $count = DB::table('gifts')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where('gifts.category_id', $request->category_id)
+                                    ->whereBetween('zar_price', [$request->min_price, $request->max_price])
+                                    ->distinct()
+                                    ->count();
                     } else {
                         $result = DB::table('gifts')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
@@ -188,6 +280,14 @@ class Categories extends Controller
                                     ->orderBy('zwl_price', $request->price_ordering)
                                     ->distinct()
                                     ->get();
+                        $count = DB::table('gifts')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where('gifts.category_id', $request->category_id)
+                                    ->whereBetween('zwl_price', [$request->min_price, $request->max_price])
+                                    ->distinct()
+                                    ->count();
                     }
                 }
 
@@ -206,6 +306,17 @@ class Categories extends Controller
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
                                     ->get();
+                        $count = DB::table('gifts')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
+                                    ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where([
+                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['customer_rating', '>=', 4]
+                                    ])
+                                    ->distinct()
+                                    ->count();
                     } else if($filter_rating == 'above-3-rating'){
                         $result = DB::table('gifts')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
@@ -219,6 +330,17 @@ class Categories extends Controller
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
                                     ->get();
+                        $count = DB::table('gifts')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
+                                    ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where([
+                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['customer_rating', '>=', 3]
+                                    ])
+                                    ->distinct()
+                                    ->count();
                     } else if($filter_rating == 'above-2-rating'){
                         $result = DB::table('gifts')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
@@ -232,6 +354,17 @@ class Categories extends Controller
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
                                     ->get();
+                        $count = DB::table('gifts')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
+                                    ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where([
+                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['customer_rating', '>=', 2]
+                                    ])
+                                    ->distinct()
+                                    ->count();
                     } else if($filter_rating == 'above-1-rating'){
                         $result = DB::table('gifts')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
@@ -245,6 +378,17 @@ class Categories extends Controller
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
                                     ->get();
+                        $count = DB::table('gifts')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
+                                    ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where([
+                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['customer_rating', '>=', 1]
+                                    ])
+                                    ->distinct()
+                                    ->count();
                     } else {
                         $result = DB::table('gifts')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
@@ -258,6 +402,17 @@ class Categories extends Controller
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
                                     ->get();
+                        $count = DB::table('gifts')
+                                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                    ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
+                                    ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                    ->where([
+                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['customer_rating', '>=', 0]
+                                    ])
+                                    ->distinct()
+                                    ->count();
                     }
                 }
                 
@@ -270,12 +425,20 @@ class Categories extends Controller
                                 ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                 ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                 ->where('gifts.category_id', $request->category_id)
+                                ->offset($request->start)
+                                ->limit($request->limit)
                                 ->orderBy('usd_price', $request->price_ordering)
                                 ->distinct()
                                 ->get();
+                    $count = DB::table('gifts')
+                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                ->where('gifts.category_id', $request->category_id)
+                                ->distinct()
+                                ->count();
                 }
 
-                $count = $result->count();
                 if($count > 0){
                     $output .= '
                         <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="category-gifts">
@@ -428,7 +591,8 @@ class Categories extends Controller
                 }
                 return response()->json([
                     'gifts'      => $output,
-                    'gift_count' => $gift_count
+                    'gift_count' => $gift_count,
+                    'result'     => $result
                 ]);
             }
         }

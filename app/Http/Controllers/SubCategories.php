@@ -13,7 +13,10 @@ class SubCategories extends Controller
      */
     public function index()
     {
-        //
+        $data = [
+            'title' => 'Keyholders'
+        ];
+        return view('subcategory.index')->with($data);
     }
 
     /**

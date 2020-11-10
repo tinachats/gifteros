@@ -729,6 +729,86 @@
         return $count;
     }
 
+    // Get the minimum order total in the below $25 price range
+    function minLowestPurchase(){
+        $price = DB::table('orders')
+                    ->where('usd_total', '<', 25)
+                    ->min('usd_total');
+        return number_format($price, 2);
+    }
+
+    // Get the maximum order total in the below $25 price range
+    function maxLowestPurchase(){
+        $price = DB::table('orders')
+                    ->where('usd_total', '<', 25)
+                    ->max('usd_total');
+        return number_format($price, 2);
+    }
+
+    // Get the minimum order total in the $25 - $50 price range
+    function minLowerPurchase(){
+        $price = DB::table('orders')
+                    ->whereBetween('usd_total', [25, 50])
+                    ->min('usd_total');
+        return number_format($price, 2);
+    }
+
+    // Get the maximum order total in the $25 - $50 price range
+    function maxLowerPurchase(){
+        $price = DB::table('orders')
+                    ->whereBetween('usd_total', [25, 50])
+                    ->max('usd_total');
+        return number_format($price, 2);
+    }
+
+    // Get the minimum order total in the $50 - $75 price range
+    function minMediumPurchase(){
+        $price = DB::table('orders')
+                    ->whereBetween('usd_total', [50, 75])
+                    ->min('usd_total');
+        return number_format($price, 2);
+    }
+
+    // Get the maximum order total in the $50 - $75 price range
+    function maxMediumPurchase(){
+        $price = DB::table('orders')
+                    ->whereBetween('usd_total', [50, 75])
+                    ->max('usd_total');
+        return number_format($price, 2);
+    }
+
+    // Get the minimum order total in the $75 - $100 price range
+    function minHighPurchase(){
+        $price = DB::table('orders')
+                    ->whereBetween('usd_total', [75, 100])
+                    ->min('usd_total');
+        return number_format($price, 2);
+    }
+
+    // Get the maximum order total in the $75 - $100 price range
+    function maxHighPurchase(){
+        $price = DB::table('orders')
+                    ->whereBetween('usd_total', [75, 100])
+                    ->max('usd_total');
+        return number_format($price, 2);
+    }
+
+    // Get the minimum order total in the above $100 price range
+    function minHighestPurchase(){
+        $price = DB::table('orders')
+                    ->where('usd_total', '>', 100)
+                    ->min('usd_total');
+        return number_format($price, 2);
+    }
+
+    // Get the maximum order total in the below $100 price range
+    function maxHighestPurchase(){
+        $price = DB::table('orders')
+                    ->where('usd_total', '>', 100)
+                    ->max('usd_total');
+        return number_format($price, 2);
+    }
+
     // Determine percentage of customers who bought category gifts 
     // below $25.00 price range
     function lowestPriceRange(){

@@ -1,8 +1,9 @@
         </div>
         <!-- /.Main Content -->
+        @include('layouts.includes.inline-footer')
     </div>
+<!-- /.Page Content -->
 </div>
-@include('layouts.includes.footer')
 <script>
     $(function(){
         var start = 0;
@@ -19,8 +20,6 @@
         var sub_category_id = '';
         var currency = userCurrency();
         var price_ordering =  priceOrdering();
-
-        console.log(category);
 
         // Fetch category gifts
         function categoryGifts(start, limit, category, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending, currency) {
@@ -46,20 +45,18 @@
                     _token: _token
                 },
                 dataType: 'json',
-                beforeSend: giftsPreloader(8),
                 cache: false,
                 success: function(data) {
-                    $('#category-gifts').append(data.gifts);
-                    $('#gift-count').html(data.gift_count);
-                    userCurrency();
-                    if(data.gift_count === 0){
+                    if(data.result.length > 0){
+                        status = 'inactive';
+                        $('#category-gifts').append(data.gifts);
+                        $('#gift-count').html(data.gift_count);
+                        userCurrency();
+                    } else {
+                        status = 'active';
                         $('#fuzzy-loader').addClass('d-none');
                         $('.gifts-preloader').html(' ');
                         $('#null-gifts').addClass('d-none');
-                        status = 'active';
-                    } else {
-                        giftsPreloader(8);
-                        status = 'inactive';
                     }
                 }
             });

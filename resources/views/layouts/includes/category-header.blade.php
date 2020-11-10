@@ -54,12 +54,12 @@
                     <div class="form-row">
                         <div class="col-6 col-md-4">
                             <div class="form-group">
-                                <input type="text" id="min-price" name="min-price" class="input form-control form-control-sm" required>
+                                <input type="text" id="min-price" name="min-price" class="input form-control form-control-sm number-input" required>
                             </div>
                         </div>
                         <div class="col-6 col-md-4">
                             <div class="form-group">
-                                <input type="text" id="max-price" name="max-price" class="input form-control form-control-sm" required>
+                                <input type="text" id="max-price" name="max-price" class="input form-control form-control-sm number-input" required>
                             </div>
                         </div>
                         <div class="col-6 col-md-4">
@@ -166,7 +166,7 @@
         <!-- /.Filter Settings Pane -->
 
         <!-- Main Content -->
-        <div class="main-content">
+        <div class="main-content mb-5 pb-5">
            <!-- Categories Chips Slider -->
             <div class="chip-sliders bg-whitesmoke box-shadow-sm border-bottom">
                 <div class="owl-carousel owl-theme category-filters m-2">

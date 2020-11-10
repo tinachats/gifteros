@@ -68,6 +68,498 @@ class Departments extends Controller
                 $sub_category_id = $request->sub_category_id;
                 $count = 0;
 
+                // Function for determining occasion selected
+                function occasion(Request $request){
+                    switch($request->category){
+                        case 'trending_gifts':
+                            $result = DB::table('gifts')
+                                        ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                        ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                        ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                        ->whereIn('gifts.id', orderedGifts())
+                                        ->orderBy('usd_price', $request->price_ordering)
+                                        ->distinct()
+                                        ->offset($request->start)
+                                        ->limit($request->limit)
+                                        ->get();
+                            $count = DB::table('gifts')
+                                        ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                        ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                        ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                        ->whereIn('gifts.id', orderedGifts())
+                                        ->count();
+                            break;
+                        case 'hot_deals':
+                            $result = DB::table('gifts')
+                                        ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                        ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                        ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                        ->where('gifts.label', 'sale')
+                                        ->orWhere('gifts.label', 'hot-offer')
+                                        ->orderBy('usd_price', $request->price_ordering)
+                                        ->distinct()
+                                        ->offset($request->start)
+                                        ->limit($request->limit)
+                                        ->get();
+                            $count = DB::table('gifts')
+                                        ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                        ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                        ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                        ->where('gifts.label', 'sale')
+                                        ->orWhere('gifts.label', 'hot-offer')
+                                        ->count();
+                            break;
+                        case 'anniversary_gifts':
+                        case 'valentines_gifts':
+                            $result = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "teddy bears" or category_name = "combo" or category_name = "flowers"
+                                        or category_name = "jewelry" or category_name = "appliances" or category_name = "accessories"
+                                        or category_name = "customizable" or category_name = "vases"
+                                        or sub_categories.name = "anniversary"
+                                        or sub_categories.name = "chocolates" or sub_categories.name = "perfumes & Deodorants"
+                                        or sub_categories.name = "Wines" or sub_categories.name = "watches" 
+                                        or sub_categories.name = "valentines cards" or sub_categories.name = "computers" 
+                                        or sub_categories.name = "phones" or sub_categories.name = "tablets" 
+                                        or sub_categories.name = "games" order by usd_price '. $request->price_ordering .' 
+                                        limit '. $request->start .', '. $request->limit .'');
+                            $query = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "teddy bears" or category_name = "combo" or category_name = "flowers"
+                                        or category_name = "jewelry" or category_name = "appliances" or category_name = "accessories"
+                                        or category_name = "customizable" or category_name = "vases"
+                                        or sub_categories.name = "anniversary"
+                                        or sub_categories.name = "chocolates" or sub_categories.name = "perfumes & Deodorants"
+                                        or sub_categories.name = "Wines" or sub_categories.name = "watches" 
+                                        or sub_categories.name = "valentines cards" or sub_categories.name = "computers" 
+                                        or sub_categories.name = "phones" or sub_categories.name = "tablets" 
+                                        or sub_categories.name = "games"');
+                            $count = count($query);
+                            break;
+                        case 'birthday_gifts':
+                            $result = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "teddy bears" or category_name = "combo" or category_name = "flowers"
+                                        or category_name = "jewelry" or category_name = "appliances" or category_name = "accessories"
+                                        or category_name = "customizable"  or sub_categories.name = "birthday cakes"
+                                        or sub_categories.name = "chocolates" or sub_categories.name = "perfumes & Deodorants"
+                                        or sub_categories.name = "Wines" or sub_categories.name = "watches" 
+                                        or category_name = "vases" or category_name = "bags"
+                                        or sub_categories.name = "birthday cards" or sub_categories.name = "computers" 
+                                        or sub_categories.name = "phones" or sub_categories.name = "tablets" 
+                                        or sub_categories.name = "games" order by usd_price '. $request->price_ordering .' 
+                                        limit '. $request->start .', '. $request->limit .'');
+                            $query = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "teddy bears" or category_name = "combo" or category_name = "flowers"
+                                        or category_name = "jewelry" or category_name = "appliances" or category_name = "accessories"
+                                        or category_name = "customizable"  or sub_categories.name = "birthday cakes"
+                                        or sub_categories.name = "chocolates" or sub_categories.name = "perfumes & Deodorants"
+                                        or sub_categories.name = "Wines" or sub_categories.name = "watches" 
+                                        or category_name = "vases" or category_name = "bags"
+                                        or sub_categories.name = "birthday cards" or sub_categories.name = "computers" 
+                                        or sub_categories.name = "phones" or sub_categories.name = "tablets" 
+                                        or sub_categories.name = "games"');
+                            $count = count($query);
+                            break;
+                        case 'christmas_gifts':
+                        case 'newyear_gifts':
+                            $result = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name <> "teddy bears" or category_name <> "combo" or 
+                                        sub_categories.name <> "Couple Matching Clothes" or sub_categories.name <> "easter cards"
+                                        or sub_categories.name <> "easter eggs" or sub_categories.name <> "farewell cards"
+                                        or sub_categories.name <> "fathers day cards" or sub_categories.name <> "mothers day cards"
+                                        or sub_categories.name <> "get well soon cards" or sub_categories.name <> "graduation cards"
+                                        or sub_categories.name <> "wedding cards" or sub_categories.name <> "workplace cards"
+                                        or sub_categories.name <> "thank you cards" or sub_categories.name <> "birthday cards"
+                                        or sub_categories.name <> "valentines cards" or sub_categories.name <> "wedding cakes"
+                                        order by usd_price '. $request->price_ordering .' 
+                                        limit '. $request->start .', '. $request->limit .'');
+                            $query = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name <> "teddy bears" or category_name <> "combo" or 
+                                        sub_categories.name <> "Couple Matching Clothes" or sub_categories.name <> "easter cards"
+                                        or sub_categories.name <> "easter eggs" or sub_categories.name <> "farewell cards"
+                                        or sub_categories.name <> "fathers day cards" or sub_categories.name <> "mothers day cards"
+                                        or sub_categories.name <> "get well soon cards" or sub_categories.name <> "graduation cards"
+                                        or sub_categories.name <> "wedding cards" or sub_categories.name <> "workplace cards"
+                                        or sub_categories.name <> "thank you cards" or sub_categories.name <> "birthday cards"
+                                        or sub_categories.name <> "valentines cards" or sub_categories.name <> "wedding cakes"');
+                            $count = count($query);
+                            break;
+                        case 'congrats_gifts':
+                        case 'thanks_gifts':
+                        case 'workplace_gifts':
+                            $result = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "kitchenware" or category_name = "flowers"
+                                        or category_name = "shoes" or category_name = "appliances" or category_name = "accessories"
+                                        or category_name = "customizable"  or sub_categories.name = "workplace cards"
+                                        or sub_categories.name = "chocolates" or sub_categories.name = "perfumes & Deodorants"
+                                        or sub_categories.name = "Wines" or sub_categories.name = "watches" 
+                                        or sub_categories.name = "congrats cards" or sub_categories.name = "computers" 
+                                        or sub_categories.name = "phones" or sub_categories.name = "tablets" 
+                                        or sub_categories.name = "games" order by usd_price '. $request->price_ordering .' 
+                                        limit '. $request->start .', '. $request->limit .'');
+                            $query = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "kitchenware" or category_name = "flowers"
+                                        or category_name = "shoes" or category_name = "appliances" or category_name = "accessories"
+                                        or category_name = "customizable"  or sub_categories.name = "workplace cards"
+                                        or sub_categories.name = "chocolates" or sub_categories.name = "perfumes & Deodorants"
+                                        or sub_categories.name = "Wines" or sub_categories.name = "watches" 
+                                        or sub_categories.name = "congrats cards" or sub_categories.name = "computers" 
+                                        or sub_categories.name = "phones" or sub_categories.name = "tablets" 
+                                        or sub_categories.name = "games"');
+                            $count = count($query);
+                            break;
+                        case 'easter_gifts': 
+                            $result = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "kitchenware" or category_name = "flowers"
+                                        or category_name = "shoes" or category_name = "appliances" 
+                                        or category_name = "accessories" or category_name = "pastries"
+                                        or category_name = "confectionery" or category_name = "dairy"
+                                        or category_name = "beverages" or category_name = "snacks"
+                                        or category_name = "plasticware" or category_name = "clothing"
+                                        or category_name = "customizable"  or sub_categories.name = "easter cards"
+                                        or sub_categories.name = "chocolates" or sub_categories.name = "perfumes & Deodorants"
+                                        or sub_categories.name = "Wines" or sub_categories.name = "watches" 
+                                        or sub_categories.name = "computers" or sub_categories.name = "easter eggs"
+                                        or sub_categories.name = "phones" or sub_categories.name = "tablets" 
+                                        or sub_categories.name = "games" order by usd_price '. $request->price_ordering .' 
+                                        limit '. $request->start .', '. $request->limit .'');
+                            $query = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "kitchenware" or category_name = "flowers"
+                                        or category_name = "shoes" or category_name = "appliances" 
+                                        or category_name = "accessories" or category_name = "pastries"
+                                        or category_name = "confectionery" or category_name = "dairy"
+                                        or category_name = "beverages" or category_name = "snacks"
+                                        or category_name = "plasticware" or category_name = "clothing"
+                                        or category_name = "customizable"  or sub_categories.name = "easter cards"
+                                        or sub_categories.name = "chocolates" or sub_categories.name = "perfumes & Deodorants"
+                                        or sub_categories.name = "Wines" or sub_categories.name = "watches" 
+                                        or sub_categories.name = "computers" or sub_categories.name = "easter eggs"
+                                        or sub_categories.name = "phones" or sub_categories.name = "tablets" 
+                                        or sub_categories.name = "games"');
+                            $count = count($query);
+                            break;
+                        case 'farewell_gifts':
+                        case 'retirement_gifts':
+                            $result = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "kitchenware" or category_name = "flowers"
+                                        or category_name = "shoes" or category_name = "appliances" 
+                                        or category_name = "pastries"
+                                        or category_name = "vases" or category_name = "bags"
+                                        or category_name = "plasticware" or category_name = "clothing"
+                                        or sub_categories.name = "farewell cards" or sub_categories.name = "keyholders"
+                                        or sub_categories.name = "necklaces" or sub_categories.name = "keyholders"
+                                        or sub_categories.name = "chocolates" or sub_categories.name = "perfumes & Deodorants"
+                                        or sub_categories.name = "Wines" or sub_categories.name = "watches" 
+                                        or sub_categories.name = "computers"
+                                        or sub_categories.name = "phones" or sub_categories.name = "tablets" 
+                                        or sub_categories.name = "games" order by usd_price '. $request->price_ordering .' 
+                                        limit '. $request->start .', '. $request->limit .'');
+                            $query = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "kitchenware" or category_name = "flowers"
+                                        or category_name = "shoes" or category_name = "appliances" 
+                                        or category_name = "pastries"
+                                        or category_name = "vases" or category_name = "bags"
+                                        or category_name = "plasticware" or category_name = "clothing"
+                                        or sub_categories.name = "farewell cards" or sub_categories.name = "keyholders"
+                                        or sub_categories.name = "necklaces" or sub_categories.name = "keyholders"
+                                        or sub_categories.name = "chocolates" or sub_categories.name = "perfumes & Deodorants"
+                                        or sub_categories.name = "Wines" or sub_categories.name = "watches" 
+                                        or sub_categories.name = "computers"
+                                        or sub_categories.name = "phones" or sub_categories.name = "tablets" 
+                                        or sub_categories.name = "games"');
+                            $count = count($query);
+                            break;
+                        case 'for_him':
+                            $result = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "appliances" or category_name = "vases" 
+                                        or sub_categories.name = "backpacks"
+                                        or sub_categories.name = "spirits" or sub_categories.name = "diaries"
+                                        or sub_categories.name = "pens" or sub_categories.name = "fathers day cards"
+                                        or sub_categories.name = "shaving blade" or sub_categories.name = "keyholders"
+                                        or sub_categories.name = "blenders" or sub_categories.name = "shaving gels"
+                                        or sub_categories.name = "bluetooth speakers" or sub_categories.name = "perfumes & Deodorants"
+                                        or sub_categories.name = "Wines" or sub_categories.name = "watches" 
+                                        or sub_categories.name = "computers" or sub_categories.name = "alcohol"
+                                        or sub_categories.name = "phones" or sub_categories.name = "tablets" 
+                                        or sub_categories.name = "games" order by usd_price '. $request->price_ordering .' 
+                                        limit '. $request->start .', '. $request->limit .'');
+                            $query = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "appliances" or category_name = "vases" 
+                                        or sub_categories.name = "backpacks"
+                                        or sub_categories.name = "spirits" or sub_categories.name = "diaries"
+                                        or sub_categories.name = "pens" or sub_categories.name = "fathers day cards"
+                                        or sub_categories.name = "shaving blade" or sub_categories.name = "keyholders"
+                                        or sub_categories.name = "blenders" or sub_categories.name = "shaving gels"
+                                        or sub_categories.name = "bluetooth speakers" or sub_categories.name = "perfumes & Deodorants"
+                                        or sub_categories.name = "Wines" or sub_categories.name = "watches" 
+                                        or sub_categories.name = "computers" or sub_categories.name = "alcohol"
+                                        or sub_categories.name = "phones" or sub_categories.name = "tablets" 
+                                        or sub_categories.name = "games"');
+                            $count = count($query);
+                            break;
+                        case 'getwell_gifts':
+                        case 'sympathy_gifts':
+                        case 'because_gifts':
+                            $result = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "flowers" or category_name = "confectionery"  
+                                        or category_name = "plants" or category_name = "beverages"
+                                        or category_name = "vases" or category_name = "snacks"
+                                        or category_name = "books" or sub_categories.name = "cupcakes"  
+                                        or category_name = "games" or sub_categories.name = "chocolates" 
+                                        or sub_categories.name = "perfumes & Deodorants" or sub_categories.name = "watches"
+                                        order by usd_price '. $request->price_ordering .' 
+                                        limit '. $request->start .', '. $request->limit .'');
+                            $query = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "flowers" or category_name = "confectionery"  
+                                        or category_name = "plants" or category_name = "beverages"
+                                        or category_name = "vases" or category_name = "snacks"
+                                        or category_name = "books" or sub_categories.name = "cupcakes"  
+                                        or category_name = "games" or sub_categories.name = "chocolates" 
+                                        or sub_categories.name = "perfumes & Deodorants" or sub_categories.name = "watches"');
+                            $count = count($query);
+                            break;
+                        case 'graduation_gifts':
+                            $result = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "confectionery" or category_name = "phones"
+                                        or category_name = "computers" or category_name = "tablets" 
+                                        or category_name = "appliances"
+                                        or category_name = "plants" or category_name = "beverages"
+                                        or category_name = "vases" or category_name = "accessories"  
+                                        or sub_categories.name = "graduation cards" or sub_categories.name = "chocolates" 
+                                        or sub_categories.name = "perfumes & Deodorants" or sub_categories.name = "cupcakes"
+                                        or sub_categories.name = "watches" or sub_categories.name = "pens"
+                                        or sub_categories.name = "whisky glasses" or sub_categories.name = "fathers day cards"
+                                        or sub_categories.name = "keyholders" or sub_categories.name = "whiskey"
+                                        or sub_categories.name = "necklaces" or sub_categories.name = "Sandals"
+                                        or sub_categories.name = "printed t-shirts" or sub_categories.name = "printed hoodies"
+                                        or sub_categories.name = "printed cups" or sub_categories.name = "spirits"
+                                        or sub_categories.name = "sports" or sub_categories.name = "sports shoes"
+                                        or sub_categories.name = "shaving blade" or sub_categories.name = "shaving gels"
+                                        or sub_categories.name = "blenders" or sub_categories.name = "backpacks"
+                                        or sub_categories.name = "bluetooth speakers" or sub_categories.name = "diaries"
+                                        or sub_categories.name = "pens" or sub_categories.name = "formal shirts"
+                                        or sub_categories.name = "jackets" or sub_categories.name = "laundry bags"
+                                        order by usd_price '. $request->price_ordering .' 
+                                        limit '. $request->start .', '. $request->limit .'');
+                            $query = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "confectionery" or category_name = "phones"
+                                        or category_name = "computers" or category_name = "tablets" 
+                                        or category_name = "appliances"
+                                        or category_name = "plants" or category_name = "beverages"
+                                        or category_name = "vases" or category_name = "accessories"  
+                                        or sub_categories.name = "graduation cards" or sub_categories.name = "chocolates" 
+                                        or sub_categories.name = "perfumes & Deodorants" or sub_categories.name = "cupcakes"
+                                        or sub_categories.name = "watches" or sub_categories.name = "pens"
+                                        or sub_categories.name = "whisky glasses" or sub_categories.name = "fathers day cards"
+                                        or sub_categories.name = "keyholders" or sub_categories.name = "whiskey"
+                                        or sub_categories.name = "necklaces" or sub_categories.name = "Sandals"
+                                        or sub_categories.name = "printed t-shirts" or sub_categories.name = "printed hoodies"
+                                        or sub_categories.name = "printed cups" or sub_categories.name = "spirits"
+                                        or sub_categories.name = "sports" or sub_categories.name = "sports shoes"
+                                        or sub_categories.name = "shaving blade" or sub_categories.name = "shaving gels"
+                                        or sub_categories.name = "blenders" or sub_categories.name = "backpacks"
+                                        or sub_categories.name = "bluetooth speakers" or sub_categories.name = "diaries"
+                                        or sub_categories.name = "pens" or sub_categories.name = "formal shirts"
+                                        or sub_categories.name = "jackets" or sub_categories.name = "laundry bags"');
+                            $count = count($query);
+                            break;
+                        case 'for_her':
+                            $result = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "accessories" or category_name = "phones"
+                                        or category_name = "computers" or category_name = "tablets"
+                                        or category_name = "appliances" or category_name = "plasticware"
+                                        or category_name = "kitchenware" or category_name = "pastries"
+                                        or category_name = "plants" or category_name = "vases"
+                                        or category_name = "furniture" or category_name = "household essentials"
+                                        or category_name = "bed clothing" or category_name = "flowers"
+                                        or category_name = "confectionary" or category_name = "snacks"
+                                        or sub_categories.name = "mothers day cards" or sub_categories.name = "cutting boards"
+                                        or sub_categories.name = "keyholders" or sub_categories.name = "Fruit juices"
+                                        or sub_categories.name = "necklaces" or sub_categories.name = "handbags"
+                                        or sub_categories.name = "printed t-shirts" or sub_categories.name = "printed hoodies"
+                                        or sub_categories.name = "printed cups" or sub_categories.name = "heels"
+                                        or sub_categories.name = "sports" or sub_categories.name = "sports shoes"
+                                        or sub_categories.name = "diaries"
+                                        or sub_categories.name = "pens"
+                                        or sub_categories.name = "laundry bags"
+                                        order by usd_price '. $request->price_ordering .' 
+                                        limit '. $request->start .', '. $request->limit .'');
+                            $query = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "accessories" or category_name = "phones"
+                                        or category_name = "computers" or category_name = "tablets"
+                                        or category_name = "appliances" or category_name = "plasticware"
+                                        or category_name = "kitchenware" or category_name = "pastries"
+                                        or category_name = "plants" or category_name = "vases"
+                                        or category_name = "furniture" or category_name = "household essentials"
+                                        or category_name = "bed clothing" or category_name = "flowers"
+                                        or category_name = "confectionary" or category_name = "snacks"
+                                        or sub_categories.name = "mothers day cards" or sub_categories.name = "cutting boards"
+                                        or sub_categories.name = "keyholders" or sub_categories.name = "Fruit juices"
+                                        or sub_categories.name = "necklaces" or sub_categories.name = "handbags"
+                                        or sub_categories.name = "printed t-shirts" or sub_categories.name = "printed hoodies"
+                                        or sub_categories.name = "printed cups" or sub_categories.name = "heels"
+                                        or sub_categories.name = "sports" or sub_categories.name = "sports shoes"
+                                        or sub_categories.name = "diaries"
+                                        or sub_categories.name = "pens"
+                                        or sub_categories.name = "laundry bags"');
+                            $count = count($query);
+                            break;
+                        case 'baby_gifts':
+                            $result = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "teddy_bears" or category_name = "toys" 
+                                        or category_name = "babies" or category_name = "dairy" 
+                                        order by usd_price '. $request->price_ordering .' 
+                                        limit '. $request->start .', '. $request->limit .'');
+                            $query = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "teddy_bears" or category_name = "toys" 
+                                        or category_name = "babies" or category_name = "dairy"');
+                            $count = count($query);
+                            break;
+                        case 'kid_gifts':
+                            $result = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "confectionery" or category_name = "snacks"
+                                        or category_name = "books" or sub_categories.name = "cupcakes"  
+                                        or category_name = "games" or sub_categories.name = "chocolates" 
+                                        or sub_categories.name = "perfumes & Deodorants" or sub_categories.name = "watches"
+                                        or sub_categories.name = "bluetooth speakers" or sub_categories.name = "backpacks"
+                                        or category_name = "phones" or category_name = "computers" 
+                                        or category_name = "tablets" or sub_categories.name = "sports" 
+                                        or sub_categories.name = "sports shoes"
+                                        order by usd_price '. $request->price_ordering .' 
+                                        limit '. $request->start .', '. $request->limit .'');
+                            $query = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "confectionery" or category_name = "snacks"
+                                        or category_name = "books" or sub_categories.name = "cupcakes"  
+                                        or category_name = "games" or sub_categories.name = "chocolates" 
+                                        or sub_categories.name = "perfumes & Deodorants" or sub_categories.name = "watches"
+                                        or sub_categories.name = "bluetooth speakers" or sub_categories.name = "backpacks"
+                                        or category_name = "phones" or category_name = "computers" 
+                                        or category_name = "tablets" or sub_categories.name = "sports" 
+                                        or sub_categories.name = "sports shoes"');
+                            $count = count($query);
+                            break;
+                        case 'home_gifts':
+                            $result = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "flowers" or category_name = "customized" 
+                                        or category_name = "beverages" or category_name = "confectionery"
+                                        or category_name = "dairy" or category_name = "bags"
+                                        or category_name = "appliances" or category_name = "cameras"
+                                        or category_name = "plasticware" or category_name = "kitchenware"
+                                        or category_name = "snacks" or category_name = "bed clothing" or category_name = "plants"
+                                        or category_name = "vases" or sub_categories.name = "printed cups"
+                                        order by usd_price '. $request->price_ordering .' 
+                                        limit '. $request->start .', '. $request->limit .'');
+                            $query = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "flowers" or category_name = "customized" 
+                                        or category_name = "beverages" or category_name = "confectionery"
+                                        or category_name = "dairy" or category_name = "bags"
+                                        or category_name = "appliances" or category_name = "cameras"
+                                        or category_name = "plasticware" or category_name = "kitchenware"
+                                        or category_name = "snacks" or category_name = "bed clothing" or category_name = "plants"
+                                        or category_name = "vases" or sub_categories.name = "printed cups"');
+                            $count = count($query);
+                            break;
+                        case 'wedding_gifts':
+                            $result = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "teddy_bears" or category_name = "flowers"
+                                        or category_name = "jewelry" or category_name = "combo gifts"
+                                        or category_name = "kitchenware" or category_name = "appliances"
+                                        or category_name = "plants" or category_name = "plasticware"
+                                        or category_name = "accessories" or category_name = "beverages"
+                                        or category_name = "customizable" 
+                                        or sub_categories.name = "wedding cakes" or sub_categories.name = "wedding cards"
+                                        or sub_categories.name = "chocolates" or sub_categories.name = "perfumes & Deodorants"
+                                        or sub_categories.name = "Valentines Teddy Bears" or sub_categories.name = "Wines"
+                                        or sub_categories.name = "Couple Matching Clothes"
+                                        order by usd_price '. $request->price_ordering .' 
+                                        limit '. $request->start .', '. $request->limit .'');
+                            $query = DB::select('select distinct gifts.*, gifts.id as gift_id, gifts.slug as gift_slug, 
+                                        categories.*, sub_categories.*, sub_categories.name as sub_category from gifts inner join sub_categories 
+                                        on sub_categories.id = gifts.sub_category_id inner join categories on categories.id = gifts.category_id
+                                        where category_name = "teddy_bears" or category_name = "flowers"
+                                        or category_name = "jewelry" or category_name = "combo gifts"
+                                        or category_name = "kitchenware" or category_name = "appliances"
+                                        or category_name = "plants" or category_name = "plasticware"
+                                        or category_name = "accessories" or category_name = "beverages"
+                                        or category_name = "customizable" 
+                                        or sub_categories.name = "wedding cakes" or sub_categories.name = "wedding cards"
+                                        or sub_categories.name = "chocolates" or sub_categories.name = "perfumes & Deodorants"
+                                        or sub_categories.name = "Valentines Teddy Bears" or sub_categories.name = "Wines"
+                                        or sub_categories.name = "Couple Matching Clothes"');
+                            $count = count($query);
+                            break;
+                        default: 
+                            $result = DB::table('gifts')
+                                        ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                        ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                        ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                        ->orderBy('usd_price', $request->price_ordering)
+                                        ->distinct()
+                                        ->offset($request->start)
+                                        ->limit($request->limit)
+                                        ->get();
+                            $count = DB::table('gifts')
+                                        ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                        ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                        ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                        ->orderBy('usd_price', $request->price_ordering)
+                                        ->distinct()
+                                        ->count();
+                    }
+                }
+
                 // Filter category gifts by the created_at date (desc)
                 if(!empty($request->latest) && $request->latest == 'created_at'){
                     $result = DB::table('gifts')
@@ -929,6 +1421,7 @@ class Departments extends Controller
                     $gift_count = $count . ' gift items in stock';
                 }
                 return response()->json([
+                    'result'      => $result,
                     'gifts'      => $output,
                     'gift_count' => $gift_count
                 ]);
