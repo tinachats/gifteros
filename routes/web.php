@@ -47,10 +47,13 @@ Route::get('/compare_page', [Gifts::class, 'compare_page'])->name('compare_page'
 // Category Gifts
 Route::get('/category/{category_id}/{category}', [Categories::class, 'index'])->name('gifts_category');
 Route::get('/category/{occasion}', [Occasions::class, 'occasion'])->name('occasion');
-Route::get('/category/{category_id}/{category}/{subcategory}', [SubCategories::class, 'index'])->name('gifts_subcategory');
 Route::post('/category/gifts', [Categories::class, 'gifts'])->name('category_gifts');
 Route::post('/category/filter_ratings', [Categories::class, 'filter_ratings'])->name('filter_ratings');
 Route::post('/occasional_gifts', [Occasions::class, 'occasional_gifts'])->name('occasional_gifts');
+
+// Sub-category Gifts
+Route::get('/subcategory/{sub_category_id}/{subcategory}', [SubCategories::class, 'index'])->name('gifts_subcategory');
+Route::post('/sub_category/gifts', [SubCategories::class, 'gifts'])->name('subcategory_gifts');
 
 // Cart Routes
 Route::post('/', [CartController::class, 'store'])->name('purchase');

@@ -203,6 +203,23 @@
                             <!-- /.Category Item -->
                         @endforeach
                     @endisset
+
+                    @isset($sub_filters)
+                        @foreach ($sub_filters as $sub_category)
+                            <!-- Category Item -->
+                            <div class="item">
+                                <!-- Category Chip -->
+                                <a role="button" href="#" class="sub-category-filter active" data-id="{{ $sub_category->id }}">
+                                    <div class="category-chip rounded-pill">
+                                        <img src="/storage/sub-categories/{{ $sub_category->image }}" class="img-circle rounded-circle mr-2" width="40" height="40" alt="{{ $sub_category->name }}">
+                                        <span class="text-lowercase text-faded">{{ mb_strimwidth($sub_category->name, 0, 10, '...') }}</span>
+                                    </div>
+                                </a>
+                                <!-- /.Category Chip -->
+                            </div>
+                            <!-- /.Category Item -->
+                        @endforeach
+                    @endisset
                 </div>
             </div>
             <!-- /.Categories Chips Slider -->

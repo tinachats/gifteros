@@ -161,36 +161,96 @@
         $('#lowest-price-range').on('mouseenter', function(){
             min_price = {{ minLowestPurchase() }};
             max_price = {{ maxLowestPurchase() }};
-            $('#min-price').val(min_price);
-            $('#max-price').val(max_price);
+            if(currency == 'usd'){
+                $('#min-price').val(min_price);
+                $('#max-price').val(max_price);
+            } else if(currency == 'zar'){
+                min_price = (16.5 * min_price);
+                max_price = (16.5 * max_price);
+                $('#min-price').val(parseFloat(min_price).toFixed(2));
+                $('#max-price').val(parseFloat(max_price).toFixed(2));
+            } else {
+                min_price = (100 * min_price);
+                max_price = (100 * max_price);
+                $('#min-price').val(parseFloat(min_price).toFixed(2));
+                $('#max-price').val(parseFloat(max_price).toFixed(2));
+            }
         });
 
         $('#lower-price-range').on('mouseenter', function(){
             min_price = {{ minLowerPurchase() }};
             max_price = {{ maxLowerPurchase() }};
-            $('#min-price').val(min_price);
-            $('#max-price').val(max_price);
+            if(currency == 'usd'){
+                $('#min-price').val(min_price);
+                $('#max-price').val(max_price);
+            } else if(currency == 'zar'){
+                min_price = (16.5 * min_price);
+                max_price = (16.5 * max_price);
+                $('#min-price').val(parseFloat(min_price).toFixed(2));
+                $('#max-price').val(parseFloat(max_price).toFixed(2));
+            } else {
+                min_price = (100 * min_price);
+                max_price = (100 * max_price);
+                $('#min-price').val(parseFloat(min_price).toFixed(2));
+                $('#max-price').val(parseFloat(max_price).toFixed(2));
+            }
         });
 
         $('#medium-price-range').on('mouseenter', function(){
             min_price = {{ minMediumPurchase() }};
             max_price = {{ maxMediumPurchase() }};
-            $('#min-price').val(min_price);
-            $('#max-price').val(max_price);
+            if(currency == 'usd'){
+                $('#min-price').val(min_price);
+                $('#max-price').val(max_price);
+            } else if(currency == 'zar'){
+                min_price = (16.5 * min_price);
+                max_price = (16.5 * max_price);
+                $('#min-price').val(parseFloat(min_price).toFixed(2));
+                $('#max-price').val(parseFloat(max_price).toFixed(2));
+            } else {
+                min_price = (100 * min_price);
+                max_price = (100 * max_price);
+                $('#min-price').val(parseFloat(min_price).toFixed(2));
+                $('#max-price').val(parseFloat(max_price).toFixed(2));
+            }
         });
 
         $('#high-price-range').on('mouseenter', function(){
             min_price = {{ minHighPurchase() }};
             max_price = {{ maxHighPurchase() }};
-            $('#min-price').val(min_price);
-            $('#max-price').val(max_price);
+            if(currency == 'usd'){
+                $('#min-price').val(min_price);
+                $('#max-price').val(max_price);
+            } else if(currency == 'zar'){
+                min_price = (16.5 * min_price);
+                max_price = (16.5 * max_price);
+                $('#min-price').val(parseFloat(min_price).toFixed(2));
+                $('#max-price').val(parseFloat(max_price).toFixed(2));
+            } else {
+                min_price = (100 * min_price);
+                max_price = (100 * max_price);
+                $('#min-price').val(parseFloat(min_price).toFixed(2));
+                $('#max-price').val(parseFloat(max_price).toFixed(2));
+            }
         });
 
         $('#highest-price-range').on('mouseenter', function(){
             min_price = {{ minHighestPurchase() }};
             max_price = {{ maxHighestPurchase() }};
-            $('#min-price').val(min_price);
-            $('#max-price').val(max_price);
+            if(currency == 'usd'){
+                $('#min-price').val(min_price);
+                $('#max-price').val(max_price);
+            } else if(currency == 'zar'){
+                min_price = (16.5 * min_price);
+                max_price = (16.5 * max_price);
+                $('#min-price').val(parseFloat(min_price).toFixed(2));
+                $('#max-price').val(parseFloat(max_price).toFixed(2));
+            } else {
+                min_price = (100 * min_price);
+                max_price = (100 * max_price);
+                $('#min-price').val(parseFloat(min_price).toFixed(2));
+                $('#max-price').val(parseFloat(max_price).toFixed(2));
+            }
         });
 
         // Reset the price range inputs

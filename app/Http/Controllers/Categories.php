@@ -495,7 +495,7 @@ class Categories extends Controller
                                                     '. mb_strimwidth($gift->gift_name, 0, 25, '...') .'
                                                 </p>
                                             </a>
-                                            <a href="#" class="text-sm font-500 text-capitalize my-0 py-0">
+                                            <a href="'. route('gifts_subcategory', [$gift->sub_category_id, $gift->subcategory_slug]) .'" class="text-sm font-500 text-capitalize my-0 py-0">
                                                 '. $gift->sub_category.'
                                             </a>
                                             '. $star_rating .'

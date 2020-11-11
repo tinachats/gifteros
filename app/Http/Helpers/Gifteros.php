@@ -655,6 +655,14 @@
         return $category_name;
     }
 
+    // Get sub-category name
+    function subcategoryName($sub_category_id){
+        $category_name = DB::table('sub_categories')
+                           ->where('id', $sub_category_id)
+                           ->value('name');
+        return $category_name;
+    }
+
     // Get gift's category
     function categoryId($gift_id){
         $category_id = DB::table('gifts')
