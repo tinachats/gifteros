@@ -12,6 +12,7 @@ use App\Http\Controllers\Occasions;
 use App\Http\Controllers\Orders;
 use App\Http\Controllers\Search;
 use App\Http\Controllers\SubCategories;
+use App\Http\Controllers\UI;
 use App\Http\Controllers\Users;
 use App\Http\Controllers\Wishlist;
 
@@ -31,6 +32,9 @@ Route::post('/keep-token-alive', function(){
     return 'Token must have been valid, and the session expiration has been extended.';
 });
 Route::post('/app_rating', [AppRatings::class, 'store'])->name('app_rating');
+
+// UI Test Designs
+Route::get('/category_ui', [UI::class, 'category_ui'])->name('category_ui');
 
 // Gift Routes
 Route::get('/', [Gifts::class, 'index'])->name('index');

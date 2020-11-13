@@ -77,7 +77,7 @@
     <!-- Mailing List Form -->
     <div class="container-fluid my-3">
         <div class="row align-items-center justify-content-around">
-            <div class="col-12 col-md-7 border-right">
+            <div class="col-12 col-lg-7 justify-content-md-center border-right">
                 <h6 class="font-600">Sign up to our newsletter</h6>
                 <form method="post" class="needs-validation" novalidate>
                     <div class="input-group">
@@ -88,7 +88,7 @@
                     </div>
                 </form>
             </div>
-            <div class="col-12 col-md-5">
+            <div class="col-12 col-lg-5 justify-content-md-center mt-md-2">
                 <div class="d-flex align-items-center">
                     <i class="material-icons fa-3x text-muted mr-2 align-self-center">location_on</i>
                     <div class="d-block text-center">
@@ -102,7 +102,7 @@
     <!-- /.Mailing List Form -->
 
     <!-- Services Offered -->
-    <div class="d-grid grid-4 border-top border-bottom bg-whitesmoke">
+    <div class="services-offered d-grid grid-4 border-top border-bottom bg-whitesmoke">
         {{-- Block Panel --}}
         <div class="block-panel d-grid border-right px-2">
             <div class="block-content text-center m-auto">
@@ -1182,6 +1182,215 @@
     </div>
 </div>
 <!-- /.Accessory Animation Modal -->
+
+<!-- Filter Settings -->
+<div class="filter-settings bg-light d-none">
+    <nav class="nav navbar-expand-md fixed-top main-nav bg-whitesmoke box-shadow-sm py-2 px-md-1 mb-2">
+        <a href="#" class="nav-link icon-link go-back toggle-filters">
+            <i class="material-icons">arrow_back</i>
+        </a>
+        <div class="ml-auto mr-2">
+            <h5 class="font-600 my-0 py-0 text-capitalize">Filter Settings</h5>
+        </div>
+    </nav>
+    <div class="filter-content">
+        <!-- Filter Setting -->
+        <div class="filter-setting mb-2">
+            <h6 class="ml-2">Price Filters</h6>
+            <div class="bg-whitesmoke w-100 box-shadow-sm">
+                <div class="filter-scroller w-100 py-2">
+                    <a role="button" class="btn btn-primary btn-sm px-3 price-filters font-600 active">All</a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 price-filters font-600">
+                        Below <span class="usd-price">US$25</span>
+                        <span class="zar-price d-none">R412.50</span>
+                        <span class="zwl-price d-none">ZW$2500</span>
+                    </a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 price-filters font-600">
+                        <span class="usd-price">US$5 to US$20</span>
+                        <span class="zar-price d-none">R82.50 to R330</span>
+                        <span class="zwl-price d-none">ZW$500 to ZW$2000</span>
+                    </a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 price-filters font-600">
+                        <span class="usd-price">US$20 to US$50</span>
+                        <span class="zar-price d-none">R330 to R825</span>
+                        <span class="zwl-price d-none">ZW$2000 to ZW$5000</span>
+                    </a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 price-filters font-600">
+                        <span class="usd-price">US$50 to US$100</span>
+                        <span class="zar-price d-none">R825 to R1,650</span>
+                        <span class="zwl-price d-none">ZW$5000 to ZW$10000</span>
+                    </a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 price-filters font-600">
+                        <span class="usd-price">US$100 and Above</span>
+                        <span class="zar-price d-none">R1,650 and Above</span>
+                        <span class="zwl-price d-none">ZW$10000 and Above</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /.Filter Setting -->
+
+        <!-- Filter Setting -->
+        <div class="filter-setting mb-2">
+            <h6 class="ml-2">Price Range</h6>
+            <div class="bg-whitesmoke w-100 box-shadow-sm">
+                <div class="form-row mx-2 py-2">
+                    <div class="col">
+                        <div class="form-group mb-0">
+                            <input type="text" id="min-price" name="min-price" class="input form-control form-control-sm number-input" required>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group mb-0">
+                            <input type="text" id="max-price" name="max-price" class="input form-control form-control-sm number-input" required>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button id="submit-range" class="btn btn-primary btn-sm font-600 btn-block">Go</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /.Filter Setting -->
+
+        <!-- Filter Setting -->
+        <div class="filter-setting mb-2">
+            <h6 class="ml-2">Colors</h6>
+            <div class="bg-whitesmoke w-100 box-shadow-sm">
+                <div class="filter-scroller w-100 py-2">
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm" title="Red or Maroon">
+                        <div class="color-inset bg-brick-red">
+                            <i class="text-white material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm">
+                        <div class="color-inset bg-orange" title="Orange">
+                            <i class="text-white material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm">
+                        <div class="color-inset bg-warning" title="Yellow">
+                            <i class="text-white material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm" title="Green">
+                        <div class="color-inset bg-success">
+                            <i class="text-white material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm" title="Purple">
+                        <div class="color-inset bg-purple">
+                            <i class="text-white material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm" title="White">
+                        <div class="color-inset bg-white">
+                            <i class="text-success material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm" title="Grey">
+                        <div class="color-inset bg-light-grey">
+                            <i class="text-white material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm" title="Blue">
+                        <div class="color-inset bg-primary">
+                            <i class="text-white material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+                </div>
+            </div>
+        </div>
+        <!-- /.Filter Setting -->
+
+        <!-- Filter Setting -->
+        <div class="filter-setting mb-2">
+            <h6 class="ml-2">Sizes</h6>
+            <div class="bg-whitesmoke w-100 box-shadow-sm">
+                <div class="filter-scroller w-100 py-2">
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600" id="small-size">S</a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600">M</a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600">L</a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600">XL</a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600">XXL</a>
+                </div>
+            </div>
+        </div>
+        <!-- /.Filter Setting -->
+
+        <!-- Filter Setting -->
+        <div class="filter-setting mb-2">
+            <h6 class="ml-2">Category</h6>
+            <div class="bg-whitesmoke w-100 box-shadow-sm">
+                <div class="filter-scroller w-100 py-2">
+                    <a role="button" class="btn btn-primary btn-sm px-3 font-600 active">All</a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 font-600">Boys</a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 font-600">Girls</a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 font-600">Men</a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 font-600">Women</a>
+                </div>
+            </div>
+        </div>
+        <!-- /.Filter Setting -->
+
+        <!-- Filter Setting -->
+        <div class="filter-setting mb-2">
+            <h6 class="ml-2">Customer Ratings</h6>
+            <div class="bg-whitesmoke w-100 box-shadow-sm">
+                <div class="filter-scroller w-100 py-2">
+                    <a role="button" class="btn btn-primary btn-sm d-flex align-items-center font-600 active">
+                        <i class="material-icons text-warning icon-sm mr-1">star</i> 1 and up
+                    </a>
+                    <a role="button" class="btn btn-outline-primary btn-sm d-flex align-items-center d-flex align-items-center font-600">
+                        <i class="material-icons text-warning icon-sm mr-1">star</i> 2 and up
+                    </a>
+                    <a role="button" class="btn btn-outline-primary btn-sm d-flex align-items-center d-flex align-items-center font-600">
+                        <i class="material-icons text-warning icon-sm mr-1">star</i> 3 and up
+                    </a>
+                    <a role="button" class="btn btn-outline-primary btn-sm d-flex align-items-center d-flex align-items-center font-600">
+                        <i class="material-icons text-warning icon-sm mr-1">star</i> 4 and up
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /.Filter Setting -->
+
+        <!-- Action Buttons -->
+        <div class="row justify-content-center my-3">
+            <button class="btn btn-outline-danger btn-sm px-5 rounded-pill toggle-filters">
+                Discard
+            </button>
+            <button class="btn btn-outline-primary btn-sm ml-2 px-5 rounded-pill toggle-filters">
+                Apply
+            </button>
+        </div>
+        <!-- Action Buttons -->
+    </div>
+</div>
+<!-- /.Filter Settings -->
 
 <!-- Get user's geolocation details -->
 <input type="hidden" name="address" class="address">

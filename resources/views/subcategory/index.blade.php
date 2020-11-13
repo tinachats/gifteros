@@ -4,7 +4,7 @@
     {{ csrf_field() }}
     <div class="d-flex justify-content-between align-items-center title mt-3">
         <!-- Left Settings -->
-        <div class="d-flex align-items-center lh-100">
+        <div class="d-lg-flex align-items-lg-center lh-100">
             <!-- Category Title & Results -->
             <div class="d-block lh-100">
                 <h6 class="font-600 text-uppercase">{{ $title }}</h6>

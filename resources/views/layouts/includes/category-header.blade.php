@@ -1,11 +1,5 @@
 @include('layouts.includes.header')
-<style>
-    @media(max-width: 660px){
-        .range-slider-settings{
-            display: inline-block
-        }
-    }
-</style>
+@include('layouts.includes.mobile-catheader')
 <div class="page-content filter-page">
     <div class="content">
         <!-- Filter Settings Pane -->
@@ -168,7 +162,7 @@
         <!-- Main Content -->
         <div class="main-content mb-5 pb-5">
            <!-- Categories Chips Slider -->
-            <div class="chip-sliders bg-whitesmoke box-shadow-sm border-bottom">
+            <div class="chip-sliders bg-whitesmoke box-shadow-sm border-bottom d-none d-md-none">
                 <div class="owl-carousel owl-theme category-filters m-2">
                     @isset($sub_categories)
                         @foreach ($sub_categories as $sub_category)
