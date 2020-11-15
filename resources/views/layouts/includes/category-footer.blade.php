@@ -278,8 +278,21 @@
             resetRangeInputs();
         });
 
+        // Filter category gifts by price
+        $(document).on('click', '.mobile-price-filter', function(e){
+            $('.customer-rated-value').removeClass('active');
+            $('.sub-category-filter').removeClass('active');
+            $('.price-filter').not(this).removeClass('active');
+            $(this).addClass('active');
+            $('.filter-bars').removeClass('d-none');
+            var filter = $(this).attr('id');
+            filteredGifts(category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending, currency);
+            filterBars(filter, min_price, max_price);
+            resetRangeInputs();
+        });
+
         // Customer's price range
-        $(document).on('click', '#submit-range', function(e){
+        $(document).on('click', '.submit-range', function(e){
             e.preventDefault();
             $('.price-filter').removeClass('active');
             $('.customer-rated-value').removeClass('active');
@@ -313,16 +326,52 @@
             }
         });
 
-        // Filter category gifts by customer ratigs
+         // Customer's price range
+         $(document).on('click', '.submit-mobile-range', function(e){
+            e.preventDefault();
+            $('.price-filter').removeClass('active');
+            $('.customer-rated-value').removeClass('active');
+            $('.sub-category-filter').removeClass('active');
+            var min_price = $('#mobile-min-price').val();
+            var max_price = $('#mobile-max-price').val();
+            var errors = false;
+
+            if(min_price == ''){
+                $('#mobile-min-price').addClass('is-invalid'); 
+                errors = true;
+            } else {
+                $('#mobile-min-price').removeClass('is-invalid'); 
+                $('#mobile-min-price').addClass('is-valid'); 
+            }
+            
+            if(max_price == ''){
+                $('#mobile-max-price').addClass('is-invalid'); 
+                errors = true;
+            } else {
+                $('#mobile-max-price').removeClass('is-invalid'); 
+                $('#mobile-max-price').addClass('is-valid'); 
+            }
+
+            if(errors == false){
+                // Show the filter-ratings bars
+                $('.filter-bars').removeClass('d-none');
+                filterBars(filter, min_price, max_price);
+                filteredGifts(category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending, currency);
+                userCurrency();
+            }
+        });
+
+        // Filter category gifts by customer ratings
         $(document).on('click', '.customer-rated-value', function(e){
             e.preventDefault();
+            e.stopPropagation();
             // Hide the filter-ratings bars
             $('.filter-bars').addClass('d-none');
             $('.price-filter').removeClass('active');
             $('.customer-rated-value').not(this).removeClass('active');
             $('.sub-category-filter').removeClass('active');
             $(this).addClass('active');
-            var rating = $(this).attr('id');
+            var rating = $(this).data('rating');
             resetRangeInputs();
             filteredGifts(category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending, currency);
         });
@@ -388,8 +437,72 @@
             location.reload();
         });
 
+        // Sort gifts by  customer preferences
+        $(document).on('change', '#sorting-order', function(){
+            var sorting_type = $(this).val();
+            switch(sorting_type){
+                case 'null': 
+                    iziToast.warning({
+                        theme: 'dark',
+                        timeout: 2000,
+                        closeOnClick: true,
+                        overlay: false,
+                        close: false,
+                        progressBar: false,
+                        backgroundColor: 'var(--warning)',
+                        icon: 'ion-android-alert text-dark',
+                        message: 'Choosing a sorting order!',
+                        messageColor: '#000',
+                        position: 'center'
+                    });
+                    break;
+                case 'latest-gifts': 
+                    latest = 'created_at';
+                    resetRangeInputs();
+                    filteredGifts(category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending, currency);
+                    break;
+                case 'price-asc':
+                    localStorage.setItem('price-sorting-order', 'asc');
+                    $('#price-ordering-label').text('Ascending');
+                    $('#price-ordering').attr('checked', true);
+                    location.reload();
+                    break;
+                case 'price-desc':
+                    localStorage.setItem('price-sorting-order', 'desc');
+                    $('#price-ordering-label').text('Descending');
+                    $('#price-ordering').attr('checked', false);
+                    location.reload();
+                    break;
+                case 'most-wished':
+                    likes = 'top-wishlisted';
+                    resetRangeInputs();
+                    filteredGifts(category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending, currency);
+                    break;
+                case  'trending-gifts':
+                    trending = 'top-sold';
+                    resetRangeInputs();
+                    filteredGifts(category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending, currency);
+                    break;
+                default: 
+                    resetRangeInputs();
+                    location.reload();
+            }
+        });
+
         // Fetch all gifts
         $(document).on('click', '#fetch-all-btn', function(){
+            // Hide the filter-ratings bars
+            $('.filter-bars').addClass('d-none');
+            $('.customer-rated-value').removeClass('active');
+            $('.sub-category-filter').removeClass('active');
+            $('.price-filter').removeClass('active');
+            $('.sorting-filters').removeClass('active');
+            resetRangeInputs();
+            location.reload();
+        });
+
+        // Fetch all gifts
+        $(document).on('click', '#load-all', function(){
             // Hide the filter-ratings bars
             $('.filter-bars').addClass('d-none');
             $('.customer-rated-value').removeClass('active');

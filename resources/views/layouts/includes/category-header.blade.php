@@ -1,5 +1,18 @@
 @include('layouts.includes.header')
+@include('layouts.includes.main-nav')
 @include('layouts.includes.mobile-catheader')
+<style>
+    @media(max-width: 660px){
+        #web-main-header{
+            display: none
+        }
+    }
+    @media(min-width: 768px){
+        #web-main-header{
+            display: block
+        }
+    }
+</style>
 <div class="page-content filter-page">
     <div class="content">
         <!-- Filter Settings Pane -->
@@ -57,7 +70,7 @@
                             </div>
                         </div>
                         <div class="col-6 col-md-4">
-                            <button id="submit-range" class="btn btn-primary btn-sm font-600 btn-block">Go</button>
+                            <button class="btn btn-primary btn-sm font-600 btn-block submit-range">Go</button>
                         </div>
                     </div>
                 </div>
@@ -67,7 +80,7 @@
 
                 <!-- Customer Ratings -->
                 <h6 class="text-sm text-capitalize">Average customer ratings</h6>
-                <a href="#" class="customer-rated-value" id="above-4-rating">
+                <a href="#" class="customer-rated-value" data-rating="above-4-rating">
                     <ul class="list-inline align-items-center container star-rating mb-0 pb-0">
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
@@ -77,7 +90,7 @@
                         <span class="text-sm text-blue font-600">& Up</span>
                     </ul>
                 </a>
-                <a href="#" class="customer-rated-value" id="above-3-rating">
+                <a href="#" class="customer-rated-value" data-rating="above-3-rating">
                     <ul class="list-inline align-items-center container star-rating mb-0 pb-0">
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
@@ -87,7 +100,7 @@
                         <span class="text-sm text-blue font-600">& Up</span>
                     </ul>
                 </a>
-                <a href="#" class="customer-rated-value" id="above-2-rating">
+                <a href="#" class="customer-rated-value" data-rating="above-2-rating">
                     <ul class="list-inline align-items-center container star-rating mb-0 pb-0">
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
@@ -97,7 +110,7 @@
                         <span class="text-sm text-blue font-600">& Up</span>
                     </ul>
                 </a>
-                <a href="#" class="customer-rated-value" id="above-1-rating">
+                <a href="#" class="customer-rated-value" data-rating="above-1-rating">
                     <ul class="list-inline align-items-center container star-rating mb-0 pb-0" class="customer-rated-value" id="above-1-rating">
                         <li class="list-inline-item star-rating text-warning">&starf;</li>
                         <li class="list-inline-item star-rating text-muted">&star;</li>
@@ -162,7 +175,7 @@
         <!-- Main Content -->
         <div class="main-content mb-5 pb-5">
            <!-- Categories Chips Slider -->
-            <div class="chip-sliders bg-whitesmoke box-shadow-sm border-bottom d-none d-md-none">
+            <div class="chip-sliders bg-whitesmoke box-shadow-sm border-bottom d-none d-md-block">
                 <div class="owl-carousel owl-theme category-filters m-2">
                     @isset($sub_categories)
                         @foreach ($sub_categories as $sub_category)

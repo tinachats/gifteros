@@ -1,4 +1,4 @@
-@include('layouts.includes.header')
+@include('layouts.includes.main-nav')
 <style>
     .product-img{
         height: 180px;
