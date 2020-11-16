@@ -1,8 +1,18 @@
 @include('layouts.includes.header')
+@include('layouts.includes.main-nav')
+@include('layouts.includes.mobile-catheader')
 <style>
     @media(max-width: 660px){
+        #web-main-header{
+            display: none
+        }
         .range-slider-settings{
             display: inline-block
+        }
+    }
+    @media(min-width: 768px){
+        #web-main-header{
+            display: block
         }
     }
     @media (min-width: 1200px){
@@ -14,7 +24,7 @@
 <div class="occasions-page">
     <div class="container-fluid content">
         <!-- Showcase Pane -->
-        <div class="showcase-pane bg-whitesmoke box-shadow-sm p-2">
+        <div class="showcase-pane bg-whitesmoke box-shadow-sm d-none d-md-block p-2">
             <h6 class="font-600 m-2">
                 Top Selling
             </h6>
@@ -67,7 +77,7 @@
         <!-- Main Content -->
         <div class="main-content mb-5 pb-5">
             <!-- Categories Chips Slider -->
-            <div class="chip-sliders bg-whitesmoke box-shadow-sm border-bottom">
+            <div class="chip-sliders bg-whitesmoke box-shadow-sm border-bottom d-none d-md-block">
                 <div class="owl-carousel owl-theme category-filters m-2">
                     @isset($filters)
                         @foreach ($filters as $category)
@@ -76,7 +86,7 @@
                                 <!-- Category Chip -->
                                 <a role="button" href="{{ route('gifts_category', [$category->id, $category->category_slug]) }}" class="sub-category-filter" data-id="{{ $category->id }}">
                                     <div class="category-chip rounded-pill">
-                                        <img src="/storage/categories/{{ $category->image }}" class="img-circle rounded-circle mr-2" width="40" height="40" alt="{{ $category->category_name }}">
+                                        <img src="/storage/sub-categories/{{ $category->image }}" class="img-circle rounded-circle mr-2" width="40" height="40" alt="{{ $category->category_name }}">
                                         <span class="text-lowercase text-faded">{{ mb_strimwidth($category->category_name, 0, 10, '...') }}</span>
                                     </div>
                                 </a>

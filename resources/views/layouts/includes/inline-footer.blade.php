@@ -1,10 +1,11 @@
-    <!-- Main Sidebar -->
-    @include('layouts.includes.sidebar')
-    <!-- /.Main Sidebar -->
+        <!-- Main Sidebar -->
+        @include('layouts.includes.sidebar')
+        <!-- /.Main Sidebar -->
 
-    <!-- Settings Sidebar -->
-    @include('layouts.includes.settings')
-    <!-- /.Setting Sidebar -->
+        <!-- Settings Sidebar -->
+        @include('layouts.includes.settings')
+        <!-- /.Setting Sidebar -->
+    </div>
 </div>
 <!-- /.Main Content -->
 
@@ -150,7 +151,7 @@
         <div class="row justify-content-md-between align-content-md-center services-footer-section">
             <div class="col-12 col-md-9 order-md-2">
                 <div class="row justify-content-md-around">
-                    <div class="col-12 col-md-4">
+                    <div class="col-6 col-md-4">
                         <ul class="list-styled">
                             <h6 class="font-600 text-white">Shopping with us</h6>
                             <a href="">
@@ -173,7 +174,7 @@
                             </a>
                         </ul>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-6 col-md-4">
                         <ul class="list-styled">
                             <h6 class="font-600 text-white">Customer Services</h6>
                             <a href="">
@@ -193,7 +194,7 @@
                             </a>
                         </ul>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-6 col-md-4">
                         <ul class="list-styled">
                             <h6 class="font-600 text-white">About Us</h6>
                             <a href="">
@@ -616,245 +617,6 @@
     </div>
 </div>
 <!-- Subscribe Newsletter -->
-
-<!-- Filter Settings -->
-<div class="filter-settings gift-filters bg-light d-sm-block d-md-none">
-    <nav class="nav navbar-expand-md fixed-top main-nav bg-whitesmoke box-shadow-sm py-2 px-md-1 mb-2">
-        <a href="#" class="nav-link icon-link go-back toggle-filters">
-            <i class="material-icons">arrow_back</i>
-        </a>
-        <div class="ml-auto mr-2">
-            <h5 class="font-600 my-0 py-0 text-capitalize">Filter Settings</h5>
-        </div>
-    </nav>
-    <div class="filter-content">
-        <!-- Filter Setting -->
-        <div class="filter-setting mb-2">
-            <h6 class="ml-2">Price Filters</h6>
-            <div class="bg-whitesmoke w-100 box-shadow-sm">
-                <div class="filter-scroller w-100 py-2">
-                    <a role="button" class="btn border-primary btn-sm px-3 filter-btn mobile-price-filter font-600 active" id="load-all">
-                        <span>All</span>
-                    </a>
-                    <a role="button" class="btn border-primary btn-sm px-3 filter-btn mobile-price-filter font-600" id="under-25">
-                        <span class="usd-price">Below US$25</span>
-                        <span class="zar-price d-none">Below R412.50</span>
-                        <span class="zwl-price d-none">Below ZW$2500</span>
-                    </a>
-                    <a role="button" class="btn border-primary btn-sm px-3 filter-btn mobile-price-filter font-600" id="5-to-20">
-                        <span class="usd-price">US$5 to US$20</span>
-                        <span class="zar-price d-none">R82.50 to R330</span>
-                        <span class="zwl-price d-none">ZW$500 to ZW$2000</span>
-                    </a>
-                    <a role="button" class="btn border-primary btn-sm px-3 filter-btn mobile-price-filter font-600" id="20-to-50">
-                        <span class="usd-price">US$20 to US$50</span>
-                        <span class="zar-price d-none">R330 to R825</span>
-                        <span class="zwl-price d-none">ZW$2000 to ZW$5000</span>
-                    </a>
-                    <a role="button" class="btn border-primary btn-sm px-3 filter-btn mobile-price-filter font-600" id="50-to-100">
-                        <span class="usd-price">US$50 to US$100</span>
-                        <span class="zar-price d-none">R825 to R1,650</span>
-                        <span class="zwl-price d-none">ZW$5000 to ZW$10000</span>
-                    </a>
-                    <a role="button" class="btn border-primary btn-sm px-3 filter-btn mobile-price-filter font-600" id="above-100">
-                        <span class="usd-price">Above US$100</span>
-                        <span class="zar-price d-none">Above R1,650</span>
-                        <span class="zwl-price d-none">Above ZW$10000</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!-- /.Filter Setting -->
-
-        <!-- Filter Setting -->
-        <div class="filter-setting mb-2">
-            <h6 class="ml-2">Price Range</h6>
-            <div class="bg-whitesmoke w-100 box-shadow-sm">
-                <!-- Price Range Form -->
-                <div class="w-100">
-                    <div class="form-row mx-2 py-2">
-                        <div class="col">
-                            <div class="form-group">
-                                <input type="text" id="mobile-min-price" name="mobile-min-price" class="input form-control form-control-sm number-input" placeholder="Min. Price" required>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <input type="text" id="mobile-max-price" name="mobile-max-price" class="input form-control form-control-sm number-input" placeholder="Max. Price" required>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <button class="btn btn-primary btn-sm font-600 btn-block submit-mobile-range toggle-filters">Go</button>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.Price Range Form -->
-            </div>
-        </div>
-        <!-- /.Filter Setting -->
-
-        <!-- Filter Setting -->
-        <div class="filter-setting mb-2">
-            <h6 class="ml-2">Colors</h6>
-            <div class="bg-whitesmoke w-100 box-shadow-sm">
-                <div class="filter-scroller w-100 py-2">
-                    <!-- Custom Color Picker -->
-                    <div class="custom-color shadow-sm" title="Red or Maroon">
-                        <div class="color-inset bg-brick-red">
-                            <i class="text-white material-icons color-selected-icon">done</i>
-                        </div>
-                    </div>
-                    <!-- Custom Color Picker -->
-
-                    <!-- Custom Color Picker -->
-                    <div class="custom-color shadow-sm">
-                        <div class="color-inset bg-orange" title="Orange">
-                            <i class="text-white material-icons color-selected-icon">done</i>
-                        </div>
-                    </div>
-                    <!-- Custom Color Picker -->
-
-                    <!-- Custom Color Picker -->
-                    <div class="custom-color shadow-sm">
-                        <div class="color-inset bg-warning" title="Yellow">
-                            <i class="text-white material-icons color-selected-icon">done</i>
-                        </div>
-                    </div>
-                    <!-- Custom Color Picker -->
-
-                    <!-- Custom Color Picker -->
-                    <div class="custom-color shadow-sm" title="Green">
-                        <div class="color-inset bg-success">
-                            <i class="text-white material-icons color-selected-icon">done</i>
-                        </div>
-                    </div>
-                    <!-- Custom Color Picker -->
-
-                    <!-- Custom Color Picker -->
-                    <div class="custom-color shadow-sm" title="Purple">
-                        <div class="color-inset bg-purple">
-                            <i class="text-white material-icons color-selected-icon">done</i>
-                        </div>
-                    </div>
-                    <!-- Custom Color Picker -->
-
-                    <!-- Custom Color Picker -->
-                    <div class="custom-color shadow-sm" title="White">
-                        <div class="color-inset bg-white">
-                            <i class="text-success material-icons color-selected-icon">done</i>
-                        </div>
-                    </div>
-                    <!-- Custom Color Picker -->
-
-                    <!-- Custom Color Picker -->
-                    <div class="custom-color shadow-sm" title="Grey">
-                        <div class="color-inset bg-light-grey">
-                            <i class="text-white material-icons color-selected-icon">done</i>
-                        </div>
-                    </div>
-                    <!-- Custom Color Picker -->
-
-                    <!-- Custom Color Picker -->
-                    <div class="custom-color shadow-sm" title="Blue">
-                        <div class="color-inset bg-primary">
-                            <i class="text-white material-icons color-selected-icon">done</i>
-                        </div>
-                    </div>
-                    <!-- Custom Color Picker -->
-                </div>
-            </div>
-        </div>
-        <!-- /.Filter Setting -->
-
-        <!-- Filter Setting -->
-        <div class="filter-setting mb-2">
-            <h6 class="ml-2">Sizes</h6>
-            <div class="bg-whitesmoke w-100 box-shadow-sm">
-                <div class="d-flex justify-content-around w-100 py-2">
-                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600" id="small-size">S</a>
-                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600">M</a>
-                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600">L</a>
-                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600">XL</a>
-                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600">XXL</a>
-                </div>
-            </div>
-        </div>
-        <!-- /.Filter Setting -->
-
-        <!-- Filter Setting -->
-        <div class="filter-setting mb-2">
-            <h6 class="ml-2">Sub-category</h6>
-            <div class="bg-whitesmoke w-100 box-shadow-sm">
-                <div class="filter-scroller w-100 py-2">
-                    @isset($sub_categories)
-                        @foreach ($sub_categories as $sub_category)
-                            <!-- Category Item -->
-                            <a role="button" class="btn btn-outline-primary btn-sm filter-btn sub-category-filter px-3 font-600" data-id="{{ $sub_category->id }}">
-                                {{ $sub_category->name }}
-                            </a>
-                            <!-- /.Category Item -->
-                        @endforeach
-                    @endisset
-
-                    @isset($filters)
-                        @foreach ($filters as $sub_category)
-                            <!-- Category Item -->
-                            <a role="button" class="btn btn-outline-primary btn-sm filter-btn sub-category-filter px-3 font-600" data-id="{{ $sub_category->id }}">
-                                {{ $sub_category->name }}
-                            </a>
-                            <!-- /.Category Item -->
-                        @endforeach
-                    @endisset
-
-                    @isset($sub_filters)
-                        @foreach ($sub_filters as $sub_category)
-                            <!-- Category Item -->
-                            <a role="button" class="btn btn-outline-primary btn-sm filter-btn sub-category-filter px-3 font-600" data-id="{{ $sub_category->id }}">
-                                {{ $sub_category->name }}
-                            </a>
-                            <!-- /.Category Item -->
-                        @endforeach
-                    @endisset
-                </div>
-            </div>
-        </div>
-        <!-- /.Filter Setting -->
-
-        <!-- Filter Setting -->
-        <div class="filter-setting mb-2">
-            <h6 class="ml-2">Customer Ratings</h6>
-            <div class="bg-whitesmoke w-100 box-shadow-sm">
-                <div class="filter-scroller w-100 py-2">
-                    <a role="button" class="btn border-primary btn-sm filter-btn d-flex align-items-center font-600 customer-rated-value" data-rating="above-1-rating">
-                        <i class="material-icons text-warning icon-sm mr-1">star</i> 1 and up
-                    </a>
-                    <a role="button" class="btn border-primary btn-sm filter-btn d-flex align-items-center d-flex align-items-center font-600 customer-rated-value" data-rating="above-2-rating">
-                        <i class="material-icons text-warning icon-sm mr-1">star</i> 2 and up
-                    </a>
-                    <a role="button" class="btn border-primary btn-sm filter-btn d-flex align-items-center d-flex align-items-center font-600 customer-rated-value" data-rating="above-3-rating">
-                        <i class="material-icons text-warning icon-sm mr-1">star</i> 3 and up
-                    </a>
-                    <a role="button" class="btn border-primary btn-sm filter-btn d-flex align-items-center d-flex align-items-center font-600 customer-rated-value" data-rating="above-4-rating">
-                        <i class="material-icons text-warning icon-sm mr-1">star</i> 4 and up
-                    </a>
-                </div>
-            </div>
-        </div>
-        <!-- /.Filter Setting -->
-
-        <!-- Action Buttons -->
-        <div class="row justify-content-center my-3">
-            <button class="btn btn-outline-danger btn-sm px-5 rounded-pill toggle-filters">
-                Discard
-            </button>
-            <button class="btn btn-outline-primary btn-sm ml-2 px-5 rounded-pill toggle-filters">
-                Apply
-            </button>
-        </div>
-        <!-- Action Buttons -->
-    </div>
-</div>
-<!-- /.Filter Settings -->
 
 <!-- Greeting Card Modal -->
 @auth
@@ -1422,6 +1184,245 @@
     </div>
 </div>
 <!-- /.Accessory Animation Modal -->
+
+<!-- Filter Settings -->
+<div class="filter-settings gift-filters bg-light d-sm-block d-md-none">
+    <nav class="nav navbar-expand-md fixed-top main-nav bg-whitesmoke box-shadow-sm py-2 px-md-1 mb-2">
+        <a href="#" class="nav-link icon-link go-back toggle-filters">
+            <i class="material-icons">arrow_back</i>
+        </a>
+        <div class="ml-auto mr-2">
+            <h5 class="font-600 my-0 py-0 text-capitalize">Filter Settings</h5>
+        </div>
+    </nav>
+    <div class="filter-content">
+        <!-- Filter Setting -->
+        <div class="filter-setting mb-2">
+            <h6 class="ml-2">Price Filters</h6>
+            <div class="bg-whitesmoke w-100 box-shadow-sm">
+                <div class="filter-scroller w-100 py-2">
+                    <a role="button" class="btn border-primary btn-sm px-3 filter-btn mobile-price-filter font-600 active" id="load-all">
+                        <span>All</span>
+                    </a>
+                    <a role="button" class="btn border-primary btn-sm px-3 filter-btn mobile-price-filter font-600" id="under-25">
+                        <span class="usd-price">Below US$25</span>
+                        <span class="zar-price d-none">Below R412.50</span>
+                        <span class="zwl-price d-none">Below ZW$2500</span>
+                    </a>
+                    <a role="button" class="btn border-primary btn-sm px-3 filter-btn mobile-price-filter font-600" id="5-to-20">
+                        <span class="usd-price">US$5 to US$20</span>
+                        <span class="zar-price d-none">R82.50 to R330</span>
+                        <span class="zwl-price d-none">ZW$500 to ZW$2000</span>
+                    </a>
+                    <a role="button" class="btn border-primary btn-sm px-3 filter-btn mobile-price-filter font-600" id="20-to-50">
+                        <span class="usd-price">US$20 to US$50</span>
+                        <span class="zar-price d-none">R330 to R825</span>
+                        <span class="zwl-price d-none">ZW$2000 to ZW$5000</span>
+                    </a>
+                    <a role="button" class="btn border-primary btn-sm px-3 filter-btn mobile-price-filter font-600" id="50-to-100">
+                        <span class="usd-price">US$50 to US$100</span>
+                        <span class="zar-price d-none">R825 to R1,650</span>
+                        <span class="zwl-price d-none">ZW$5000 to ZW$10000</span>
+                    </a>
+                    <a role="button" class="btn border-primary btn-sm px-3 filter-btn mobile-price-filter font-600" id="above-100">
+                        <span class="usd-price">Above US$100</span>
+                        <span class="zar-price d-none">Above R1,650</span>
+                        <span class="zwl-price d-none">Above ZW$10000</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /.Filter Setting -->
+
+        <!-- Filter Setting -->
+        <div class="filter-setting mb-2">
+            <h6 class="ml-2">Price Range</h6>
+            <div class="bg-whitesmoke w-100 box-shadow-sm">
+                <!-- Price Range Form -->
+                <div class="w-100">
+                    <div class="form-row mx-2 py-2">
+                        <div class="col">
+                            <div class="form-group">
+                                <input type="text" id="mobile-min-price" name="mobile-min-price" class="input form-control form-control-sm number-input" placeholder="Min. Price" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <input type="text" id="mobile-max-price" name="mobile-max-price" class="input form-control form-control-sm number-input" placeholder="Max. Price" required>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <button class="btn btn-primary btn-sm font-600 btn-block submit-mobile-range toggle-filters">Go</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.Price Range Form -->
+            </div>
+        </div>
+        <!-- /.Filter Setting -->
+
+        <!-- Filter Setting -->
+        <div class="filter-setting mb-2">
+            <h6 class="ml-2">Colors</h6>
+            <div class="bg-whitesmoke w-100 box-shadow-sm">
+                <div class="filter-scroller w-100 py-2">
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm" title="Red or Maroon">
+                        <div class="color-inset bg-brick-red">
+                            <i class="text-white material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm">
+                        <div class="color-inset bg-orange" title="Orange">
+                            <i class="text-white material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm">
+                        <div class="color-inset bg-warning" title="Yellow">
+                            <i class="text-white material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm" title="Green">
+                        <div class="color-inset bg-success">
+                            <i class="text-white material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm" title="Purple">
+                        <div class="color-inset bg-purple">
+                            <i class="text-white material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm" title="White">
+                        <div class="color-inset bg-white">
+                            <i class="text-success material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm" title="Grey">
+                        <div class="color-inset bg-light-grey">
+                            <i class="text-white material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+
+                    <!-- Custom Color Picker -->
+                    <div class="custom-color shadow-sm" title="Blue">
+                        <div class="color-inset bg-primary">
+                            <i class="text-white material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- Custom Color Picker -->
+                </div>
+            </div>
+        </div>
+        <!-- /.Filter Setting -->
+
+        <!-- Filter Setting -->
+        <div class="filter-setting mb-2">
+            <h6 class="ml-2">Sizes</h6>
+            <div class="bg-whitesmoke w-100 box-shadow-sm">
+                <div class="d-flex justify-content-around w-100 py-2">
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600" id="small-size">S</a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600">M</a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600">L</a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600">XL</a>
+                    <a role="button" class="btn btn-outline-primary btn-sm px-3 gift-sizes font-600">XXL</a>
+                </div>
+            </div>
+        </div>
+        <!-- /.Filter Setting -->
+
+        <!-- Filter Setting -->
+        <div class="filter-setting mb-2">
+            <h6 class="ml-2">Sub-category</h6>
+            <div class="bg-whitesmoke w-100 box-shadow-sm">
+                <div class="filter-scroller w-100 py-2">
+                    @isset($sub_categories)
+                        @foreach ($sub_categories as $sub_category)
+                            <!-- Category Item -->
+                            <a role="button" class="btn btn-outline-primary btn-sm filter-btn sub-category-filter px-3 font-600" data-id="{{ $sub_category->id }}">
+                                {{ $sub_category->name }}
+                            </a>
+                            <!-- /.Category Item -->
+                        @endforeach
+                    @endisset
+
+                    @isset($filters)
+                        @foreach ($filters as $sub_category)
+                            <!-- Category Item -->
+                            <a role="button" class="btn btn-outline-primary btn-sm filter-btn sub-category-filter px-3 font-600" data-id="{{ $sub_category->id }}">
+                                {{ $sub_category->name }}
+                            </a>
+                            <!-- /.Category Item -->
+                        @endforeach
+                    @endisset
+
+                    @isset($sub_filters)
+                        @foreach ($sub_filters as $sub_category)
+                            <!-- Category Item -->
+                            <a role="button" class="btn btn-outline-primary btn-sm filter-btn sub-category-filter px-3 font-600" data-id="{{ $sub_category->id }}">
+                                {{ $sub_category->name }}
+                            </a>
+                            <!-- /.Category Item -->
+                        @endforeach
+                    @endisset
+                </div>
+            </div>
+        </div>
+        <!-- /.Filter Setting -->
+
+        <!-- Filter Setting -->
+        <div class="filter-setting mb-2">
+            <h6 class="ml-2">Customer Ratings</h6>
+            <div class="bg-whitesmoke w-100 box-shadow-sm">
+                <div class="filter-scroller w-100 py-2">
+                    <a role="button" class="btn border-primary btn-sm filter-btn d-flex align-items-center font-600 customer-rated-value" data-rating="above-1-rating">
+                        <i class="material-icons text-warning icon-sm mr-1">star</i> 1 and up
+                    </a>
+                    <a role="button" class="btn border-primary btn-sm filter-btn d-flex align-items-center d-flex align-items-center font-600 customer-rated-value" data-rating="above-2-rating">
+                        <i class="material-icons text-warning icon-sm mr-1">star</i> 2 and up
+                    </a>
+                    <a role="button" class="btn border-primary btn-sm filter-btn d-flex align-items-center d-flex align-items-center font-600 customer-rated-value" data-rating="above-3-rating">
+                        <i class="material-icons text-warning icon-sm mr-1">star</i> 3 and up
+                    </a>
+                    <a role="button" class="btn border-primary btn-sm filter-btn d-flex align-items-center d-flex align-items-center font-600 customer-rated-value" data-rating="above-4-rating">
+                        <i class="material-icons text-warning icon-sm mr-1">star</i> 4 and up
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- /.Filter Setting -->
+
+        <!-- Action Buttons -->
+        <div class="row justify-content-center my-3">
+            <button class="btn btn-outline-danger btn-sm px-5 rounded-pill toggle-filters">
+                Discard
+            </button>
+            <button class="btn btn-outline-primary btn-sm ml-2 px-5 rounded-pill toggle-filters">
+                Apply
+            </button>
+        </div>
+        <!-- Action Buttons -->
+    </div>
+</div>
+<!-- /.Filter Settings -->
 
 <!-- Get user's geolocation details -->
 <input type="hidden" name="address" class="address">

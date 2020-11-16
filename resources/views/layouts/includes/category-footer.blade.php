@@ -59,6 +59,9 @@
                         $('#category-gifts').append(data.gifts);
                         $('#gift-count').html(data.gift_count);
                         userCurrency();
+                        setTimeout(() => {
+                            viewOption();
+                        }, 0);
                     } else {
                         status = 'active';
                         $('#fuzzy-loader').addClass('d-none');
@@ -100,6 +103,9 @@
                         $('#category-gifts').html(data.gifts);
                         $('#gift-count').html(data.gift_count);
                         userCurrency();
+                        setTimeout(() => {
+                            viewOption();
+                        }, 0);
                     }
                 }
             });

@@ -20,7 +20,7 @@ class Search extends Controller
     public function fetch(Request $request)
     {
         if($request->ajax()){
-            $output = '';
+            $output = $sold_items = '';
             $query = $request->get('search');
             $results = DB::table('gifts')
                          ->join('categories', 'categories.id', '=', 'gifts.category_id')
@@ -36,6 +36,11 @@ class Search extends Controller
                         ->count();
             if($count > 0){
                 foreach($results as $gift){
+                    if(giftsSold($gift->gift_id) > 0){
+                        $sold_items = '
+                            <span class="border-left pl-2 text-capitalize">'. giftsSold($gift->gift_id) .' sold</span>
+                        ';
+                    }
                     $output .= '
                         <!-- Search result -->
                         <li class="list-group-item rounded-0 lh-100 px-1 py-2">
@@ -44,12 +49,12 @@ class Search extends Controller
                                     <div class="media">
                                         <img src="/storage/gifts/'.$gift->gift_image.'" height="55" width="55" alt="" class="rounded-2 align-self-center mr-2">
                                         <div class="media-body">
-                                            <p class="text-sm font-600 text-capitalize my-0 py-0">'.mb_strimwidth($gift->gift_name, 0, 30, '...').'</p>
+                                            <p class="text-sm font-600 text-capitalize my-0 py-0">'.mb_strimwidth($gift->gift_name, 0, 25, '...').'</p>
                                             <p class="text-sm font-weight-light text-lowercase text-faded my-0 py-0">'.$gift->category_name.'</p>
                                             '.giftStarRating($gift->gift_id).'
                                             <p class="text-sm font-500 text-capitalize text-faded my-0 py-0 d-flex">
-                                                <span class="border-right pr-2">Only '.$gift->units.' left</span>
-                                                <span class="pl-2 text-capitalize">'.$gift->label.'</span>
+                                                <span class="pr-2">Only '.$gift->units.' left</span>
+                                                '. $sold_items .'
                                             </p>
                                         </div>
                                     </div>

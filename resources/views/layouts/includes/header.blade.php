@@ -44,28 +44,29 @@
         <!-- /.Progress Indicator -->
 
         <!-- Main Content -->
-        <div class="content mb-0 pb-0" id="main-content">
-            <!-- Page Backdrop -->
-            <div class="app-backdrop d-none"></div>
+        <div id="main-page-content">
+            <div class="content mb-0 pb-0">
+                <!-- Page Backdrop -->
+                <div class="app-backdrop d-none"></div>
 
-            <!-- Floating Action Buttons -->
-            <div class="toggled-actions">
-                <div class="floating-action bg-brick-red mb-3" title="System settings" onclick="userTheme()">
-                    <i class="material-icons text-white m-auto">brightness_medium</i>
-                </div>
-                <div class="range-slider-settings">
-                    <div class="floating-action bg-secondary mb-3" id="toggle-filters" title="Filter products">
-                        <i class="material-icons text-white m-auto">tune</i>
+                <!-- Floating Action Buttons -->
+                <div class="toggled-actions">
+                    <div class="floating-action bg-brick-red mb-3" title="System settings" onclick="userTheme()">
+                        <i class="material-icons text-white m-auto">brightness_medium</i>
+                    </div>
+                    <div class="range-slider-settings">
+                        <div class="floating-action bg-secondary mb-3" id="toggle-filters" title="Filter products">
+                            <i class="material-icons text-white m-auto">tune</i>
+                        </div>
+                    </div>
+                    <div class="floating-action bg-success mb-3" id="toggle-whatsapp" title="WhatsApp">
+                        <i class="fa fa-whatsapp fa-2x text-white m-auto"></i>
+                    </div>
+                    <div class="floating-action bg-purple mb-3" onclick="topFunction()" title="Scroll to top">
+                        <i class="material-icons text-white m-auto">arrow_upward</i>
                     </div>
                 </div>
-                <div class="floating-action bg-success mb-3" id="toggle-whatsapp" title="WhatsApp">
-                    <i class="fa fa-whatsapp fa-2x text-white m-auto"></i>
+                <div class="floating-action toggle-actions bg-primary" title="Click to toggle actions">
+                    <i class="material-icons m-auto text-white">add</i>
                 </div>
-                <div class="floating-action bg-purple mb-3" onclick="topFunction()" title="Scroll to top">
-                    <i class="material-icons text-white m-auto">arrow_upward</i>
-                </div>
-            </div>
-            <div class="floating-action toggle-actions bg-primary" title="Click to toggle actions">
-                <i class="material-icons m-auto text-white">add</i>
-            </div>
-            <!-- /.Floating Action Buttons -->
+                <!-- /.Floating Action Buttons -->

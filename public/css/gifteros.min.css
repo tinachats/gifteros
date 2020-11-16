@@ -4815,8 +4815,7 @@ a:hover,
     h5 {
         font-size: 1.1rem;
     }
-    h5,
-    .lead {
+    h6 {
         font-size: 1rem;
     }
     .display-3,
@@ -5377,6 +5376,13 @@ a:hover,
         height: 300px;
         width: 100%
     }
+    .occasions-container.clearfix {
+        margin-top: 6.2rem
+    }
+    .filter-page.page-content>.content>.main-content>.filtered-products.clearfix {
+        margin-top: 4.2rem !important;
+    }
+    .occasions-container,
     .filter-page.page-content>.content>.main-content>.filtered-products {
         margin-top: 7.2rem !important;
     }
@@ -5393,7 +5399,8 @@ a:hover,
         top: 0;
         width: 100%;
         height: 100%;
-        z-index: 1050;
+        max-height: fit-content;
+        z-index: 100050;
         transform: translateX(-30rem);
         transition: transform .5s ease-in-out;
         overflow: hidden;

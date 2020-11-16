@@ -1,10 +1,11 @@
-            <!-- Main Sidebar -->
-            @include('layouts.includes.sidebar')
-            <!-- /.Main Sidebar -->
+                <!-- Main Sidebar -->
+                @include('layouts.includes.sidebar')
+                <!-- /.Main Sidebar -->
 
-            <!-- Settings Sidebar -->
-            @include('layouts.includes.settings')
-            <!-- /.Setting Sidebar -->
+                <!-- Settings Sidebar -->
+                @include('layouts.includes.settings')
+                <!-- /.Setting Sidebar -->
+            </div>
         </div>
         <!-- /.Main Content -->
 
@@ -150,7 +151,7 @@
                 <div class="row justify-content-md-between align-content-md-center services-footer-section">
                     <div class="col-12 col-md-9 order-md-2">
                         <div class="row justify-content-md-around">
-                            <div class="col-12 col-md-4">
+                            <div class="col-6 col-md-4">
                                 <ul class="list-styled">
                                     <h6 class="font-600 text-white">Shopping with us</h6>
                                     <a href="">
@@ -173,7 +174,7 @@
                                     </a>
                                 </ul>
                             </div>
-                            <div class="col-12 col-md-4">
+                            <div class="col-6 col-md-4">
                                 <ul class="list-styled">
                                     <h6 class="font-600 text-white">Customer Services</h6>
                                     <a href="">
@@ -193,7 +194,7 @@
                                     </a>
                                 </ul>
                             </div>
-                            <div class="col-12 col-md-4">
+                            <div class="col-6 col-md-4">
                                 <ul class="list-styled">
                                     <h6 class="font-600 text-white">About Us</h6>
                                     <a href="">
@@ -230,8 +231,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row user-location-details w-100 py-2">
-                    <div class="col-12 col-md-6 d-flex align-items-center">
+                <div class="row justify-content-center justify-content-sm-around user-location-details w-100 py-2">
+                    <div class="col-12 col-md-6 d-flex align-items-center text-center">
                         <a class="navbar-brand font-700 ml-4 text-white mt-2">
                             <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" width="35" alt=""> {{ config('app.name') }}
                         </a>
@@ -240,7 +241,7 @@
                             <span class="text-light text-sm">English</span>
                         </button>
                     </div>
-                    <div class="col-12 col-md-6 d-flex align-items-center">
+                    <div class="col-12 col-md-6 d-flex align-items-center text-center">
                         <button class="btn border-light px-3 mx-3">
                             <span class="text-light text-sm">$ USD -  U.S Dollar</span>
                         </button>

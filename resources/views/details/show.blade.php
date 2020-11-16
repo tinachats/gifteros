@@ -1,4 +1,5 @@
 @include('layouts.includes.header')
+@include('layouts.includes.main-nav')
 <!-- Page Content -->
 <div class="container page-content" id="details-page">
     <!-- Content Header (Page header) -->

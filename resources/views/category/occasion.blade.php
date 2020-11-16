@@ -37,22 +37,24 @@
         <!-- /Left Settings -->
 
         <!-- Right Settings -->
-        <div class="d-flex justify-content-around align-items-center">
-            <div class="d-flex align-items-center">
-                <span class="text-sm">Sort by:</span>
-                <div class="d-flex align-items-center justify-content-around sorting-bar  ml-1 mr-3">
-                    <select name="price-sorting" id="price-sorting" class="custom-select-sm text-primary text-sm bg-transparent rounded-0 border-0 px-1 py-1">
-                        <option value="asc" class="d-flex align-items-center">
-                            Price - Low to High
-                        </option>
-                        <option value="desc" class="d-flex align-items-center">
-                            Price - High to low
-                        </option>
-                    </select>
+        <div class="d-none d-md-block">
+            <div class="d-flex justify-content-around align-items-center">
+                <div class="d-flex align-items-center">
+                    <span class="text-sm">Sort by:</span>
+                    <div class="d-flex align-items-center justify-content-around sorting-bar  ml-1 mr-3">
+                        <select name="price-sorting" id="price-sorting" class="custom-select-sm text-primary text-sm bg-transparent rounded-0 border-0 px-1 py-1">
+                            <option value="asc" class="d-flex align-items-center">
+                                Price - Low to High
+                            </option>
+                            <option value="desc" class="d-flex align-items-center">
+                                Price - High to low
+                            </option>
+                        </select>
+                    </div>
                 </div>
+                <i role="button" class="material-icons view-option grid-icon active" data-view="grid-view" title="Grid View">view_comfy</i>
+                <i role="button" class="material-icons view-option list-icon mx-3" data-view="list-view" title="List view">view_list</i>
             </div>
-            <i role="button" class="material-icons view-option grid-icon active" data-view="grid-view" title="Grid View">view_comfy</i>
-            <i role="button" class="material-icons view-option list-icon mx-3" data-view="list-view" title="List view">view_list</i>
         </div>
         <!-- /.Right Settings -->
     </div>
