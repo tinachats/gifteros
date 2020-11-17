@@ -5377,7 +5377,7 @@ a:hover,
         width: 100%
     }
     .occasions-container.clearfix {
-        margin-top: 6.2rem
+        margin-top: 5.8rem !important
     }
     .filter-page.page-content>.content>.main-content>.filtered-products.clearfix {
         margin-top: 4.2rem !important;
