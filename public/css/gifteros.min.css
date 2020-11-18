@@ -2494,6 +2494,10 @@ body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
 }
 
+.filter-settings.gift-filters {
+    background-color: var(--light);
+}
+
 .content {
     flex: 1 0 auto;
 }

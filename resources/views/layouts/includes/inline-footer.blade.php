@@ -1186,7 +1186,7 @@
 <!-- /.Accessory Animation Modal -->
 
 <!-- Filter Settings -->
-<div class="filter-settings gift-filters bg-light d-sm-block d-md-none">
+<div class="filter-settings gift-filters d-sm-block d-md-none">
     <nav class="nav navbar-expand-md fixed-top main-nav bg-whitesmoke box-shadow-sm py-2 px-md-1 mb-2">
         <a href="#" class="nav-link icon-link go-back toggle-filters">
             <i class="material-icons">arrow_back</i>
