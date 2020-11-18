@@ -4679,9 +4679,6 @@ a:hover,
     .toggled-actions {
         margin-top: -30px
     }
-    .toggle-settings {
-        display: none
-    }
     .main-nav .ml-md-auto .nav-item.ml-3 {
         margin-left: .5rem!important;
     }

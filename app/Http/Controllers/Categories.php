@@ -440,9 +440,6 @@ class Categories extends Controller
                 }
 
                 if($count > 0){
-                    $output .= '
-                        <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="category-gifts">
-                    ';
                     foreach($result as $gift){
                         // Gift star rating
                         $star_rating = giftStarRating($gift->gift_id);
@@ -566,7 +563,6 @@ class Categories extends Controller
                             <!-- /.Product Card -->
                         ';
                     }
-                    $output .= '</div>';
                 } else {
                     $output = '
                         <div class="container justify-content-center w-100 my-5">
@@ -589,6 +585,7 @@ class Categories extends Controller
                 } else {
                     $gift_count = $count . ' gift items in stock';
                 }
+
                 return response()->json([
                     'gifts'      => $output,
                     'gift_count' => $gift_count,

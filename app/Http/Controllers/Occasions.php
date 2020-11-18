@@ -567,9 +567,6 @@ class Occasions extends Controller
                 }
 
                 if($count > 0){
-                    $output .= '
-                        <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="category-gifts">
-                    ';
                     foreach($result as $gift){
                         // Gift star rating
                         $star_rating = giftStarRating($gift->gift_id);
@@ -693,22 +690,6 @@ class Occasions extends Controller
                             <!-- /.Product Card -->
                         ';
                     }
-                    $output .= '</div>';
-                } else {
-                    $output = '
-                        <div class="container justify-content-center w-100 my-5" id="null-gifts">
-                            <div class="col-12 text-center no-content">
-                                <i class="material-icons text-muted lead">redeem</i>
-                                <h5 class="my-0 py-0">Oops! No results found!</h5>
-                                <h6 class="text-center">No gift items that fall into this category range found!</h6>
-                                <div class="row justify-content-center">
-                                    <button class="btn btn-primary btn-sm rounded-pill d-flex align-items-center px-3 my-2" id="fetch-all-btn">
-                                        <i class="material-icons mr-1">refresh</i> Fetch All
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    ';
                 }
                 
                 if($count == 1){
@@ -716,6 +697,7 @@ class Occasions extends Controller
                 } else {
                     $gift_count = $count . ' gift items in stock';
                 }
+                
                 return response()->json([
                     'result'      => $result,
                     'gifts'      => $output,

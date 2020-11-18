@@ -59,13 +59,14 @@
                         $('#category-gifts').append(data.gifts);
                         $('#gift-count').html(data.gift_count);
                         userCurrency();
-                        setTimeout(() => {
-                            viewOption();
-                        }, 0);
+                        viewOption();
                     } else {
                         status = 'active';
                         $('#fuzzy-loader').addClass('d-none');
                         $('.gifts-preloader').html(' ');
+                    }
+                    if(data.count == 0){
+                        $('#category-gifts').removeClass('d-grid grid-view grid-p-1 mt-3 products-shelf');
                     }
                 }
             });
@@ -103,9 +104,7 @@
                         $('#category-gifts').html(data.gifts);
                         $('#gift-count').html(data.gift_count);
                         userCurrency();
-                        setTimeout(() => {
-                            viewOption();
-                        }, 0);
+                        viewOption();
                     }
                 }
             });

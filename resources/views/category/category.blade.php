@@ -7,7 +7,7 @@
         <div class="d-flex align-items-center lh-100">
             <!-- Category Title & Results -->
             <div class="d-block lh-100">
-                <h6 class="font-600 text-uppercase">{{ $title }}</h6>
+                <h6 class="font-600 text-uppercase d-none d-md-block">{{ $title }}</h6>
                 <p class="text-sm my-0 py-0" id="gift-count">loading gift items in stock...</p>
             </div>
             <!-- /.Category Title & Results -->
@@ -61,11 +61,8 @@
         </div>
         <!-- /.Right Settings -->
     </div>
-    <div id="category-gifts">
+    <div class="d-grid grid-view grid-p-1 mt-3 w-100 products-shelf" id="category-gifts">
         <!-- All category gifts will show up here -->
-        <div class="d-grid grid-view grid-p-1 mt-3">
-            <!-- All fetched products will show up here -->
-        </div>
     </div>
     <!-- Gifts Preloader -->
     <div id="fuzzy-loader">

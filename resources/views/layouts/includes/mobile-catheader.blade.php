@@ -14,7 +14,7 @@
 </style>
 <!-- Header -->
 <div id="mobile-filter-header">
-    <header class="header fixed-top box-shadow-sm bg-white">
+    <header class="header fixed-top box-shadow-sm bg-whitesmoke">
         <!-- Main Navbar -->
         <nav class="nav navbar-expand-md main-nav justify-content-between py-2 px-md-1">
             <a href="/" class="nav-link icon-link go-back">
@@ -110,10 +110,9 @@
                             Trending gifts
                         </option>
                     </select>
-                    <div class="d-flex align-items-center">
-                        <i role="button" class="material-icons view-option grid-icon active" data-view="grid-view" title="Grid View">view_comfy</i>
-                        <i role="button" class="material-icons view-option list-icon mx-3" data-view="list-view" title="List view">view_list</i>
-                    </div>
+                    <a href="#" class="nav-link icon-link toggle-settings">
+                        <i class="material-icons">settings</i>
+                    </a>
                 </div>
                 <!-- /.Settings Navbar -->
             @endif
@@ -126,7 +125,7 @@
             <div class="form-group mb-0 icon-form-group mb-0" id="search-bar">
                 <i class="material-icons icon text-faded">search</i>
                 <input type="search" name="search" id="search" class="form-control" placeholder="What are you looking for?">
-                <ul class="list-group search-list">
+                <ul class="list-group search-list box-shadow-sm d-none">
                     @for ($i = 0; $i < 5; $i++)
                         <!-- Search results loading -->
                         <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">

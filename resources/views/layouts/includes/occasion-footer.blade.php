@@ -12,6 +12,21 @@
         var occasion = "{{ $occasion }}";
         var currency = userCurrency();
         var price_ordering =  priceOrdering();
+
+        // Sorting category gifts by user prefence settings
+        $(document).on('change', '#price-sorting', function(e){
+            e.stopPropagation();
+            price_ordering = $(this).val();
+            localStorage.setItem('price-sorting-order', price_ordering);
+            if(price_ordering == 'asc'){
+                $('#price-ordering-label').text('Ascending');
+                $('#price-ordering').attr('checked', true);
+            } else {
+                $('#price-ordering-label').text('Descending');
+                $('#price-ordering').attr('checked', false);
+            }
+            location.reload();
+        });
         
         // Fetch occasional gifts
         function occasionalGifts(start, limit, occasion, price_ordering, currency) {
@@ -30,15 +45,14 @@
                 },
                 dataType: 'json',
                 cache: false,
+                beforeSend: viewOption(),
                 success: function(data) {
                     if(data.result.length > 0){
                         status = 'inactive';
                         $('#occasional-gifts').append(data.gifts);
                         $('#gift-count').html(data.gift_count);
                         userCurrency();
-                        setTimeout(() => {
-                            viewOption();
-                        }, 0);
+                        viewOption();
                     } else {
                         status = 'active';
                         $('#fuzzy-loader').addClass('d-none');
@@ -55,7 +69,7 @@
         }
 
         $(window).on('scroll', function() {
-            if ($(window).scrollTop() + $(window).height() > $('#category-gifts').height() && status == 'inactive') {
+            if ($(window).scrollTop() + $(window).height() > $('#occasional-gifts').height() && status == 'inactive') {
                 status = 'active';
                 start += limit;
                 occasionalGifts(start, limit, occasion, price_ordering, currency);

@@ -2,7 +2,7 @@
 <div class="settings-bar">
     <div class="settings-header d-flex align-items-center justify-content-between box-shadow-sm p-2">
         <h2 class="font-600 lead lead-2x">Settings</h2>
-        <i class="material-icons mr-2 toggle-settings">close</i>
+        <i class="material-icons nav-link icon-link mr-2 toggle-settings">close</i>
     </div>
     <div class="container-fluid px-3 mt-2">
         <p class="mb-0 font-500 d-none" id="day-mode">

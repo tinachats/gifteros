@@ -614,7 +614,7 @@
         <div class="form-group icon-form-group" id="search-bar">
             <i class="material-icons icon text-faded">search</i>
             <input type="search" name="search" id="search" class="form-control" placeholder="What are you looking for?">
-            <ul class="list-group search-list d-none">
+            <ul class="list-group search-list box-shadow-sm d-none">
                 @for ($i = 0; $i < 5; $i++)
                     <!-- Search results loading -->
                     <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">
