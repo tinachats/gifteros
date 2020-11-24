@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -101,7 +101,7 @@ class Gifts extends Controller
                                     <div class="lh-100">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
-                                                '. mb_strimwidth($gift->gift_name, 0, 25, '...') .'
+                                                '. mb_strimwidth($gift->gift_name, 0, 18, '...') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
@@ -110,7 +110,7 @@ class Gifts extends Controller
                                         '. $star_rating .'
                                     </div>
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
-                                        '. mb_strimwidth($gift->description, 0, 60, '...') .'
+                                        '. mb_strimwidth($gift->description, 0, 35, '...') .'
                                     </p>
                                     <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -231,7 +231,7 @@ class Gifts extends Controller
                                     <div class="lh-100">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
-                                                '. mb_strimwidth($gift->gift_name, 0, 25, '...') .'
+                                                '. mb_strimwidth($gift->gift_name, 0, 18, '...') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
@@ -240,7 +240,7 @@ class Gifts extends Controller
                                         '. $star_rating .'
                                     </div>
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
-                                        '. mb_strimwidth($gift->description, 0, 60, '...') .'
+                                        '. mb_strimwidth($gift->description, 0, 35, '...') .'
                                     </p>
                                     <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -361,7 +361,7 @@ class Gifts extends Controller
                                     <div class="lh-100">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
-                                                '. mb_strimwidth($gift->gift_name, 0, 25, '...') .'
+                                                '. mb_strimwidth($gift->gift_name, 0, 18, '...') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
@@ -370,7 +370,7 @@ class Gifts extends Controller
                                         '. $star_rating .'
                                     </div>
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
-                                        '. mb_strimwidth($gift->description, 0, 60, '...') .'
+                                        '. mb_strimwidth($gift->description, 0, 35, '...') .'
                                     </p>
                                     <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -491,7 +491,7 @@ class Gifts extends Controller
                                     <div class="lh-100">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
-                                                '. mb_strimwidth($gift->gift_name, 0, 25, '...') .'
+                                                '. mb_strimwidth($gift->gift_name, 0, 18, '...') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
@@ -500,7 +500,7 @@ class Gifts extends Controller
                                         '. $star_rating .'
                                     </div>
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
-                                        '. mb_strimwidth($gift->description, 0, 60, '...') .'
+                                        '. mb_strimwidth($gift->description, 0, 35, '...') .'
                                     </p>
                                     <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -621,7 +621,7 @@ class Gifts extends Controller
                                     <div class="lh-100">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
-                                                '. mb_strimwidth($gift->gift_name, 0, 25, '...') .'
+                                                '. mb_strimwidth($gift->gift_name, 0, 18, '...') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
@@ -630,7 +630,7 @@ class Gifts extends Controller
                                         '. $star_rating .'
                                     </div>
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
-                                        '. mb_strimwidth($gift->description, 0, 60, '...') .'
+                                        '. mb_strimwidth($gift->description, 0, 35, '...') .'
                                     </p>
                                     <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -751,7 +751,7 @@ class Gifts extends Controller
                                     <div class="lh-100">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
-                                                '. mb_strimwidth($gift->gift_name, 0, 25, '...') .'
+                                                '. mb_strimwidth($gift->gift_name, 0, 18, '...') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
@@ -760,7 +760,7 @@ class Gifts extends Controller
                                         '. $star_rating .'
                                     </div>
                                     <p class="product-description text-sm font-500 text-faded text-justify my-0 py-0">
-                                        '. mb_strimwidth($gift->description, 0, 60, '...') .'
+                                        '. mb_strimwidth($gift->description, 0, 35, '...') .'
                                     </p>
                                     <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -856,8 +856,8 @@ class Gifts extends Controller
                     'gift_quantity'    => $request->gift_quantity,
                     'gift_units'       => $request->gift_units
                 ];
-                session($comparison);
-                if(!empty(session())){
+                $request->session()->put('comparisons', $comparison);
+                if ($request->session()->exists('comparisons')){
                     return response()->json([
                         'message' => 'success'
                     ]);
@@ -900,7 +900,11 @@ class Gifts extends Controller
     // Compare gifts comparisons page
     public function compare_page()
     {
-        return view('compare_page');
+        $data = [
+            'title'       => 'Gift Comparisons',
+            'comparisons' => session('comparisons')
+        ];
+        return view('compare_page')->with($data);
     }
 
     /**

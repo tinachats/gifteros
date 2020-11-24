@@ -9,7 +9,7 @@
 }
 
 
-/* Utility Classes .main-sidebar */
+/* Utility Classes .comparison-pane */
 
 :root {
     --text-warning-white: #f39c12;
@@ -2483,6 +2483,7 @@ input.form-control.lockscreen-input {
 
 html,
 body {
+    position: relative;
     overflow-x: hidden;
 }
 
@@ -4315,11 +4316,11 @@ a:hover,
 /* /.Details Sub-page */
 
 .comparison-pane {
+    position: fixed;
     background-color: var(--dark-backdrop);
+    left: 0;
     width: 100%;
     height: 150px;
-    z-index: 998;
-    position: absolute;
     transition: transform .5s ease-in-out;
     transform: scale(1);
 }
@@ -4735,8 +4736,12 @@ a:hover,
 }
 
 @media(max-width: 360px) {
+    .targets-logo {
+        height: 25px;
+        width: 25px;
+    }
     .main-nav .ml-auto .nav-item.ml-3 {
-        margin-left: .75rem
+        margin-left: .60rem !important
     }
     .toggled-actions {
         top: 49% !important;
@@ -4785,6 +4790,9 @@ a:hover,
     }
     #close-panel {
         margin-top: -6% !important
+    }
+    .comparison-pane {
+        top: 75% !important;
     }
 }
 
@@ -5419,6 +5427,9 @@ a:hover,
     .filter-btn.active * {
         color: #fff
     }
+    .comparison-pane {
+        top: 78%;
+    }
 }
 
 @media(min-width: 660px) {
@@ -5711,6 +5722,9 @@ a:hover,
     .filter-page-footer {
         width: 80%
     }
+    .comparison-pane {
+        top: 85%;
+    }
 }
 
 @media(max-width: 834px) {
@@ -5823,6 +5837,9 @@ a:hover,
     .occasions-page>.content {
         grid-template-columns: 25% 75%;
     }
+    .comparison-pane {
+        top: 45%;
+    }
 }
 
 
@@ -5892,9 +5909,6 @@ a:hover,
     }
     #search-page.page-content {
         margin-top: 6rem
-    }
-    .comparison-pane {
-        top: 89.5%
     }
     #close-panel {
         margin-top: -3%;
@@ -5997,6 +6011,9 @@ a:hover,
     .blog-image {
         height: 400px
     }
+    .comparison-pane {
+        top: 90%;
+    }
 }
 
 
@@ -6082,9 +6099,6 @@ a:hover,
         align-items: center;
         justify-content: space-around;
     }
-    .comparison-pane {
-        top: 78%
-    }
     #close-panel {
         margin-top: -2.95%;
     }
@@ -6107,6 +6121,9 @@ a:hover,
     }
     .occasions-page .chip-sliders {
         margin-left: 18.3%;
+    }
+    .comparison-pane {
+        top: 78%;
     }
 }
 

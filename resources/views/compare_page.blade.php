@@ -1,4 +1,5 @@
 @include('layouts.includes.header')
+@include('layouts.includes.main-nav')
 <!-- Page Content -->
 <div class="container page-content" id="profile-page">
     <!-- Content Header (Page header) -->
@@ -12,7 +13,7 @@
                             <i class="material-icons">store</i>
                         </a>
                     </li>
-                    <li class="breadcrumb-item active">{{ $count_comparisons }} Comparisons</li>
+                    <li class="breadcrumb-item active">{{ count(session('comparisons')) }} Comparisons</li>
                 </ol>
             </div>
             <!-- /.row -->
@@ -25,6 +26,9 @@
     <div class="container-fluid justify-content-center mb-5">
         <div class="d-grid grid-3 grid-p-1 account-page">
             <!-- Gift Comparisons will be shown here -->
+            <p>
+                @json(session('comparisons'))
+            </p>
         </div>
         <div class="row justify-content-md-start justify-content-sm-center">
             <button class="btn btn-primary d-flex align-items-center my-3 expire-session">
