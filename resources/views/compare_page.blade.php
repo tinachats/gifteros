@@ -13,7 +13,7 @@
                             <i class="material-icons">store</i>
                         </a>
                     </li>
-                    <li class="breadcrumb-item active">{{ count(session('comparisons')) }} Comparisons</li>
+                    <li class="breadcrumb-item active">{{ count(Session::get('comparisons')) }} Comparisons</li>
                 </ol>
             </div>
             <!-- /.row -->
@@ -26,9 +26,11 @@
     <div class="container-fluid justify-content-center mb-5">
         <div class="d-grid grid-3 grid-p-1 account-page">
             <!-- Gift Comparisons will be shown here -->
-            <p>
-                @json(session('comparisons'))
-            </p>
+            @foreach (Session::get('comparisons') as $gift_name)
+                <p class="text-capitalize">
+                    {{ $gift_name }}
+                </p>
+            @endforeach
         </div>
         <div class="row justify-content-md-start justify-content-sm-center">
             <button class="btn btn-primary d-flex align-items-center my-3 expire-session">

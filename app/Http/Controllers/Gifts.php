@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use App\Models\Gift;
 
 class Gifts extends Controller
@@ -844,7 +845,7 @@ class Gifts extends Controller
         if($request->ajax()){
             if($request->action == 'add-comparison'){
                 // store data in the session
-                $comparison = [
+                $comparisons = collect([
                     'gift_id'          => $request->gift_id,
                     'gift_name'        => $request->gift_name,
                     'gift_image'       => $request->gift_img,
@@ -855,8 +856,8 @@ class Gifts extends Controller
                     'category_name'    => $request->gift_category,
                     'gift_quantity'    => $request->gift_quantity,
                     'gift_units'       => $request->gift_units
-                ];
-                $request->session()->put('comparisons', $comparison);
+                ]);
+                Session::put('comparisons', $comparisons);
                 if ($request->session()->exists('comparisons')){
                     return response()->json([
                         'message' => 'success'
