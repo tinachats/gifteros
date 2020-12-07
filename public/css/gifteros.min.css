@@ -524,6 +524,11 @@ textarea#custom-text {
     text-decoration: underline !important;
 }
 
+.title-heading {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
+    font-size: 2rem;
+}
+
 
 /* /.Formatting Styling */
 

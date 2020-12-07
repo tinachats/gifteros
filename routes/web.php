@@ -5,6 +5,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AppRatings;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Categories;
+use App\Http\Controllers\Developers;
 use App\Http\Controllers\Gifts;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\MailingList;
@@ -104,3 +105,6 @@ Route::post('/unsubscribe', [MailingList::class, 'unsubscribe'])->name('unsubscr
 
 // Blog Routes
 Route::resource('blog', 'App\Http\Controllers\BlogPostController');
+
+// Developer Page
+Route::get('/developer/{name}', [Developers::class, 'index'])->name('developer');
