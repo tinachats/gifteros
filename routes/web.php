@@ -61,7 +61,7 @@ Route::get('/subcategory/{sub_category_id}/{subcategory}', [SubCategories::class
 Route::post('/sub_category/gifts', [SubCategories::class, 'gifts'])->name('subcategory_gifts');
 
 // Cart Routes
-Route::post('/', [CartController::class, 'store'])->name('purchase');
+Route::post('/add_to_cart/{gift_id}', [CartController::class, 'store'])->name('add_to_cart');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 
 // Wishlist Routes
