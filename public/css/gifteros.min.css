@@ -9,7 +9,7 @@
 }
 
 
-/* Utility Classes .comparison-pane */
+/* Utility Classes .carousel-autoplay */
 
 :root {
     --text-warning-white: #f39c12;
@@ -527,6 +527,18 @@ textarea#custom-text {
 .title-heading {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif !important;
     font-size: 2rem;
+}
+
+.order-date {
+    width: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.date-header {
+    height: 20px
 }
 
 
@@ -2308,14 +2320,18 @@ input.form-control.lockscreen-input {
 .reviews-carousel .owl-prev,
 .reviews-carousel .owl-next,
 .carousel-autoplay .owl-prev,
-.carousel-autoplay .owl-next {
+.carousel-autoplay .owl-next,
+.ordered-gifts .owl-prev,
+.ordered-gifts .owl-next {
     opacity: 0;
 }
 
 .reviews-carousel.owl-carousel:hover .owl-prev,
 .reviews-carousel.owl-carousel:hover .owl-next,
 .carousel-autoplay.owl-carousel:hover .owl-prev,
-.carousel-autoplay.owl-carousel:hover .owl-next {
+.carousel-autoplay.owl-carousel:hover .owl-next,
+.ordered-gifts.owl-carousel:hover .owl-prev,
+.ordered-gifts.owl-carousel:hover .owl-next {
     opacity: 1
 }
 
@@ -2712,10 +2728,14 @@ body {
     grid-template-columns: repeat(7, 1fr);
 }
 
-.dropdown-menu {
+.user-menu.dropdown-menu {
     padding: 0;
     margin: 0;
     margin-top: 8px;
+}
+
+.app-dropdown {
+    width: 16rem;
 }
 
 .user-menu {
@@ -2882,9 +2902,13 @@ body {
 
 /* /. Occasional Cards */
 
-.dropdown-item {
+.user-menu .dropdown-item {
     border-bottom: 1px solid var(--bg-inverse) !important;
     cursor: pointer;
+}
+
+.app-dropdown .dropdown-item:hover {
+    background-color: rgba(0, 0, 0, .1);
 }
 
 .dropdown-item:hover {

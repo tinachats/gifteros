@@ -110,12 +110,92 @@
         return $output;
     }
 
-    // Count user's orders
-    function countOrders(){
+    // Count user's sent orders
+    function countSentOrders(){
         $count = DB::table('orders')
-                    ->where('user_id', Auth::user()->id)
+                    ->where([
+                        ['user_id', '=', Auth::user()->id],
+                        ['order_status', '<>', 'cancelled']
+                    ])
                     ->count(); 
         return $count;
+    }
+
+    // Count user's received orders
+    function countReceivedOrders(){
+        $count = DB::table('orders')
+                    ->where('customer_phone', Auth::user()->mobile_phone)
+                    ->count(); 
+        return $count;
+    }
+
+    // Count user's cancelled orders
+    function countCancelledOrders(){
+        $count = DB::table('orders')
+                    ->where([
+                        'order_status' => 'cancelled',
+                        'user_id'      => Auth::user()->mobile_phone
+                    ])
+                    ->count(); 
+        return $count;
+    }
+
+    // Get all sent orders
+    function sentOrders(){
+        $sent_orders = DB::table('orders')
+                         ->where('user_id', Auth::user()->id)
+                         ->orderBy('id','desc')
+                         ->get();
+        return $sent_orders;
+    }
+
+    // Get all sent orders
+    function receivedOrders(){
+        $received_orders = DB::table('orders')
+                         ->where('customer_phone', Auth::user()->mobile_phone)
+                         ->orderBy('id','desc')
+                         ->get();
+        return $received_orders;
+    }
+
+    // Order status
+    function orderStatus($order_id){
+        $order_status = '';
+        $status = DB::table('orders')
+                  ->where('id', $order_id)
+                  ->value('order_status');
+        switch($status){
+            case 'pending':
+                $order_status = '
+                    <i class="material-icons text-success">hourglass_empty</i>
+                    <p class="my-0 py-0 text-sm font-600 ml-1 text-capitalize">pending</p>
+                ';
+                break;
+            case 'confirmed':
+                $order_status = '
+                    <i class="material-icons text-success">event_available</i>
+                    <p class="my-0 py-0 text-sm font-600 ml-1 text-capitalize">confirmed</p>
+                ';
+                break;
+            case 'packed':
+                $order_status = '
+                    <i class="material-icons text-faded">redeem</i>
+                    <p class="my-0 py-0 text-sm font-600 ml-1 text-capitalize">delivered</p>
+                ';
+                break;
+            case 'in-transit':
+                $order_status = '
+                    <i class="material-icons text-secondary">local_shipping</i>
+                    <p class="my-0 py-0 text-sm font-600 ml-1 text-capitalize">In-transit</p>
+                ';
+                break;
+            default: 
+                $order_status = '
+                    <i class="material-icons text-success">check_circle</i>
+                    <p class="my-0 py-0 text-sm font-600 ml-1 text-capitalize">delivered</p>
+                ';
+        }
+        return $order_status;
     }
 
     // Count number of times a recipient's cell appears in the recipients table
@@ -127,6 +207,78 @@
                    ])
                    ->count();
         return $count;
+    }
+
+    // Count number of gifts sent to a recipient
+    function recipientGifts($user_id, $recipients_cell){
+        $count = DB::table('orders')
+                   ->where([
+                       'user_id'         => $user_id,
+                       'customer_phone'  => $recipients_cell
+                   ])
+                   ->sum('ordered_items');
+        return $count;
+    }
+
+    // Fetch all ordered gifts
+    function orderedItems($order_id){
+        $ordered_gifts = DB::table('ordered_gifts')
+                 ->where('order_id', $order_id)
+                 ->pluck('gift_id');
+        $gifts = DB::table('gifts')
+                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                    ->join('ordered_gifts', 'ordered_gifts.gift_id', '=', 'gifts.id')
+                    ->select('gifts.*', 'categories.*', 'sub_categories.*', 'ordered_gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug')
+                    ->whereIn('gifts.id', $ordered_gifts)
+                    ->get();
+        return $gifts;
+    }
+
+    // Sender's full name
+    function sendersName($user_id){
+        $name = DB::table('users')
+                    ->where('id', $user_id)
+                    ->value('name');
+        return $name;
+    }
+
+    // Sender's first name
+    function sendersFname($user_id){
+        $name = DB::table('users')
+                    ->where('id', $user_id)
+                    ->value('name');
+        $fullname = explode(' ', $name);
+        $first_name = $fullname[0];
+        return $first_name;
+    }
+
+
+    // Sender's Profile Picture
+    function sendersPic($user_id){
+        $profile_pic = '';
+        $result = DB::table('users')
+                    ->where('id', $user_id)
+                    ->value('profile_pic');
+        if($result !== 'user.png'){
+            $profile_pic = '/storage/users/' . $result;
+        } else {
+            $profile_pic = '/storage/users/user.png'; 
+        }
+        return $profile_pic;
+    }
+
+     // Sender's address
+     function sendersAddress($user_id){
+        $address = '';
+        $result = DB::table('users')
+                    ->select('address', 'city')
+                    ->where('id', $user_id)
+                    ->get();
+        foreach($result as $location){
+            $address = $location->address . ', '  . $location->city;
+        }
+        return $address;
     }
 
     // Recipient's full name

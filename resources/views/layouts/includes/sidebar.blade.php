@@ -100,13 +100,13 @@
                         <i class="material-icons mr-2">local_shipping</i>
                         <span class="text-capitalize">My Orders</span>
                         <span class="badge app-badge ml-auto">
-                            {{ countOrders() }}
+                            {{ countSentOrders() }}
                         </span>
                     </a>
                 </li>
                 <!-- /.Side-menu-item -->
 
-                @if(countOrders() > 0)
+                @if(countSentOrders() > 0)
                     <!-- Side-menu-item -->
                     <li class="d-flex align-items-center side-menu-item p-2">
                         <i class="material-icons mr-2">sync</i>
