@@ -13,7 +13,10 @@ class Orders extends Controller
      */
     public function index()
     {
-        return view('orders.index');
+        $data = [
+            'title' => 'My Orders'
+        ];
+        return view('orders.index')->with($data);
     }
 
     /**

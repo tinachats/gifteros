@@ -134,7 +134,7 @@
         $count = DB::table('orders')
                     ->where([
                         'order_status' => 'cancelled',
-                        'user_id'      => Auth::user()->mobile_phone
+                        'user_id'      => Auth::user()->id
                     ])
                     ->count(); 
         return $count;
@@ -143,19 +143,31 @@
     // Get all sent orders
     function sentOrders(){
         $sent_orders = DB::table('orders')
-                         ->where('user_id', Auth::user()->id)
+                         ->where([
+                             ['order_status', '!=', 'cancelled'],
+                             ['user_id', '=', Auth::user()->id]
+                         ])
                          ->orderBy('id','desc')
                          ->get();
         return $sent_orders;
     }
 
-    // Get all sent orders
+    // Get all received orders
     function receivedOrders(){
         $received_orders = DB::table('orders')
                          ->where('customer_phone', Auth::user()->mobile_phone)
                          ->orderBy('id','desc')
                          ->get();
         return $received_orders;
+    }
+
+    // Get all cancelled orders
+    function cancelledOrders(){
+        $cancelled_orders = DB::table('orders')
+                              ->where('user_id', Auth::user()->id)
+                              ->orderBy('id','desc')
+                              ->get();
+        return $cancelled_orders; 
     }
 
     // Order status
@@ -187,6 +199,12 @@
                 $order_status = '
                     <i class="material-icons text-secondary">local_shipping</i>
                     <p class="my-0 py-0 text-sm font-600 ml-1 text-capitalize">In-transit</p>
+                ';
+                break;
+            case 'cancelled':
+                $order_status = '
+                    <i class="material-icons text-danger">cancel</i>
+                    <p class="my-0 py-0 text-sm font-600 ml-1 text-capitalize">Cancelled</p>
                 ';
                 break;
             default: 
