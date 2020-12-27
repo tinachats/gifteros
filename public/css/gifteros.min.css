@@ -139,6 +139,17 @@
 /* /.dark mode */
 
 
+/* Toast Notifications */
+
+.toast {
+    position: absolute;
+    z-index: 100000;
+}
+
+
+/* /.Toast Notifications */
+
+
 /* Gifts Page Filter Settings */
 
 .transparent {
@@ -4838,6 +4849,10 @@ a:hover,
 /* Media query for small media devices */
 
 @media(max-width: 660px) {
+    .toast {
+        max-width: 100% !important;
+        margin: 5px;
+    }
     h1 {
         font-size: 1.5rem;
     }
@@ -5540,6 +5555,10 @@ a:hover,
 }
 
 @media(min-width: 768px) {
+    .toast {
+        top: 50px;
+        left: 55%;
+    }
     .w-md-75 {
         width: 75% !important;
     }
@@ -6011,6 +6030,9 @@ a:hover,
 }
 
 @media(min-width: 1024px) {
+    .toast {
+        left: 64%;
+    }
     .policy-banner {
         top: 95%;
     }
@@ -6156,6 +6178,10 @@ a:hover,
     }
     .comparison-pane {
         top: 78%;
+    }
+    .toast {
+        left: 73%;
+        min-width: 365px;
     }
 }
 

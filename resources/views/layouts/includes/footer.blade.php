@@ -618,6 +618,49 @@
         </div>
         <!-- Subscribe Newsletter -->
 
+        <!-- Toast Notifications -->
+        <div class="toast" id="shopping-alerts" data-delay="5000">
+            <div class="toast-header">
+                <img src="{{ asset('img/app/visionaries-logo.png') }}" class="rounded mr-2" alt="{{ config('app.name') }}" height="25" width="25">
+                <strong class="mr-auto">{{ config('app.name') }}</strong>
+                <small>11 mins ago</small>
+                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                <div class="media">
+                    <img src="{{ asset('img/app/order-map.PNG') }}" height="50" width="50" alt="Map" class="d-flex align-items-center mr-2 rounded">
+                    <div class="media-body">
+                        <p class="my-0 py-0">
+                            <strong class="my-0 py-0 text-capitalize">Takudzwa bozhiwa</strong> from <strong class="text-capitalize">highfield</strong> 
+                            just purchased a teddy bear.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="toast" id="settings-alert" data-autohide="false">
+            <div class="toast-header">
+                <div class="d-flex align-items-center">
+                    <i class="material-icons mr-2">settings</i>
+                    <span class="font-600 my-0 py-0">App custom settings</span>
+                </div>
+                <button type="button" class="ml-auto mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="toast-body">
+                <p class="text-faded text-justify">
+                    Looking for a little more control? Now you can choose your currency, theme or sorting order. 
+                    Just click the settings <i class="material-icons my-0 py-0 mx-1">settings</i> button on top.
+                </p>
+                <button class="btn btn-primary px-2" id="dispose-toast">Okay. Got it!</button>
+            </div>
+        </div>
+        <!-- /.Toast Notifications -->
+
         <!-- Greeting Card Modal -->
         @auth
             <div class="modal" id="greeting-card-modal" tabindex="-1" role="dialog" aria-labelledby="greeting-card-modal" aria-hidden="true">
