@@ -770,15 +770,15 @@
         @auth
             <div class="modal p-0" id="customizing-modal" tabindex="-1" role="dialog" aria-labelledby="customizing-modal" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div class="modal-content box-shadow-sm rounded-0">
+                    <div class="modal-content box-shadow-sm rounded-2">
                         <form method="post" id="customization-form" class="needs-validation container-fluid" enctype="multipart/form-data" novalidate>
                             <div class="modal-body m-0 p-0">
-                                <h4 class="font-600 text-center my-2">Customize this gift</h4>
                                 <div class="d-grid grid-2 grid-p-1 m-xl-2">
                                     <div class="first-section">
                                         <label for="gift-custom-img" class="w-100 custom-img-pane">
                                             <div class="d-block d-cursor initiate-upload text-center">
-                                                <div class="d-none" id="add-custom-image" onclick="selectCustomImg()">
+                                                <div class="cursor" id="add-custom-image" onclick="selectCustomImg()">
+                                                    <input type="file" class="d-none" name="gift-custom-img" id="gift-custom-img" onchange="showCustomImg(this)" accept="image/*" required>
                                                     <i class="material-icons fa-3x text-white card-info-icon">add_a_photo</i>
                                                     <h5 class="font-600 text-white card-info-text">
                                                         Click to upload your own custom image or logo
@@ -786,12 +786,13 @@
                                                 </div>
                                                 <h4 class="lead-2x font-600 text-white custom-text-screen d-none"></h4>
                                             </div>
-                                            <input type="file" class="d-none" name="gift-custom-img" id="gift-custom-img" onchange="showCustomImg(this)" accept="image/*" required>
                                             <img src="/storage/gifts/15f479f840ad60.jpg" height="350" class="customizable-gift-img w-100" id="user-custom-file">
-                                            <div id="toggle-custom-settings" class="d-none">
-                                                <button role="button" class="btn btn-sm rounded-pill px-3 text-warning font-600" id="toggle-custom-text">
-                                                    Add custom text
-                                                </button>
+                                            <div id="toggle-custom-settings" class="d-none w-100">
+                                                <div class="d-flex align-items-center justify-content-center text-center">
+                                                    <button role="button" class="btn btn-sm rounded-pill px-3 text-warning font-600" id="toggle-custom-text">
+                                                        Add custom text <i class="material-icons animated infinite slideInLeft ml-4">arrow_forward</i>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </label>
                                         <!-- Custom Colors -->
@@ -865,7 +866,7 @@
                                         </div>
                                         <!-- /.Custom Colors -->
                                         <!-- Gift Sizes -->
-                                        <div class="container-fluid color-selection-pane my-2">
+                                        <div class="container-fluid color-selection-pane my-2 d-none" id="clothing-sizes">
                                             <h6 class="font-600 text-uppercase">Choose your size</h6>
                                             <div class="row justify-content-around w-100">
                                                 <a role="button" class="btn btn-link gift-sizes font-600" id="small-size">S</a>
@@ -878,20 +879,9 @@
                                         <!-- /.Gift Sizes -->
                                     </div>
                                     <div class="second-section text-center">
-                                        <div class="custom-header lh-100">
-                                            <h5 class="font-600 text-uppercase mb-0 pb-0">Customizable Cutting Board</h5>
-                                            <h6 class="font-600 text-capitalize text-sm mb-0 pb-0 text-faded">Customizable Kitchenware</h6>
-                                            <ul class="list-inline align-items-center ml-2 my-0 py-0">
-                                                <li class="list-inline-item star-rating text-warning">&starf;</li>
-                                                <li class="list-inline-item star-rating text-warning">&starf;</li>
-                                                <li class="list-inline-item star-rating text-warning">&starf;</li>
-                                                <li class="list-inline-item star-rating text-warning">&starf;</li>
-                                                <li class="list-inline-item star-rating text-faded">&star;</li>
-                                                <span class="text-sm text-faded font-600">(128)</span>
-                                            </ul>
-                                        </div>
                                         <div class="d-block my-2">
-                                            <h6 class="font-600 text-uppercase">Choose customization type</h6>
+                                            <h5 class="font-600 text-uppercase lead" id="custom-gift-name">Customizable Gift Item</h5>
+                                            <p class="mt-0 font-600 text-faded">Customize your gift</p>
                                             <div class="d-flex w-100 align-items-center justify-content-around custom-type" id="custom-image-option">
                                                 <div class="d-inline-flex align-items-center">
                                                     <!-- Custom Type -->
@@ -923,9 +913,14 @@
                                             <textarea name="custom-text" id="custom-text" cols="30" rows="4" class="form-control font-600 lead-2x" placeholder="Your custom text here..." autofocus onkeyup="giftCustomText(this)"></textarea>
                                         </div>
                                         <div class="d-block mt-2">
-                                            <h3 class="display-5 font-600 text-faded">R125.28</h3>
-                                            <button class="btn btn-warning font-600 rounded-pill px-3" id="save-changes-btn" disabled>Customize & Buy</button>
+                                            <input type="hidden" name="custom-gift-id" id="custom-gift-id">
+                                            <h3 class="display-5 font-600 text-faded ">
+                                                <span class="text-faded usd-price">US$<span class="text-faded" id="gift-usd-price">0.00</span></span>
+                                                <span class="text-faded zar-price d-none">R<span class="text-faded" id="gift-zar-price">0.00</span></span>
+                                                <span class="text-faded zwl-price d-none">ZW$<span class="text-faded" id="gift-zwl-price">0.00</span></span>
+                                            </h3>
                                         </div>
+                                        <button class="btn btn-warning font-600 rounded-pill px-3 mt-md-2" id="save-changes-btn" disabled>Customize & Buy</button>
                                     </div>
                                 </div>
                             </div>
@@ -933,6 +928,85 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Cart Options Modal -->
+            <div class="modal text-sm p-0" id="cart-options-modal" tabindex="-1" role="dialog" aria-labelledby="cart-options-modal" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content p-0">
+                        <div class="modal-header d-flex align-items-center justify-content-between py-2 shadow-sm">
+                            <div class="d-flex align-items-center">
+                                <img src="{{ asset('img/app/visionaries-logo.png') }}" height="30" width="30" alt="{{ config('app.name') }}" class="mr-2">
+                                <h5 class="font-600 my-0 py-0">{{ config('app.name') }}</h5>
+                            </div>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="d-flex align-items-center justify-content-around">
+                                <!-- Cart Item -->
+                                <ul class="w-100">
+                                    <li class="rounded-0 lh-100 px-1 py-2 cart-menu-item">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div class="d-flex w-100">
+                                                <!-- Product Item -->
+                                                <div class="media align-items-center">
+                                                    <div class="cart-menu-img-wrapper">
+                                                        <div class="d-sm-flex d-xl-none flex-column justify-content-center text-center cart-actions-sm">
+                                                            <i role="button" class="fa fa-chevron-circle-up text-success-warning subtract-product"></i>
+                                                            <span class="font-600 text-success-warning">2</span>
+                                                            <i role="button" class="fa fa-chevron-circle-down text-success-warning increase-qty"></i>
+                                                        </div>
+                                                        <img src="/storage/gifts/15f47b9066c522.jpg" height="55" width="55" alt="" class="rounded-2 align-self-center menu-item-img mr-2">
+                                                    </div>
+
+                                                    <!-- Product Item Details -->
+                                                    <div class="media-body cart-item-details" id="cart-item-details'.$values['product_id'].'">
+                                                        <p class="font-600 text-capitalize my-0 py-0">
+                                                            Sculp Massager
+                                                        </p>
+                                                        <p class="font-weight-light text-lowercase text-faded my-0 py-0">Personal Care</p>
+                                                        <ul class="list-inline star-rating">
+                                                            <li class="list-inline-item text-warning">&starf;</li>
+                                                            <li class="list-inline-item text-warning star-rating">&starf;</li>
+                                                            <li class="list-inline-item text-warning star-rating">&starf;</li>
+                                                            <li class="list-inline-item text-warning star-rating">&starf;</li>
+                                                            <li class="list-inline-item text-faded star-rating">&star;</li>
+                                                            <li class="list-inline-item text-faded star-rating font-600">(125)</li>
+                                                        </ul>
+                                                        <p class="font-500 text-lowercase text-faded my-0 py-0 d-flex">
+                                                            <span class="pr-2">2 in giftbox</span>
+                                                        </p>
+                                                    </div>
+                                                    <!-- Product Item Details -->
+                                                    <!-- Cart Actions -->
+                                                    <div class="hidden-product-actions w-100">
+                                                        <div class="d-flex align-items-center justify-content-center m-0 p-0">
+                                                            <span role="button" class="product-actions material-icons text-success subtract-product">remove_circle</span>
+                                                            <span role="button" class="product-actions text-faded mx-4">2</span>
+                                                            <span role="button" class="product-actions material-icons text-success increase-qty">add_circle</span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.Cart Actions -->
+                                                </div>
+                                                <!-- /.Product Item -->
+                                            </div>
+                                            <div class="d-block text-center">
+                                                <p class="font-600 my-0 pt-0 pb-1 usd-price">US$12.99</p>
+                                                <p class="font-600 my-0 pt-0 pb-1 zar-price d-none">R214.34</p>
+                                                <p class="font-600 my-0 pt-0 pb-1 zwl-price d-none">ZW$1299</p>
+                                                <i role="button" class="fa fa-trash-o fa-2x text-danger remove-item" title="Remove Item" data-action="remove-product"></i>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <!-- /.Cart Item -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.Cart Options Modal -->
         @endauth
         @guest
             <!-- SigninFirst Modal -->

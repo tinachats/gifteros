@@ -139,10 +139,24 @@
 /* /.dark mode */
 
 
+/* Gift Cart Options */
+
+.gift-cart-options {
+    position: absolute;
+    top: 143px;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+}
+
+
+/* /.Gift Cart Options */
+
+
 /* Toast Notifications */
 
 .toast {
-    position: absolute;
+    position: fixed;
     z-index: 100000;
 }
 

@@ -44,7 +44,7 @@ class Gifts extends Controller
     {
         if($request->ajax()){
             if($request->action){
-                $customized_gifts = $wishlist_icon = $kitchenware_gifts = '';
+                $customized_gifts = $wishlist_icon = $kitchenware_gifts = $custom_link = '';
                 $care_gifts = $plasticware_gifts = $combos = $appliance_gifts = '';
                 $customizables = DB::table('gifts')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
@@ -69,9 +69,34 @@ class Gifts extends Controller
                         ';
                     }
 
+                    if($gift->label == 'customizable'){
+                        $custom_link = '
+                            <a href="#" class="nav-link icon-link add-to-cart-btn" title="Customize gift" data-id="'. $gift->id .'">
+                                <i class="material-icons notifications">palette</i>
+                            </a>
+                        ';
+                    }
+
                     $customized_gifts .= '
                         <!-- Product Card -->
-                        <div class="card product-card border-0 rounded-0 box-shadow-sm">
+                        <div class="card product-card border-0 rounded-0 box-shadow-sm" data-id="'.$gift->id.'">
+                            <!-- Cart Actions -->
+                            <div class="gift-cart-options bg-whitesmoke box-shadow-sm animated animate-slow slideInTop" id="cart-options'.$gift->id.'">
+                                <div class="d-flex align-items-center px-2">
+                                    <div class="d-flex align-items-center justify-content-around m-0 p-0">
+                                        <span role="button" class="product-actions material-icons text-success subtract-product" title="Decrease quantity">remove_circle</span>
+                                        <span role="button" class="product-actions text-faded mx-4">2</span>
+                                        <span role="button" class="product-actions material-icons text-success increase-qty" title="Increase quantity">add_circle</span>
+                                    </div>
+                                    <div class="ml-auto d-flex align-items-center">
+                                        '.$custom_link.'
+                                        <a href="#" class="nav-link icon-link text-danger remove-item ml-2" title="Remove Item" data-action="remove-product">
+                                            <i class="material-icons notifications">delete</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.Cart Actions -->
                             <div class="product-img-wrapper">
                                 '. giftLabel($gift->id) .'
                                 <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
@@ -127,6 +152,7 @@ class Gifts extends Controller
                                     <input value="'. $gift->custom_zar_price .'" id="customizing-zar-cost'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->custom_zwl_price .'" id="customizing-zwl-cost'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->ends_on .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. $gift->category_id .'" id="category-id'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_name .'" id="category-name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->units .'" id="product-units'. $gift->id .'" type="hidden">
                                     <input value="1" id="quantity'. $gift->id .'" type="hidden">

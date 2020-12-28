@@ -383,7 +383,6 @@
                                             <!-- /.Cart Actions -->
                                         </div>
                                         <!-- /.Product Item -->
-
                                     </div>
                                     <div class="d-block text-center">
                                         <p class="font-600 my-0 pt-0 pb-1 text-sm usd-price">US$12.99</p>
