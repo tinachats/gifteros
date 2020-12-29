@@ -2748,9 +2748,8 @@ body {
     grid-gap: 1.5em;
 }
 
--grid {
+.d-grid {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
 }
 
 .user-menu.dropdown-menu {

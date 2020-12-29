@@ -59,18 +59,37 @@ class CartController extends Controller
         if($request->ajax()){
             if($request->action == 'add-item'){
                 $item = [
-                    'gift_id'     => $request->gift_id,
-                    'gift_name'   => $request->gift_name,
-                    'gift_image'  => $request->gift_image,
-                    'usd_price'   => $request->usd_price,
-                    'zar_price'   => $request->zar_price,
-                    'zwl_price'   => $request->zwl_price,
+                    'gift_id'        => $request->gift_id,
+                    'gift_name'      => $request->gift_name,
+                    'gift_image'     => $request->gift_image,
+                    'usd_price'      => $request->usd_price,
+                    'zar_price'      => $request->zar_price,
+                    'zwl_price'      => $request->zwl_price,
                     'sale_end_time'  => $request->sale_end_time,
                     'gift_quantity'  => $request->gift_quantity,
                     'gift_units'     => $request->gift_units,
                     'category_name'  => $request->category_name
                 ];
-                Session::put('cart', $item);
+                $cart = Session::has('cart') ? Session::get('cart') : [];
+                if(array_key_exists($request->gift_id, $cart)){
+                    $cart[$request->gift_id]['gift_quantity']++;
+                } else {
+                    $cart[$request->gift_id] = $item;
+                }
+                Session::push('cart', $item);
+                return response()->json([
+                    'message' => 'success'
+                ]);
+            }
+        }
+    }
+
+    // Clear the shopping cart
+    public function clearCart(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action == 'clear-cart'){
+                Session::flush();
                 return response()->json([
                     'message' => 'success'
                 ]);
