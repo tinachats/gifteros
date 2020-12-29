@@ -619,11 +619,11 @@
         <!-- Subscribe Newsletter -->
 
         <!-- Toast Notifications -->
-        <div class="toast" id="shopping-alerts" data-delay="5000">
+        <div class="toast bg-whitesmoke" id="shopping-alerts" data-delay="5000">
             <div class="toast-header">
                 <img src="{{ asset('img/app/visionaries-logo.png') }}" class="rounded mr-2" alt="{{ config('app.name') }}" height="25" width="25">
-                <strong class="mr-auto">{{ config('app.name') }}</strong>
-                <small>11 mins ago</small>
+                <strong class="mr-auto brandname">{{ config('app.name') }}</strong>
+                <small class="text-color-switch">11 mins ago</small>
                 <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>

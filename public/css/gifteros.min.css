@@ -9,7 +9,7 @@
 }
 
 
-/* Utility Classes .carousel-autoplay */
+/* Utility Classes .fabs */
 
 :root {
     --text-warning-white: #f39c12;
@@ -21,6 +21,7 @@
     --table-border: #dee2e6;
     --cloud-grey: #eee;
     --light-gray: #e9ecef;
+    --header-bg: rgba(255, 255, 255, .85);
     --text-dynamic: #343a40;
     --bg-inverse: rgba(0, 0, 0, .1);
     --light-black: rgba(0, 0, 0, .3);
@@ -96,6 +97,7 @@
 /* Dark mode */
 
 .darkmode {
+    --header-bg: hsl(208, 56%, 31%);
     --text-warning-white: #fff;
     --text-whitesmoke: hsl(208, 56%, 31%);
     --blue-white: #fff;
@@ -158,6 +160,10 @@
 .toast {
     position: fixed;
     z-index: 100000;
+}
+
+.toast-header {
+    background-color: var(--header-bg);
 }
 
 
@@ -1698,15 +1704,11 @@ tr {
     display: none;
 }
 
-.toggled-actions,
-.toggle-actions {
+.fabs {
     position: fixed;
     left: 93%;
     z-index: 10051;
-}
-
-.toggle-actions {
-    top: 90%
+    height: 230px;
 }
 
 .floating-action {
@@ -1715,6 +1717,7 @@ tr {
     border-radius: 50%;
     display: grid;
     box-shadow: var(--shadow-sm);
+    cursor: pointer;
 }
 
 .floating-action:hover {
@@ -1724,6 +1727,14 @@ tr {
 
 .floating-actions * {
     color: #fff
+}
+
+.action-btn {
+    opacity: 0;
+}
+
+.action-btn.show {
+    opacity: 1
 }
 
 .phone-code,
@@ -4734,9 +4745,6 @@ a:hover,
 /* Media query for iPhone 5 */
 
 @media(max-width: 320px) {
-    .toggled-actions {
-        margin-top: -30px
-    }
     .main-nav .ml-md-auto .nav-item.ml-3 {
         margin-left: .5rem!important;
     }
@@ -4796,10 +4804,6 @@ a:hover,
     .main-nav .ml-auto .nav-item.ml-3 {
         margin-left: .60rem !important
     }
-    .toggled-actions {
-        top: 49% !important;
-        display: none;
-    }
     .d-grid {
         display: flex;
         flex-direction: column;
@@ -4850,11 +4854,11 @@ a:hover,
 }
 
 @media(max-width: 375px) {
-    .toggled-actions {
-        top: 40% !important
-    }
     .account-box {
         width: 100% !important;
+    }
+    .fabs {
+        top: 45%
     }
 }
 
@@ -4862,6 +4866,9 @@ a:hover,
 /* Media query for small media devices */
 
 @media(max-width: 660px) {
+    .fabs {
+        top: 40%
+    }
     .toast {
         max-width: 100% !important;
         margin: 5px;
@@ -5036,8 +5043,7 @@ a:hover,
     .notification-menu {
         max-height: 427px;
     }
-    .toggled-actions,
-    .toggle-actions {
+    .fabs {
         left: 84%;
     }
     .owl-prev,
@@ -5432,10 +5438,6 @@ a:hover,
     .item .category-chip {
         padding-right: 10px
     }
-    .toggled-actions {
-        top: 65.5% !important;
-        margin-top: 0px
-    }
     .custom-img-pane,
     #user-custom-file {
         position: relative;
@@ -5556,9 +5558,6 @@ a:hover,
         height: 351px;
         width: 468px;
     }
-    .toggled-actions {
-        margin-top: -45px
-    }
     .chip-sliders {
         margin-left: 25%;
     }
@@ -5568,6 +5567,9 @@ a:hover,
 }
 
 @media(min-width: 768px) {
+    .fabs {
+        top: 30%
+    }
     .toast {
         top: 50px;
         left: 55%;
@@ -5845,10 +5847,6 @@ a:hover,
     .chip-sliders>.category-filters.owl-carousel .owl-nav button.owl-next {
         left: 95% !important
     }
-    .toggled-actions {
-        top: 70%;
-        margin-top: -30px
-    }
 }
 
 @media(min-width: 992px) {
@@ -5910,10 +5908,6 @@ a:hover,
 /* Media query for iPad Pros and landscape orientation */
 
 @media(max-width: 1024px) {
-    .toggled-actions {
-        top: 75%;
-        display: none;
-    }
     .filter-page.page-content>.content>.main-content>.filtered-products {
         display: flex;
         flex-direction: column;
@@ -6043,6 +6037,9 @@ a:hover,
 }
 
 @media(min-width: 1024px) {
+    .fabs {
+        top: 25%
+    }
     .toast {
         left: 64%;
     }
@@ -6089,10 +6086,6 @@ a:hover,
 @media(min-width: 1200px) {
     .policy-banner {
         top: 91%;
-    }
-    .toggled-actions {
-        top: 60%;
-        display: none;
     }
     #index-page.page-content {
         margin-top: 3rem;
@@ -6195,6 +6188,9 @@ a:hover,
     .toast {
         left: 73%;
         min-width: 365px;
+    }
+    .fabs {
+        top: 60%
     }
 }
 

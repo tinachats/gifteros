@@ -50,23 +50,18 @@
                 <div class="app-backdrop d-none"></div>
 
                 <!-- Floating Action Buttons -->
-                <div class="toggled-actions">
-                    <div class="floating-action bg-brick-red mb-3" title="System settings" onclick="userTheme()">
+                <div class="fabs d-flex align-items-center flex-column justify-content-around">
+                    <div class="floating-action box-shadow-sm action-btn bg-brick-red" title="System settings" onclick="userTheme()">
                         <i class="material-icons text-white m-auto">brightness_medium</i>
                     </div>
-                    <div class="range-slider-settings">
-                        <div class="floating-action bg-secondary mb-3" id="toggle-filters" title="Filter products">
-                            <i class="material-icons text-white m-auto">tune</i>
-                        </div>
-                    </div>
-                    <div class="floating-action bg-success mb-3" id="toggle-whatsapp" title="WhatsApp">
+                    <div class="floating-action box-shadow-sm action-btn bg-success" id="toggle-whatsapp" title="WhatsApp">
                         <i class="fa fa-whatsapp fa-2x text-white m-auto"></i>
                     </div>
-                    <div class="floating-action bg-purple mb-3" onclick="topFunction()" title="Scroll to top">
+                    <div class="floating-action box-shadow-sm action-btn bg-purple" onclick="topFunction()" title="Scroll to top">
                         <i class="material-icons text-white m-auto">arrow_upward</i>
                     </div>
-                </div>
-                <div class="floating-action toggle-actions bg-primary" title="Click to toggle actions">
-                    <i class="material-icons m-auto text-white">add</i>
+                    <div class="floating-action box-shadow-sm toggle-actions bg-primary" title="Click to toggle actions">
+                        <i class="material-icons m-auto text-white">add</i>
+                    </div>
                 </div>
                 <!-- /.Floating Action Buttons -->
