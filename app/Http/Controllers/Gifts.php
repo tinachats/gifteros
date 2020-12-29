@@ -71,7 +71,7 @@ class Gifts extends Controller
 
                     if($gift->label == 'customizable'){
                         $custom_link = '
-                            <a href="#" class="nav-link icon-link add-to-cart-btn" title="Customize gift" data-id="'. $gift->id .'">
+                            <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$gift->id.'" title="Customize gift" data-id="'. $gift->id .'">
                                 <i class="material-icons notifications">palette</i>
                             </a>
                         ';
@@ -81,7 +81,7 @@ class Gifts extends Controller
                         <!-- Product Card -->
                         <div class="card product-card border-0 rounded-0 box-shadow-sm" data-id="'.$gift->id.'">
                             <!-- Cart Actions -->
-                            <div class="gift-cart-options bg-whitesmoke box-shadow-sm animated animate-slow slideInTop" id="cart-options'.$gift->id.'">
+                            <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$gift->id.'">
                                 <div class="d-flex align-items-center px-2">
                                     <div class="d-flex align-items-center justify-content-around m-0 p-0">
                                         <span role="button" class="product-actions material-icons text-success subtract-product" title="Decrease quantity">remove_circle</span>

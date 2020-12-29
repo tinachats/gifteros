@@ -910,7 +910,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group my-3 d-0" id="custom-text-form">
-                                            <textarea name="custom-text" id="custom-text" cols="30" rows="4" class="form-control font-600 lead-2x" placeholder="Your custom text here..." autofocus onkeyup="giftCustomText(this)"></textarea>
+                                            <textarea name="custom-text" id="custom-text" cols="30" rows="3" class="form-control font-600 lead-2x" placeholder="Your custom text here..." autofocus onkeyup="giftCustomText(this)"></textarea>
                                         </div>
                                         <div class="d-block mt-2">
                                             <input type="hidden" name="custom-gift-id" id="custom-gift-id">

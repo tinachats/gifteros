@@ -37,7 +37,7 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      * @param  int  $gift_id
      */
-    public function store(Request $request, $gift_id)
+    public function addItem(Request $request, $gift_id)
     {
         if($request->ajax()){
             if($request->action == 'add-to-cart'){
@@ -47,9 +47,32 @@ class CartController extends Controller
                 $cart->add($gift, $gift_id);
 
                 $request->session()->put('cart', $cart);
-                dd($request->session()->get('cart'));
                 return response()->json([
                     'success' => 'Gift successfully added into cart'
+                ]);
+            }
+        }
+    }
+
+    public function addToCart(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action == 'add-item'){
+                $item = [
+                    'gift_id'     => $request->gift_id,
+                    'gift_name'   => $request->gift_name,
+                    'gift_image'  => $request->gift_image,
+                    'usd_price'   => $request->usd_price,
+                    'zar_price'   => $request->zar_price,
+                    'zwl_price'   => $request->zwl_price,
+                    'sale_end_time'  => $request->sale_end_time,
+                    'gift_quantity'  => $request->gift_quantity,
+                    'gift_units'     => $request->gift_units,
+                    'category_name'  => $request->category_name
+                ];
+                Session::put('cart', $item);
+                return response()->json([
+                    'message' => 'success'
                 ]);
             }
         }

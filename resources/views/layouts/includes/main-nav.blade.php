@@ -332,7 +332,9 @@
             <li class="nav-item dropdown ml-3">
                 <a href="#" class="nav-link icon-link" id="shopping-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="material-icons">redeem</i>
-                    <span class="badge nav-badge gift-count">4</span>
+                    <span class="badge nav-badge gift-count">
+                        {{ Session::has('cart') ? count(Session::get('cart')) : 0 }}
+                    </span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right rounded-0 box-shadow-sm cart-menu">
                     <div class="shopping-bag">
@@ -417,7 +419,7 @@
                         </div>
                         <div class="cart-action-btns">
                             <div class="d-flex align-items-center justify-content-center mt-2">
-                                <button class="btn btn-warning btn-sm btn-block font-600 d-flex align-items-center justify-content-center clear-cart mr-1">
+                                <button class="btn btn-warning btn-sm btn-block font-600 d-flex align-items-center justify-content-center clear-cart mr-1" onclick="clearCart()">
                                     <i class="material-icons mr-1">delete_sweep</i>
                                     Clear Cart
                                 </button>
