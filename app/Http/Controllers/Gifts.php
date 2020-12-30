@@ -85,7 +85,7 @@ class Gifts extends Controller
                                 <div class="d-flex align-items-center px-2">
                                     <div class="d-flex align-items-center justify-content-around m-0 p-0">
                                         <span role="button" class="product-actions material-icons text-success subtract-product" title="Decrease quantity">remove_circle</span>
-                                        <span role="button" class="product-actions text-faded mx-4">2</span>
+                                        <span role="button" class="product-actions text-faded mx-4" id="item-count'.$gift->id.'">0</span>
                                         <span role="button" class="product-actions material-icons text-success increase-qty" title="Increase quantity">add_circle</span>
                                     </div>
                                     <div class="ml-auto d-flex align-items-center">

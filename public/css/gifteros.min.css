@@ -1394,6 +1394,10 @@ select,
     color: var(--dark-green)
 }
 
+.text-xs {
+    font-size: 70% !important
+}
+
 .text-sm {
     font-size: 80%;
 }

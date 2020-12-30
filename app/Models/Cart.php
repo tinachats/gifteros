@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Models;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class Cart
 {
@@ -39,5 +41,52 @@ class Cart
         $this->items[$gift_id] = $stored_item;
         $this->count_cart++;
         $this->total_cart += $item->usd_price;
+    }
+
+    // Code to be reviewed
+    public function addToCart(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action == 'add-item'){
+                $usd_total = $zar_total = $zwl_total = $item_count = 0;
+                // Any item array with all required props
+                $gift_id = $request->gift_id;
+                $item = [
+                    'gift_id'        => $gift_id,
+                    'gift_name'      => $request->gift_name,
+                    'gift_image'     => $request->gift_image,
+                    'usd_price'      => $request->usd_price,
+                    'zar_price'      => $request->zar_price,
+                    'zwl_price'      => $request->zwl_price,
+                    'sale_end_time'  => $request->sale_end_time,
+                    'gift_quantity'  => $request->gift_quantity,
+                    'gift_units'     => $request->gift_units,
+                    'category_name'  => $request->category_name
+                ];
+               
+                $cart = Session::get('cart', []);
+                Session::put('cart', $cart);
+
+                if(isset($cart[$gift_id])){
+                    $cart[$gift_id]['qty']++;
+                } else {
+                    $cart[$gift_id]['qty'] = 1;
+                }
+                Session::put('cart', $cart);
+                $item_count = $cart[$gift_id]['qty'];
+                $count_cart = count(Session::get('cart'));
+                $usd_total = number_format($cart['usd_price'] * $cart['qty'], 2);
+                $zar_total = number_format($cart['zar_price'] * $cart['qty'], 2);
+                $zwl_total = number_format($cart['zwl_price'] * $cart['qty'], 2);
+                
+                return response()->json([
+                    'message'    => 'success',
+                    'usd_total'  => $usd_total,
+                    'count_cart' => $count_cart,
+                    'cart'       => $cart,
+                    'item_count' => $item_count
+                ]);
+            }
+        }
     }
 }

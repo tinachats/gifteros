@@ -1338,7 +1338,7 @@
         $years   = round($seconds / 31557600); //$months * 12
 
         if ($seconds < 60) {
-            return 'Just now';
+            return 'now';
         } else if ($minutes < 60) {
             if ($minutes == 1) {
                 return '1m ago';

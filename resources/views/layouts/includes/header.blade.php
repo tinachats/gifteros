@@ -51,7 +51,7 @@
 
                 <!-- Floating Action Buttons -->
                 <div class="fabs d-flex align-items-center flex-column justify-content-around">
-                    <div class="floating-action box-shadow-sm action-btn bg-brick-red" title="System settings" onclick="userTheme()">
+                    <div class="floating-action box-shadow-sm action-btn bg-brick-red" title="Theme mode" onclick="userTheme()">
                         <i class="material-icons text-white m-auto">brightness_medium</i>
                     </div>
                     <div class="floating-action box-shadow-sm action-btn bg-success" id="toggle-whatsapp" title="WhatsApp">

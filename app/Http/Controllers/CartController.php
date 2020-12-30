@@ -37,19 +37,92 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      * @param  int  $gift_id
      */
-    public function addItem(Request $request, $gift_id)
+
+    public function shoppingCart(Request $request)
     {
         if($request->ajax()){
-            if($request->action == 'add-to-cart'){
-                $gift = Gift::find($gift_id);
-                $old_cart = Session::has('cart') ? Session::get('cart') : null;
-                $cart = new Cart($old_cart);
-                $cart->add($gift, $gift_id);
+            if($request->action == 'shopping-cart'){
+                $cart = Session::get('cart', []);
+                $count_cart = count($cart);
+                if($count_cart !== 0){
+                    foreach($cart as $gift){
+                        $shopping_cart = '
+                            <!-- Cart Item -->
+                            <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div class="d-flex w-100">
+                                        <!-- Product Item -->
+                                        <div class="media align-items-center">
+                                            <div class="cart-menu-img-wrapper">
+                                                <div class="d-sm-flex d-xl-none flex-column justify-content-center text-center cart-actions-sm">
+                                                    <i role="button" class="fa fa-chevron-circle-up text-success-warning subtract-product"></i>
+                                                    <span class="font-600 text-success-warning">2</span>
+                                                    <i role="button" class="fa fa-chevron-circle-down text-success-warning increase-qty"></i>
+                                                </div>
+                                                <a href="">
+                                                    <img src="/storage/gifts/15f47b9066c522.jpg" height="55" width="55" alt="" class="rounded-2 align-self-center menu-item-img mr-2">
+                                                </a>
+                                            </div>
 
-                $request->session()->put('cart', $cart);
-                return response()->json([
-                    'success' => 'Gift successfully added into cart'
-                ]);
+                                            <!-- Product Item Details -->
+                                            <div class="media-body cart-item-details" id="cart-item-details">
+                                                <p class="text-sm font-600 text-capitalize my-0 py-0">
+                                                    Sculp Massager
+                                                </p>
+                                                <p class="text-sm font-weight-light text-lowercase text-faded my-0 py-0">Personal Care</p>
+                                                <ul class="list-inline star-rating">
+                                                    <li class="list-inline-item text-warning">&starf;</li>
+                                                    <li class="list-inline-item text-warning star-rating">&starf;</li>
+                                                    <li class="list-inline-item text-warning star-rating">&starf;</li>
+                                                    <li class="list-inline-item text-warning star-rating">&starf;</li>
+                                                    <li class="list-inline-item text-faded star-rating">&star;</li>
+                                                    <li class="list-inline-item text-faded star-rating text-sm font-600">(125)</li>
+                                                </ul>
+                                                <p class="text-sm font-500 text-lowercase text-faded my-0 py-0 d-flex">
+                                                    <span class="pr-2">2 in giftbox</span>
+                                                </p>
+                                            </div>
+                                            <!-- Product Item Details -->
+                                            <!-- Cart Actions -->
+                                            <div class="hidden-product-actions w-100">
+                                                <div class="d-flex align-items-center justify-content-center m-0 p-0">
+                                                    <span role="button" class="product-actions material-icons text-success subtract-product">remove_circle</span>
+                                                    <span role="button" class="product-actions text-faded mx-4">2</span>
+                                                    <span role="button" class="product-actions material-icons text-success increase-qty">add_circle</span>
+                                                </div>
+                                            </div>
+                                            <!-- /.Cart Actions -->
+                                        </div>
+                                        <!-- /.Product Item -->
+                                    </div>
+                                    <div class="d-block text-center">
+                                        <p class="font-600 my-0 pt-0 pb-1 text-sm usd-price">US$12.99</p>
+                                        <p class="font-600 my-0 pt-0 pb-1 text-sm zar-price d-none">R214.34</p>
+                                        <p class="font-600 my-0 pt-0 pb-1 text-sm zwl-price d-none">ZW$1299</p>
+                                        <i role="button" class="fa fa-trash-o fa-2x text-danger remove-item" title="Remove Item" data-action="remove-product"></i>
+                                    </div>
+                                </div>
+                            </li>
+                            <!-- /.Cart Item -->
+                        ';
+                    }
+                } else {
+                    $shopping_cart = '
+                        <li class="list-group-item d-inline-block text-center rounded-0 lh-100 w-100">
+                            <i class="fa fa-dropbox fa-3x text-faded"></i>
+                            <h5 class="font-600 text-faded">Your giftbox is empty!</h5>
+                        </li>
+                    ';
+                }
+                $data = [
+                    'message'       => 'success',
+                    'shopping_cart' => $shopping_cart,
+                    'count_cart'    => $count_cart,
+                    'usd_total'     => 0,
+                    'zar_total'     => 0,
+                    'zwl_total'     => 0,
+                ];
+                return response()->json($data);
             }
         }
     }
@@ -58,8 +131,13 @@ class CartController extends Controller
     {
         if($request->ajax()){
             if($request->action == 'add-item'){
+                $usd_total = $zar_total = $zwl_total = 0;
+                $count_cart = $item_count = $is_available = 0;
+
+                // Any item array with all required props
+                $gift_id = $request->gift_id;
                 $item = [
-                    'gift_id'        => $request->gift_id,
+                    'gift_id'        => $gift_id,
                     'gift_name'      => $request->gift_name,
                     'gift_image'     => $request->gift_image,
                     'usd_price'      => $request->usd_price,
@@ -70,16 +148,28 @@ class CartController extends Controller
                     'gift_units'     => $request->gift_units,
                     'category_name'  => $request->category_name
                 ];
-                $cart = Session::has('cart') ? Session::get('cart') : [];
-                if(array_key_exists($request->gift_id, $cart)){
-                    $cart[$request->gift_id]['gift_quantity']++;
-                } else {
-                    $cart[$request->gift_id] = $item;
+
+                // Get cart data from the session
+                $cart = Session::get('cart', []);
+
+                if(array_key_exists($gift_id, $cart)){
+                    $cart[$gift_id]['qty']++;
+                }  else {
+                    $cart[$gift_id]['qty'] = 1;
                 }
-                Session::push('cart', $item);
-                return response()->json([
-                    'message' => 'success'
-                ]);
+
+                Session::put('cart', $cart);
+                $item_count = $cart[$gift_id]['qty'];
+                $count_cart = count($cart);
+
+                $data = [
+                    'message'    => 'success',
+                    'item_count' => $item_count,
+                    'count_cart' => $count_cart,
+                    'cart'       => $cart
+                ];
+
+                return response()->json($data);
             }
         }
     }
