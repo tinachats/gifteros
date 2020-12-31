@@ -5,39 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use App\Models\Cart;
 use App\Models\Gift;
+use Gloudemans\ShoppingCart\Facades\Cart;
 
 class CartController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     * @param  int  $gift_id
-     */
-
     public function shoppingCart(Request $request)
     {
         if($request->ajax()){
@@ -131,42 +103,33 @@ class CartController extends Controller
     {
         if($request->ajax()){
             if($request->action == 'add-item'){
-                $usd_total = $zar_total = $zwl_total = 0;
+                $usd_subtotal = $zar_subtotal = $zwl_subtotal = 0;
                 $count_cart = $item_count = $is_available = 0;
+                $cart = [];
 
                 // Any item array with all required props
                 $gift_id = $request->gift_id;
+
                 $item = [
-                    'gift_id'        => $gift_id,
-                    'gift_name'      => $request->gift_name,
-                    'gift_image'     => $request->gift_image,
-                    'usd_price'      => $request->usd_price,
-                    'zar_price'      => $request->zar_price,
-                    'zwl_price'      => $request->zwl_price,
-                    'sale_end_time'  => $request->sale_end_time,
-                    'gift_quantity'  => $request->gift_quantity,
-                    'gift_units'     => $request->gift_units,
-                    'category_name'  => $request->category_name
+                    'id'             => $gift_id,
+                    'name'           => $request->gift_name,
+                    'quantity'       => $request->gift_quantity,
+                    'price'          => $request->usd_price,
                 ];
 
-                // Get cart data from the session
-                $cart = Session::get('cart', []);
-
-                if(array_key_exists($gift_id, $cart)){
-                    $cart[$gift_id]['qty']++;
-                }  else {
-                    $cart[$gift_id]['qty'] = 1;
-                }
+                Cart::add($item);
 
                 Session::put('cart', $cart);
-                $item_count = $cart[$gift_id]['qty'];
-                $count_cart = count($cart);
-
+                $item_count = 1;
+                $count_cart = Cart::count();
+                $cart = Cart::content();
+                $usd_subtotal = Cart::subtotal($decimals, '.', ',');
+               
                 $data = [
                     'message'    => 'success',
-                    'item_count' => $item_count,
+                    'cart'       => $cart,
                     'count_cart' => $count_cart,
-                    'cart'       => $cart
+                    'item_count' => $item_count
                 ];
 
                 return response()->json($data);
@@ -185,51 +148,6 @@ class CartController extends Controller
                 ]);
             }
         }
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function checkout()

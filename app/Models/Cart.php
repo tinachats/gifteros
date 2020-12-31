@@ -48,9 +48,10 @@ class Cart
     {
         if($request->ajax()){
             if($request->action == 'add-item'){
-                $usd_total = $zar_total = $zwl_total = $item_count = 0;
-                // Any item array with all required props
-                $gift_id = $request->gift_id;
+                $usd_subtotal = $zar_subtotal = $zwl_subtotal = 0;
+                $count_cart = $item_count = $is_available = 0;
+                $cart = [];
+
                 $item = [
                     'gift_id'        => $gift_id,
                     'gift_name'      => $request->gift_name,
@@ -63,29 +64,37 @@ class Cart
                     'gift_units'     => $request->gift_units,
                     'category_name'  => $request->category_name
                 ];
-               
-                $cart = Session::get('cart', []);
-                Session::put('cart', $cart);
 
-                if(isset($cart[$gift_id])){
-                    $cart[$gift_id]['qty']++;
+                // Any item array with all required props
+                $gift_id = $request->gift_id;
+
+                // Check if the cart session has data
+                if(Session::has('cart')){
+                    // Get cart data from the session
+                    $cart = Session::get('cart');
+
+                    // Check if the added gift item is already in the cart
+                    if(array_key_exists($gift_id, $cart)){
+                        $cart[$gift_id]['qty']++;
+                    } else {
+                        $cart[$gift_id]['qty'] = 1;
+                    }
                 } else {
                     $cart[$gift_id]['qty'] = 1;
                 }
+
                 Session::put('cart', $cart);
                 $item_count = $cart[$gift_id]['qty'];
                 $count_cart = count(Session::get('cart'));
-                $usd_total = number_format($cart['usd_price'] * $cart['qty'], 2);
-                $zar_total = number_format($cart['zar_price'] * $cart['qty'], 2);
-                $zwl_total = number_format($cart['zwl_price'] * $cart['qty'], 2);
-                
-                return response()->json([
+               
+                $data = [
                     'message'    => 'success',
-                    'usd_total'  => $usd_total,
-                    'count_cart' => $count_cart,
                     'cart'       => $cart,
+                    'count_cart' => $count_cart,
                     'item_count' => $item_count
-                ]);
+                ];
+
+                return response()->json($data);
             }
         }
     }
