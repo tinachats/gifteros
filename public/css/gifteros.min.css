@@ -137,9 +137,23 @@
     --dark-inverse: #343a40;
 }
 
-
+.rounded-bottom-2{
+    border-bottom-left-radius : .5rem !important;
+    border-bottom-right-radius : .5rem !important;
+}
 /* /.dark mode */
+.grid-view .pull-up-1{
+    margin-top: -10px
+}
+.overlay-metric{
+    position: relative;
+}
 
+.overlay-metric>span.badge{
+    position: absolute; 
+    top: -5px;
+    left: 12px;
+}
 
 /* Gift Cart Options */
 
@@ -5640,7 +5654,7 @@ a:hover,
     }
     .grid-view>.product-card>.card-content>.card-body .btn-group {
         position: absolute;
-        top: 90%;
+        top: 88%;
         left: 10%;
     }
     .list-view>.product-card>.card-content>.card-body .btn-group {
@@ -5867,13 +5881,13 @@ a:hover,
         margin-top: 3.1rem;
     }
     .grid-view>.product-card {
-        height: 400px
+        height: 350px
     }
     .list-view>.product-card>.card-content>.card-body .btn-group {
         left: 50%;
     }
     .grid-view>.product-card>.product-img-wrapper>.overlay {
-        top: 82%;
+        top: 75%;
     }
     .targets-terms {
         margin-top: 5rem
@@ -6140,7 +6154,7 @@ a:hover,
         width: 400px;
     }
     .grid-view>.product-card {
-        height: 380px
+        height: 350px
     }
     .grid-view>.product-card>.card-content>.card-body .btn-group,
     .grid-view>.product-card>.card-content>.card-body .btn-group-placeholder {

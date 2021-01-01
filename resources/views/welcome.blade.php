@@ -6,7 +6,6 @@
 </style>
 <!-- Page Content -->
 <div class="container page-content" id="index-page">
-    @csrf
     {{-- Showcase Products --}}
     @include('layouts.includes.showcase')
     <div class="owl-carousel owl-theme carousel-autoplay" id="gift-categories">
@@ -29,6 +28,13 @@
 @include('layouts.includes.footer')
 <script>
     $(function(){
+        // Pass the csrf token to all ajax calls
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        
         // Showcase all gift categories
         showcase();
         
@@ -43,8 +49,7 @@
                 data: {
                     action: action,
                     gift_id: gift_id,
-                    user_id: user_id,
-                    _token: _token
+                    user_id: user_id
                 },
                 dataType: 'json',
                 success: function(data) {

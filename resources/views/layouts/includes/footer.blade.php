@@ -14,7 +14,6 @@
             <span role="button" class="material-icons" id="close-panel" title="Close panel">keyboard_arrow_down</span>
             <div class="compare-panel">
                 <form class="compare-products" method="post" id="compare-form">
-                    @csrf
                     <!-- Placeholder Product Pane -->
                     <div class="product-pane empty box-shadow-sm">
                         <div class="empty-content text-center p-2">
@@ -58,7 +57,7 @@
                     </div>
                     <!-- /.Placeholder Product Pane -->
                     <div class="d-grid mx-3">
-                        <a href="/compare_page" role="button" class="btn btn-warning rounded-pill font-600 m-auto" id="submit-comparisons" disabled>Compare Selected</a>
+                        <a href="/compare_page" role="button" class="btn btn-warning rounded-pill font-600 m-auto" id="submit-comparisons" disabled="true">Compare Selected</a>
                     </div>
                 </form>
             </div>
@@ -1360,10 +1359,11 @@
         <!-- Show the user login dropdown sign in form if user has been redirected -->
         @auth
             <script>
-                userInfo();
-                
-                // Fetch user's notifications
-                notifications();
+                $(function(){
+                    userInfo();
+                    // Fetch user's notifications
+                    notifications();
+                });
             </script>
         @endauth
         <!-- <div class="elfsight-app-019c0e60-b4a1-4b1f-bd14-04f718ab31e9"></div> -->

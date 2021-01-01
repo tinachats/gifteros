@@ -496,6 +496,14 @@
         return $count;
     }
 
+    // Count review post's comments
+    function countComments($rating_id){
+        $count = DB::table('gift_comments')
+                    ->where('rating_id', $rating_id)
+                    ->count();
+        return $count;
+    }
+
     // Get gift star rating
     function giftStarRating($gift_id){
         $stars = $star = $color = $reviews = $description = '';
@@ -718,11 +726,11 @@
         $wishlist_icon = '';
         if($count > 0){
             $wishlist_icon = '
-                <span role="button" class="material-icons overlay-icon text-warning wishlist-icon" data-id="'.$gift_id.'" data-user="'.$user_id.'" data-action="unwish" title="This gift is in your Wishlist">favorite</span>
+                <i role="button" class="fa fa-heart text-light overlay-icon text-warning wishlist-icon" data-id="'.$gift_id.'" data-user="'.$user_id.'" data-action="unwish" title="This gift is in your Wishlist"></i>
             ';
         } else {
             $wishlist_icon = '
-                <span role="button" class="material-icons overlay-icon wishlist-icon" data-id="'.$gift_id.'" data-user="'.$user_id.'" data-action="wish" title="Add to Wishlist">favorite_border</span>
+                <i role="button" class="fa fa-heart-o text-light overlay-icon text-warning wishlist-icon" data-id="'.$gift_id.'" data-user="'.$user_id.'" data-action="wish" title="Add to Wishlist"></i>
             ';
         }
         return $wishlist_icon;
@@ -899,12 +907,95 @@
         return $output;
     }
 
-    // Total of Gift Item sold
+    // Total count of Gift Item sold
     function giftsSold($gift_id){
         $count = DB::table('ordered_gifts')
                    ->where('gift_id', $gift_id)
                    ->sum('quantity');
         return $count;
+    }
+
+    // Total amount of Gift Item sold
+    function totalproductAmt($gift_id){
+        $count = DB::table('ordered_gifts')
+                   ->where('gift_id', $gift_id)
+                   ->sum('usd_total');
+        return $count;
+    }
+
+    // Get gift review posts
+    function giftReviews($gift_id){
+        $output = '';
+        $reviews = DB::table('gift_ratings')
+                      ->join('users', 'users.id', '=', 'gift_ratings.user_id')
+                      ->join('gifts', 'gifts.id', '=', 'gift_ratings.gift_id')
+                      ->where('gifts.id', $gift_id)
+                      ->orderBy('gift_ratings.rating_id', 'desc')
+                      ->get();
+        if(count($reviews) > 0){
+            foreach($reviews as $review){
+                // Number of people who found a review post helpful
+                $verified_purchase = verifiedPurchase($gift_id, $review->user_id);
+                if(!empty($verified_purchase)){
+                    $verified_purchase = verifiedPurchase($gift_id, $review->user_id);
+                }
+
+                $fullname = $review->name;
+                if($fullname === Auth::user()->name){
+                    $fullname = 'Me';
+                }
+
+                $output .= '
+                    <!-- Product Review -->
+                    <div class="media review-post mt-0 pt-0">
+                        <img src="storage/users/'.$review->profile_pic.'" alt="" height="40" width="40" class="rounded-circle align-self-start mt-2 mr-2">
+                        <div class="media-body">
+                            <div class="d-block user-details">
+                                <p class="font-500 text-capitalize my-0 py-0">'.$fullname.'</p>
+                                '.$verified_purchase.'
+                                '. customerRating($review->rating_id, $gift_id, $review->user_id) .'
+                            </div>
+                        </div>
+                    </div>
+                    <!-- User\'s Post -->
+                    <div class="customer-post">
+                        <p class="text-justify text-faded">
+                            '.$review->customer_review.'
+                        </p>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p class="text-sm text-faded my-0 py-0">
+                                '.reviewLikes($review->rating_id, $gift_id).'
+                            </p>
+                            <div class="d-flex d-cursor align-items-center text-sm text-faded ml-md-auto">
+                                <i class="tiny material-icons mr-1">forum</i> <span class="d-none d-md-inline mr-1">Comments</span> ('.countComments($review->rating_id).')
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.User\'s Post -->
+                    <!-- /.Product review -->
+                ';
+            }
+        } else {
+            $gift_star_rating = '
+                <ul class="list-inline align-items-center ml-2 my-0 py-0">
+                    <li class="list-inline-item star-rating text-faded">&star;</li>
+                    <li class="list-inline-item star-rating text-faded">&star;</li>
+                    <li class="list-inline-item star-rating text-faded">&star;</li>
+                    <li class="list-inline-item star-rating text-faded">&star;</li>
+                    <li class="list-inline-item star-rating text-faded">&star;</li>
+                    <span class="text-sm text-faded font-600">(0)</span>
+                </ul>
+            ';
+            $output .= '
+                <div class="row justify-content-center my-5">
+                    <div class="col-12 text-center no-content">
+                        <i class="icon-lg material-icons text-muted">forum</i>
+                        <h6 class="text-faded font-600 text-muted">This gift item hasn\'t yet been reviewed.</h6>
+                    </div>
+                </div>
+            ';
+        }
+        return $output;
     }
 
     // Get the minimum order total in the below $25 price range

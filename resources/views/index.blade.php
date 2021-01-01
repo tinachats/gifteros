@@ -65,7 +65,7 @@
         <div class="d-flex justify-content-around align-items-center">
             <i role="button" class="material-icons view-option grid-icon active d-none d-md-inline-block" data-view="grid-view" title="Grid View">view_comfy</i>
             <i role="button" class="material-icons view-option list-icon mx-3 d-none d-md-block" data-view="list-view" title="List view">view_list</i>
-            <a role="button" href="/category/25/customizable" class="btn btn-sm bg-switch rounded-0" id="all-customizable">
+            <a role="button" href="/category/25/customizable" class="btn btn-sm bg-switch" id="all-customizable">
                 <span class="text-white">View all</span>
                 <i class="ion ion-chevron-right text-white ml-2"></i>
             </a>
@@ -76,14 +76,14 @@
         <!-- All fetched products will show up here -->
         @for ($i = 0; $i < 4; $i++)
             <!-- Product Placeholder Card -->
-            <div class="card placeholder-card bg-whitesmoke border-0 rounded-0 box-shadow-sm">
+            <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
                 <div class="img-wrapper-placeholder">
                     <div class="placeholder-label"></div>
                     <div class="placeholder-img"></div>
                 </div>
                 <hr class="grid-view-hr my-0 py-0">
                 <div class="placeholder-card-content">
-                    <div class="card-body placeholder-body m-0 p-0">
+                    <div class="card-body placeholder-body m-0 p-0 rounded-bottom-2">
                         <div class="content-placeholder title-placeholder mt-1 ml-2"></div>
                         <div class="content-placeholder category-placeholder my-1 ml-2"></div>
                         <div class="d-flex align-items-center">
@@ -120,7 +120,7 @@
         <div class="d-flex justify-content-around align-items-center">
             <i role="button" class="material-icons view-option grid-icon active d-none d-md-inline-block" data-view="grid-view" title="Grid View">view_comfy</i>
             <i role="button" class="material-icons view-option list-icon mx-3 d-none d-md-block" data-view="list-view" title="List view">view_list</i>
-            <a role="button" href="/category/9/kitchenware" class="btn btn-sm bg-switch rounded-0" id="all-kitchenware">
+            <a role="button" href="/category/9/kitchenware" class="btn btn-sm bg-switch" id="all-kitchenware">
                 <span class="text-white">View all</span>
                 <i class="ion ion-chevron-right text-white ml-2"></i>
             </a>
@@ -131,14 +131,14 @@
         <!-- All fetched products will show up here -->
         @for ($i = 0; $i < 4; $i++)
             <!-- Product Placeholder Card -->
-            <div class="card placeholder-card bg-whitesmoke border-0 rounded-0 box-shadow-sm">
+            <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
                 <div class="img-wrapper-placeholder">
                     <div class="placeholder-label"></div>
                     <div class="placeholder-img"></div>
                 </div>
                 <hr class="grid-view-hr my-0 py-0">
                 <div class="placeholder-card-content">
-                    <div class="card-body placeholder-body m-0 p-0">
+                    <div class="card-body placeholder-body m-0 p-0 rounded-bottom-2">
                         <div class="content-placeholder title-placeholder mt-1 ml-2"></div>
                         <div class="content-placeholder category-placeholder my-1 ml-2"></div>
                         <div class="d-flex align-items-center">
@@ -175,7 +175,7 @@
         <div class="d-flex justify-content-around align-items-center">
             <i role="button" class="material-icons view-option grid-icon active d-none d-md-inline-block" data-view="grid-view" title="Grid View">view_comfy</i>
             <i role="button" class="material-icons view-option list-icon mx-3 d-none d-md-block" data-view="list-view" title="List view">view_list</i>
-            <a role="button" href="/category/12/personal care" class="btn btn-sm bg-switch rounded-0" id="all-persomal-care">
+            <a role="button" href="/category/12/personal care" class="btn btn-sm bg-switch" id="all-persomal-care">
                 <span class="text-white">View all</span>
                 <i class="ion ion-chevron-right text-white ml-2"></i>
             </a>
@@ -186,14 +186,14 @@
         <!-- All fetched products will show up here -->
         @for ($i = 0; $i < 4; $i++)
             <!-- Product Placeholder Card -->
-            <div class="card placeholder-card bg-whitesmoke border-0 rounded-0 box-shadow-sm">
+            <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
                 <div class="img-wrapper-placeholder">
                     <div class="placeholder-label"></div>
                     <div class="placeholder-img"></div>
                 </div>
                 <hr class="grid-view-hr my-0 py-0">
                 <div class="placeholder-card-content">
-                    <div class="card-body placeholder-body m-0 p-0">
+                    <div class="card-body placeholder-body m-0 p-0 rounded-bottom-2">
                         <div class="content-placeholder title-placeholder mt-1 ml-2"></div>
                         <div class="content-placeholder category-placeholder my-1 ml-2"></div>
                         <div class="d-flex align-items-center">
@@ -230,7 +230,7 @@
         <div class="d-flex justify-content-around align-items-center">
             <i role="button" class="material-icons view-option grid-icon active d-none d-md-inline-block" data-view="grid-view" title="Grid View">view_comfy</i>
             <i role="button" class="material-icons view-option list-icon mx-3 d-none d-md-block" data-view="list-view" title="List view">view_list</i>
-            <a role="button" href="/category/21/plasticware" class="btn btn-sm bg-switch rounded-0" id="all-plasticware">
+            <a role="button" href="/category/21/plasticware" class="btn btn-sm bg-switch" id="all-plasticware">
                 <span class="text-white">View all</span>
                 <i class="ion ion-chevron-right text-white ml-2"></i>
             </a>
@@ -241,14 +241,14 @@
         <!-- All fetched products will show up here -->
         @for ($i = 0; $i < 4; $i++)
             <!-- Product Placeholder Card -->
-            <div class="card placeholder-card bg-whitesmoke border-0 rounded-0 box-shadow-sm">
+            <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
                 <div class="img-wrapper-placeholder">
                     <div class="placeholder-label"></div>
                     <div class="placeholder-img"></div>
                 </div>
                 <hr class="grid-view-hr my-0 py-0">
                 <div class="placeholder-card-content">
-                    <div class="card-body placeholder-body m-0 p-0">
+                    <div class="card-body placeholder-body m-0 p-0 rounded-bottom-2">
                         <div class="content-placeholder title-placeholder mt-1 ml-2"></div>
                         <div class="content-placeholder category-placeholder my-1 ml-2"></div>
                         <div class="d-flex align-items-center">
@@ -285,7 +285,7 @@
         <div class="d-flex justify-content-around align-items-center">
             <i role="button" class="material-icons view-option grid-icon active d-none d-md-inline-block" data-view="grid-view" title="Grid View">view_comfy</i>
             <i role="button" class="material-icons view-option list-icon mx-3 d-none d-md-block" data-view="list-view" title="List view">view_list</i>
-            <a role="button" href="/category/34/combo" class="btn btn-sm bg-switch rounded-0" id="all-combos">
+            <a role="button" href="/category/34/combo" class="btn btn-sm bg-switch" id="all-combos">
                 <span class="text-white">View all</span>
                 <i class="ion ion-chevron-right text-white ml-2"></i>
             </a>
@@ -296,14 +296,14 @@
         <!-- All fetched products will show up here -->
         @for ($i = 0; $i < 4; $i++)
             <!-- Product Placeholder Card -->
-            <div class="card placeholder-card bg-whitesmoke border-0 rounded-0 box-shadow-sm">
+            <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
                 <div class="img-wrapper-placeholder">
                     <div class="placeholder-label"></div>
                     <div class="placeholder-img"></div>
                 </div>
                 <hr class="grid-view-hr my-0 py-0">
                 <div class="placeholder-card-content">
-                    <div class="card-body placeholder-body m-0 p-0">
+                    <div class="card-body placeholder-body m-0 p-0 rounded-bottom-2">
                         <div class="content-placeholder title-placeholder mt-1 ml-2"></div>
                         <div class="content-placeholder category-placeholder my-1 ml-2"></div>
                         <div class="d-flex align-items-center">
@@ -340,7 +340,7 @@
         <div class="d-flex justify-content-around align-items-center">
             <i role="button" class="material-icons view-option grid-icon active d-none d-md-inline-block" data-view="grid-view" title="Grid View">view_comfy</i>
             <i role="button" class="material-icons view-option list-icon mx-3 d-none d-md-block" data-view="list-view" title="List view">view_list</i>
-            <a role="button" href="/category/8/appliances" class="btn btn-sm bg-switch rounded-0" id="all-appliances">
+            <a role="button" href="/category/8/appliances" class="btn btn-sm bg-switch" id="all-appliances">
                 <span class="text-white">View all</span>
                 <i class="ion ion-chevron-right text-white ml-2"></i>
             </a>
@@ -351,14 +351,14 @@
         <!-- All fetched products will show up here -->
         @for ($i = 0; $i < 4; $i++)
             <!-- Product Placeholder Card -->
-            <div class="card placeholder-card bg-whitesmoke border-0 rounded-0 box-shadow-sm">
+            <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
                 <div class="img-wrapper-placeholder">
                     <div class="placeholder-label"></div>
                     <div class="placeholder-img"></div>
                 </div>
                 <hr class="grid-view-hr my-0 py-0">
                 <div class="placeholder-card-content">
-                    <div class="card-body placeholder-body m-0 p-0">
+                    <div class="card-body placeholder-body m-0 p-0 rounded-bottom-2">
                         <div class="content-placeholder title-placeholder mt-1 ml-2"></div>
                         <div class="content-placeholder category-placeholder my-1 ml-2"></div>
                         <div class="d-flex align-items-center">
