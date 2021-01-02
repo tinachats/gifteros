@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 use App\Models\Gift;
 
 class Gifts extends Controller
@@ -84,13 +85,13 @@ class Gifts extends Controller
                             <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$gift->id.'">
                                 <div class="d-flex align-items-center px-2">
                                     <div class="d-flex align-items-center justify-content-around m-0 p-0">
-                                        <span role="button" class="product-actions material-icons text-success subtract-product" title="Decrease quantity">remove_circle</span>
-                                        <span role="button" class="product-actions text-faded mx-4" id="item-count'.$gift->id.'">0</span>
-                                        <span role="button" class="product-actions material-icons text-success increase-qty" title="Increase quantity">add_circle</span>
+                                        <span role="button" class="product-actions material-icons text-success subtract-product" data-id="'.$gift->id.'" title="Decrease quantity">remove_circle</span>
+                                        <span role="button" class="product-actions text-faded mx-4" id="item-count'.$gift->id.'">1</span>
+                                        <span role="button" class="product-actions material-icons text-success increase-qty" data-id="'.$gift->id.'" title="Increase quantity">add_circle</span>
                                     </div>
                                     <div class="ml-auto d-flex align-items-center">
                                         '.$custom_link.'
-                                        <a href="#" class="nav-link icon-link text-danger remove-item ml-2" title="Remove Item" data-action="remove-product">
+                                        <a href="#" class="nav-link icon-link text-danger remove-item ml-2" title="Remove Item" data-id="'.$gift->id.'">
                                             <i class="material-icons notifications">delete</i>
                                         </a>
                                     </div>
@@ -100,7 +101,7 @@ class Gifts extends Controller
                             <div class="product-img-wrapper">
                                 '. giftLabel($gift->id) .'
                                 <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
-                                    <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top rounded-top">
+                                    <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-2">
                                     <div class="d-flex flex-column text-center" title="Total Views">
@@ -132,13 +133,16 @@ class Gifts extends Controller
                                     <div class="lh-100 mb-0 pb-0">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
-                                                '. mb_strimwidth($gift->gift_name, 0, 18, '...') .'
+                                                '. Str::words($gift->gift_name, 3, ' ...') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
                                             '. $gift->category_name .'
                                         </a>
                                         '. $star_rating .'
+                                        <p class="grid-view-d-none d-none d-md-block text-justify text-sm">
+                                           '.Str::words($gift->description, 10, ' ...').'
+                                        </p>
                                     </div>
                                     <div class="pull-up-1">
                                         <div class="usd-price">

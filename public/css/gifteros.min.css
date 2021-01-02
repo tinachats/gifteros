@@ -137,32 +137,47 @@
     --dark-inverse: #343a40;
 }
 
-.rounded-bottom-2{
-    border-bottom-left-radius : .5rem !important;
-    border-bottom-right-radius : .5rem !important;
+.rounded-top-2 {
+    border-top-left-radius: .5rem !important;
+    border-top-right-radius: .5rem !important;
 }
+
+.rounded-bottom-2 {
+    border-bottom-left-radius: .5rem !important;
+    border-bottom-right-radius: .5rem !important;
+}
+
+
 /* /.dark mode */
-.grid-view .pull-up-1{
+
+.grid-view .pull-up-1 {
     margin-top: -10px
 }
-.overlay-metric{
+
+.overlay-metric {
     position: relative;
 }
 
-.overlay-metric>span.badge{
-    position: absolute; 
+.overlay-metric>span.badge {
+    position: absolute;
     top: -5px;
     left: 12px;
 }
+
 
 /* Gift Cart Options */
 
 .gift-cart-options {
     position: absolute;
-    top: 143px;
     left: 0;
     width: 100%;
     z-index: 100;
+}
+
+.list-view .grid-cart-options {
+    top: 0;
+    border-top-left-radius: .5rem !important;
+    border-top-right-radius: .5rem !important;
 }
 
 
@@ -3800,6 +3815,7 @@ a:hover,
     display: flex;
     flex-direction: row;
     width: 100%;
+    border-bottom-left-radius: .5rem !important;
 }
 
 .list-view>.recent-card {
@@ -3817,11 +3833,22 @@ a:hover,
 .list-view>.product-card>.product-img-wrapper>img.card-img-top {
     height: 180px;
     padding: 0;
+    border-bottom-left-radius: .5rem;
 }
 
 .list-view>.product-card>.product-img-wrapper>.overlay {
     opacity: 1;
-    top: 81%
+    top: 75%;
+    border-bottom-left-radius: .5rem;
+}
+
+.list-view>.product-card,
+.list-view>.product-card>.product-img-wrapper .card-img-top {
+    border-bottom-left-radius: .5rem !important;
+}
+
+.list-view>.product-card>.product-img-wrapper .card-img-top {
+    border-top-right-radius: 0 !important;
 }
 
 .list-view>.product-card>.card-content,
@@ -3859,13 +3886,18 @@ a:hover,
     left: 50%;
 }
 
-.list-view>.card:hover .overlay {
-    top: 80%
-}
-
 .list-view>.card:hover .overlay-title {
     display: none;
     opacity: 0;
+}
+
+.list-view>.product-card>.product-img-wrapper .card-img-top {
+    border-top-left-radius: .5rem !important;
+}
+
+.list-view>.product-card>.gift-cart-options {
+    border-top-left-radius: .5rem !important;
+    border-top-right-radius: .5rem !important;
 }
 
 
@@ -3882,6 +3914,15 @@ a:hover,
 .grid-view>.placeholder-card>.img-wrapper-placeholder {
     position: relative;
     padding: .5rem;
+}
+
+.grid-view>.product-card>.gift-cart-options {
+    top: 143px;
+}
+
+.grid-view>.product-card>.product-img-wrapper .card-img-top {
+    border-top-left-radius: .5rem !important;
+    border-top-right-radius: .5rem !important;
 }
 
 .grid-view>.placeholder-card>.img-wrapper-placeholder>.placeholder-img {
@@ -3966,6 +4007,10 @@ a:hover,
 
 .grid-view>.card:hover .overlay {
     top: 75%
+}
+
+.grid-view .grid-view-d-none {
+    display: none !important;
 }
 
 

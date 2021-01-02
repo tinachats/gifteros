@@ -272,16 +272,16 @@
                         <img src="{{ asset('img/app/usflag.png') }}" height="15" width="22" alt="">
                         <span class="usd-total text-color-switch">$0.00</span>
                     </div>
-                    <div class="dropdown-menu currency-dropdown-menu box-shadow-sm dropdown-menu-right rounded-0">
-                        <div class="dropdown-item d-flex align-items-center py-2" onclick="usDollar()">
+                    <div class="dropdown-menu dropdown-menu-right app-dropdown box-shadow-sm rounded-2 currency-dropdown-menu">
+                        <div class="dropdown-item d-flex align-items-center py-2 cursor" onclick="usDollar()">
                             <img src="{{ asset('img/app/usflag.png') }}" height="15" width="22" alt="">
                             <span class="font-600 ml-1">USD</span>
                         </div>
-                        <div class="dropdown-item d-flex align-items-center py-2" onclick="zaRand()">
+                        <div class="dropdown-item d-flex align-items-center py-2 cursor" onclick="zaRand()">
                             <img src="{{ asset('img/app/sa.jpg') }}" height="15" width="22" alt="">
                             <span class="font-600 ml-1">ZAR</span>
                         </div>
-                        <div class="dropdown-item d-flex align-items-center py-2" onclick="zwBond()">
+                        <div class="dropdown-item d-flex align-items-center py-2 cursor" onclick="zwBond()">
                             <img src="{{ asset('img/app/zimflag.png') }}" height="15" width="22" alt="">
                             <span class="font-600 ml-1">ZWL</span>
                         </div>
@@ -292,16 +292,16 @@
                         <img src="{{ asset('img/app/sa.jpg') }}" height="15" width="22" alt="">
                         <span class="zar-total text-color-switch">R0.00</span>
                     </div>
-                    <div class="dropdown-menu currency-dropdown-menu box-shadow-sm dropdown-menu-right rounded-0">
-                        <div class="dropdown-item d-flex align-items-center py-2" onclick="usDollar()">
+                    <div class="dropdown-menu dropdown-menu-right app-dropdown box-shadow-sm rounded-2 currency-dropdown-menu">
+                        <div class="dropdown-item d-flex align-items-center py-2 cursor" onclick="usDollar()">
                             <img src="{{ asset('img/app/usflag.png') }}" height="15" width="22" alt="">
                             <span class="font-600 ml-1">USD</span>
                         </div>
-                        <div class="dropdown-item d-flex align-items-center py-2" onclick="zaRand()">
+                        <div class="dropdown-item d-flex align-items-center py-2 cursor" onclick="zaRand()">
                             <img src="{{ asset('img/app/sa.jpg') }}" height="15" width="22" alt="">
                             <span class="font-600 ml-1">ZAR</span>
                         </div>
-                        <div class="dropdown-item d-flex align-items-center py-2" onclick="zwBond()">
+                        <div class="dropdown-item d-flex align-items-center py-2 cursor" onclick="zwBond()">
                             <img src="{{ asset('img/app/zimflag.png') }}" height="15" width="22" alt="">
                             <span class="font-600 ml-1">ZWL</span>
                         </div>
@@ -312,16 +312,16 @@
                         <img src="{{ asset('img/app/zimflag.png') }}" height="15" width="22" alt="">
                         <span class="zwl-total text-color-switch">$0.00</span>
                     </div>
-                    <div class="dropdown-menu currency-dropdown-menu box-shadow-sm dropdown-menu-right rounded-0">
-                        <div class="dropdown-item d-flex align-items-center py-2" onclick="usDollar()">
+                    <div class="dropdown-menu dropdown-menu-right app-dropdown box-shadow-sm rounded-2 currency-dropdown-menu">
+                        <div class="dropdown-item d-flex align-items-center py-2 cursor" onclick="usDollar()">
                             <img src="{{ asset('img/app/usflag.png') }}" height="15" width="22" alt="">
                             <span class="font-600 ml-1">USD</span>
                         </div>
-                        <div class="dropdown-item d-flex align-items-center py-2" onclick="zaRand()">
+                        <div class="dropdown-item d-flex align-items-center py-2 cursor" onclick="zaRand()">
                             <img src="{{ asset('img/app/sa.jpg') }}" height="15" width="22" alt="">
                             <span class="font-600 ml-1">ZAR</span>
                         </div>
-                        <div class="dropdown-item d-flex align-items-center py-2" onclick="zwBond()">
+                        <div class="dropdown-item d-flex align-items-center py-2 cursor" onclick="zwBond()">
                             <img src="{{ asset('img/app/zimflag.png') }}" height="15" width="22" alt="">
                             <span class="font-600 ml-1">ZWL</span>
                         </div>
@@ -334,33 +334,33 @@
                     <i class="material-icons">redeem</i>
                     <span class="badge nav-badge gift-count"></span>
                 </a>
-                <ul class="dropdown-menu dropdown-menu-right rounded-0 box-shadow-sm cart-menu mt-0 py-0">
+                <ul class="dropdown-menu dropdown-menu-right rounded-2 box-shadow-sm cart-menu mt-0 py-0">
                     <div class="shopping-bag">
                         <!-- Shopping Cart details will be shown here -->
                     </div>
                     <!-- Cart Subtotal -->
-                    <li class="list-group-item rounded-0 w-100 lh-100 font-600 text-sm" id="cart-action-btns">
+                    <li class="list-group-item w-100 lh-100 font-600 text-sm" id="cart-action-btns">
                         <div class="usd-price">
                             <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
                                 <span class="text-capitalize">Subtotal Amount:</span>
-                                <span class="usd-total">US$25.98</span>
+                                <span class="usd-total">US$0.00</span>
                             </h6>
                         </div>
                         <div class="zar-price d-none">
                             <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
                                 <span class="text-capitalize">Subtotal Amount:</span>
-                                <span class="zar-total">428.67</span>
+                                <span class="zar-total">R0.00</span>
                             </h6>
                         </div>
                         <div class="zwl-price d-none">
                             <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
                                 <span class="text-capitalize">Subtotal Amount:</span>
-                                <span class="zwl-total">ZW$2598</span>
+                                <span class="zwl-total">ZW$0.00</span>
                             </h6>
                         </div>
                         <div class="cart-action-btns">
                             <div class="d-flex align-items-center justify-content-center mt-2">
-                                <button class="btn btn-warning btn-sm btn-block font-600 d-flex align-items-center justify-content-center clear-cart mr-1" onclick="clearCart()">
+                                <button class="btn btn-warning btn-sm btn-block font-600 d-flex align-items-center justify-content-center clear-cart mr-1">
                                     <i class="material-icons mr-1">delete_sweep</i>
                                     Clear Cart
                                 </button>
@@ -381,6 +381,7 @@
                 </ul>
             </li>
             <!-- /.Shopping Cart -->
+
             @guest
                 <!-- Visitor -->
                 <li class="nav-item dropdown ml-3">
@@ -388,7 +389,7 @@
                         <i class="material-icons text-color-switch">person_outline</i>
                         <span class="ml-1 d-none d-md-inline text-color-switch">Account</span>
                     </div>
-                    <div class="dropdown-menu dropdown-menu-right user-menu box-shadow-sm rounded-0 px-3" id="visitor-menu">
+                    <div class="dropdown-menu dropdown-menu-right user-menu box-shadow-sm rounded-2 px-3" id="visitor-menu">
                         <div class="d-flex justify-content-center align-items-center text-skyblue font-600">
                             <?= greetingIcon().greeting(); ?>
                         </div>
@@ -476,7 +477,7 @@
                         <i class="material-icons notifications">notifications_none</i>
                         <span class="badge nav-badge notifications-counter"></span>
                     </a>
-                    <div class="dropdown-menu notification-menu dropdown-menu-right rounded-0 box-shadow-sm" id="notifications">
+                    <div class="dropdown-menu notification-menu dropdown-menu-right rounded-2 box-shadow-sm" id="notifications">
                         <!-- Notifications will show up here -->
                     </div>
                 </li>
@@ -557,10 +558,9 @@
 
     <!-- Search Form -->
     <form method="get" action="/search" id="search-form" class="bg-whitesmoke">
-        {{ csrf_field() }}
         <div class="form-group icon-form-group" id="search-bar">
             <i class="material-icons icon text-faded">search</i>
-            <input type="search" name="search" id="search" class="form-control" placeholder="What are you looking for?">
+            <input type="search" name="search" id="search" class="form-control box-shadow-sm" placeholder="What are you looking for?">
             <ul class="list-group search-list box-shadow-sm d-none">
                 @for ($i = 0; $i < 5; $i++)
                     <!-- Search results loading -->

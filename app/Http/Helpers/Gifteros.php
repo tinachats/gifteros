@@ -824,7 +824,7 @@
         return $count;
     }
 
-    // Get gift's category
+    // Get gift's category name
     function categoryName($gift_id){
         $category_name = DB::table('gifts')
                            ->join('categories', 'categories.id', '=', 'gifts.category_id')
@@ -873,10 +873,10 @@
 
                 $output .= '
                     <!-- Related Gift -->
-                    <div class="item w-100">
-                        <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
+                    <div class="item w-100 mb-2">
+                        <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-2 w-100">
                             <a href="'. route('details.show', [$gift->gift_slug, $gift->gift_id]) .'">
-                                <img src="/storage/gifts/'.$gift->gift_image.'" height="150" class="card-img-top w-100 rounded-0">
+                                <img src="/storage/gifts/'.$gift->gift_image.'" height="150" class="card-img-top w-100 rounded-top-2">
                             </a>
                             <div class="gift-content mx-1">
                                 <a href="'. route('details.show', [$gift->gift_slug, $gift->gift_id]) .'">

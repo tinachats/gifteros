@@ -5,8 +5,8 @@
         <!-- Related Gift -->
         <div class="item w-100">
             <a href="/category/{{ $gift->id }}/{{ $gift->category_slug }}" class="stretched-link">
-                <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
-                    <img src="/storage/categories/{{ $gift->image }}" height="150" class="card-img-top w-100 rounded-0">
+                <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-2 w-100">
+                    <img src="/storage/categories/{{ $gift->image }}" height="150" class="card-img-top w-100 rounded-top-2">
                     <div class="gift-content mx-1">
                         <h6 class="my-0 py-0 text-capitalize text-sm">{{ mb_strimwidth($gift->category_name, 0, 17, '...') }}</h6>
                         <div class="d-inline-block w-100 lh-100">

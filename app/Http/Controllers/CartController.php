@@ -1,12 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use App\Models\Gift;
-use Gloudemans\ShoppingCart\Facades\Cart;
+use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
@@ -14,11 +13,19 @@ class CartController extends Controller
     {
         if($request->ajax()){
             if($request->action == 'shopping-cart'){
+                $usd_subtotal = $zar_subtotal = $zwl_subtotal = 0;
+                $total_cart = 0;
+                $shopping_cart = '';
                 $cart = Session::get('cart', []);
                 $count_cart = count($cart);
+
                 if($count_cart !== 0){
-                    foreach($cart as $gift){
-                        $shopping_cart = '
+                    foreach($cart as $key => $value){
+                        $usd_subtotal += ($value['qty'] * $value['usd_price']);
+                        $zar_subtotal += ($value['qty'] * $value['zar_price']);
+                        $zwl_subtotal += ($value['qty'] * $value['zwl_price']);
+                        $total_cart += $value['qty'];
+                        $shopping_cart .= '
                             <!-- Cart Item -->
                             <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">
                                 <div class="d-flex justify-content-between align-items-start">
@@ -28,39 +35,31 @@ class CartController extends Controller
                                             <div class="cart-menu-img-wrapper">
                                                 <div class="d-sm-flex d-xl-none flex-column justify-content-center text-center cart-actions-sm">
                                                     <i role="button" class="fa fa-chevron-circle-up text-success-warning subtract-product"></i>
-                                                    <span class="font-600 text-success-warning">2</span>
+                                                    <span class="font-600 text-success-warning item-count'.$value['gift_id'].'">0</span>
                                                     <i role="button" class="fa fa-chevron-circle-down text-success-warning increase-qty"></i>
                                                 </div>
                                                 <a href="">
-                                                    <img src="/storage/gifts/15f47b9066c522.jpg" height="55" width="55" alt="" class="rounded-2 align-self-center menu-item-img mr-2">
+                                                    <img src="/storage/gifts/'.$value['gift_image'].'" height="55" width="55" alt="" class="rounded-2 align-self-center menu-item-img mr-2">
                                                 </a>
                                             </div>
 
                                             <!-- Product Item Details -->
                                             <div class="media-body cart-item-details" id="cart-item-details">
                                                 <p class="text-sm font-600 text-capitalize my-0 py-0">
-                                                    Sculp Massager
+                                                    '.Str::words($value['gift_name'], 2, ' ...').'
                                                 </p>
-                                                <p class="text-sm font-weight-light text-lowercase text-faded my-0 py-0">Personal Care</p>
-                                                <ul class="list-inline star-rating">
-                                                    <li class="list-inline-item text-warning">&starf;</li>
-                                                    <li class="list-inline-item text-warning star-rating">&starf;</li>
-                                                    <li class="list-inline-item text-warning star-rating">&starf;</li>
-                                                    <li class="list-inline-item text-warning star-rating">&starf;</li>
-                                                    <li class="list-inline-item text-faded star-rating">&star;</li>
-                                                    <li class="list-inline-item text-faded star-rating text-sm font-600">(125)</li>
-                                                </ul>
+                                                '.giftStarRating($value['gift_id']).'
                                                 <p class="text-sm font-500 text-lowercase text-faded my-0 py-0 d-flex">
-                                                    <span class="pr-2">2 in giftbox</span>
+                                                    <span class="pr-2">'.$value['qty'].' in giftbox</span>
                                                 </p>
                                             </div>
                                             <!-- Product Item Details -->
                                             <!-- Cart Actions -->
                                             <div class="hidden-product-actions w-100">
-                                                <div class="d-flex align-items-center justify-content-center m-0 p-0">
-                                                    <span role="button" class="product-actions material-icons text-success subtract-product">remove_circle</span>
-                                                    <span role="button" class="product-actions text-faded mx-4">2</span>
-                                                    <span role="button" class="product-actions material-icons text-success increase-qty">add_circle</span>
+                                                <div class="d-flex align-items-center justify-content-center m-0 p-0 cursor">
+                                                    <span role="button" class="product-actions material-icons text-success subtract-product" data-id="'.$value['gift_id'].'" title="Subtract quantity">remove_circle</span>
+                                                    <span role="button" class="product-actions text-faded mx-4">'.$value['qty'].'</span>
+                                                    <span role="button" class="product-actions material-icons text-success increase-qty" data-id="'.$value['gift_id'].'" title="Add more items">add_circle</span>
                                                 </div>
                                             </div>
                                             <!-- /.Cart Actions -->
@@ -68,10 +67,10 @@ class CartController extends Controller
                                         <!-- /.Product Item -->
                                     </div>
                                     <div class="d-block text-center">
-                                        <p class="font-600 my-0 pt-0 pb-1 text-sm usd-price">US$12.99</p>
-                                        <p class="font-600 my-0 pt-0 pb-1 text-sm zar-price d-none">R214.34</p>
-                                        <p class="font-600 my-0 pt-0 pb-1 text-sm zwl-price d-none">ZW$1299</p>
-                                        <i role="button" class="fa fa-trash-o fa-2x text-danger remove-item" title="Remove Item" data-action="remove-product"></i>
+                                        <p class="font-600 my-0 pt-0 pb-1 text-sm usd-price">US$'.number_format($value['qty'] * $value['usd_price'], 2).'</p>
+                                        <p class="font-600 my-0 pt-0 pb-1 text-sm zar-price d-none">R'.number_format($value['qty'] * $value['zar_price'], 2).'</p>
+                                        <p class="font-600 my-0 pt-0 pb-1 text-sm zwl-price d-none">ZW$'.number_format($value['qty'] * $value['zwl_price'], 2).'</p>
+                                        <span role="button" class="fa fa-trash-o fa-2x text-danger remove-item" data-id="'.$value['gift_id'].'" onclick="removeItem('.$value['gift_id'].')" title="Remove Item" data-action="remove-product"></span>
                                     </div>
                                 </div>
                             </li>
@@ -90,49 +89,113 @@ class CartController extends Controller
                     'message'       => 'success',
                     'shopping_cart' => $shopping_cart,
                     'count_cart'    => $count_cart,
-                    'usd_total'     => 0,
-                    'zar_total'     => 0,
-                    'zwl_total'     => 0,
+                    'usd_total'     => number_format($usd_subtotal, 2),
+                    'zar_total'     => number_format($zar_subtotal, 2),
+                    'zwl_total'     => number_format($zwl_subtotal, 2),
                 ];
                 return response()->json($data);
             }
         }
     }
 
+    // Add a gift item into the shopping cart
     public function addToCart(Request $request)
     {
         if($request->ajax()){
             if($request->action == 'add-item'){
-                $usd_subtotal = $zar_subtotal = $zwl_subtotal = 0;
-                $count_cart = $item_count = $is_available = 0;
-                $cart = [];
+                $item_count = 0;
 
-                // Any item array with all required props
                 $gift_id = $request->gift_id;
 
                 $item = [
-                    'id'             => $gift_id,
-                    'name'           => $request->gift_name,
-                    'quantity'       => $request->gift_quantity,
-                    'price'          => $request->usd_price,
+                    'gift_id'        => $gift_id,
+                    'gift_name'      => $request->gift_name,
+                    'gift_image'     => $request->gift_image,
+                    'usd_price'      => $request->usd_price,
+                    'zar_price'      => $request->zar_price,
+                    'zwl_price'      => $request->zwl_price,
+                    'sale_end_time'  => $request->sale_end_time,
+                    'qty'            => $request->gift_quantity,
+                    'gift_units'     => $request->gift_units,
+                    'category_name'  => $request->category_name
                 ];
 
-                Cart::add($item);
+                // Get cart data from the cart session
+                $cart = Session::get('cart', []);
 
-                Session::put('cart', $cart);
-                $item_count = 1;
-                $count_cart = Cart::count();
-                $cart = Cart::content();
-                $usd_subtotal = Cart::subtotal($decimals, '.', ',');
-               
+                // Check if cart session is set
+                if(Session::has('cart')){
+                    // if cart not empty then check if this gift 
+                    // exist then increment quantity
+                    if(array_key_exists($gift_id, $cart)){
+                        $cart[$gift_id]['qty']++;
+                    } else {
+                        $cart[$gift_id] = $item;
+                    }
+                    $item_count = $cart[$gift_id]['qty'];
+                    Session::put('cart', $cart);
+                } else {
+                    // if cart is empty then this the first gift
+                    $cart = [
+                        $gift_id => $item
+                    ];
+                    $item_count =  1;
+                    Session::put('cart', $cart);
+                }
+
                 $data = [
                     'message'    => 'success',
                     'cart'       => $cart,
-                    'count_cart' => $count_cart,
+                    'count_cart' => count($cart),
                     'item_count' => $item_count
                 ];
 
                 return response()->json($data);
+            }
+        }
+    }
+
+    // Subtract a gift item quantity from the shopping cart
+    function decreaseQty(Request $request){
+        if($request->ajax()){
+            if($request->action == 'decrease-qty'){
+                $item_count = 0;
+                $gift_id = $request->gift_id;
+                $cart = Session::get('cart', []);
+                if(Session::has('cart')){
+                    foreach($cart as $key => $value){
+                        if($cart[$key] === $gift_id){
+                            if($cart[$gift_id]['qty'] > 0){
+                                $cart[$gift_id]['qty'] -= $request->gift_quantity;
+                                $item_count = $cart[$gift_id]['qty'];
+                            } else if($cart[$gift_id]['qty'] == 0){
+                                Session::forget($gift_id);
+                                Session::save();
+                                $item_count = 0;
+                            }
+                        }
+                    }
+                }
+                return response()->json([
+                    'message'    => 'success',
+                    'item_count' => $item_count
+                ]); 
+            }
+        }
+    }
+
+    // Remove an item from the cart
+    function removeItem(Request $request){
+        if($request->ajax()){
+            if($request->action == 'remove-item'){
+                $gift_id = $request->gift_id;
+                $cart = Session::get('cart', []);
+                if(Session::has('cart')){
+                    if(array_key_exists($gift_id, $cart)){
+                        Session::pull($gift_id);
+                        Session::save();
+                    }
+                }
             }
         }
     }
@@ -143,6 +206,7 @@ class CartController extends Controller
         if($request->ajax()){
             if($request->action == 'clear-cart'){
                 Session::flush();
+                Session::save();
                 return response()->json([
                     'message' => 'success'
                 ]);

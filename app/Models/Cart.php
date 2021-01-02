@@ -53,7 +53,6 @@ class Cart
                 $cart = [];
 
                 $item = [
-                    'gift_id'        => $gift_id,
                     'gift_name'      => $request->gift_name,
                     'gift_image'     => $request->gift_image,
                     'usd_price'      => $request->usd_price,
@@ -79,12 +78,14 @@ class Cart
                     } else {
                         $cart[$gift_id]['qty'] = 1;
                     }
+                    $item_count = $cart[$gift_id]['qty'];
+                    Session::push('cart', $cart);
                 } else {
                     $cart[$gift_id]['qty'] = 1;
+                    $item_count = 1;
+                    Session::put('cart', $cart);
                 }
-
-                Session::put('cart', $cart);
-                $item_count = $cart[$gift_id]['qty'];
+                
                 $count_cart = count(Session::get('cart'));
                
                 $data = [
