@@ -39,14 +39,14 @@ Route::get('/category_ui', [UI::class, 'category_ui'])->name('category_ui');
 
 // Gift Routes
 Route::get('/', [Gifts::class, 'index'])->name('index');
-Route::post('/showcase', [Gifts::class, 'showcase'])->name('showcase');
+Route::get('/showcase', [Gifts::class, 'showcase'])->name('showcase');
 Route::get('/details/{slug}/{id}', [Gifts::class, 'show'])->name('details.show');
 Route::post('/details/wishlist_btn', [Gifts::class, 'wishlist_btn'])->name('wishlist_btn');
 Route::post('/details/gift_ratings', [Gifts::class, 'gift_ratings'])->name('gift_ratings');
 Route::get('/search', [Search::class, 'fetch'])->name('search.fetch');
 Route::post('/remove_comparison', [Gifts::class, 'remove_comparison'])->name('remove_comparison');
-Route::post('/add_comparison', [Gifts::class, 'add_comparison'])->name('add_comparison');
-Route::post('/clear_comparisons', [Gifts::class, 'clear_comparisons'])->name('clear_comparisons');
+Route::get('/add_comparison', [Gifts::class, 'add_comparison'])->name('add_comparison');
+Route::get('/clear_comparisons', [Gifts::class, 'clear_comparisons'])->name('clear_comparisons');
 Route::get('/compare_page', [Gifts::class, 'compare_page'])->name('compare_page');
 
 // Category Gifts
@@ -61,16 +61,16 @@ Route::get('/subcategory/{sub_category_id}/{subcategory}', [SubCategories::class
 Route::post('/sub_category/gifts', [SubCategories::class, 'gifts'])->name('subcategory_gifts');
 
 // Cart Routes
-Route::post('/add_to_cart/{gift_id}', [CartController::class, 'addToCart'])->name('add_to_cart');
-Route::post('/subtract_item', [CartController::class, 'decreaseQty'])->name('subract-item');
-Route::post('/remove_item/{gift_id}', [CartController::class, 'removeItem'])->name('remove-item');
-Route::post('/shopping_cart', [CartController::class, 'shoppingCart'])->name('shopping_cart');
-Route::post('/clear_cart', [CartController::class, 'clearCart'])->name('clear_cart');
+Route::get('/add_to_cart/{gift_id}', [CartController::class, 'addToCart'])->name('add_to_cart');
+Route::get('/subtract_item/{gift_id}', [CartController::class, 'decreaseQty'])->name('subract-item');
+Route::get('/remove_item/{gift_id}', [CartController::class, 'removeItem'])->name('remove-item');
+Route::get('/shopping_cart', [CartController::class, 'shoppingCart'])->name('shopping_cart');
+Route::get('/clear_cart', [CartController::class, 'clearCart'])->name('clear_cart');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 
 // Wishlist Routes
 Route::get('/wishlist', [Wishlist::class, 'index'])->name('wishlist');
-Route::post('/wishlist/display', [Wishlist::class, 'display'])->name('wishlist.display');
+Route::get('/wishlist/display', [Wishlist::class, 'display'])->name('wishlist.display');
 
 // Login Routes
 Auth::routes();
@@ -78,7 +78,7 @@ Route::get('login/facebook', [LoginController::class, 'redirectToProvider']);
 Route::get('login/facebook/callback', [LoginController::class, 'handleProviderCallback']);
 
 // User Actions
-Route::post('/user_info', [Users::class, 'user_info'])->name('user_info');
+Route::get('/user_info', [Users::class, 'user_info'])->name('user_info');
 Route::post('/profile_pic', [Users::class, 'profile_pic'])->name('profile_pic');
 Route::post('/cover_page', [Users::class, 'cover_page'])->name('cover_page');
 Route::post('/account/update', [Users::class, 'update_profile'])->name('update_profile');
@@ -93,7 +93,7 @@ Route::post('/like', [Users::class, 'like'])->name('like');
 Route::post('/unlike', [Users::class, 'unlike'])->name('unlike');
 Route::post('/review_comments', [Users::class, 'review_comments'])->name('review_comments');
 Route::post('/submit_comment', [Users::class, 'submit_comment'])->name('submit_comment');
-Route::post('/notifications', [Users::class, 'notifications'])->name('notifications');
+Route::get('/notifications', [Users::class, 'notifications'])->name('notifications');
 
 // Account Routes
 Route::get('/account/{name}', [AccountController::class, 'index'])->name('account');

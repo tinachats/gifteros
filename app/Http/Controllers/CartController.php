@@ -20,6 +20,11 @@ class CartController extends Controller
                 $count_cart = count($cart);
 
                 if($count_cart !== 0){
+                    $shopping_cart .= '
+                        <div class="list-group-item box-shadow-sm rounded-top-2 lh-100 px-1 py-2 fixed-top">
+                            <h6 class="lead font-600 ml-2 my-0">My giftbox  items</h6>
+                        </div>
+                    ';
                     foreach($cart as $key => $value){
                         $usd_subtotal += ($value['qty'] * $value['usd_price']);
                         $zar_subtotal += ($value['qty'] * $value['zar_price']);
@@ -79,7 +84,7 @@ class CartController extends Controller
                     }
                 } else {
                     $shopping_cart = '
-                        <li class="list-group-item d-inline-block text-center rounded-0 lh-100 w-100">
+                        <li class="list-group-item d-inline-block text-center rounded-2 lh-100 w-100">
                             <i class="fa fa-dropbox fa-3x text-faded"></i>
                             <h5 class="font-600 text-faded">Your giftbox is empty!</h5>
                         </li>
@@ -88,6 +93,7 @@ class CartController extends Controller
                 $data = [
                     'message'       => 'success',
                     'shopping_cart' => $shopping_cart,
+                    'cart'          => $cart,
                     'count_cart'    => $count_cart,
                     'usd_total'     => number_format($usd_subtotal, 2),
                     'zar_total'     => number_format($zar_subtotal, 2),
@@ -156,7 +162,8 @@ class CartController extends Controller
     }
 
     // Subtract a gift item quantity from the shopping cart
-    function decreaseQty(Request $request){
+    function decreaseQty(Request $request)
+    {
         if($request->ajax()){
             if($request->action == 'decrease-qty'){
                 $item_count = 0;
@@ -164,18 +171,18 @@ class CartController extends Controller
                 $cart = Session::get('cart', []);
                 if(Session::has('cart')){
                     foreach($cart as $key => $value){
-                        if($cart[$key] === $gift_id){
-                            if($cart[$gift_id]['qty'] > 0){
-                                $cart[$gift_id]['qty'] -= $request->gift_quantity;
+                        if($value['gift_id'] === $gift_id){
+                            if($cart[$key]['qty'] >= 1){
+                                $cart[$gift_id]['qty']--;
                                 $item_count = $cart[$gift_id]['qty'];
-                            } else if($cart[$gift_id]['qty'] == 0){
-                                Session::forget($gift_id);
-                                Session::save();
+                            } else {
+                                unset($cart[$gift_id]);
                                 $item_count = 0;
                             }
                         }
                     }
                 }
+                Session::put('cart', $cart);
                 return response()->json([
                     'message'    => 'success',
                     'item_count' => $item_count
@@ -185,17 +192,20 @@ class CartController extends Controller
     }
 
     // Remove an item from the cart
-    function removeItem(Request $request){
+    function removeItem(Request $request)
+    {
         if($request->ajax()){
             if($request->action == 'remove-item'){
                 $gift_id = $request->gift_id;
+                // Retrieve the session 
                 $cart = Session::get('cart', []);
-                if(Session::has('cart')){
-                    if(array_key_exists($gift_id, $cart)){
-                        Session::pull($gift_id);
-                        Session::save();
-                    }
-                }
+                unset($cart[$gift_id]);
+                Session::put('cart', $cart);
+                $item_count = 0;
+                return response()->json([
+                    'message'    => 'success',
+                    'item_count' => $item_count
+                ]);
             }
         }
     }
@@ -205,11 +215,13 @@ class CartController extends Controller
     {
         if($request->ajax()){
             if($request->action == 'clear-cart'){
-                Session::flush();
-                Session::save();
-                return response()->json([
-                    'message' => 'success'
-                ]);
+                if(Session::has('cart')){
+                    Session::flush();
+                    Session::save();
+                    return response()->json([
+                        'message' => 'success'
+                    ]);
+                }
             }
         }
     }

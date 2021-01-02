@@ -331,15 +331,16 @@
             <!-- Shopping Cart -->
             <li class="nav-item dropdown ml-3">
                 <a href="#" class="nav-link icon-link" id="shopping-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="material-icons">redeem</i>
+                    <i class="fa fa-dropbox icon-md giftbox-empty"></i>
+                    <i class="material-icons giftbox-filled d-none">redeem</i>
                     <span class="badge nav-badge gift-count"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right rounded-2 box-shadow-sm cart-menu mt-0 py-0">
-                    <div class="shopping-bag">
+                    <div class="shopping-bag rounded-2">
                         <!-- Shopping Cart details will be shown here -->
                     </div>
                     <!-- Cart Subtotal -->
-                    <li class="list-group-item w-100 lh-100 font-600 text-sm" id="cart-action-btns">
+                    <li class="list-group-item w-100 lh-100 font-600 text-sm rounded-bottom-2" id="cart-action-btns">
                         <div class="usd-price">
                             <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
                                 <span class="text-capitalize">Subtotal Amount:</span>
@@ -360,17 +361,17 @@
                         </div>
                         <div class="cart-action-btns">
                             <div class="d-flex align-items-center justify-content-center mt-2">
-                                <button class="btn btn-warning btn-sm btn-block font-600 d-flex align-items-center justify-content-center clear-cart mr-1">
+                                <button class="btn btn-warning btn-sm btn-block font-600 d-flex align-items-center justify-content-center clear-cart rounded-pill mr-1">
                                     <i class="material-icons mr-1">delete_sweep</i>
                                     Clear Cart
                                 </button>
                                 @auth
-                                    <a role="button" href="/checkout" class="btn btn-primary btn-sm btn-block font-600 d-flex align-items-center justify-content-center checkout-btn m-0">
+                                    <a role="button" href="/checkout" class="btn btn-primary btn-sm btn-block font-600 d-flex align-items-center justify-content-center checkout-btn rounded-pill m-0">
                                         <i class="material-icons mr-1">directions_run</i> Checkout
                                     </a>
                                 @endauth
                                 @guest
-                                    <a role="button" href="/login" class="btn btn-primary btn-sm btn-block font-600 d-flex align-items-center justify-content-center checkout-btn m-0">
+                                    <a role="button" href="/login" class="btn btn-primary btn-sm btn-block font-600 d-flex align-items-center justify-content-center checkout-btn rounded-pill m-0">
                                         <i class="material-icons mr-1">directions_run</i> Checkout
                                     </a>
                                 @endguest

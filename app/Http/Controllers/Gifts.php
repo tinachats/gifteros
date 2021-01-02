@@ -86,7 +86,7 @@ class Gifts extends Controller
                                 <div class="d-flex align-items-center px-2">
                                     <div class="d-flex align-items-center justify-content-around m-0 p-0">
                                         <span role="button" class="product-actions material-icons text-success subtract-product" data-id="'.$gift->id.'" title="Decrease quantity">remove_circle</span>
-                                        <span role="button" class="product-actions text-faded mx-4" id="item-count'.$gift->id.'">1</span>
+                                        <span role="button" class="product-actions text-faded mx-4" id="item-count'.$gift->id.'">0</span>
                                         <span role="button" class="product-actions material-icons text-success increase-qty" data-id="'.$gift->id.'" title="Increase quantity">add_circle</span>
                                     </div>
                                     <div class="ml-auto d-flex align-items-center">
@@ -932,13 +932,13 @@ class Gifts extends Controller
     {
         if($request->ajax()){
             if($request->action == 'clear-comparisons'){
-                Session::flush();
-                Session::save();
-                $data = Session::get('comparisons', []);
-                return response()->json([
-                    'message' => 'session-cleared',
-                    'data'    => $data
-                ]);
+                if(Session::has('comparisons')){
+                    Session::flush();
+                    Session::save();
+                    return response()->json([
+                        'message' => 'session-cleared'
+                    ]);
+                }
             }
         }
     }
