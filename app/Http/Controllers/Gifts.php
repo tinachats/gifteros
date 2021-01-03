@@ -47,6 +47,8 @@ class Gifts extends Controller
             if($request->action){
                 $customized_gifts = $wishlist_icon = $kitchenware_gifts = $custom_link = '';
                 $care_gifts = $plasticware_gifts = $combos = $appliance_gifts = '';
+                $end_dates = $gift_ids = [];
+
                 $customizables = DB::table('gifts')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'categories.category_name')
@@ -69,6 +71,13 @@ class Gifts extends Controller
                             <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
                         ';
                     }
+
+                    // Fetch sale end-date
+                    $end_dates[] = strtotime($gift->ends_on) * 1000;
+                    $now = time() * 1000;
+
+                    // Fetch all gif-ids
+                    $gift_ids[] = $gift->id;
 
                     if($gift->label == 'customizable'){
                         $custom_link = '
@@ -172,12 +181,7 @@ class Gifts extends Controller
                                     </div>
                                     <div class="d-flex align-items-center justify-content-between text-sm">
                                         <span>Sale Ends:</span>
-                                        <div class="ml-1 d-flex align-items-center">
-                                            <span id="end-date'. $gift->id .'">05d</span>:
-                                            <span id="end-hours'. $gift->id .'">17h</span>:
-                                            <span id="end-minutes'. $gift->id .'">34m</span>:
-                                            <span id="end-seconds'. $gift->id .'">17s</span>
-                                        </div>
+                                        <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
                                     </div>
                                     <div class="text-center w-100 mx-0 px-0">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 product-card-btns pulse">
@@ -198,18 +202,11 @@ class Gifts extends Controller
                                     <input value="'. $gift->usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_usd_price .'" id="sale-usd-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_zar_price .'" id="sale-zar-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_zwl_price .'" id="sale-zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_usd_price .'" id="customizing-usd-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_zar_price .'" id="customizing-zar-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_zwl_price .'" id="customizing-zwl-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->ends_on .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. strtotime($gift->ends_on) * 1000 .'" id="end-time'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_id .'" id="category-id'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_name .'" id="category-name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->units .'" id="product-units'. $gift->id .'" type="hidden">
                                     <input value="1" id="quantity'. $gift->id .'" type="hidden">
-                                    <input type="hidden" id="sale-end-date" value="'. date('y, m, d, h, m, s', strtotime($gift->ends_on)) .'">
                                     <input value="'. $gift->description .'" id="description'. $gift->id .'" type="hidden">
                                 </div>
                             </div>
@@ -860,6 +857,9 @@ class Gifts extends Controller
                     'plasticware'      => $plasticware_gifts,
                     'combo_gifts'      => $combos, 
                     'appliances'       => $appliance_gifts,
+                    'countdown_date'   => $end_dates,
+                    'now'              => $now,
+                    'gift_ids'         => $gift_ids
                 ];
                 return response()->json($data);
             }
