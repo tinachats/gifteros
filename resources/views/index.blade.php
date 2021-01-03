@@ -74,11 +74,11 @@
     <!-- Products -->
     <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="customizable-gifts">
         <!-- All fetched products will show up here -->
-        @for ($i = 0; $i < 4; $i++)
+        @for ($i = 0; $i < 5; $i++)
             <!-- Product Placeholder Card -->
             <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
                 <div class="img-wrapper-placeholder">
-                    <div class="placeholder-label"></div>
+                    <div class="badge customize-ribbon d-flex align-items-center placeholder-label rounded-right"></div>
                     <div class="placeholder-img"></div>
                 </div>
                 <hr class="grid-view-hr my-0 py-0">
@@ -88,7 +88,6 @@
                         <div class="content-placeholder category-placeholder my-1 ml-2"></div>
                         <div class="d-flex align-items-center">
                             <div class="content-placeholder rating-placeholder ml-2"></div>
-                            <div class="content-placeholder review-placeholder ml-2"></div>
                         </div>
                         <div class="content-placeholder description-placeholder mt-2 mb-1 mx-2"></div>
                         <div class="content-placeholder half-description-placeholder ml-2"></div>
@@ -98,8 +97,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
-                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
+                                <button class="btn btn-sm btn-cart-placeholder"></button>
+                                <button class="btn btn-sm compare-btn-placeholder"></button>
                             </div>
                         </div>
                     </div>
@@ -129,11 +128,11 @@
     <!-- Products -->
     <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="kitchenware">
         <!-- All fetched products will show up here -->
-        @for ($i = 0; $i < 4; $i++)
+        @for ($i = 0; $i < 5; $i++)
             <!-- Product Placeholder Card -->
             <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
                 <div class="img-wrapper-placeholder">
-                    <div class="placeholder-label"></div>
+                    <div class="badge customize-ribbon d-flex align-items-center placeholder-label rounded-right"></div>
                     <div class="placeholder-img"></div>
                 </div>
                 <hr class="grid-view-hr my-0 py-0">
@@ -143,7 +142,6 @@
                         <div class="content-placeholder category-placeholder my-1 ml-2"></div>
                         <div class="d-flex align-items-center">
                             <div class="content-placeholder rating-placeholder ml-2"></div>
-                            <div class="content-placeholder review-placeholder ml-2"></div>
                         </div>
                         <div class="content-placeholder description-placeholder mt-2 mb-1 mx-2"></div>
                         <div class="content-placeholder half-description-placeholder ml-2"></div>
@@ -153,8 +151,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
-                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
+                                <button class="btn btn-sm btn-cart-placeholder"></button>
+                                <button class="btn btn-sm compare-btn-placeholder"></button>
                             </div>
                         </div>
                     </div>
@@ -184,11 +182,11 @@
     <!-- Products -->
     <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="personal-care-gifts">
         <!-- All fetched products will show up here -->
-        @for ($i = 0; $i < 4; $i++)
+        @for ($i = 0; $i < 5; $i++)
             <!-- Product Placeholder Card -->
             <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
                 <div class="img-wrapper-placeholder">
-                    <div class="placeholder-label"></div>
+                    <div class="badge customize-ribbon d-flex align-items-center placeholder-label rounded-right"></div>
                     <div class="placeholder-img"></div>
                 </div>
                 <hr class="grid-view-hr my-0 py-0">
@@ -198,7 +196,6 @@
                         <div class="content-placeholder category-placeholder my-1 ml-2"></div>
                         <div class="d-flex align-items-center">
                             <div class="content-placeholder rating-placeholder ml-2"></div>
-                            <div class="content-placeholder review-placeholder ml-2"></div>
                         </div>
                         <div class="content-placeholder description-placeholder mt-2 mb-1 mx-2"></div>
                         <div class="content-placeholder half-description-placeholder ml-2"></div>
@@ -208,8 +205,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
-                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
+                                <button class="btn btn-sm btn-cart-placeholder"></button>
+                                <button class="btn btn-sm compare-btn-placeholder"></button>
                             </div>
                         </div>
                     </div>
@@ -239,11 +236,11 @@
     <!-- Products -->
     <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="plasticware">
         <!-- All fetched products will show up here -->
-        @for ($i = 0; $i < 4; $i++)
+        @for ($i = 0; $i < 5; $i++)
             <!-- Product Placeholder Card -->
             <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
                 <div class="img-wrapper-placeholder">
-                    <div class="placeholder-label"></div>
+                    <div class="badge customize-ribbon d-flex align-items-center placeholder-label rounded-right"></div>
                     <div class="placeholder-img"></div>
                 </div>
                 <hr class="grid-view-hr my-0 py-0">
@@ -253,7 +250,6 @@
                         <div class="content-placeholder category-placeholder my-1 ml-2"></div>
                         <div class="d-flex align-items-center">
                             <div class="content-placeholder rating-placeholder ml-2"></div>
-                            <div class="content-placeholder review-placeholder ml-2"></div>
                         </div>
                         <div class="content-placeholder description-placeholder mt-2 mb-1 mx-2"></div>
                         <div class="content-placeholder half-description-placeholder ml-2"></div>
@@ -263,8 +259,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
-                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
+                                <button class="btn btn-sm btn-cart-placeholder"></button>
+                                <button class="btn btn-sm compare-btn-placeholder"></button>
                             </div>
                         </div>
                     </div>
@@ -294,11 +290,11 @@
     <!-- Products -->
     <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="combo-gifts">
         <!-- All fetched products will show up here -->
-        @for ($i = 0; $i < 4; $i++)
+        @for ($i = 0; $i < 5; $i++)
             <!-- Product Placeholder Card -->
             <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
                 <div class="img-wrapper-placeholder">
-                    <div class="placeholder-label"></div>
+                    <div class="badge customize-ribbon d-flex align-items-center placeholder-label rounded-right"></div>
                     <div class="placeholder-img"></div>
                 </div>
                 <hr class="grid-view-hr my-0 py-0">
@@ -308,7 +304,6 @@
                         <div class="content-placeholder category-placeholder my-1 ml-2"></div>
                         <div class="d-flex align-items-center">
                             <div class="content-placeholder rating-placeholder ml-2"></div>
-                            <div class="content-placeholder review-placeholder ml-2"></div>
                         </div>
                         <div class="content-placeholder description-placeholder mt-2 mb-1 mx-2"></div>
                         <div class="content-placeholder half-description-placeholder ml-2"></div>
@@ -318,8 +313,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
-                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
+                                <button class="btn btn-sm btn-cart-placeholder"></button>
+                                <button class="btn btn-sm compare-btn-placeholder"></button>
                             </div>
                         </div>
                     </div>
@@ -349,11 +344,11 @@
     <!-- Products -->
     <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="appliances">
         <!-- All fetched products will show up here -->
-        @for ($i = 0; $i < 4; $i++)
+        @for ($i = 0; $i < 5; $i++)
             <!-- Product Placeholder Card -->
             <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
                 <div class="img-wrapper-placeholder">
-                    <div class="placeholder-label"></div>
+                    <div class="badge customize-ribbon d-flex align-items-center placeholder-label rounded-right"></div>
                     <div class="placeholder-img"></div>
                 </div>
                 <hr class="grid-view-hr my-0 py-0">
@@ -363,7 +358,6 @@
                         <div class="content-placeholder category-placeholder my-1 ml-2"></div>
                         <div class="d-flex align-items-center">
                             <div class="content-placeholder rating-placeholder ml-2"></div>
-                            <div class="content-placeholder review-placeholder ml-2"></div>
                         </div>
                         <div class="content-placeholder description-placeholder mt-2 mb-1 mx-2"></div>
                         <div class="content-placeholder half-description-placeholder ml-2"></div>
@@ -373,8 +367,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
-                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
+                                <button class="btn btn-sm btn-cart-placeholder"></button>
+                                <button class="btn btn-sm compare-btn-placeholder"></button>
                             </div>
                         </div>
                     </div>

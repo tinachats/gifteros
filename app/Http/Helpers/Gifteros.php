@@ -401,38 +401,61 @@
             if($row->label == 'organic' || $row->label == 'eco-design' || 
             $row->label == 'eco-friendly'){
                 $gift_label = '
-                    <div class="gift-label bg-green shadow-sm">
-                        <span class="material-icons text-white m-auto" title="Eco-friendly">spa</span>
+                    <div class="badge bg-success rounded-right customize-ribbon d-flex align-items-center">
+                        <i class="material-icons text-white mr-1">spa</i>
+                        <span class="text-white pr-2">Organic</span>
                     </div>
                 ';
             } else if($row->label == 'hot-offer'){
                 $gift_label = '
-                    <div class="gift-label bg-transparent">
+                    <div class="badge bg-transparent customize-ribbon text-center">
                         <img src="'.asset('img/app/product-labels/hot.gif').'" alt="" height="22" width="56" class="img-fluid">
                     </div>
                 ';
             } else if($row->label == 'sale'){
                 $gift_label = '
-                    <div class="gift-label bg-danger shadow-sm">
-                        <span class="text-white m-auto font-weight-bold">SALE</span>
+                    <div class="badge bg-danger rounded-right customize-ribbon d-flex align-items-center">
+                        <i class="material-icons text-white mr-1">alarm_on</i>
+                        <span class="text-white pr-2">SALE</span>
                     </div>
                 ';
             } else if($row->label == 'customizable'){
                 $gift_label = '
-                    <div class="badge badge-danger rounded-0 customize-ribbon d-flex align-items-center">
-                        <i class="material-icons mr-1 d-0" id="is-customized'.$gift_id.'">check</i>
+                    <div class="badge badge-primary rounded-right customize-ribbon d-flex align-items-center toggle-customization cursor" data-id="'.$gift_id.'" title="Click to customize">
+                        <i class="material-icons text-white mr-1" id="is-customized'.$gift_id.'">palette</i>
                         <span id="customized'.$gift_id.'" class="text-white">Customizable</span>
                     </div>
                 ';
             } else {
                 $gift_label = '
-                    <div class="gift-label bg-purple shadow-sm">
-                        <span class="text-white m-auto font-700">NEW!</span>
+                    <div class="badge bg-purple rounded-right customize-ribbon d-flex align-items-center">
+                        <i class="material-icons text-white mr-1">access_time</i>
+                        <span class="text-white pr-2">NEW</span>
                     </div>
                 ';
             }
         }
         return $gift_label;
+    }
+
+    // Customization label
+    function customizedLabel($gift_id, $user_id){
+        $label = '';
+        $count = DB::table('gift_customizations')
+                    ->where([
+                        'gift_id' => $gift_id,
+                        'user_id' => $user_id
+                    ])
+                    ->count();
+        if($count > 0){
+            $label = '
+                <div class="badge badge-success rounded-right customize-ribbon d-flex align-items-center toggle-customization cursor" data-id="'.$gift_id.'" title="Click to customize">
+                    <i class="material-icons text-white mr-1" id="is-customized'.$gift_id.'">check_circle</i>
+                    <span id="customized'.$gift_id.'" class="text-white pr-1">Customized</span>
+                </div>
+            ';
+        }
+        return $label;
     }
 
     // Fetch user rating for particular product
@@ -1293,7 +1316,7 @@
                 $output .= '
                     <!-- App Review -->
                     <div class="item w-100 my-1">
-                        <div class="app-rating-card bg-whitesmoke border-0 rounded-0 box-shadow-sm p-2">
+                        <div class="app-rating-card bg-whitesmoke rounded-2 box-shadow-sm p-2">
                             <div class="media">
                                 <img src="/storage/users/'.$review->profile_pic.'" alt="'.$review->name.'" height="50" width="50" class="align-self-start rounded-circle mr-2">
                                 <div class="media-body">

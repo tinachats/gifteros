@@ -43,7 +43,7 @@ class Search extends Controller
                     }
                     $output .= '
                         <!-- Search result -->
-                        <li class="list-group-item rounded-0 lh-100 px-1 py-2">
+                        <li class="list-group-item lh-100 px-1 py-2">
                             <div class="d-flex justify-content-between align-items-start">
                                 <a href="'.route('details.show', [$gift->slug, $gift->gift_id]).'">
                                     <div class="media">
@@ -74,7 +74,7 @@ class Search extends Controller
                 }
                 if($count > 5){
                     $output .= '
-                        <li class="list-group-item rounded-0 lh-100 py-3 text-center text-sm font-600">
+                        <li class="list-group-item rounded-bottom-2 box-shadow-sm lh-100 py-3 text-center text-sm font-600">
                             <a id="view-search-results" href="">See all '.$count.' results</a>
                         </li>
                     ';
@@ -82,7 +82,7 @@ class Search extends Controller
             } else {
                 $output .= '
                         <!-- Search result -->
-                        <li class="list-group-item rounded-0 lh-100 px-1 py-2">
+                        <li class="list-group-item lh-100 rounded-bottom-2 box-shadow-sm px-1 py-2">
                             <div class="d-flex flex-column justify-content-center text-center">
                                 <i class="material-icons lead text-faded fa-2x">search</i>
                                 <span class="text-faded">

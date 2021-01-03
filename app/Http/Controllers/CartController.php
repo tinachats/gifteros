@@ -216,7 +216,7 @@ class CartController extends Controller
         if($request->ajax()){
             if($request->action == 'clear-cart'){
                 if(Session::has('cart')){
-                    Session::flush();
+                    Session::forget('cart');
                     Session::save();
                     return response()->json([
                         'message' => 'success'

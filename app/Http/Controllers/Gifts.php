@@ -48,13 +48,14 @@ class Gifts extends Controller
                 $customized_gifts = $wishlist_icon = $kitchenware_gifts = $custom_link = '';
                 $care_gifts = $plasticware_gifts = $combos = $appliance_gifts = '';
                 $end_dates = $gift_ids = [];
+                $gift_label = '';
 
                 $customizables = DB::table('gifts')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'categories.category_name')
                                     ->where('label', 'customizable')
                                     ->inRandomOrder()
-                                    ->take(4)
+                                    ->take(5)
                                     ->get();
                 foreach($customizables as $gift){
                     // Gift star rating
@@ -66,10 +67,16 @@ class Gifts extends Controller
 
                     if(isset(Auth::user()->id)){
                         $wishlist_icon = wishlistIcon($gift->id, Auth::user()->id);
+                        if(!empty(customizedLabel($gift->id, Auth::user()->id))){
+                            $gift_label = customizedLabel($gift->id, Auth::user()->id);
+                        } else {
+                            $gift_label = giftLabel($gift->id);
+                        }
                     } else {
                         $wishlist_icon = '
                             <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
                         ';
+                        $gift_label = giftLabel($gift->id);
                     }
 
                     // Fetch sale end-date
@@ -95,7 +102,7 @@ class Gifts extends Controller
                                 <div class="d-flex align-items-center px-2">
                                     <div class="d-flex align-items-center justify-content-around m-0 p-0">
                                         <span role="button" class="product-actions material-icons text-success subtract-product" data-id="'.$gift->id.'" title="Decrease quantity">remove_circle</span>
-                                        <span role="button" class="product-actions text-faded mx-4" id="item-count'.$gift->id.'">0</span>
+                                        <span role="button" class="product-actions item-quantity text-faded" id="item-count'.$gift->id.'">0</span>
                                         <span role="button" class="product-actions material-icons text-success increase-qty" data-id="'.$gift->id.'" title="Increase quantity">add_circle</span>
                                     </div>
                                     <div class="ml-auto d-flex align-items-center">
@@ -108,11 +115,11 @@ class Gifts extends Controller
                             </div>
                             <!-- /.Cart Actions -->
                             <div class="product-img-wrapper">
-                                '. giftLabel($gift->id) .'
+                                '. $gift_label .'
                                 <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
-                                <div class="overlay d-flex justify-content-around py-2">
+                                <div class="overlay d-flex justify-content-around py-1">
                                     <div class="d-flex flex-column text-center" title="Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">12k</span>
@@ -142,7 +149,7 @@ class Gifts extends Controller
                                     <div class="lh-100 mb-0 pb-0">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
-                                                '. Str::words($gift->gift_name, 3, ' ...') .'
+                                                '. Str::words($gift->gift_name, 2, '') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
@@ -183,13 +190,13 @@ class Gifts extends Controller
                                         <span>Sale Ends:</span>
                                         <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
                                     </div>
-                                    <div class="text-center w-100 mx-0 px-0">
-                                        <div class="btn-group btn-group-sm mt-0 pt-0 product-card-btns pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center justify-content-center add-to-cart-btn font-600 rounded-left" data-id="'. $gift->id .'">
+                                    <div class="row justify-content-center w-100">
+                                        <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn font-600" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span>
                                             </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center justify-content-center font-600 rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
                                                 Compare
                                             </button>
@@ -219,7 +226,7 @@ class Gifts extends Controller
                                 ->select('gifts.*', 'categories.category_name')
                                 ->where('category_id', 9)
                                 ->inRandomOrder()
-                                ->take(4)
+                                ->take(5)
                                 ->get();
                 foreach($kitchenware as $gift){
                     // Gift star rating
@@ -231,52 +238,141 @@ class Gifts extends Controller
 
                     if(isset(Auth::user()->id)){
                         $wishlist_icon = wishlistIcon($gift->id, Auth::user()->id);
+                        if(!empty(customizedLabel($gift->id, Auth::user()->id))){
+                            $gift_label = customizedLabel($gift->id, Auth::user()->id);
+                        } else {
+                            $gift_label = giftLabel($gift->id);
+                        }
                     } else {
                         $wishlist_icon = '
-                            <span role="button" class="material-icons text-warning guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'">favorite_border</span>
+                            <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
+                        ';
+                        $gift_label = giftLabel($gift->id);
+                    }
+
+                    // Fetch sale end-date
+                    $end_dates[] = strtotime($gift->ends_on) * 1000;
+                    $now = time() * 1000;
+
+                    // Fetch all gif-ids
+                    $gift_ids[] = $gift->id;
+
+                    if($gift->label == 'customizable'){
+                        $custom_link = '
+                            <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$gift->id.'" title="Customize gift" data-id="'. $gift->id .'">
+                                <i class="material-icons notifications">palette</i>
+                            </a>
                         ';
                     }
 
+
                     $kitchenware_gifts .= '
-                        <!-- Product Card -->
-                        <div class="card product-card border-0 rounded-0 box-shadow-sm">
+                         <!-- Product Card -->
+                        <div class="card product-card rounded-2 box-shadow-sm" data-id="'.$gift->id.'">
+                            <!-- Cart Actions -->
+                            <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$gift->id.'">
+                                <div class="d-flex align-items-center px-2">
+                                    <div class="d-flex align-items-center justify-content-around m-0 p-0">
+                                        <span role="button" class="product-actions material-icons text-success subtract-product" data-id="'.$gift->id.'" title="Decrease quantity">remove_circle</span>
+                                        <span role="button" class="product-actions item-quantity text-faded" id="item-count'.$gift->id.'">0</span>
+                                        <span role="button" class="product-actions material-icons text-success increase-qty" data-id="'.$gift->id.'" title="Increase quantity">add_circle</span>
+                                    </div>
+                                    <div class="ml-auto d-flex align-items-center">
+                                        '.$custom_link.'
+                                        <a href="#" class="nav-link icon-link text-danger remove-item ml-2" title="Remove Item" data-id="'.$gift->id.'">
+                                            <i class="material-icons notifications">delete</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.Cart Actions -->
                             <div class="product-img-wrapper">
-                                '. giftLabel($gift->id) .'
+                                '. $gift_label .'
                                 <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
-                                    <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top rounded-0">
+                                    <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
-                                 <div class="overlay py-1 px-2">
-                                    <div class="d-flex align-items-center">
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center">
-                                            <img role="button" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" alt="'. $gift->gift_name .'" class="rounded-circle">
-                                        </a>
-                                        <div class="d-flex align-items-center ml-auto mr-2" title="'. giftsSold($gift->id) .' gift(s) sold">
-                                            <span role="button" class="material-icons overlay-icon">add_shopping_cart</span>
-                                            <small class="text-light d-list-grid">'. giftsSold($gift->id) .'</small>
+                                <div class="overlay d-flex justify-content-around py-1">
+                                    <div class="d-flex flex-column text-center" title="Total Views">
+                                        <i class="fa fa-eye text-light"></i>
+                                        <span class="text-light text-sm">12k</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="Wishlisted by '. totalWishes($gift->id) .' customer(s)">
+                                        '.$wishlist_icon.'
+                                        <span class="text-light text-sm">'. totalWishes($gift->id) .'</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="'. giftsSold($gift->id) .' gift(s) sold">
+                                        <div class="d-flex align-items-center overlay-metric">
+                                            <i class="fa fa-shopping-bag text-light"></i>
+                                            <span class="badge badge-danger badge-pill overlay-badge">'. giftsSold($gift->id) .'</span>
                                         </div>
-                                        <div class="d-flex align-items-center" title="Add to Wishlist">
-                                            '. $wishlist_icon .'
-                                            <small class="text-light d-list-grid">'. totalWishes($gift->id) .'</small>
+                                        <span class="text-light text-sm">Sold</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="Items that go with this gift">
+                                        <div class="d-flex align-items-center overlay-metric">
+                                            <i class="fa fa-puzzle-piece text-light"></i>
+                                            <span class="badge badge-danger badge-pill overlay-badge">'. countRatings($gift->id) .'</span>
                                         </div>
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center ml-2" title="See Reviews">
-                                            <span role="button" class="material-icons overlay-icon">forum</span>
-                                            <small class="text-light d-list-grid">'. countRatings($gift->id) .'</small>
-                                        </a>
+                                        <span class="text-light text-sm">Add-ons</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-content">
                                 <div class="card-body my-0 py-0">
-                                    <div class="lh-100">
+                                    <div class="lh-100 mb-0 pb-0">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
-                                                '. mb_strimwidth($gift->gift_name, 0, 18, '...') .'
+                                                '. Str::words($gift->gift_name, 2, '') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
                                             '. $gift->category_name .'
                                         </a>
                                         '. $star_rating .'
+                                        <p class="grid-view-d-none d-none d-md-block text-justify text-sm">
+                                           '.Str::words($gift->description, 10, ' ...').'
+                                        </p>
+                                    </div>
+                                    <div class="pull-up-1">
+                                        <div class="usd-price">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="zar-price d-none">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="zwl-price d-none">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between text-sm">
+                                        <span>Sale Ends:</span>
+                                        <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
+                                    </div>
+                                    <div class="row justify-content-center w-100">
+                                        <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn font-600" data-id="'. $gift->id .'">
+                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
+                                                Buy <span class="text-white text-white ml-1">gift</span>
+                                            </button>
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
+                                                Compare
+                                            </button>
+                                        </div>
                                     </div>
                                     <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -285,56 +381,12 @@ class Gifts extends Controller
                                     <input value="'. $gift->usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_usd_price .'" id="sale-usd-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_zar_price .'" id="sale-zar-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_zwl_price .'" id="sale-zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_usd_price .'" id="customizing-usd-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_zar_price .'" id="customizing-zar-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_zwl_price .'" id="customizing-zwl-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->ends_on .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. strtotime($gift->ends_on) * 1000 .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. $gift->category_id .'" id="category-id'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_name .'" id="category-name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->units .'" id="product-units'. $gift->id .'" type="hidden">
                                     <input value="1" id="quantity'. $gift->id .'" type="hidden">
-                                    <input type="hidden" id="sale-end-date" value="'. date('y, m, d, h, m, s', strtotime($gift->ends_on)) .'">
                                     <input value="'. $gift->description .'" id="description'. $gift->id .'" type="hidden">
-                                    
-                                    <div class="usd-price">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="zar-price d-none">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="zwl-price d-none">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-        
-                                    <div class="text-center w-100 mx-0 px-0 mb-1">
-                                        <div class="btn-group btn-group-sm mt-0 pt-0 product-card-btns pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center justify-content-center add-to-cart-btn font-600 rounded-left" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
-                                                Buy <span class="text-white text-white ml-1">gift</span>
-                                            </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center justify-content-center font-600 rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
-                                                Compare
-                                            </button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -346,7 +398,7 @@ class Gifts extends Controller
                                     ->select('gifts.*', 'categories.category_name')
                                     ->where('category_id', 12)
                                     ->inRandomOrder()
-                                    ->take(4)
+                                    ->take(5)
                                     ->get();
                 foreach($personal_care as $gift){
                     // Gift star rating
@@ -358,52 +410,141 @@ class Gifts extends Controller
 
                     if(isset(Auth::user()->id)){
                         $wishlist_icon = wishlistIcon($gift->id, Auth::user()->id);
+                        if(!empty(customizedLabel($gift->id, Auth::user()->id))){
+                            $gift_label = customizedLabel($gift->id, Auth::user()->id);
+                        } else {
+                            $gift_label = giftLabel($gift->id);
+                        }
                     } else {
                         $wishlist_icon = '
-                            <span role="button" class="material-icons text-warning guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'">favorite_border</span>
+                            <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
+                        ';
+                        $gift_label = giftLabel($gift->id);
+                    }
+
+                    // Fetch sale end-date
+                    $end_dates[] = strtotime($gift->ends_on) * 1000;
+                    $now = time() * 1000;
+
+                    // Fetch all gif-ids
+                    $gift_ids[] = $gift->id;
+
+                    if($gift->label == 'customizable'){
+                        $custom_link = '
+                            <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$gift->id.'" title="Customize gift" data-id="'. $gift->id .'">
+                                <i class="material-icons notifications">palette</i>
+                            </a>
                         ';
                     }
 
+
                     $care_gifts .= '
-                        <!-- Product Card -->
-                        <div class="card product-card border-0 rounded-0 box-shadow-sm">
+                         <!-- Product Card -->
+                        <div class="card product-card rounded-2 box-shadow-sm" data-id="'.$gift->id.'">
+                            <!-- Cart Actions -->
+                            <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$gift->id.'">
+                                <div class="d-flex align-items-center px-2">
+                                    <div class="d-flex align-items-center justify-content-around m-0 p-0">
+                                        <span role="button" class="product-actions material-icons text-success subtract-product" data-id="'.$gift->id.'" title="Decrease quantity">remove_circle</span>
+                                        <span role="button" class="product-actions item-quantity text-faded" id="item-count'.$gift->id.'">0</span>
+                                        <span role="button" class="product-actions material-icons text-success increase-qty" data-id="'.$gift->id.'" title="Increase quantity">add_circle</span>
+                                    </div>
+                                    <div class="ml-auto d-flex align-items-center">
+                                        '.$custom_link.'
+                                        <a href="#" class="nav-link icon-link text-danger remove-item ml-2" title="Remove Item" data-id="'.$gift->id.'">
+                                            <i class="material-icons notifications">delete</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.Cart Actions -->
                             <div class="product-img-wrapper">
-                                '. giftLabel($gift->id) .'
+                                '. $gift_label .'
                                 <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
-                                    <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top rounded-0">
+                                    <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
-                                 <div class="overlay py-1 px-2">
-                                    <div class="d-flex align-items-center">
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center">
-                                            <img role="button" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" alt="'. $gift->gift_name .'" class="rounded-circle">
-                                        </a>
-                                        <div class="d-flex align-items-center ml-auto mr-2" title="'. giftsSold($gift->id) .' gift(s) sold">
-                                            <span role="button" class="material-icons overlay-icon">add_shopping_cart</span>
-                                            <small class="text-light d-list-grid">'. giftsSold($gift->id) .'</small>
+                                <div class="overlay d-flex justify-content-around py-1">
+                                    <div class="d-flex flex-column text-center" title="Total Views">
+                                        <i class="fa fa-eye text-light"></i>
+                                        <span class="text-light text-sm">12k</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="Wishlisted by '. totalWishes($gift->id) .' customer(s)">
+                                        '.$wishlist_icon.'
+                                        <span class="text-light text-sm">'. totalWishes($gift->id) .'</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="'. giftsSold($gift->id) .' gift(s) sold">
+                                        <div class="d-flex align-items-center overlay-metric">
+                                            <i class="fa fa-shopping-bag text-light"></i>
+                                            <span class="badge badge-danger badge-pill overlay-badge">'. giftsSold($gift->id) .'</span>
                                         </div>
-                                        <div class="d-flex align-items-center" title="Add to Wishlist">
-                                            '. $wishlist_icon .'
-                                            <small class="text-light d-list-grid">'. totalWishes($gift->id) .'</small>
+                                        <span class="text-light text-sm">Sold</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="Items that go with this gift">
+                                        <div class="d-flex align-items-center overlay-metric">
+                                            <i class="fa fa-puzzle-piece text-light"></i>
+                                            <span class="badge badge-danger badge-pill overlay-badge">'. countRatings($gift->id) .'</span>
                                         </div>
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center ml-2" title="See Reviews">
-                                            <span role="button" class="material-icons overlay-icon">forum</span>
-                                            <small class="text-light d-list-grid">'. countRatings($gift->id) .'</small>
-                                        </a>
+                                        <span class="text-light text-sm">Add-ons</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-content">
                                 <div class="card-body my-0 py-0">
-                                    <div class="lh-100">
+                                    <div class="lh-100 mb-0 pb-0">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
-                                                '. mb_strimwidth($gift->gift_name, 0, 18, '...') .'
+                                                '. Str::words($gift->gift_name, 2, '') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
                                             '. $gift->category_name .'
                                         </a>
                                         '. $star_rating .'
+                                        <p class="grid-view-d-none d-none d-md-block text-justify text-sm">
+                                           '.Str::words($gift->description, 10, ' ...').'
+                                        </p>
+                                    </div>
+                                    <div class="pull-up-1">
+                                        <div class="usd-price">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="zar-price d-none">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="zwl-price d-none">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between text-sm">
+                                        <span>Sale Ends:</span>
+                                        <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
+                                    </div>
+                                    <div class="row justify-content-center w-100">
+                                        <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn font-600" data-id="'. $gift->id .'">
+                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
+                                                Buy <span class="text-white text-white ml-1">gift</span>
+                                            </button>
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
+                                                Compare
+                                            </button>
+                                        </div>
                                     </div>
                                     <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -412,56 +553,12 @@ class Gifts extends Controller
                                     <input value="'. $gift->usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_usd_price .'" id="sale-usd-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_zar_price .'" id="sale-zar-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_zwl_price .'" id="sale-zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_usd_price .'" id="customizing-usd-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_zar_price .'" id="customizing-zar-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_zwl_price .'" id="customizing-zwl-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->ends_on .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. strtotime($gift->ends_on) * 1000 .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. $gift->category_id .'" id="category-id'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_name .'" id="category-name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->units .'" id="product-units'. $gift->id .'" type="hidden">
                                     <input value="1" id="quantity'. $gift->id .'" type="hidden">
-                                    <input type="hidden" id="sale-end-date" value="'. date('y, m, d, h, m, s', strtotime($gift->ends_on)) .'">
                                     <input value="'. $gift->description .'" id="description'. $gift->id .'" type="hidden">
-                                    
-                                    <div class="usd-price">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="zar-price d-none">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="zwl-price d-none">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-        
-                                    <div class="text-center w-100 mx-0 px-0 mb-1">
-                                        <div class="btn-group btn-group-sm mt-0 pt-0 product-card-btns pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center justify-content-center add-to-cart-btn font-600 rounded-left" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
-                                                Buy <span class="text-white text-white ml-1">gift</span>
-                                            </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center justify-content-center font-600 rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
-                                                Compare
-                                            </button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -473,7 +570,7 @@ class Gifts extends Controller
                                 ->select('gifts.*', 'categories.category_name')
                                 ->where('category_id', 21)
                                 ->inRandomOrder()
-                                ->take(4)
+                                ->take(5)
                                 ->get();
                 foreach($plasticware as $gift){
                     // Gift star rating
@@ -485,52 +582,141 @@ class Gifts extends Controller
 
                     if(isset(Auth::user()->id)){
                         $wishlist_icon = wishlistIcon($gift->id, Auth::user()->id);
+                        if(!empty(customizedLabel($gift->id, Auth::user()->id))){
+                            $gift_label = customizedLabel($gift->id, Auth::user()->id);
+                        } else {
+                            $gift_label = giftLabel($gift->id);
+                        }
                     } else {
                         $wishlist_icon = '
-                            <span role="button" class="material-icons text-warning guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'">favorite_border</span>
+                            <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
+                        ';
+                        $gift_label = giftLabel($gift->id);
+                    }
+
+                    // Fetch sale end-date
+                    $end_dates[] = strtotime($gift->ends_on) * 1000;
+                    $now = time() * 1000;
+
+                    // Fetch all gif-ids
+                    $gift_ids[] = $gift->id;
+
+                    if($gift->label == 'customizable'){
+                        $custom_link = '
+                            <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$gift->id.'" title="Customize gift" data-id="'. $gift->id .'">
+                                <i class="material-icons notifications">palette</i>
+                            </a>
                         ';
                     }
 
+
                     $plasticware_gifts .= '
-                        <!-- Product Card -->
-                        <div class="card product-card border-0 rounded-0 box-shadow-sm">
+                         <!-- Product Card -->
+                        <div class="card product-card rounded-2 box-shadow-sm" data-id="'.$gift->id.'">
+                            <!-- Cart Actions -->
+                            <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$gift->id.'">
+                                <div class="d-flex align-items-center px-2">
+                                    <div class="d-flex align-items-center justify-content-around m-0 p-0">
+                                        <span role="button" class="product-actions material-icons text-success subtract-product" data-id="'.$gift->id.'" title="Decrease quantity">remove_circle</span>
+                                        <span role="button" class="product-actions item-quantity text-faded" id="item-count'.$gift->id.'">0</span>
+                                        <span role="button" class="product-actions material-icons text-success increase-qty" data-id="'.$gift->id.'" title="Increase quantity">add_circle</span>
+                                    </div>
+                                    <div class="ml-auto d-flex align-items-center">
+                                        '.$custom_link.'
+                                        <a href="#" class="nav-link icon-link text-danger remove-item ml-2" title="Remove Item" data-id="'.$gift->id.'">
+                                            <i class="material-icons notifications">delete</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.Cart Actions -->
                             <div class="product-img-wrapper">
-                                '. giftLabel($gift->id) .'
+                                '. $gift_label .'
                                 <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
-                                    <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top rounded-0">
+                                    <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
-                                 <div class="overlay py-1 px-2">
-                                    <div class="d-flex align-items-center">
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center">
-                                            <img role="button" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" alt="'. $gift->gift_name .'" class="rounded-circle">
-                                        </a>
-                                        <div class="d-flex align-items-center ml-auto mr-2" title="'. giftsSold($gift->id) .' gift(s) sold">
-                                            <span role="button" class="material-icons overlay-icon">add_shopping_cart</span>
-                                            <small class="text-light d-list-grid">'. giftsSold($gift->id) .'</small>
+                                <div class="overlay d-flex justify-content-around py-1">
+                                    <div class="d-flex flex-column text-center" title="Total Views">
+                                        <i class="fa fa-eye text-light"></i>
+                                        <span class="text-light text-sm">12k</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="Wishlisted by '. totalWishes($gift->id) .' customer(s)">
+                                        '.$wishlist_icon.'
+                                        <span class="text-light text-sm">'. totalWishes($gift->id) .'</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="'. giftsSold($gift->id) .' gift(s) sold">
+                                        <div class="d-flex align-items-center overlay-metric">
+                                            <i class="fa fa-shopping-bag text-light"></i>
+                                            <span class="badge badge-danger badge-pill overlay-badge">'. giftsSold($gift->id) .'</span>
                                         </div>
-                                        <div class="d-flex align-items-center" title="Add to Wishlist">
-                                            '. $wishlist_icon .'
-                                            <small class="text-light d-list-grid">'. totalWishes($gift->id) .'</small>
+                                        <span class="text-light text-sm">Sold</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="Items that go with this gift">
+                                        <div class="d-flex align-items-center overlay-metric">
+                                            <i class="fa fa-puzzle-piece text-light"></i>
+                                            <span class="badge badge-danger badge-pill overlay-badge">'. countRatings($gift->id) .'</span>
                                         </div>
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center ml-2" title="See Reviews">
-                                            <span role="button" class="material-icons overlay-icon">forum</span>
-                                            <small class="text-light d-list-grid">'. countRatings($gift->id) .'</small>
-                                        </a>
+                                        <span class="text-light text-sm">Add-ons</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-content">
                                 <div class="card-body my-0 py-0">
-                                    <div class="lh-100">
+                                    <div class="lh-100 mb-0 pb-0">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
-                                                '. mb_strimwidth($gift->gift_name, 0, 18, '...') .'
+                                                '. Str::words($gift->gift_name, 2, '') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
                                             '. $gift->category_name .'
                                         </a>
                                         '. $star_rating .'
+                                        <p class="grid-view-d-none d-none d-md-block text-justify text-sm">
+                                           '.Str::words($gift->description, 10, ' ...').'
+                                        </p>
+                                    </div>
+                                    <div class="pull-up-1">
+                                        <div class="usd-price">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="zar-price d-none">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="zwl-price d-none">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between text-sm">
+                                        <span>Sale Ends:</span>
+                                        <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
+                                    </div>
+                                    <div class="row justify-content-center w-100">
+                                        <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn font-600" data-id="'. $gift->id .'">
+                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
+                                                Buy <span class="text-white text-white ml-1">gift</span>
+                                            </button>
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
+                                                Compare
+                                            </button>
+                                        </div>
                                     </div>
                                     <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -539,56 +725,12 @@ class Gifts extends Controller
                                     <input value="'. $gift->usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_usd_price .'" id="sale-usd-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_zar_price .'" id="sale-zar-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_zwl_price .'" id="sale-zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_usd_price .'" id="customizing-usd-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_zar_price .'" id="customizing-zar-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_zwl_price .'" id="customizing-zwl-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->ends_on .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. strtotime($gift->ends_on) * 1000 .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. $gift->category_id .'" id="category-id'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_name .'" id="category-name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->units .'" id="product-units'. $gift->id .'" type="hidden">
                                     <input value="1" id="quantity'. $gift->id .'" type="hidden">
-                                    <input type="hidden" id="sale-end-date" value="'. date('y, m, d, h, m, s', strtotime($gift->ends_on)) .'">
                                     <input value="'. $gift->description .'" id="description'. $gift->id .'" type="hidden">
-                                    
-                                    <div class="usd-price">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="zar-price d-none">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="zwl-price d-none">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-        
-                                    <div class="text-center w-100 mx-0 px-0 mb-1">
-                                        <div class="btn-group btn-group-sm mt-0 pt-0 product-card-btns pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center justify-content-center add-to-cart-btn font-600 rounded-left" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
-                                                Buy <span class="text-white text-white ml-1">gift</span>
-                                            </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center justify-content-center font-600 rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
-                                                Compare
-                                            </button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -600,7 +742,7 @@ class Gifts extends Controller
                                 ->select('gifts.*', 'categories.category_name')
                                 ->where('category_id', 34)
                                 ->inRandomOrder()
-                                ->take(4)
+                                ->take(5)
                                 ->get();
                 foreach($combo_gifts as $gift){
                     // Gift star rating
@@ -612,52 +754,141 @@ class Gifts extends Controller
 
                     if(isset(Auth::user()->id)){
                         $wishlist_icon = wishlistIcon($gift->id, Auth::user()->id);
+                        if(!empty(customizedLabel($gift->id, Auth::user()->id))){
+                            $gift_label = customizedLabel($gift->id, Auth::user()->id);
+                        } else {
+                            $gift_label = giftLabel($gift->id);
+                        }
                     } else {
                         $wishlist_icon = '
-                            <span role="button" class="material-icons text-warning guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'">favorite_border</span>
+                            <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
+                        ';
+                        $gift_label = giftLabel($gift->id);
+                    }
+
+                    // Fetch sale end-date
+                    $end_dates[] = strtotime($gift->ends_on) * 1000;
+                    $now = time() * 1000;
+
+                    // Fetch all gif-ids
+                    $gift_ids[] = $gift->id;
+
+                    if($gift->label == 'customizable'){
+                        $custom_link = '
+                            <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$gift->id.'" title="Customize gift" data-id="'. $gift->id .'">
+                                <i class="material-icons notifications">palette</i>
+                            </a>
                         ';
                     }
 
+
                     $combos .= '
-                        <!-- Product Card -->
-                        <div class="card product-card border-0 rounded-0 box-shadow-sm">
+                         <!-- Product Card -->
+                        <div class="card product-card rounded-2 box-shadow-sm" data-id="'.$gift->id.'">
+                            <!-- Cart Actions -->
+                            <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$gift->id.'">
+                                <div class="d-flex align-items-center px-2">
+                                    <div class="d-flex align-items-center justify-content-around m-0 p-0">
+                                        <span role="button" class="product-actions material-icons text-success subtract-product" data-id="'.$gift->id.'" title="Decrease quantity">remove_circle</span>
+                                        <span role="button" class="product-actions item-quantity text-faded" id="item-count'.$gift->id.'">0</span>
+                                        <span role="button" class="product-actions material-icons text-success increase-qty" data-id="'.$gift->id.'" title="Increase quantity">add_circle</span>
+                                    </div>
+                                    <div class="ml-auto d-flex align-items-center">
+                                        '.$custom_link.'
+                                        <a href="#" class="nav-link icon-link text-danger remove-item ml-2" title="Remove Item" data-id="'.$gift->id.'">
+                                            <i class="material-icons notifications">delete</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.Cart Actions -->
                             <div class="product-img-wrapper">
-                                '. giftLabel($gift->id) .'
+                                '. $gift_label .'
                                 <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
-                                    <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top rounded-0">
+                                    <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
-                                 <div class="overlay py-1 px-2">
-                                    <div class="d-flex align-items-center">
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center">
-                                            <img role="button" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" alt="'. $gift->gift_name .'" class="rounded-circle">
-                                        </a>
-                                        <div class="d-flex align-items-center ml-auto mr-2" title="'. giftsSold($gift->id) .' gift(s) sold">
-                                            <span role="button" class="material-icons overlay-icon">add_shopping_cart</span>
-                                            <small class="text-light d-list-grid">'. giftsSold($gift->id) .'</small>
+                                <div class="overlay d-flex justify-content-around py-1">
+                                    <div class="d-flex flex-column text-center" title="Total Views">
+                                        <i class="fa fa-eye text-light"></i>
+                                        <span class="text-light text-sm">12k</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="Wishlisted by '. totalWishes($gift->id) .' customer(s)">
+                                        '.$wishlist_icon.'
+                                        <span class="text-light text-sm">'. totalWishes($gift->id) .'</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="'. giftsSold($gift->id) .' gift(s) sold">
+                                        <div class="d-flex align-items-center overlay-metric">
+                                            <i class="fa fa-shopping-bag text-light"></i>
+                                            <span class="badge badge-danger badge-pill overlay-badge">'. giftsSold($gift->id) .'</span>
                                         </div>
-                                        <div class="d-flex align-items-center" title="Add to Wishlist">
-                                            '. $wishlist_icon .'
-                                            <small class="text-light d-list-grid">'. totalWishes($gift->id) .'</small>
+                                        <span class="text-light text-sm">Sold</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="Items that go with this gift">
+                                        <div class="d-flex align-items-center overlay-metric">
+                                            <i class="fa fa-puzzle-piece text-light"></i>
+                                            <span class="badge badge-danger badge-pill overlay-badge">'. countRatings($gift->id) .'</span>
                                         </div>
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center ml-2" title="See Reviews">
-                                            <span role="button" class="material-icons overlay-icon">forum</span>
-                                            <small class="text-light d-list-grid">'. countRatings($gift->id) .'</small>
-                                        </a>
+                                        <span class="text-light text-sm">Add-ons</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-content">
                                 <div class="card-body my-0 py-0">
-                                    <div class="lh-100">
+                                    <div class="lh-100 mb-0 pb-0">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
-                                                '. mb_strimwidth($gift->gift_name, 0, 18, '...') .'
+                                                '. Str::words($gift->gift_name, 2, '') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
                                             '. $gift->category_name .'
                                         </a>
                                         '. $star_rating .'
+                                        <p class="grid-view-d-none d-none d-md-block text-justify text-sm">
+                                           '.Str::words($gift->description, 10, ' ...').'
+                                        </p>
+                                    </div>
+                                    <div class="pull-up-1">
+                                        <div class="usd-price">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="zar-price d-none">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="zwl-price d-none">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between text-sm">
+                                        <span>Sale Ends:</span>
+                                        <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
+                                    </div>
+                                    <div class="row justify-content-center w-100">
+                                        <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn font-600" data-id="'. $gift->id .'">
+                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
+                                                Buy <span class="text-white text-white ml-1">gift</span>
+                                            </button>
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
+                                                Compare
+                                            </button>
+                                        </div>
                                     </div>
                                     <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -666,56 +897,12 @@ class Gifts extends Controller
                                     <input value="'. $gift->usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_usd_price .'" id="sale-usd-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_zar_price .'" id="sale-zar-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_zwl_price .'" id="sale-zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_usd_price .'" id="customizing-usd-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_zar_price .'" id="customizing-zar-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_zwl_price .'" id="customizing-zwl-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->ends_on .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. strtotime($gift->ends_on) * 1000 .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. $gift->category_id .'" id="category-id'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_name .'" id="category-name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->units .'" id="product-units'. $gift->id .'" type="hidden">
                                     <input value="1" id="quantity'. $gift->id .'" type="hidden">
-                                    <input type="hidden" id="sale-end-date" value="'. date('y, m, d, h, m, s', strtotime($gift->ends_on)) .'">
                                     <input value="'. $gift->description .'" id="description'. $gift->id .'" type="hidden">
-                                    
-                                    <div class="usd-price">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="zar-price d-none">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="zwl-price d-none">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-        
-                                    <div class="text-center w-100 mx-0 px-0 mb-1">
-                                        <div class="btn-group btn-group-sm mt-0 pt-0 product-card-btns pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center justify-content-center add-to-cart-btn font-600 rounded-left" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
-                                                Buy <span class="text-white text-white ml-1">gift</span>
-                                            </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center justify-content-center font-600 rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
-                                                Compare
-                                            </button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -727,7 +914,7 @@ class Gifts extends Controller
                                 ->select('gifts.*', 'categories.category_name')
                                 ->where('category_id', 8)
                                 ->inRandomOrder()
-                                ->take(4)
+                                ->take(5)
                                 ->get();
                 foreach($appliances as $gift){
                     // Gift star rating
@@ -739,52 +926,141 @@ class Gifts extends Controller
 
                     if(isset(Auth::user()->id)){
                         $wishlist_icon = wishlistIcon($gift->id, Auth::user()->id);
+                        if(!empty(customizedLabel($gift->id, Auth::user()->id))){
+                            $gift_label = customizedLabel($gift->id, Auth::user()->id);
+                        } else {
+                            $gift_label = giftLabel($gift->id);
+                        }
                     } else {
                         $wishlist_icon = '
-                            <span role="button" class="material-icons text-warning guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'">favorite_border</span>
+                            <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
+                        ';
+                        $gift_label = giftLabel($gift->id);
+                    }
+
+                    // Fetch sale end-date
+                    $end_dates[] = strtotime($gift->ends_on) * 1000;
+                    $now = time() * 1000;
+
+                    // Fetch all gif-ids
+                    $gift_ids[] = $gift->id;
+
+                    if($gift->label == 'customizable'){
+                        $custom_link = '
+                            <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$gift->id.'" title="Customize gift" data-id="'. $gift->id .'">
+                                <i class="material-icons notifications">palette</i>
+                            </a>
                         ';
                     }
 
+
                     $appliance_gifts .= '
-                        <!-- Product Card -->
-                        <div class="card product-card border-0 rounded-0 box-shadow-sm">
+                         <!-- Product Card -->
+                        <div class="card product-card rounded-2 box-shadow-sm" data-id="'.$gift->id.'">
+                            <!-- Cart Actions -->
+                            <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$gift->id.'">
+                                <div class="d-flex align-items-center px-2">
+                                    <div class="d-flex align-items-center justify-content-around m-0 p-0">
+                                        <span role="button" class="product-actions material-icons text-success subtract-product" data-id="'.$gift->id.'" title="Decrease quantity">remove_circle</span>
+                                        <span role="button" class="product-actions item-quantity text-faded" id="item-count'.$gift->id.'">0</span>
+                                        <span role="button" class="product-actions material-icons text-success increase-qty" data-id="'.$gift->id.'" title="Increase quantity">add_circle</span>
+                                    </div>
+                                    <div class="ml-auto d-flex align-items-center">
+                                        '.$custom_link.'
+                                        <a href="#" class="nav-link icon-link text-danger remove-item ml-2" title="Remove Item" data-id="'.$gift->id.'">
+                                            <i class="material-icons notifications">delete</i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.Cart Actions -->
                             <div class="product-img-wrapper">
-                                '. giftLabel($gift->id) .'
+                                '. $gift_label .'
                                 <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
-                                    <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top rounded-0">
+                                    <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
-                                 <div class="overlay py-1 px-2">
-                                    <div class="d-flex align-items-center">
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center">
-                                            <img role="button" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" alt="'. $gift->gift_name .'" class="rounded-circle">
-                                        </a>
-                                        <div class="d-flex align-items-center ml-auto mr-2" title="'. giftsSold($gift->id) .' gift(s) sold">
-                                            <span role="button" class="material-icons overlay-icon">add_shopping_cart</span>
-                                            <small class="text-light d-list-grid">'. giftsSold($gift->id) .'</small>
+                                <div class="overlay d-flex justify-content-around py-1">
+                                    <div class="d-flex flex-column text-center" title="Total Views">
+                                        <i class="fa fa-eye text-light"></i>
+                                        <span class="text-light text-sm">12k</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="Wishlisted by '. totalWishes($gift->id) .' customer(s)">
+                                        '.$wishlist_icon.'
+                                        <span class="text-light text-sm">'. totalWishes($gift->id) .'</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="'. giftsSold($gift->id) .' gift(s) sold">
+                                        <div class="d-flex align-items-center overlay-metric">
+                                            <i class="fa fa-shopping-bag text-light"></i>
+                                            <span class="badge badge-danger badge-pill overlay-badge">'. giftsSold($gift->id) .'</span>
                                         </div>
-                                        <div class="d-flex align-items-center" title="Add to Wishlist">
-                                            '. $wishlist_icon .'
-                                            <small class="text-light d-list-grid">'. totalWishes($gift->id) .'</small>
+                                        <span class="text-light text-sm">Sold</span>
+                                    </div>
+                                    <div class="d-flex flex-column text-center" title="Items that go with this gift">
+                                        <div class="d-flex align-items-center overlay-metric">
+                                            <i class="fa fa-puzzle-piece text-light"></i>
+                                            <span class="badge badge-danger badge-pill overlay-badge">'. countRatings($gift->id) .'</span>
                                         </div>
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'" class="d-flex align-items-center ml-2" title="See Reviews">
-                                            <span role="button" class="material-icons overlay-icon">forum</span>
-                                            <small class="text-light d-list-grid">'. countRatings($gift->id) .'</small>
-                                        </a>
+                                        <span class="text-light text-sm">Add-ons</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-content">
                                 <div class="card-body my-0 py-0">
-                                    <div class="lh-100">
+                                    <div class="lh-100 mb-0 pb-0">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
-                                                '. mb_strimwidth($gift->gift_name, 0, 18, '...') .'
+                                                '. Str::words($gift->gift_name, 2, '') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
                                             '. $gift->category_name .'
                                         </a>
                                         '. $star_rating .'
+                                        <p class="grid-view-d-none d-none d-md-block text-justify text-sm">
+                                           '.Str::words($gift->description, 10, ' ...').'
+                                        </p>
+                                    </div>
+                                    <div class="pull-up-1">
+                                        <div class="usd-price">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="zar-price d-none">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="zwl-price d-none">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
+                                                <div class="d-flex align-items-center before-prices">
+                                                    <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between text-sm">
+                                        <span>Sale Ends:</span>
+                                        <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
+                                    </div>
+                                    <div class="row justify-content-center w-100">
+                                        <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn font-600" data-id="'. $gift->id .'">
+                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
+                                                Buy <span class="text-white text-white ml-1">gift</span>
+                                            </button>
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
+                                                Compare
+                                            </button>
+                                        </div>
                                     </div>
                                     <input value="'. $gift->id .'" id="gift_id" type="hidden">
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
@@ -793,56 +1069,12 @@ class Gifts extends Controller
                                     <input value="'. $gift->usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_usd_price .'" id="sale-usd-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_zar_price .'" id="sale-zar-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->sale_zwl_price .'" id="sale-zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_usd_price .'" id="customizing-usd-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_zar_price .'" id="customizing-zar-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->custom_zwl_price .'" id="customizing-zwl-cost'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->ends_on .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. strtotime($gift->ends_on) * 1000 .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. $gift->category_id .'" id="category-id'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_name .'" id="category-name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->units .'" id="product-units'. $gift->id .'" type="hidden">
                                     <input value="1" id="quantity'. $gift->id .'" type="hidden">
-                                    <input type="hidden" id="sale-end-date" value="'. date('y, m, d, h, m, s', strtotime($gift->ends_on)) .'">
                                     <input value="'. $gift->description .'" id="description'. $gift->id .'" type="hidden">
-                                    
-                                    <div class="usd-price">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="zar-price d-none">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="zwl-price d-none">
-                                        <div class="d-flex align-items-center justify-content-between">
-                                            <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
-                                            <div class="d-flex align-items-center before-prices">
-                                                <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
-                                            </div>
-                                        </div>
-                                    </div>
-        
-                                    <div class="text-center w-100 mx-0 px-0 mb-1">
-                                        <div class="btn-group btn-group-sm mt-0 pt-0 product-card-btns pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center justify-content-center add-to-cart-btn font-600 rounded-left" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
-                                                Buy <span class="text-white text-white ml-1">gift</span>
-                                            </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center justify-content-center font-600 rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
-                                                Compare
-                                            </button>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -871,28 +1103,43 @@ class Gifts extends Controller
     {
         if($request->ajax()){
             if($request->action == 'add-comparison'){
-                $comparisons = $item = [];
                 $comparisons = Session::get('comparisons', []);
                 $count = count($comparisons);
-                
+
+                $gift_id = $request->gift_id;
+
+                // Create a gift item array
+                $item = [
+                    'gift_id'          => $gift_id,
+                    'gift_name'        => $request->gift_name,
+                    'gift_image'       => $request->gift_img,
+                    'usd_price'        => $request->usd_price,
+                    'zar_price'        => $request->zar_price,
+                    'zwl_price'        => $request->zwl_price,
+                    'gift_description' => $request->gift_description,
+                    'category_name'    => $request->gift_category,
+                    'gift_quantity'    => $request->gift_quantity,
+                    'gift_units'       => $request->gift_units
+                ];
+
+                // Check if comparisons session is set
                 if($count < 3){
-                    // Create a gift item array
-                    $item = [
-                        'gift_id'          => $request->gift_id,
-                        'gift_name'        => $request->gift_name,
-                        'gift_image'       => $request->gift_img,
-                        'usd_price'        => $request->usd_price,
-                        'zar_price'        => $request->zar_price,
-                        'zwl_price'        => $request->zwl_price,
-                        'gift_description' => $request->gift_description,
-                        'category_name'    => $request->gift_category,
-                        'gift_quantity'    => $request->gift_quantity,
-                        'gift_units'       => $request->gift_units
-                    ];
-                    $items = array_unique($item);
-                    Session::push('comparisons', $items);
+                    if(Session::has('comparisons')){
+                        if(array_key_exists($gift_id, $comparisons)){
+                            Session::put('comparisons', $comparisons);
+                        } else {
+                            $comparisons = [
+                                $gift_id => $item
+                            ];
+                            Session::put('comparisons', $comparisons);
+                        }
+                    } else {
+                        $comparisons = [
+                            $gift_id => $item
+                        ];
+                        Session::put('comparisons', $comparisons);
+                    }
                 }
-                $comparisons = Session::get('comparisons');
                 $count = count($comparisons);
                 return response()->json([
                     'message' => 'success',
@@ -909,19 +1156,12 @@ class Gifts extends Controller
         if($request->ajax()){
             if($request->action == 'remove-comparison'){
                 // Retrieve the whole comparison session
-                $comparisons = Session::pull('comparisons', []);
-                foreach($comparisons as $key => $value){
-                    if(array_search($request->gift_id, $value['gift_id'])){
-                        Session::forget($request->gift_id);
-                        Session::save();
-                    }
-                }
-                $comparisons = Session::get('comparisons');
-                $count = count($comparisons);
+                $comparisons = Session::get('comparisons', []);
+                unset($comparisons[$request->gift_id]);
+                Session::put('comparisons', $comparisons);
                 return response()->json([
                     'message' => 'success',
-                    'data'    => $comparisons,
-                    'count'   => $count
+                    'data'    => $comparisons
                 ]);
             }
         }
@@ -933,7 +1173,7 @@ class Gifts extends Controller
         if($request->ajax()){
             if($request->action == 'clear-comparisons'){
                 if(Session::has('comparisons')){
-                    Session::flush();
+                    Session::forget('comparisons');
                     Session::save();
                     return response()->json([
                         'message' => 'session-cleared'

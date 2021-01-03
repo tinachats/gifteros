@@ -44,8 +44,10 @@ Route::get('/details/{slug}/{id}', [Gifts::class, 'show'])->name('details.show')
 Route::post('/details/wishlist_btn', [Gifts::class, 'wishlist_btn'])->name('wishlist_btn');
 Route::post('/details/gift_ratings', [Gifts::class, 'gift_ratings'])->name('gift_ratings');
 Route::get('/search', [Search::class, 'fetch'])->name('search.fetch');
+
+// Gift Comparisons
 Route::post('/remove_comparison', [Gifts::class, 'remove_comparison'])->name('remove_comparison');
-Route::get('/add_comparison', [Gifts::class, 'add_comparison'])->name('add_comparison');
+Route::post('/add_comparison', [Gifts::class, 'add_comparison'])->name('add_comparison');
 Route::get('/clear_comparisons', [Gifts::class, 'clear_comparisons'])->name('clear_comparisons');
 Route::get('/compare_page', [Gifts::class, 'compare_page'])->name('compare_page');
 
