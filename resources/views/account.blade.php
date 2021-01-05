@@ -238,17 +238,17 @@
                                 @if (count($recipients) > 0)
                                     <div class="d-grid grid-3 grid-p-1 w-100">
                                         @foreach ($recipients as $recipient)
-                                            <?php
+                                            @php
                                                 $recipients_cell = $recipient->recipients_cell;
                                                 $orders = recipientOrders(Auth::user()->id, $recipients_cell);
-                                            ?>
+                                            @endphp
                                             <!-- All recipients will show up here -->
-                                            <div class="card recipient-card box-shadow-sm">
+                                            <div class="card recipient-card rounded-2 box-shadow-sm">
                                                 <div class="picture-frame">
                                                     <img src="{{ recipientsCoverImg($recipients_cell) }}" alt="Cover Page" height="100" class="card-img-top">
                                                     <img src="{{ recipientsPic($recipients_cell) }}" alt="" height="70" width="70" class="img-thumbnail user-thumbnail">
                                                 </div>
-                                                <div class="card-body px-2 pb-2 mt-3">
+                                                <div class="card-body rounded-bottom-2 px-2 pb-2 mt-3">
                                                     <h6 class="font-600 my-0 py-0 text-capitalize">{{ recipientsName($recipients_cell) }}</h6>
                                                     <address>
                                                         <p class="text-sm my-0 py-0 text-capitalize">{{ recipientsAddress($recipients_cell) }}</p>
@@ -261,6 +261,15 @@
                                                         @endif
                                                     </address>
                                                     {!! recipientsStatus($recipients_cell) !!}
+                                                    <div class="d-flex align-items-center justify-content-around mt-2">
+                                                        <button class="btn btn-light btn-sm px-4 font-600 d-flex align-items-center justify-content-center edit-recipient-info mr-1" data-cell="{{ $recipients_cell }}">
+                                                            <i class="material-icons mr-1">edit</i> Edit
+                                                        </button>
+                                                        <button class="btn btn-light btn-sm px-4 font-600 d-flex align-items-center justify-content-center delete-recipient" data-cell="{{ $recipients_cell }}">
+                                                            <i class="material-icons mr-1">delete_sweep</i>
+                                                            Delete
+                                                        </button>
+                                                    </div>
                                                 </div>
                                             </div>
                                         @endforeach

@@ -1,5 +1,5 @@
-@include('layouts.includes.header')
 @include('layouts.includes.main-nav')
+@include('layouts.includes.mobile-tab-header')
 <!-- Page Content -->
 <div class="container page-content" id="profile-page">
     <!-- Content Header (Page header) -->

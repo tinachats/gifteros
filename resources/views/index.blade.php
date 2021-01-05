@@ -381,4 +381,173 @@
 @endsection
 <!-- /.Appliances Gifts -->
 
+<!-- Trending Between Cities -->
+@section('city-exchange')
+    <!-- Customizable Gifts -->
+    <div class="d-flex justify-content-between align-items-center title mt-3">
+        <div class="d-block lh-100">
+            <h6 class="font-600 my-0 text-uppercase">Trending Between Cities</h6>
+            <div class="d-flex align-items-center">
+                <p class="my-0 text-muted text-capitalize">London</p>
+                <i class="material-icons mx-2 text-muted">swap_horiz</i>
+                <p class="my-0 text-muted text-capitalize">Harare</p>
+            </div>
+        </div>
+        <div class="d-flex justify-content-around align-items-center">
+            <i role="button" class="material-icons view-option grid-icon active d-none d-md-inline-block" data-view="grid-view" title="Grid View">view_comfy</i>
+            <i role="button" class="material-icons view-option list-icon mx-3 d-none d-md-block" data-view="list-view" title="List view">view_list</i>
+            <a role="button" href="/category/8/appliances" class="btn btn-sm bg-switch" id="all-appliances">
+                <span class="text-white">View all</span>
+                <i class="ion ion-chevron-right text-white ml-2"></i>
+            </a>
+        </div>
+    </div>
+    <!-- Products -->
+    <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="appliances">
+        <!-- All fetched products will show up here -->
+        @for ($i = 0; $i < 5; $i++)
+            <!-- Product Placeholder Card -->
+            <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
+                <div class="img-wrapper-placeholder">
+                    <div class="badge customize-ribbon d-flex align-items-center placeholder-label rounded-right"></div>
+                    <div class="placeholder-img"></div>
+                </div>
+                <hr class="grid-view-hr my-0 py-0">
+                <div class="placeholder-card-content">
+                    <div class="card-body placeholder-body m-0 p-0 rounded-bottom-2">
+                        <div class="content-placeholder title-placeholder mt-1 ml-2"></div>
+                        <div class="content-placeholder category-placeholder my-1 ml-2"></div>
+                        <div class="d-flex align-items-center">
+                            <div class="content-placeholder rating-placeholder ml-2"></div>
+                        </div>
+                        <div class="content-placeholder description-placeholder mt-2 mb-1 mx-2"></div>
+                        <div class="content-placeholder half-description-placeholder ml-2"></div>
+                        <div class="d-flex align-items-center justify-content-between mt-2">
+                            <div class="content-placeholder price-placeholder mr-2 ml-2"></div>
+                            <div class="content-placeholder before-price-placeholder mr-2"></div>
+                        </div>
+                        <div class="text-center w-100 mx-0 px-0 mb-1">
+                            <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
+                                <button class="btn btn-sm btn-cart-placeholder"></button>
+                                <button class="btn btn-sm compare-btn-placeholder"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.Product Placeholder Card -->
+        @endfor
+    </div>
+    <!-- /.Customizable Gifts -->
+@endsection
+<!-- /.Trending Between Cities -->
+
+<!-- Recommended Gifts -->
+@section('recommended-gifts')
+    <!-- Customizable Gifts -->
+    <div class="d-flex justify-content-between align-items-center title mt-3">
+        <h6 class="font-600 my-0 text-uppercase">Recommended Gifts</h6>
+        <div class="d-flex justify-content-around align-items-center">
+            <i role="button" class="material-icons view-option grid-icon active d-none d-md-inline-block" data-view="grid-view" title="Grid View">view_comfy</i>
+            <i role="button" class="material-icons view-option list-icon mx-3 d-none d-md-block" data-view="list-view" title="List view">view_list</i>
+            <a role="button" href="/category/8/appliances" class="btn btn-sm bg-switch" id="all-appliances">
+                <span class="text-white">View all</span>
+                <i class="ion ion-chevron-right text-white ml-2"></i>
+            </a>
+        </div>
+    </div>
+    <!-- Products -->
+    <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="appliances">
+        <!-- All fetched products will show up here -->
+        @for ($i = 0; $i < 5; $i++)
+            <!-- Product Placeholder Card -->
+            <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
+                <div class="img-wrapper-placeholder">
+                    <div class="badge customize-ribbon d-flex align-items-center placeholder-label rounded-right"></div>
+                    <div class="placeholder-img"></div>
+                </div>
+                <hr class="grid-view-hr my-0 py-0">
+                <div class="placeholder-card-content">
+                    <div class="card-body placeholder-body m-0 p-0 rounded-bottom-2">
+                        <div class="content-placeholder title-placeholder mt-1 ml-2"></div>
+                        <div class="content-placeholder category-placeholder my-1 ml-2"></div>
+                        <div class="d-flex align-items-center">
+                            <div class="content-placeholder rating-placeholder ml-2"></div>
+                        </div>
+                        <div class="content-placeholder description-placeholder mt-2 mb-1 mx-2"></div>
+                        <div class="content-placeholder half-description-placeholder ml-2"></div>
+                        <div class="d-flex align-items-center justify-content-between mt-2">
+                            <div class="content-placeholder price-placeholder mr-2 ml-2"></div>
+                            <div class="content-placeholder before-price-placeholder mr-2"></div>
+                        </div>
+                        <div class="text-center w-100 mx-0 px-0 mb-1">
+                            <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
+                                <button class="btn btn-sm btn-cart-placeholder"></button>
+                                <button class="btn btn-sm compare-btn-placeholder"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.Product Placeholder Card -->
+        @endfor
+    </div>
+    <!-- /.Customizable Gifts -->
+@endsection
+<!-- /.Recommended Gifts -->
+
+<!-- Browsed Gifts -->
+@section('browsed-gifts')
+    <!-- Customizable Gifts -->
+    <div class="d-flex justify-content-between align-items-center title mt-3">
+        <h6 class="font-600 my-0 text-uppercase">inspired by your shopping trends</h6>
+        <div class="d-flex justify-content-around align-items-center">
+            <i role="button" class="material-icons view-option grid-icon active d-none d-md-inline-block" data-view="grid-view" title="Grid View">view_comfy</i>
+            <i role="button" class="material-icons view-option list-icon mx-3 d-none d-md-block" data-view="list-view" title="List view">view_list</i>
+            <a role="button" href="/category/8/appliances" class="btn btn-sm bg-switch" id="all-appliances">
+                <span class="text-white">View all</span>
+                <i class="ion ion-chevron-right text-white ml-2"></i>
+            </a>
+        </div>
+    </div>
+    <!-- Products -->
+    <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="appliances">
+        <!-- All fetched products will show up here -->
+        @for ($i = 0; $i < 5; $i++)
+            <!-- Product Placeholder Card -->
+            <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
+                <div class="img-wrapper-placeholder">
+                    <div class="badge customize-ribbon d-flex align-items-center placeholder-label rounded-right"></div>
+                    <div class="placeholder-img"></div>
+                </div>
+                <hr class="grid-view-hr my-0 py-0">
+                <div class="placeholder-card-content">
+                    <div class="card-body placeholder-body m-0 p-0 rounded-bottom-2">
+                        <div class="content-placeholder title-placeholder mt-1 ml-2"></div>
+                        <div class="content-placeholder category-placeholder my-1 ml-2"></div>
+                        <div class="d-flex align-items-center">
+                            <div class="content-placeholder rating-placeholder ml-2"></div>
+                        </div>
+                        <div class="content-placeholder description-placeholder mt-2 mb-1 mx-2"></div>
+                        <div class="content-placeholder half-description-placeholder ml-2"></div>
+                        <div class="d-flex align-items-center justify-content-between mt-2">
+                            <div class="content-placeholder price-placeholder mr-2 ml-2"></div>
+                            <div class="content-placeholder before-price-placeholder mr-2"></div>
+                        </div>
+                        <div class="text-center w-100 mx-0 px-0 mb-1">
+                            <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
+                                <button class="btn btn-sm btn-cart-placeholder"></button>
+                                <button class="btn btn-sm compare-btn-placeholder"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.Product Placeholder Card -->
+        @endfor
+    </div>
+    <!-- /.Customizable Gifts -->
+@endsection
+<!-- /.Browsed Gifts -->
+
   

@@ -23,6 +23,9 @@
     @yield('plasticware')
     @yield('combo-gifts')
     @yield('appliances')
+    @yield('city-exchange')
+    @yield('recommended-gifts')
+    @yield('browsed-gifts')
      <!-- Customer Reviews -->
      <h6 class="font-600 text-uppercase mt-4">Customer Reviews</h6>
      <div class="owl-carousel owl-theme reviews-carousel pb-md-5">

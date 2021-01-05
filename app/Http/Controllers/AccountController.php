@@ -32,7 +32,7 @@ class AccountController extends Controller
         Auth::user()->id = auth()->user()->id;
         $user = User::find(Auth::user()->id);
         $title = ucfirst($user->name);
-        $recipients = DB::select('select distinct recipients_cell, count(*) as recipient from recipients where user_id = :user_id group by recipients_cell', ['user_id' => Auth::user()->id]);
+        $recipients = recipients(Auth::user()->id);
         $data = [
             'title'      => $title,
             'posts'      => $user->posts,

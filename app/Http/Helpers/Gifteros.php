@@ -299,6 +299,12 @@
         return $address;
     }
 
+    // Recipient's
+    function recipients($user_id){
+        $recipients = DB::select('select distinct recipients_cell, count(*) as recipient from recipients where user_id = :user_id group by recipients_cell', ['user_id' => $user_id]);
+        return $recipients;
+    }
+
     // Recipient's full name
     function recipientsName($recipients_cell){
         $name = '';
@@ -344,11 +350,11 @@
 
         if (!empty($friend_id)){
             $button = '
-                <a href="/recipient/'. strtolower($name) .'" class="btn btn-outline-primary btn-block btn-sm font-600 rounded-0">View Profile</a>
+                <a href="/recipient/'. strtolower($name) .'" class="btn btn-primary btn-block btn-sm font-600">View Profile</a>
             ';
         } else {
             $button = '
-                <a href="/invite/'. $recipients_cell .'" class="btn btn-outline-primary btn-block btn-sm font-600 rounded-0">Invite</a>
+                <a href="/invite/'. $recipients_cell .'" class="btn btn-primary btn-block btn-sm font-600">Invite</a>
             ';
         }
         return $button;

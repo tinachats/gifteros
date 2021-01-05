@@ -368,17 +368,17 @@
                             </div>
                             <div class="cart-action-btns">
                                 <div class="d-flex align-items-center justify-content-center mt-2">
-                                    <button class="btn btn-warning btn-sm btn-block font-600 d-flex align-items-center justify-content-center clear-cart rounded-pill mr-1">
+                                    <button class="btn btn-warning btn-sm btn-block font-600 d-flex align-items-center justify-content-center clear-cart mr-1">
                                         <i class="material-icons mr-1">delete_sweep</i>
                                         Clear Cart
                                     </button>
                                     @auth
-                                        <a role="button" href="/checkout" class="btn btn-primary btn-sm btn-block font-600 d-flex align-items-center justify-content-center checkout-btn rounded-pill m-0">
+                                        <a role="button" href="/checkout" class="btn btn-primary btn-sm btn-block font-600 d-flex align-items-center justify-content-center checkout-btn m-0">
                                             <i class="material-icons mr-1">directions_run</i> Checkout
                                         </a>
                                     @endauth
                                     @guest
-                                        <a role="button" href="/login" class="btn btn-primary btn-sm btn-block font-600 d-flex align-items-center justify-content-center checkout-btn rounded-pill m-0">
+                                        <a role="button" href="/login" class="btn btn-primary btn-sm btn-block font-600 d-flex align-items-center justify-content-center checkout-btn m-0">
                                             <i class="material-icons mr-1">directions_run</i> Checkout
                                         </a>
                                     @endguest

@@ -69,6 +69,7 @@ Route::get('/remove_item/{gift_id}', [CartController::class, 'removeItem'])->nam
 Route::get('/shopping_cart', [CartController::class, 'shoppingCart'])->name('shopping_cart');
 Route::get('/clear_cart', [CartController::class, 'clearCart'])->name('clear_cart');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
+Route::get('/success', [CartController::class, 'success'])->name('success');
 
 // Wishlist Routes
 Route::get('/wishlist', [Wishlist::class, 'index'])->name('wishlist');

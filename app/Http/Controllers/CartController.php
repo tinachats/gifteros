@@ -15,7 +15,7 @@ class CartController extends Controller
             if($request->action == 'shopping-cart'){
                 $usd_subtotal = $zar_subtotal = $zwl_subtotal = 0;
                 $total_cart = 0;
-                $shopping_cart = '';
+                $shopping_cart = $cart_items = '';
                 $cart = Session::get('cart', []);
                 $count_cart = count($cart);
 
@@ -30,7 +30,7 @@ class CartController extends Controller
                         $zar_subtotal += ($value['qty'] * $value['zar_price']);
                         $zwl_subtotal += ($value['qty'] * $value['zwl_price']);
                         $total_cart += $value['qty'];
-                        $shopping_cart .= '
+                        $cart_items .= '
                             <!-- Cart Item -->
                             <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">
                                 <div class="d-flex justify-content-between align-items-start">
@@ -82,9 +82,16 @@ class CartController extends Controller
                             <!-- /.Cart Item -->
                         ';
                     }
+                    $shopping_cart .= $cart_items;
                 } else {
                     $shopping_cart = '
                         <li class="list-group-item d-inline-block text-center rounded-2 lh-100 w-100">
+                            <i class="fa fa-dropbox fa-3x text-faded"></i>
+                            <h5 class="font-600 text-faded">Your giftbox is empty!</h5>
+                        </li>
+                    ';
+                    $cart_items = '
+                        <li class="list-group-item d-inline-block text-center rounded-0 lh-100 w-100">
                             <i class="fa fa-dropbox fa-3x text-faded"></i>
                             <h5 class="font-600 text-faded">Your giftbox is empty!</h5>
                         </li>
@@ -93,6 +100,7 @@ class CartController extends Controller
                 $data = [
                     'message'       => 'success',
                     'shopping_cart' => $shopping_cart,
+                    'cart_items'    => $cart_items,
                     'cart'          => $cart,
                     'count_cart'    => $count_cart,
                     'usd_total'     => number_format($usd_subtotal, 2),
@@ -226,6 +234,7 @@ class CartController extends Controller
         }
     }
 
+    // Harare suburbs
     public function checkout()
     {
         $suburbs = DB::table('suburbs')
@@ -238,5 +247,14 @@ class CartController extends Controller
             'title' => $title
         ];
         return view('checkout')->with($data);
+    }
+
+    // Success page
+    public function success()
+    {
+        $data = [
+            'title' => 'Order Success'
+        ];
+        return view('success')->with($data);
     }
 }
