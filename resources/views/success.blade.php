@@ -21,21 +21,7 @@
 
     <!-- Order Summary Details -->
     <div class="row justify-content-center">
-        <div class="col-12 col-md-4">
-            <ul class="list-group box-shadow-sm rounded-2">
-                <li class="list-group-item d-flex align-items-center justify-content-between rounded-top-2">
-                    <div class="d-flex align-items-center">
-                        <i class="material-icons text-success">check_circle</i>
-                        <h6 class="font-600 my-0">Order Success</h6>
-                    </div>
-                    <div class="d-flex align-items-center">
-                        <i class="material-icons text-faded mr-1">redeem</i>
-                        <span class="text-faded text-sm">3 items</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-md-8 order-md-2">
             <div class="bg-whitesmoke box-shadow-sm rounded-2 bordered">
                 <div class="d-flex align-items-center justify-content-between box-shadow-sm p-2">
                     <div class="media">
@@ -76,6 +62,45 @@
                 <div class="delivery-animation">
                     <img src="{{ asset('img/app/animated/truck-load.gif') }}" height="400" alt="" class="w-100">
                 </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-4 order-md-1">
+            <ul class="list-group box-shadow-sm rounded-2">
+                <li class="list-group-item d-flex align-items-center justify-content-between rounded-top-2">
+                    <div class="d-flex align-items-center">
+                        <i class="material-icons text-success">check_circle</i>
+                        <h6 class="font-600 my-0">Order Success</h6>
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <i class="material-icons text-faded mr-1">receipt</i>
+                        <span class="text-faded text-sm">283620373</span>
+                    </div>
+                </li>
+                <li class="list-group-item d-flex align-items-center justify-content-around rounded-bottom-2">
+                    <div class="d-block text-center lh-100">
+                        <p class="text-sm text-faded mb-0">Delivery In</p>
+                        <p class="text-sm mt-1">3d</p>
+                    </div>
+
+                    <div class="d-block text-center lh-100">
+                        <p class="text-sm text-faded mb-0">Amount</p>
+                        <p class="text-sm mt-1">$123.37</p>
+                    </div>
+
+                    <div class="d-block text-center lh-100">
+                        <p class="text-sm text-faded mb-0">Coupon</p>
+                        <p class="text-sm mt-1">$123.37</p>
+                    </div>
+                    <div class="d-block text-center lh-100">
+                        <p class="text-sm text-faded mb-0">Items</p>
+                        <p class="text-sm mt-1">4</p>
+                    </div>
+                </li>
+            </ul>
+            <div class="my-2">
+                <button class="btn btn-primary px-3 rounded-pill d-flex align-items-center justify-content-center">
+                    <i class="material-icons mr-1">arrow_back</i> View Order Details
+                </button>
             </div>
         </div>
     </div>
