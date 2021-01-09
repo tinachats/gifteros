@@ -5,6 +5,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AppRatings;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\Categories;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\Developers;
 use App\Http\Controllers\Gifts;
 use App\Http\Controllers\Auth\LoginController;
@@ -70,6 +71,10 @@ Route::get('/shopping_cart', [CartController::class, 'shoppingCart'])->name('sho
 Route::get('/clear_cart', [CartController::class, 'clearCart'])->name('clear_cart');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::get('/success', [CartController::class, 'success'])->name('success');
+
+// Coupons & Deiscounts Routes
+Route::post('/coupon', [CouponController::class, 'store'])->name('coupon.store');
+Route::delete('/coupon', [CouponController::class, 'destroy'])->name('coupon.destroy');
 
 // Wishlist Routes
 Route::get('/wishlist', [Wishlist::class, 'index'])->name('wishlist');

@@ -111,18 +111,18 @@
                 </li>
                 <!-- /.Cart Subtotal -->
             </ul>
-            <!-- Gift Voucher -->
-            <form method="post" class="needs-validation bg-whitesmoke box-shadow-sm rounded-2 p-3" id="coupon-form" novalidate>
-                <label for="voucher" class="mb-0 text-sm text-faded font-500">Do you have a coupon or gift card?</label>
+            <!-- Gift coupon -->
+            <form method="post" class="needs-validation bg-whitesmoke box-shadow-sm bordered rounded-2 p-3" id="coupon-form" novalidate>
+                <label for="coupon" class="mb-0 text-sm text-faded font-500">Do you have a coupon or gift card?</label>
                 <div class="input-group coupon-input">
-                    <input type="text" class="form-control" name="voucher" id="voucher" placeholder="Gift voucher" required>
+                    <input type="text" class="form-control" name="coupon" id="coupon" placeholder="Gift code" required>
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-primary">Redeem</button>
                     </div>
                 </div>
-                <span id="voucher-error" class="invalid-feedback text-sm font-600">Gift voucher required!</span>
+                <span id="coupon-error" class="invalid-feedback text-sm font-600">Gift coupon required!</span>
             </form>
-            <!-- /.Gift Voucher -->
+            <!-- /.Gift coupon -->
         </div>
         <!-- /.Cart Items -->
 

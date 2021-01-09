@@ -17,11 +17,11 @@ class GiftCustomization extends Migration
             $table->id();
             $table->bigInteger('user_id');
             $table->bigInteger('gift_id');
-            $table->longText('custom_text')->default('null');
-            $table->longText('additionals')->default('null');
-            $table->string('custom_image')->default('null');
-            $table->string('custom_color')->default('null');
-            $table->string('custom_size')->default('null');
+            $table->longText('custom_text')->nullable();
+            $table->longText('additionals')->nullable();
+            $table->string('custom_image')->nullable();
+            $table->string('custom_color')->nullable();
+            $table->string('custom_size')->nullable();
             $table->timestamps();
         });
     }
