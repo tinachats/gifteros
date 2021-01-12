@@ -121,6 +121,40 @@
         return $count;
     }
 
+    // Check if new user has been given a newbie coupon
+    function newbieCoupon($user_id){
+        $count = DB::table('coupons')
+                    ->where([
+                        'type'    => 'newbie_coupon',
+                        'status'  => 'used',
+                        'user_id' => $user_id
+                    ])
+                    ->count();
+        return $count;
+    }
+
+    // Check if current user has coupons
+    function userCoupons($user_id){
+        $count = DB::table('coupons')
+                    ->where([
+                        'status'  => 'not-used',
+                        'user_id' => $user_id
+                    ])
+                    ->count();
+        return $count;
+    }
+
+    // Get currency rates
+    function zaRate(){
+        $zar_rate = DB::table('currency_rates')->value('zar');
+        return number_format($zar_rate, 2);
+    }
+
+    function zwRate(){
+        $zw_rate = DB::table('currency_rates')->value('zwl');
+        return number_format($zw_rate, 2);
+    }
+
     // Count user's received orders
     function countReceivedOrders(){
         $count = DB::table('orders')

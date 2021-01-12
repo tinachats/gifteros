@@ -58,7 +58,10 @@
                         <i class="fa fa-whatsapp fa-2x text-white m-auto"></i>
                     </div>
                     <div class="floating-action box-shadow-sm action-btn bg-purple" onclick="topFunction()" title="Scroll to top">
-                        <i class="material-icons text-white m-auto">arrow_upward</i>
+                        <div class="m-auto d-flex flex-column justify-content-center lh-100">
+                            <i class="material-icons text-white my-0">arrow_upward</i>
+                            <small class="text-white font-600 my-0">Top</small>
+                        </div>
                     </div>
                     <div class="floating-action box-shadow-sm toggle-actions bg-primary" title="Click to toggle actions">
                         <i class="material-icons m-auto text-white">add</i>

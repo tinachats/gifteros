@@ -14,7 +14,13 @@ class CartController extends Controller
         if($request->ajax()){
             if($request->action == 'shopping-cart'){
                 $usd_subtotal = $zar_subtotal = $zwl_subtotal = 0;
-                $total_cart = 0;
+                $usd_total = $zar_total = $zwl_total = 0;
+                $usd_delivery_cost = session()->get('shipping_costs')['usd_delivery_cost'] ?? 0;
+                $zar_delivery_cost = number_format($usd_delivery_cost * zaRate(), 2) ?? 0;
+                $zwl_delivery_cost = number_format($usd_delivery_cost * zwRate(), 2) ?? 0;
+                $usd_discount = session()->get('coupon')['usd_value'] ?? 0;
+                $zar_discount = session()->get('coupon')['zar_value'] ?? 0;
+                $zwl_discount = session()->get('coupon')['zwl_value'] ?? 0;
                 $shopping_cart = $cart_items = '';
                 $cart = Session::get('cart', []);
                 $count_cart = count($cart);
@@ -22,14 +28,17 @@ class CartController extends Controller
                 if($count_cart !== 0){
                     $shopping_cart .= '
                         <div class="list-group-item box-shadow-sm rounded-top-2 lh-100 px-1 py-2 fixed-top">
-                            <h6 class="lead font-600 ml-2 my-0">My giftbox  items</h6>
+                            <h6 class="lead font-600 ml-2 my-0">'.$count_cart.' giftbox  items</h6>
                         </div>
                     ';
                     foreach($cart as $key => $value){
                         $usd_subtotal += ($value['qty'] * $value['usd_price']);
                         $zar_subtotal += ($value['qty'] * $value['zar_price']);
                         $zwl_subtotal += ($value['qty'] * $value['zwl_price']);
-                        $total_cart += $value['qty'];
+                        $usd_total = ($usd_subtotal + $usd_delivery_cost) - $usd_discount;
+                        $zar_total = ($zar_subtotal + $zar_delivery_cost) - $zar_discount;
+                        $zwl_total = ($zwl_subtotal + $zwl_delivery_cost) - $zwl_discount;
+                        $count_cart += $value['qty'];
                         $cart_items .= '
                             <!-- Cart Item -->
                             <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">
@@ -98,14 +107,23 @@ class CartController extends Controller
                     ';
                 }
                 $data = [
-                    'message'       => 'success',
-                    'shopping_cart' => $shopping_cart,
-                    'cart_items'    => $cart_items,
-                    'cart'          => $cart,
-                    'count_cart'    => $count_cart,
-                    'usd_total'     => number_format($usd_subtotal, 2),
-                    'zar_total'     => number_format($zar_subtotal, 2),
-                    'zwl_total'     => number_format($zwl_subtotal, 2),
+                    'message'           => 'success',
+                    'shopping_cart'     => $shopping_cart,
+                    'cart_items'        => $cart_items,
+                    'cart'              => $cart,
+                    'count_cart'        => count(Session::get('cart', [])),
+                    'usd_subtotal'      => number_format($usd_subtotal, 2),
+                    'zar_subtotal'      => number_format($zar_subtotal, 2),
+                    'zwl_subtotal'      => number_format($zwl_subtotal, 2),
+                    'usd_delivery_cost' => number_format($usd_delivery_cost, 2),
+                    'zar_delivery_cost' => number_format($zar_delivery_cost, 2),
+                    'zwl_delivery_cost' => number_format($zwl_delivery_cost, 2),
+                    'usd_discount'      => number_format($usd_discount, 2),
+                    'zar_discount'      => number_format($zar_discount, 2),
+                    'zwl_discount'      => number_format($zwl_discount, 2),
+                    'usd_total'         => number_format($usd_total, 2),
+                    'zar_total'         => number_format($zar_total, 2),
+                    'zwl_total'         => number_format($zwl_total, 2),
                 ];
                 return response()->json($data);
             }
@@ -256,5 +274,22 @@ class CartController extends Controller
             'title' => 'Order Success'
         ];
         return view('success')->with($data);
+    }
+
+    // Delivery (Shipping) costs
+    public function shippingCosts(Request $request)
+    {
+        if($request->ajax()){
+            if($request->action == 'shipping-costs'){
+                $usd_delivery_cost = number_format($request->usd_delivery_cost, 2);
+                $zar_delivery_cost = number_format($request->zar_delivery_cost, 2);
+                $zwl_delivery_cost = number_format($request->zwl_delivery_cost, 2);
+                session()->put('shipping_costs', [
+                    'usd_delivery_cost' => $usd_delivery_cost,
+                    'zar_delivery_cost' => $zar_delivery_cost,
+                    'zwl_delivery_cost' => $zwl_delivery_cost,
+                ]);
+            }
+        }
     }
 }

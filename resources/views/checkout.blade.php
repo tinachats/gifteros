@@ -22,10 +22,32 @@
     <div class="row justify-content-center">
         <!-- Recipient List -->
         <div class="col-12 col-xl-4 order-md-1">
+            <!-- Send gift to a recipient -->
             <div class="list-group box-shadow-sm rounded-2">
                 <li class="list-group-header list-group-item text-left rounded-top-2">
                     <h6 class="font-600">Choose Recipient</h6>
                 </li>
+                <!-- Recipient -->
+                <li class="list-group-item d-flex align-items-center">
+                    <!-- Custom Type -->
+                    <div class="custom-type-radio custom-color shadow-sm" id="checkbox-id{{ Auth::user()->mobile_phone }}">
+                        <div class="color-inset">
+                            <i class="material-icons color-selected-icon">done</i>
+                        </div>
+                    </div>
+                    <!-- /.Custom Type -->
+
+                    <!-- Recipient's Details -->
+                    <div class="media ml-2 custom-type-label" data-id="{{ Auth::user()->mobile_phone }}">
+                        <img src="/storage/users/{{ Auth::user()->profile_pic }}" alt="" height="40" width="40" class="rounded-circle align-self-start mr-2">
+                        <div class="media-body">
+                            <h6 class="font-600 mb-0 text-capitalize">Me</h6>
+                            <p class="text-sm my-0 text-capitalize">{{ Auth::user()->address }}</p>
+                        </div>
+                    </div>
+                    <!-- /.Recipient's Details -->
+                </li>
+                <!-- /.Recipient -->
                 @if (count(recipients(Auth::user()->id)) > 0)
                     @foreach (recipients(Auth::user()->id) as $recipient)
                         <!-- Recipient -->
@@ -39,13 +61,19 @@
                             <!-- /.Custom Type -->
 
                             <!-- Recipient's Details -->
-                            <div class="media ml-2">
+                            <div class="media ml-2 custom-type-label">
                                 <img src="{{ recipientsPic($recipient->recipients_cell) }}" alt="" height="40" width="40" class="rounded-circle align-self-start mr-2">
                                 <div class="media-body">
                                     <h6 class="font-600 mb-0 text-capitalize">{{ recipientsName($recipient->recipients_cell) }}</h6>
                                     <p class="text-sm my-0 text-capitalize">{{ recipientsAddress($recipient->recipients_cell) }}</p>
                                 </div>
                             </div>
+                            <input type="hidden" name="recipient-name" id="recipient-name" value="{{ recipientsName($recipient->recipients_cell) }}">
+                            @isset($recipient->recipients_email)
+                                <input type="hidden" name="recipient-email" id="recipient-email" value="{{ $recipient->recipients_email }}">
+                            @endisset
+                            <input type="hidden" name="recipient-cell" id="recipient-cell" value="{{ $recipient->recipients_cell }}">
+                            <input type="hidden" name="recipient-address" id="recipient-address" value="{{ recipientsAddress($recipient->recipients_cell) }}">
                             <!-- /.Recipient's Details -->
                         </li>
                         <!-- /.Recipient -->
@@ -69,6 +97,7 @@
                     </li>
                 @endif
             </div>
+            <!-- /.Send gift to a recipient -->
         </div>
         <!-- /.Recipient List -->
 
@@ -76,8 +105,9 @@
         <div class="col-12 col-xl-4 order-md-3">
             <ul class="list-group box-shadow-sm rounded-2 my-2">
                 <li class="list-group-item p-2 cart-menu-item d-flex justify-content-between align-items-center rounded-top-2">
-                    <h6 class="font-600 my-0">My Giftbox Items</h6>
-                    <span class="badge badge-success badge-pill cart-count">0</span>
+                    <h6 class="font-600 my-0">
+                        <span class="cart-count mr-1">0</span> giftbox items
+                    </h6>
                 </li>
                 <div class="rounded-2" id="cart-items">
                     <!-- Shopping Cart details will be shown here -->
@@ -90,39 +120,111 @@
                 </div>
                 <!-- Cart Subtotal -->
                 <li class="list-group-item w-100 lh-100 font-600 text-sm rounded-bottom-2" id="cart-action-btns">
+                    <!-- Cart Subtotal -->
                     <div class="usd-price">
                         <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
                             <span class="text-capitalize">Subtotal Amount:</span>
-                            <span class="usd-total">US$0.00</span>
+                            <span class="usd-subtotal">US$0.00</span>
                         </h6>
                     </div>
                     <div class="zar-price d-none">
                         <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
                             <span class="text-capitalize">Subtotal Amount:</span>
-                            <span class="zar-total">R0.00</span>
+                            <span class="zar-subtotal">R0.00</span>
                         </h6>
                     </div>
                     <div class="zwl-price d-none">
                         <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
                             <span class="text-capitalize">Subtotal Amount:</span>
+                            <span class="zwl-subtotal">ZW$0.00</span>
+                        </h6>
+                    </div>
+                    <!-- /.Cart Subtotal -->
+
+                    @if (session()->has('shipping_costs'))
+                        <!-- Delivery charges -->
+                        <div class="usd-price">
+                            <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
+                                <span class="text-capitalize">Delivery Costs:</span>
+                                <span class="usd-delivery-cost">US${{ session()->get('shipping_costs')['usd_delivery_cost'] ?? 0 }}</span>
+                            </h6>
+                        </div>
+                        <div class="zar-price d-none">
+                            <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
+                                <span class="text-capitalize">Delivery Costs:</span>
+                                <span class="zar-delivery-cost">R{{ session()->get('shipping_costs')['zar_delivery_cost'] ?? 0 }}</span>
+                            </h6>
+                        </div>
+                        <div class="zwl-price d-none">
+                            <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
+                                <span class="text-capitalize">Delivery Costs:</span>
+                                <span class="zwl-delivery-cost">ZW${{ session()->get('shipping_costs')['zwl_delivery_cost'] ?? 0 }}</span>
+                            </h6>
+                        </div>
+                        <!-- /.Delivery Charges -->
+                    @endif
+
+                    @if (session()->has('coupon'))
+                        <!-- Taxes & Discounts -->
+                        <div class="usd-price">
+                            <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
+                                <span class="text-capitalize">Discount:</span>
+                                <span class="usd-discount">US${{ session()->get('coupon')['usd_value'] }}</span>
+                            </h6>
+                        </div>
+                        <div class="zar-price d-none">
+                            <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
+                                <span class="text-capitalize">Discount:</span>
+                                <span class="zar-discount">R{{ session()->get('coupon')['zar_value'] }}</span>
+                            </h6>
+                        </div>
+                        <div class="zwl-price d-none">
+                            <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
+                                <span class="text-capitalize">Discount:</span>
+                                <span class="zwl-discount">ZW${{ session()->get('coupon')['zwl_value'] }}</span>
+                            </h6>
+                        </div>
+                        <!-- /.Taxes & Discounts -->
+                        <hr class="my-1">
+                    @endif
+
+                    <!-- Cart Total -->
+                    <div class="usd-price">
+                        <h6 class="font-600 d-flex justify-content-between align-items-center my-0 py-0">
+                            <span class="text-capitalize">Cart Total:</span>
+                            <span class="usd-total">US$0.00</span>
+                        </h6>
+                    </div>
+                    <div class="zar-price d-none">
+                        <h6 class="font-600 d-flex justify-content-between align-items-center my-0 py-0">
+                            <span class="text-capitalize">Cart Total:</span>
+                            <span class="zar-total">R0.00</span>
+                        </h6>
+                    </div>
+                    <div class="zwl-price d-none">
+                        <h6 class="font-600 d-flex justify-content-between align-items-center my-0 py-0">
+                            <span class="text-capitalize">Cart Total:</span>
                             <span class="zwl-total">ZW$0.00</span>
                         </h6>
                     </div>
+                    <!-- /.Cart Total -->
                 </li>
                 <!-- /.Cart Subtotal -->
             </ul>
-            <!-- Gift coupon -->
-            <form method="post" class="needs-validation bg-whitesmoke box-shadow-sm bordered rounded-2 p-3" id="coupon-form" novalidate>
-                <label for="coupon" class="mb-0 text-sm text-faded font-500">Do you have a coupon or gift card?</label>
-                <div class="input-group coupon-input">
-                    <input type="text" class="form-control" name="coupon" id="coupon" placeholder="Gift code" required>
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-primary">Redeem</button>
+            @if (userCoupons(Auth::user()->id) > 0)
+                <!-- Gift coupon -->
+                <form method="post" class="needs-validation bg-whitesmoke box-shadow-sm bordered rounded-2 p-3" id="coupon-form" novalidate>
+                    <label for="coupon" class="mb-0 text-sm text-faded font-500">Do you have a coupon or gift card?</label>
+                    <div class="input-group coupon-input">
+                        <input type="text" class="form-control" name="coupon" id="coupon" placeholder="Coupon code" value="{{ session()->get('coupon')['code'] ?? '' }}" required>
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary">Redeem</button>
+                        </div>
                     </div>
-                </div>
-                <span id="coupon-error" class="invalid-feedback text-sm font-600">Gift coupon required!</span>
-            </form>
-            <!-- /.Gift coupon -->
+                    <span id="coupon-error" class="invalid-feedback text-sm font-600" id="coupon-feedback">Gift coupon required!</span>
+                </form>
+                <!-- /.Gift coupon -->
+            @endif
         </div>
         <!-- /.Cart Items -->
 
@@ -200,10 +302,10 @@
                     <label for="customer-suburb" class="mb-0 text-sm text-faded font-500">Recipient's Suburb</label>
                     <div class="form-group icon-form-group mb-1">
                         <i class="material-icons select-icon icon text-faded">person_pin_circle</i>
-                        <select name="customer-suburb" id="customer-suburb" class="custom-control form-control font-500 text-faded text-capitalize box-shadow-sm" onchange="deliveryCharge()" required>
+                        <select name="customer-suburb" id="customer-suburb" class="custom-control form-control font-500 text-faded text-capitalize box-shadow-sm" required>
                             <option value="0" selected>Select Suburb</option>
                             @foreach ($suburbs as $row)
-                                <option value="{{ $row->suburb_name }}" data-usd="{{ number_format($row->usd_price, 2) }}" data-zar="{{ number_format($row->zar_price, 2) }}" data-zwl="{{ number_format($row->zwl_price, 2) }}">
+                                <option value="{{ number_format($row->usd_price, 2) }}">
                                     {{ $row->suburb_name }}
                                 </option>
                             @endforeach
@@ -245,6 +347,8 @@
                         </div>
                     </div>
                     <!-- /.ZimSwitch -->
+
+                    <img src="{{ asset('img/app/payments.png') }}" alt="" class="img-fluid">
 
                     <!-- Hidden inputs -->
                     <input type="hidden" name="action" id="action" value="customer-order">

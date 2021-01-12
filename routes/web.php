@@ -72,9 +72,11 @@ Route::get('/clear_cart', [CartController::class, 'clearCart'])->name('clear_car
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 Route::get('/success', [CartController::class, 'success'])->name('success');
 
-// Coupons & Deiscounts Routes
-Route::post('/coupon', [CouponController::class, 'store'])->name('coupon.store');
-Route::delete('/coupon', [CouponController::class, 'destroy'])->name('coupon.destroy');
+// Coupons & Discounts Routes
+Route::post('/newbie-coupon', [CouponController::class, 'newbieCoupon'])->name('newbie_coupon');
+
+// Delivery Charges
+Route::post('/shipping-costs', [CartController::class, 'shippingCosts'])->name('shipping_costs');
 
 // Wishlist Routes
 Route::get('/wishlist', [Wishlist::class, 'index'])->name('wishlist');

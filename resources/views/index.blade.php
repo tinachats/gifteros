@@ -97,8 +97,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder"></button>
-                                <button class="btn btn-sm compare-btn-placeholder"></button>
+                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
+                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
                             </div>
                         </div>
                     </div>
@@ -151,8 +151,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder"></button>
-                                <button class="btn btn-sm compare-btn-placeholder"></button>
+                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
+                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
                             </div>
                         </div>
                     </div>
@@ -205,8 +205,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder"></button>
-                                <button class="btn btn-sm compare-btn-placeholder"></button>
+                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
+                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
                             </div>
                         </div>
                     </div>
@@ -259,8 +259,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder"></button>
-                                <button class="btn btn-sm compare-btn-placeholder"></button>
+                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
+                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
                             </div>
                         </div>
                     </div>
@@ -313,8 +313,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder"></button>
-                                <button class="btn btn-sm compare-btn-placeholder"></button>
+                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
+                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
                             </div>
                         </div>
                     </div>
@@ -367,8 +367,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder"></button>
-                                <button class="btn btn-sm compare-btn-placeholder"></button>
+                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
+                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
                             </div>
                         </div>
                     </div>
@@ -428,8 +428,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder"></button>
-                                <button class="btn btn-sm compare-btn-placeholder"></button>
+                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
+                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
                             </div>
                         </div>
                     </div>
@@ -482,8 +482,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder"></button>
-                                <button class="btn btn-sm compare-btn-placeholder"></button>
+                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
+                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
                             </div>
                         </div>
                     </div>
@@ -536,8 +536,8 @@
                         </div>
                         <div class="text-center w-100 mx-0 px-0 mb-1">
                             <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                <button class="btn btn-sm btn-cart-placeholder"></button>
-                                <button class="btn btn-sm compare-btn-placeholder"></button>
+                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
+                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
                             </div>
                         </div>
                     </div>

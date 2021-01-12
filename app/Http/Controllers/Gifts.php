@@ -192,11 +192,11 @@ class Gifts extends Controller
                                     </div>
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn font-600" data-id="'. $gift->id .'">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span>
                                             </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
                                                 Compare
                                             </button>
@@ -364,9 +364,9 @@ class Gifts extends Controller
                                     </div>
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn font-600" data-id="'. $gift->id .'">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
-                                                Buy <span class="text-white text-white ml-1">gift</span>
+                                                Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
                                             <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
@@ -536,9 +536,9 @@ class Gifts extends Controller
                                     </div>
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn font-600" data-id="'. $gift->id .'">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
-                                                Buy <span class="text-white text-white ml-1">gift</span>
+                                                Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
                                             <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
@@ -708,9 +708,9 @@ class Gifts extends Controller
                                     </div>
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn font-600" data-id="'. $gift->id .'">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
-                                                Buy <span class="text-white text-white ml-1">gift</span>
+                                                Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
                                             <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
@@ -880,9 +880,9 @@ class Gifts extends Controller
                                     </div>
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn font-600" data-id="'. $gift->id .'">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
-                                                Buy <span class="text-white text-white ml-1">gift</span>
+                                                Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
                                             <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
@@ -1052,9 +1052,9 @@ class Gifts extends Controller
                                     </div>
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn font-600" data-id="'. $gift->id .'">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
-                                                Buy <span class="text-white text-white ml-1">gift</span>
+                                                Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
                                             <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>

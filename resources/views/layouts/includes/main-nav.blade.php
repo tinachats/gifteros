@@ -346,26 +346,108 @@
                         <div class="shopping-bag rounded-2">
                             <!-- Shopping Cart details will be shown here -->
                         </div>
-                        <!-- Cart Subtotal -->
+                        <!-- Cart Details -->
                         <li class="list-group-item w-100 lh-100 font-600 text-sm rounded-bottom-2" id="cart-action-btns">
+                            <!-- Cart Subtotal -->
                             <div class="usd-price">
                                 <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
                                     <span class="text-capitalize">Subtotal Amount:</span>
-                                    <span class="usd-total">US$0.00</span>
+                                    <span class="usd-subtotal">US$0.00</span>
                                 </h6>
                             </div>
                             <div class="zar-price d-none">
                                 <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
                                     <span class="text-capitalize">Subtotal Amount:</span>
-                                    <span class="zar-total">R0.00</span>
+                                    <span class="zar-subtotal">R0.00</span>
                                 </h6>
                             </div>
                             <div class="zwl-price d-none">
                                 <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
                                     <span class="text-capitalize">Subtotal Amount:</span>
+                                    <span class="zwl-subtotal">ZW$0.00</span>
+                                </h6>
+                            </div>
+                            <!-- /.Cart Subtotal -->
+
+                            <!-- Delivery charges -->
+                            @if (session()->has('shipping_costs'))
+                                <div class="usd-price">
+                                    <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
+                                        <span class="text-capitalize">Delivery Costs:</span>
+                                        <span class="usd-delivery-cost">US${{ session()->get('shipping_costs')['usd_delivery_cost'] ?? 0 }}</span>
+                                    </h6>
+                                </div>
+                                <div class="zar-price d-none">
+                                    <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
+                                        <span class="text-capitalize">Delivery Costs:</span>
+                                        <span class="zar-delivery-cost">R{{ session()->get('shipping_costs')['zar_delivery_cost'] ?? 0 }}</span>
+                                    </h6>
+                                </div>
+                                <div class="zwl-price d-none">
+                                    <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
+                                        <span class="text-capitalize">Delivery Costs:</span>
+                                        <span class="zwl-delivery-cost">ZW${{ session()->get('shipping_costs')['zwl_delivery_cost'] ?? 0 }}</span>
+                                    </h6>
+                                </div>
+                                <!-- /.Delivery Charges -->
+                            @endif
+                            <!-- /.Delivery Charges -->
+
+                            <!-- Taxes & Discounts -->
+                            @if (session()->has('coupon'))
+                                <div class="usd-price">
+                                    <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
+                                        <span class="text-capitalize">Discount:</span>
+                                        <span class="usd-discount">US${{ session()->get('coupon')['usd_value'] }}</span>
+                                    </h6>
+                                </div>
+                                <div class="zar-price d-none">
+                                    <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
+                                        <span class="text-capitalize">Discount:</span>
+                                        <span class="zar-discount">R{{ session()->get('coupon')['zar_value'] }}</span>
+                                    </h6>
+                                </div>
+                                <div class="zwl-price d-none">
+                                    <h6 class="font-500 d-flex justify-content-between align-items-center my-0 py-0">
+                                        <span class="text-capitalize">Discount:</span>
+                                        <span class="zwl-discount">ZW${{ session()->get('coupon')['zwl_value'] }}</span>
+                                    </h6>
+                                </div>
+                                <hr class="my-1">
+                            @endif
+                            <!-- /.Taxes & Discounts -->
+
+                            <!-- Cart Total -->
+                            <div class="usd-price">
+                                <h6 class="font-600 d-flex justify-content-between align-items-center my-0 py-0">
+                                    <span class="text-capitalize">Cart Total:</span>
+                                    <span class="usd-total">US$0.00</span>
+                                </h6>
+                            </div>
+                            <div class="zar-price d-none">
+                                <h6 class="font-600 d-flex justify-content-between align-items-center my-0 py-0">
+                                    <span class="text-capitalize">Cart Total:</span>
+                                    <span class="zar-total">R0.00</span>
+                                </h6>
+                            </div>
+                            <div class="zwl-price d-none">
+                                <h6 class="font-600 d-flex justify-content-between align-items-center my-0 py-0">
+                                    <span class="text-capitalize">Cart Total:</span>
                                     <span class="zwl-total">ZW$0.00</span>
                                 </h6>
                             </div>
+                            <!-- /.Cart Total -->
+
+                            {{-- Hidden Inputs --}}
+                            <input type="hidden" name="cart-usd-subtotal" id="cart-usd-subtotal">
+                            <input type="hidden" name="cart-zar-subtotal" id="cart-zar-subtotal">
+                            <input type="hidden" name="cart-zwl-subtotal" id="cart-zwl-subtotal">
+                            <input type="hidden" name="cart-usd-total" id="cart-usd-total">
+                            <input type="hidden" name="cart-zar-total" id="cart-zar-total">
+                            <input type="hidden" name="cart-zwl-total" id="cart-zwl-total">
+                            {{-- /.Hidden Inputs --}}
+
+                            <!-- Action Buttons -->
                             <div class="cart-action-btns">
                                 <div class="d-flex align-items-center justify-content-center mt-2">
                                     <button class="btn btn-warning btn-sm btn-block font-600 d-flex align-items-center justify-content-center clear-cart mr-1">
@@ -384,8 +466,9 @@
                                     @endguest
                                 </div>
                             </div>
+                            <!-- /.Action Buttons -->
                         </li>
-                        <!-- /.Cart Subtotal -->
+                        <!-- /.Cart Details -->
                     </ul>
                 </li>
                 <!-- /.Shopping Cart -->

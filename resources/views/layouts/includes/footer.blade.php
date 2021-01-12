@@ -9,6 +9,188 @@
         </div>
         <!-- /.Main Content -->
 
+        <!-- App Footer -->
+        <footer class="footer bg-meshgrid mt-5">
+            <div class="container my-2">
+                <div class="row align-items-md-center">
+                    <div class="col-12 col-md-4">
+                        <h5 class="font-600 text-white">Be the first to know</h5>
+                        <p class="text-sm text-white">
+                            Be the first to know of all our gift offers, sales, discounts, events and many more. 
+                            Subscribe to our mailing list and you'll be notified of our exclusive deals.
+                        </p>
+                        <form method="post" class="needs-validation" novalidate>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Your email address" aria-label="Your email address" id="toggle-mailing-list">
+                                <div class="input-group-append">
+                                    <span class="input-group-text text-white text-uppercase bg-primary" id="subscribe">subscribe</span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-12 col-md-4 d-md-flex justify-content-md-center border-left border-white">
+                        <div class="media">
+                            <i class="fa fa-map-marker fa-2x align-self-center text-white mr-2"></i>
+                            <div class="media-body text-left">
+                                <h5 class="font-600 text-white">Gifts Finder</h5>
+                                <p class="text-sm text-white">Find gifts trending nearby</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4 d-md-flex justify-content-md-center border-left border-white">
+                        <div class="media">
+                            <i class="material-icons fa-2x align-self-center text-white mr-2">record_voice_over</i>
+                            <div class="media-body text-left">
+                                <h5 class="font-600 text-white">Customer Services</h5>
+                                <p class="text-sm text-white">Contact us here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="row justify-content-between">
+                    <div class="col-12 col-md-3">
+                        <h6 class="font-600 text-white">Discover Gifteros</h6>
+                        <ul>
+                            <li>
+                                <a href="/about-us">About us</a>
+                            </li>
+                            <li>
+                                <a href="/blog">Blog</a>
+                            </li>
+                            <li>
+                                <a href="/careers">Careers</a>
+                            </li>
+                            <li>
+                                <a href="/partner">Become a Partner</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <h6 class="font-600 text-white">Shopping with us</h6>
+                        <ul>
+                            <li>
+                                <a href="#">Gift Customizations</a>
+                            </li>
+                            <li>
+                                <a href="#">Making Payments</a>
+                            </li>
+                            <li>
+                                <a href="#">Delivery Options</a>
+                            </li>
+                            <li>
+                                <a href="/return-and-exchanges">Return & Exchanges</a>
+                            </li>
+                            <li>
+                                <a href="/order-tracking">Order Tracking</a>
+                            </li>
+                            <li>
+                                <a href="/refunds">Refunds</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <h6 class="font-600 text-white">Legal</h6>
+                        <ul>
+                            <li>
+                                <a href="/terms-and-conditions">Terms & Conditions</a>
+                            </li>
+                            <li>
+                                <a href="/cookie-policy">Cookies</a>
+                            </li>
+                            <li>
+                                <a href="/privacy">Privacy</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-3">
+                        <h6 class="font-600 text-white">Help</h6>
+                        <ul>
+                            <li>
+                                <a href="/contact-us">Contact Us</a>
+                            </li>
+                            <li>
+                                <a href="/faq">FAQ</a>
+                            </li>
+                            <li>
+                                <a href="/brands">Brands</a>
+                            </li>
+                            <li>
+                                <a href="/site-map">Site map</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+                <div class="row justify-content-md-between">
+                    <div class="col-12 col-md-6">
+                        <div class="d-flex align-items-center">
+                            <a href="#">
+                                <i class="fa icon-md text-white fa-facebook-official" aria-hidden="true"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fa icon-md text-white fa-twitter ml-2" aria-hidden="true"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fa icon-md text-white fa-instagram ml-2" aria-hidden="true"></i>
+                            </a>
+                            <a href="#">
+                                <i class="fa icon-md text-white fa-whatsapp mx-2" aria-hidden="true"></i>
+                            </a>
+                            <h6 class="text-muted text-sm font-600 my-0">&copy; {{ date('Y') }} Gifteros Inc. All Rights Reserved.</h6>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6 text-md-right">
+                        <a href="/developer/tinashe.chaterera" class="text-sm">
+                            <h6 class="font-600 text-faded">Designed & Developed by TinaKing</h6>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+        <!-- /.App footer -->
+
+        @auth
+            @if (newbieCoupon(Auth::user()->id) == 0)
+                <!-- Coupon Modal -->
+                <div class="modal fade" id="newbie-modal" tabindex="-1" role="dialog" aria-labelledby="newbie-modal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header py-2 box-shadow-sm">
+                                <div class="modal-title d-flex align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" width="35" alt="{{ config('app.name') }}'s Logo">
+                                        <h6 class="font-600 my-0 ml-1">{{ config('app.name') }}</h6>
+                                    </div>
+                                </div>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span class="material-icons" aria-hidden="true">close</span>
+                                </button>
+                            </div>
+                            <div class="modal-body pb-4">
+                                <div class="row justify-content-center mt-0">
+                                    <div class="col-12 text-center">
+                                        <i class="material-icons fa-5x text-warning"></i>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <h5 class="font-600">New to {{ config('app.name') }}?</h5>
+                                        <p>
+                                            Coupons and hot deals on new customers. Get your $2.00 discount now.
+                                        </p>
+                                        <h2 class="display-4 font-600">$2.00</h2>
+                                        <button class="btn btn-danger rounded-pill" id="newbie-coupon">
+                                            Get your coupon now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.Coupon Modal -->
+            @endif
+        @endauth
+
         <!-- Comparing Panel -->
         <div class="comparison-pane d-none mt-2">
             <span role="button" class="material-icons" id="close-panel" title="Close panel">keyboard_arrow_down</span>
@@ -63,211 +245,6 @@
             </div>
         </div>
         <!-- /.Comparing Panel -->
-
-        <!-- Ad Panel -->
-        {{-- @include('layouts.includes.banners') --}}
-        <!-- /.Ad Panel -->
-
-        <!-- App Footer -->
-        <footer class="footer bg-whitesmoke mt-5">
-            <!-- Ad Panel -->
-            @include('layouts.includes.banners')
-            <!-- /.Ad Panel -->
-
-            <!-- Mailing List Form -->
-            <div class="container-fluid my-3">
-                <div class="row align-items-center justify-content-around">
-                    <div class="col-12 col-lg-7 justify-content-md-center border-right">
-                        <h6 class="font-600">Sign up to our newsletter</h6>
-                        <form method="post" class="needs-validation" novalidate>
-                            <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Your email address" aria-label="Your email address" id="toggle-mailing-list">
-                                <div class="input-group-append">
-                                    <span class="input-group-text text-white text-uppercase bg-primary" id="subscribe">subscribe</span>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="col-12 col-lg-5 justify-content-md-center text-center mt-md-2">
-                        <div class="d-flex align-items-center">
-                            <i class="material-icons fa-3x text-muted mr-2 align-self-center">location_on</i>
-                            <div class="d-block text-center">
-                                <h6 class="my-0 py-0 font-600">Gifts Finder</h6>
-                                <p class="text-faded">Find gifts trending in your <span class="city">area</span></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.Mailing List Form -->
-
-            <!-- Services Offered -->
-            <div class="services-offered d-grid grid-4 border-top border-bottom bg-whitesmoke">
-                {{-- Block Panel --}}
-                <div class="block-panel d-grid border-right px-2">
-                    <div class="block-content text-center m-auto">
-                        <i class="fa fa-money fa-3x text-primary"></i>
-                        <h6 class="my-0 py-0 font-600 text-faded">Great Value</h6>
-                        <p class="text-sm text-faded my-0 py-0">We offer competitive prices on out 1000+ plus gift ranges</p>
-                    </div>
-                </div>
-                {{-- /.Block Panel --}}
-
-                {{-- Block Panel --}}
-                <div class="block-panel d-grid border-right px-2">
-                    <div class="block-content text-center m-auto">
-                        <i class="material-icons fa-3x text-primary">local_shipping</i>
-                        <h6 class="my-0 py-0 font-600 text-faded">Nationwide Delivery</h6>
-                        <p class="text-sm text-faded my-0 py-0">We deliver your gifts anytime and anywhere around Zimbabwe</p>
-                    </div>
-                </div>
-                {{-- /.Block Panel --}}
-
-                {{-- Block Panel --}}
-                <div class="block-panel d-grid border-right px-2">
-                    <div class="block-content text-center m-auto">
-                        <i class="material-icons fa-3x text-primary">credit_card</i>
-                        <h6 class="my-0 py-0 font-600 text-faded">Safe Payment</h6>
-                        <p class="text-sm text-faded my-0 py-0">Pay with the world's most popular and secure payment methodss</p>
-                    </div>
-                </div>
-                {{-- /.Block Panel --}}
-
-                {{-- Block Panel --}}
-                <div class="block-panel d-grid px-2">
-                    <div class="block-content text-center m-auto">
-                        <i class="material-icons fa-3x text-primary">verified_user</i>
-                        <h6 class="my-0 py-0 font-600 text-faded">Shop with Confidence</h6>
-                        <p class="text-sm text-faded my-0 py-0">Our Buyer Protection covers your purchase from click to delivery</p>
-                    </div>
-                </div>
-                {{-- /.Block Panel --}}
-            </div>
-            <!-- Services Offered -->
-
-            <!-- Services and Policies -->
-            <div class="container-fluid bg-meshgrid w-100 py-2">
-                <div class="row justify-content-md-between align-content-md-center services-footer-section">
-                    <div class="col-12 col-md-9 order-md-2">
-                        <div class="row justify-content-md-around">
-                            <div class="col-6 col-md-4">
-                                <ul class="list-styled">
-                                    <h6 class="font-600 text-white">Shopping with us</h6>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">Your Account</p>
-                                    </a>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">Your Orders</p>
-                                    </a>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">Gift Customizations</p>
-                                    </a>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">Making Payments</p>
-                                    </a>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">Delivery Options</p>
-                                    </a>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">Buyer Protection</p>
-                                    </a>
-                                </ul>
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <ul class="list-styled">
-                                    <h6 class="font-600 text-white">Customer Services</h6>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">FAQs</p>
-                                    </a>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">Contact Us</p>
-                                    </a>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">Returns & Exchanges</p>
-                                    </a>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">Order Tracking</p>
-                                    </a>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">Refunds</p>
-                                    </a>
-                                </ul>
-                            </div>
-                            <div class="col-6 col-md-4">
-                                <ul class="list-styled">
-                                    <h6 class="font-600 text-white">About Us</h6>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">Jobs</p>
-                                    </a>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">Terms & Conditions</p>
-                                    </a>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">Sitemap</p>
-                                    </a>
-                                    <a href="">
-                                        <p class="text-sm text-white my-1">Blog</p>
-                                    </a>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 col-md-3 order-md-1 mb-2">
-                        <h6 class="font-600 text-white">Stay Connected</h6>
-                        <div class="d-flex align-items-center">
-                            <a href="" class="text-primary">
-                                <i class="fa fa-facebook fa-2x"></i>
-                            </a>
-                            <a href="" class="text-info mx-1">
-                                <i class="fa fa-twitter fa-2x"></i>
-                            </a>
-                            <a href="" class="text-brich-red mr-1">
-                                <i class="fa fa-instagram fa-2x"></i>
-                            </a>
-                            <a href="" class="text-success">
-                                <i class="fa fa-whatsapp fa-2x"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="row justify-content-center justify-content-sm-around user-location-details w-100 py-2">
-                    <div class="col-12 col-md-6 d-flex align-items-center text-center">
-                        <a class="navbar-brand font-700 ml-4 text-white mt-2">
-                            <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" width="35" alt=""> {{ config('app.name') }}
-                        </a>
-                        <button class="btn border-light d-flex align-items-center px-3">
-                            <i class="material-icons text-light mr-1">language</i>
-                            <span class="text-light text-sm">English</span>
-                        </button>
-                    </div>
-                    <div class="col-12 col-md-6 d-flex align-items-center text-center">
-                        <button class="btn border-light px-3 mx-3">
-                            <span class="text-light text-sm">$ USD -  U.S Dollar</span>
-                        </button>
-                        <button class="btn border-light d-flex align-items-center py-2 px-3">
-                            <img src="{{ asset('img/country-flag/flag-of-Zimbabwe.png') }}" alt="" height="20" width="25">
-                            <span class="text-light text-sm ml-1">Zimbabwe</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="container-fluid last-footer-section">
-                    <div class="row justify-content-between justify-content-sm-center align-items-center my-1">
-                        <div class="col-12 col-md-6 text-md-left text-sm-center">
-                            <p class="text-sm text-muted my-0 py-0">
-                                &copy;{{ date('Y') }} Gifteros Inc. All rights reserved.
-                            </p>
-                        </div>
-                        <div class="col-12 col-md-6 text-md-right text-sm-center">
-                            <a href="/developer/tinashe.chaterera" class="text-sm">
-                                Designed & Developed by @TinaKing92
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.Services and Policies -->
-        </footer>
-        <!-- /.App footer -->
 
         <!-- App-Rating -->
         <div class="app-rating-box p-2 box-shadow-sm">
@@ -660,425 +637,208 @@
         </div>
         <!-- /.Toast Notifications -->
 
-        <!-- Greeting Card Modal -->
-        @auth
-            <div class="modal" id="greeting-card-modal" tabindex="-1" role="dialog" aria-labelledby="greeting-card-modal" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content box-shadow-sm rounded-0">
-                        <form method="post" id="greeting-card" class="needs-validation" enctype="multipart/form-data" novalidate>
-                            <div class="left-controls modal-controls d-none">
-                                <i role="button" class="fa fa-arrow-circle-left text-primary fa-3x prev-step"></i>
-                            </div>
-                            <div class="right-controls modal-controls">
-                                <i role="button" class="fa fa-arrow-circle-right text-primary fa-3x next-step"></i>
-                            </div>
-                            <div class="note-counter d-none">
-                                <div class="d-flex align-items-center justify-content-around w-100">
-                                    <div class="d-inline-flex font-600">
-                                        <i class="material-icons text-muted mr-1">format_shapes</i>
-                                        <span class="text-warning mr-1" id="character-count">0</span>
-                                        <span class="d-none d-md-inline">characters</span>
-                                    </div>
-                                    <div class="d-inline-flex font-600">
-                                        <i class="material-icons text-muted mr-1">record_voice_over</i>
-                                        <span class="text-warning mr-1" id="word-count">0</span>
-                                        <span class="d-none d-md-inline">words</span>
-                                    </div>
-                                    <div class="d-inline-flex font-600">
-                                        <i class="material-icons text-muted mr-1">format_list_numbered</i>
-                                        <span class="text-warning mr-1" id="sentence-count">0</span>
-                                        <span class="d-none d-md-inline">sentences</span>
-                                    </div>
-                                    <i role="button" class="material-icons text-danger" data-dismiss="modal" title="Close" title="Close">cancel</i>
-                                </div>
-                            </div>
-                            <div class="flip-card">
-                                <div class="flip-card-inner">
-                                    <div class="flip-card-front">
-                                        <label for="upload-greeting-card" class="w-100 p-2">
-                                            <div class="d-block initiate-upload text-center">
-                                                <div class="d-flex align-items-center">
-                                                    <i class="material-icons fa-3x mr-1">local_library</i>
-                                                    <h4 class="cursive my-0 py-0" id="card-type">Greeting Cards</h4>
-                                                </div>
-                                                <h5 class="font-600 text-white card-info-text mt-5">
-                                                    Click the next-icon button to add your personal note
-                                                </h5>
-                                            </div>
-                                        </label>
-                                        <input type="file" class="d-none" name="upload-greeting-card" id="upload-greeting-card" onchange="displayGreetingCard(this)" accept="image/*" required>
-                                        <img src="/storage/gifts/a58e93d5-ac91-4c41-a7b6-2da258a55467._CR0,0,1251,1251_PT0_SX300__.jpg" class="w-100" id="custom-greeting-card" height="400">
-                                    </div>
-                                    <div class="flip-card-back bg-whitesmoke">
-                                        <div class="form-group">
-                                            <textarea name="greeting-note" id="greeting-note" cols="30" class="form-control font-600 lead-2x rounded-0 bg-whitesmoke" placeholder="Your personal note goes here..." autofocus required onkeyup="wordCounter(this)"></textarea>
-                                            <!-- Hidden Inputs -->
-                                            <input type="hidden" name="characters" id="characters">
-                                            <input type="hidden" name="words" id="words">
-                                            <input type="hidden" name="sentences" id="sentences">
-                                            <input type="hidden" name="card-image" id="card-image">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        @endauth
-        @guest
-            <!-- SigninFirst Modal -->
-            <div class="modal text-sm p-0" id="greeting-card-modal" tabindex="-1" role="dialog" aria-labelledby="greeting-card-modal" aria-hidden="true">
-                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                    <div class="modal-content p-0">
-                        <div class="modal-header pt-0 pb-1 shadow-sm">
-                            <div class="modal-title d-block" id="exampleModalLabel">
-                                <h5 class="mb-0 p-3">Want to customize?</h5>
-                                <small class="mt-0 write-review-title text-capitalize">
-                                </small>
-                            </div>
-                            <button type="button" class="close mt-0" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p class="text-justify">
-                                You need to be signed in with your account to customize this greeting card.
-                            </p>
-                            <div class="row justify-content-center w-100 px-0 mx-0">
-                                <div class="col">
-                                    <a role="button" href="index.php?redirect=" class="btn border-primary text-primary btn-sm btn-block font-600">
-                                        Sign in
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a role="button" href="signup.php?redirect=" class="btn btn-primary btn-sm btn-block font-600 ml-1">
-                                        Sign up
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.signin-first modal -->
-        @endguest
-        <!-- /. Greeting Card Modal -->
-
         <!-- Gift Customizing Modal -->
         @auth
-            <div class="modal p-0" id="customizing-modal" tabindex="-1" role="dialog" aria-labelledby="customizing-modal" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-                    <div class="modal-content box-shadow-sm rounded-2">
-                        <form method="post" id="customization-form" class="needs-validation container-fluid" enctype="multipart/form-data" novalidate>
-                            <div class="modal-body m-0 p-0">
-                                <div class="d-grid grid-2 grid-p-1 m-xl-2">
-                                    <div class="first-section">
-                                        <label for="gift-custom-img" class="w-100 custom-img-pane">
-                                            <div class="d-block d-cursor initiate-upload text-center">
-                                                <div class="cursor" id="add-custom-image" onclick="selectCustomImg()">
-                                                    <input type="file" class="d-none" name="gift-custom-img" id="gift-custom-img" onchange="showCustomImg(this)" accept="image/*" required>
-                                                    <i class="material-icons fa-3x text-white card-info-icon">add_a_photo</i>
-                                                    <h5 class="font-600 text-white card-info-text">
-                                                        Click to upload your own custom image or logo
-                                                    </h5>
-                                                </div>
-                                                <h4 class="lead-2x font-600 text-white custom-text-screen d-none"></h4>
+        <div class="modal p-0" id="customizing-modal" tabindex="-1" role="dialog" aria-labelledby="customizing-modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                <div class="modal-content box-shadow-sm rounded-2">
+                    <form method="post" id="customization-form" class="needs-validation container-fluid" enctype="multipart/form-data" novalidate>
+                        <div class="modal-body m-0 p-0">
+                            <div class="d-grid grid-2 grid-p-1 m-xl-2">
+                                <div class="first-section">
+                                    <label for="gift-custom-img" class="w-100 custom-img-pane">
+                                        <div class="d-block d-cursor initiate-upload text-center">
+                                            <div class="cursor" id="add-custom-image" onclick="selectCustomImg()">
+                                                <input type="file" class="d-none" name="gift-custom-img" id="gift-custom-img" onchange="showCustomImg(this)" accept="image/*" required>
+                                                <i class="material-icons fa-3x text-white card-info-icon">add_a_photo</i>
+                                                <h5 class="font-600 text-white card-info-text">
+                                                    Click to upload your own custom image or logo
+                                                </h5>
                                             </div>
-                                            <img src="/storage/gifts/15f479f840ad60.jpg" height="350" class="customizable-gift-img w-100" id="user-custom-file">
-                                            <div id="toggle-custom-settings" class="d-none w-100">
-                                                <div class="d-flex align-items-center justify-content-center text-center">
-                                                    <button role="button" class="btn btn-sm rounded-pill px-3 text-warning font-600" id="toggle-custom-text">
-                                                        Add custom text <i class="material-icons animated infinite slideInLeft ml-4">arrow_forward</i>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </label>
-                                        <!-- Custom Colors -->
-                                        <div class="container-fluid color-selection-pane my-2">
-                                            <h6 class="font-600 text-uppercase">Choose your custom color</h6>
-                                            <div class="row justify-content-around w-100">
-                                                <!-- Custom Color Picker -->
-                                                <div class="custom-color shadow-sm" title="Red or Maroon">
-                                                    <div class="color-inset bg-brick-red">
-                                                        <i class="text-white material-icons color-selected-icon">done</i>
-                                                    </div>
-                                                </div>
-                                                <!-- Custom Color Picker -->
-
-                                                <!-- Custom Color Picker -->
-                                                <div class="custom-color shadow-sm">
-                                                    <div class="color-inset bg-orange" title="Orange">
-                                                        <i class="text-white material-icons color-selected-icon">done</i>
-                                                    </div>
-                                                </div>
-                                                <!-- Custom Color Picker -->
-
-                                                <!-- Custom Color Picker -->
-                                                <div class="custom-color shadow-sm">
-                                                    <div class="color-inset bg-warning" title="Yellow">
-                                                        <i class="text-white material-icons color-selected-icon">done</i>
-                                                    </div>
-                                                </div>
-                                                <!-- Custom Color Picker -->
-
-                                                <!-- Custom Color Picker -->
-                                                <div class="custom-color shadow-sm" title="Green">
-                                                    <div class="color-inset bg-success">
-                                                        <i class="text-white material-icons color-selected-icon">done</i>
-                                                    </div>
-                                                </div>
-                                                <!-- Custom Color Picker -->
-
-                                                <!-- Custom Color Picker -->
-                                                <div class="custom-color shadow-sm" title="Purple">
-                                                    <div class="color-inset bg-purple">
-                                                        <i class="text-white material-icons color-selected-icon">done</i>
-                                                    </div>
-                                                </div>
-                                                <!-- Custom Color Picker -->
-
-                                                <!-- Custom Color Picker -->
-                                                <div class="custom-color shadow-sm" title="White">
-                                                    <div class="color-inset bg-white">
-                                                        <i class="text-success material-icons color-selected-icon">done</i>
-                                                    </div>
-                                                </div>
-                                                <!-- Custom Color Picker -->
-
-                                                <!-- Custom Color Picker -->
-                                                <div class="custom-color shadow-sm" title="Grey">
-                                                    <div class="color-inset bg-light-grey">
-                                                        <i class="text-white material-icons color-selected-icon">done</i>
-                                                    </div>
-                                                </div>
-                                                <!-- Custom Color Picker -->
-
-                                                <!-- Custom Color Picker -->
-                                                <div class="custom-color shadow-sm" title="Blue">
-                                                    <div class="color-inset bg-primary">
-                                                        <i class="text-white material-icons color-selected-icon">done</i>
-                                                    </div>
-                                                </div>
-                                                <!-- Custom Color Picker -->
+                                            <h4 class="lead-2x font-600 text-white custom-text-screen d-none"></h4>
+                                        </div>
+                                        <img src="/storage/gifts/15f479f840ad60.jpg" height="350" class="customizable-gift-img w-100" id="user-custom-file">
+                                        <div id="toggle-custom-settings" class="d-none w-100">
+                                            <div class="d-flex align-items-center justify-content-center text-center">
+                                                <button role="button" class="btn btn-sm rounded-pill px-3 text-warning font-600" id="toggle-custom-text">
+                                                    Add custom text <i class="material-icons animated infinite slideInLeft ml-4">arrow_forward</i>
+                                                </button>
                                             </div>
                                         </div>
-                                        <!-- /.Custom Colors -->
-                                        <!-- Gift Sizes -->
-                                        <div class="container-fluid color-selection-pane my-2 d-none" id="clothing-sizes">
-                                            <h6 class="font-600 text-uppercase">Choose your size</h6>
-                                            <div class="row justify-content-around w-100">
-                                                <a role="button" class="btn btn-link gift-sizes font-600" id="small-size">S</a>
-                                                <a role="button" class="btn btn-link gift-sizes font-600">M</a>
-                                                <a role="button" class="btn btn-link gift-sizes font-600">L</a>
-                                                <a role="button" class="btn btn-link gift-sizes font-600">XL</a>
-                                                <a role="button" class="btn btn-link gift-sizes font-600">XXL</a>
+                                    </label>
+                                    <!-- Custom Colors -->
+                                    <div class="container-fluid color-selection-pane my-2">
+                                        <h6 class="font-600 text-uppercase">Choose your custom color</h6>
+                                        <div class="row justify-content-around w-100">
+                                            <!-- Custom Color Picker -->
+                                            <div class="custom-color shadow-sm" title="Red or Maroon">
+                                                <div class="color-inset bg-brick-red">
+                                                    <i class="text-white material-icons color-selected-icon">done</i>
+                                                </div>
                                             </div>
+                                            <!-- Custom Color Picker -->
+
+                                            <!-- Custom Color Picker -->
+                                            <div class="custom-color shadow-sm">
+                                                <div class="color-inset bg-orange" title="Orange">
+                                                    <i class="text-white material-icons color-selected-icon">done</i>
+                                                </div>
+                                            </div>
+                                            <!-- Custom Color Picker -->
+
+                                            <!-- Custom Color Picker -->
+                                            <div class="custom-color shadow-sm">
+                                                <div class="color-inset bg-warning" title="Yellow">
+                                                    <i class="text-white material-icons color-selected-icon">done</i>
+                                                </div>
+                                            </div>
+                                            <!-- Custom Color Picker -->
+
+                                            <!-- Custom Color Picker -->
+                                            <div class="custom-color shadow-sm" title="Green">
+                                                <div class="color-inset bg-success">
+                                                    <i class="text-white material-icons color-selected-icon">done</i>
+                                                </div>
+                                            </div>
+                                            <!-- Custom Color Picker -->
+
+                                            <!-- Custom Color Picker -->
+                                            <div class="custom-color shadow-sm" title="Purple">
+                                                <div class="color-inset bg-purple">
+                                                    <i class="text-white material-icons color-selected-icon">done</i>
+                                                </div>
+                                            </div>
+                                            <!-- Custom Color Picker -->
+
+                                            <!-- Custom Color Picker -->
+                                            <div class="custom-color shadow-sm" title="White">
+                                                <div class="color-inset bg-white">
+                                                    <i class="text-success material-icons color-selected-icon">done</i>
+                                                </div>
+                                            </div>
+                                            <!-- Custom Color Picker -->
+
+                                            <!-- Custom Color Picker -->
+                                            <div class="custom-color shadow-sm" title="Grey">
+                                                <div class="color-inset bg-light-grey">
+                                                    <i class="text-white material-icons color-selected-icon">done</i>
+                                                </div>
+                                            </div>
+                                            <!-- Custom Color Picker -->
+
+                                            <!-- Custom Color Picker -->
+                                            <div class="custom-color shadow-sm" title="Blue">
+                                                <div class="color-inset bg-primary">
+                                                    <i class="text-white material-icons color-selected-icon">done</i>
+                                                </div>
+                                            </div>
+                                            <!-- Custom Color Picker -->
                                         </div>
-                                        <!-- /.Gift Sizes -->
                                     </div>
-                                    <div class="second-section text-center">
-                                        <div class="d-block my-2">
-                                            <h5 class="font-600 text-uppercase lead" id="custom-gift-name">Customizable Gift Item</h5>
-                                            <p class="mt-0 font-600 text-faded">Customize your gift</p>
-                                            <div class="d-flex w-100 align-items-center justify-content-around custom-type" id="custom-image-option">
-                                                <div class="d-inline-flex align-items-center">
-                                                    <!-- Custom Type -->
-                                                    <div class="custom-type-radio custom-color shadow-sm">
-                                                        <div class="color-inset">
-                                                            <i class="material-icons color-selected-icon">done</i>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /.Custom Type -->
-                                                    <h6 class="my-0 py-0 font-600 ml-2">Add custom image</h6>
-                                                </div>
-                                                <i class="material-icons fa-2x text-muted">collections</i>
-                                            </div>
-                                            <div class="d-flex w-100 align-items-center justify-content-around custom-type mt-1" id="custom-text-option">
-                                                <div class="d-inline-flex align-items-center">
-                                                    <!-- Custom Type -->
-                                                    <div class="custom-type-radio custom-color shadow-sm">
-                                                        <div class="color-inset">
-                                                            <i class="material-icons color-selected-icon">done</i>
-                                                        </div>
-                                                    </div>
-                                                    <!-- /.Custom Type -->
-                                                    <h6 class="my-0 py-0 font-600 ml-2">Add custom text</h6>
-                                                </div>
-                                                <i class="material-icons fa-2x text-muted">format_shapes</i>
-                                            </div>
+                                    <!-- /.Custom Colors -->
+                                    <!-- Gift Sizes -->
+                                    <div class="container-fluid color-selection-pane my-2 d-none" id="clothing-sizes">
+                                        <h6 class="font-600 text-uppercase">Choose your size</h6>
+                                        <div class="row justify-content-around w-100">
+                                            <a role="button" class="btn btn-link gift-sizes font-600" id="small-size">S</a>
+                                            <a role="button" class="btn btn-link gift-sizes font-600">M</a>
+                                            <a role="button" class="btn btn-link gift-sizes font-600">L</a>
+                                            <a role="button" class="btn btn-link gift-sizes font-600">XL</a>
+                                            <a role="button" class="btn btn-link gift-sizes font-600">XXL</a>
                                         </div>
-                                        <div class="form-group my-3 d-0" id="custom-text-form">
-                                            <textarea name="custom-text" id="custom-text" cols="30" rows="3" class="form-control font-600 lead-2x" placeholder="Your custom text here..." autofocus onkeyup="giftCustomText(this)"></textarea>
-                                        </div>
-                                        <div class="d-block mt-2">
-                                            <input type="hidden" name="custom-gift-id" id="custom-gift-id">
-                                            <h3 class="display-5 font-600 text-faded ">
-                                                <span class="text-faded usd-price">US$<span class="text-faded" id="gift-usd-price">0.00</span></span>
-                                                <span class="text-faded zar-price d-none">R<span class="text-faded" id="gift-zar-price">0.00</span></span>
-                                                <span class="text-faded zwl-price d-none">ZW$<span class="text-faded" id="gift-zwl-price">0.00</span></span>
-                                            </h3>
-                                        </div>
-                                        <button class="btn btn-warning font-600 rounded-pill px-3 mt-md-2" id="save-changes-btn" disabled>Customize & Buy</button>
                                     </div>
+                                    <!-- /.Gift Sizes -->
+                                </div>
+                                <div class="second-section text-center">
+                                    <div class="d-block my-2">
+                                        <h5 class="font-600 text-uppercase lead" id="custom-gift-name">Customizable Gift Item</h5>
+                                        <p class="mt-0 font-600 text-faded">Customize your gift</p>
+                                        <div class="d-flex w-100 align-items-center justify-content-around custom-type" id="custom-image-option">
+                                            <div class="d-inline-flex align-items-center">
+                                                <!-- Custom Type -->
+                                                <div class="custom-type-radio custom-color shadow-sm">
+                                                    <div class="color-inset">
+                                                        <i class="material-icons color-selected-icon">done</i>
+                                                    </div>
+                                                </div>
+                                                <!-- /.Custom Type -->
+                                                <h6 class="my-0 py-0 font-600 ml-2">Add custom image</h6>
+                                            </div>
+                                            <i class="material-icons fa-2x text-muted">collections</i>
+                                        </div>
+                                        <div class="d-flex w-100 align-items-center justify-content-around custom-type mt-1" id="custom-text-option">
+                                            <div class="d-inline-flex align-items-center">
+                                                <!-- Custom Type -->
+                                                <div class="custom-type-radio custom-color shadow-sm">
+                                                    <div class="color-inset">
+                                                        <i class="material-icons color-selected-icon">done</i>
+                                                    </div>
+                                                </div>
+                                                <!-- /.Custom Type -->
+                                                <h6 class="my-0 py-0 font-600 ml-2">Add custom text</h6>
+                                            </div>
+                                            <i class="material-icons fa-2x text-muted">format_shapes</i>
+                                        </div>
+                                    </div>
+                                    <div class="form-group my-3 d-0" id="custom-text-form">
+                                        <textarea name="custom-text" id="custom-text" cols="30" rows="3" class="form-control font-600 lead-2x" placeholder="Your custom text here..." autofocus onkeyup="giftCustomText(this)"></textarea>
+                                    </div>
+                                    <div class="d-block mt-2">
+                                        <input type="hidden" name="custom-gift-id" id="custom-gift-id">
+                                        <h3 class="display-5 font-600 text-faded ">
+                                            <span class="text-faded usd-price">US$<span class="text-faded" id="gift-usd-price">0.00</span></span>
+                                            <span class="text-faded zar-price d-none">R<span class="text-faded" id="gift-zar-price">0.00</span></span>
+                                            <span class="text-faded zwl-price d-none">ZW$<span class="text-faded" id="gift-zwl-price">0.00</span></span>
+                                        </h3>
+                                    </div>
+                                    <button class="btn btn-warning font-600 rounded-pill px-3 mt-md-2" id="save-changes-btn" disabled>Customize & Buy</button>
                                 </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <!-- /.Cart Options Modal -->
+        </div>
+        <!-- /.Cart Options Modal -->
         @endauth
+
         @guest
-            <!-- SigninFirst Modal -->
-            <div class="modal text-sm p-0" id="customizing-modal" tabindex="-1" role="dialog" aria-labelledby="customizing-modal" aria-hidden="true">
-                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                    <div class="modal-content p-0">
-                        <div class="modal-header pt-0 pb-1 shadow-sm">
-                            <div class="modal-title d-block" id="exampleModalLabel">
-                                <h5 class="mt-1 mb-0 p-1">Want to customize?</h5>
-                            </div>
-                            <button type="button" class="close mt-0" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+        <!-- SigninFirst Modal -->
+        <div class="modal text-sm p-0" id="customizing-modal" tabindex="-1" role="dialog" aria-labelledby="customizing-modal" aria-hidden="true">
+            <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+                <div class="modal-content p-0">
+                    <div class="modal-header pt-0 pb-1 shadow-sm">
+                        <div class="modal-title d-block" id="exampleModalLabel">
+                            <h5 class="mt-1 mb-0 p-1">Want to customize?</h5>
                         </div>
-                        <div class="modal-body">
-                            <h6 class="text-justify">
-                                You need to be signed in with your account to customize
-                                <span class="text-primary text-capitalize custom-gift-title"></span>.
-                            </h6>
-                            <div class="row justify-content-center w-100 px-0 mx-0">
-                                <div class="col">
-                                    <a role="button" id="customize-signin-btn" class="btn border-primary text-primary btn-sm btn-block font-600">
-                                        Sign in
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a role="button" id="customize-signup-btn" class="btn btn-primary btn-sm text-white btn-block font-600 ml-1">
-                                        Sign up
-                                    </a>
-                                </div>
+                        <button type="button" class="close mt-0" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <h6 class="text-justify">
+                            You need to be signed in with your account to customize
+                            <span class="text-primary text-capitalize custom-gift-title"></span>.
+                        </h6>
+                        <div class="row justify-content-center w-100 px-0 mx-0">
+                            <div class="col">
+                                <a role="button" id="customize-signin-btn" class="btn border-primary text-primary btn-sm btn-block font-600">
+                                    Sign in
+                                </a>
+                            </div>
+                            <div class="col">
+                                <a role="button" id="customize-signup-btn" class="btn btn-primary btn-sm text-white btn-block font-600 ml-1">
+                                    Sign up
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /.signin-first modal -->
+        </div>
+        <!-- /.signin-first modal -->
         @endguest
         <!-- /. Customizing Modal -->
-
-        <!-- Wrapper Customizing Modal -->
-        @auth
-            <div class="modal p-0" id="wrapper-customizing-modal" tabindex="-1" role="dialog" aria-labelledby="wrapper-customizing-modal" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content box-shadow-sm rounded-2">
-                        <img class="modal-header-img" id="wrapper-header-img" height="60" width="60" class="rounded-circle" src="">
-                        <div class="modal-body mt-4">
-                            <div class="text-center">
-                                <h5 class="font-600">Do you have your own wrapper?</h5>
-                                <h6 class="my-0 py-0 text-justify">
-                                    Upload a snapshot of the type of wrapper you want to wrap your order with.
-                                    Additional costs may apply.
-                                </h6>
-                            </div>
-                            <form method="post" id="wrapper-form" class="needs-validation" enctype="multipart/form-data" novalidate>
-                                <div class="container">
-                                    <div class="row justify-content-center w-100">
-                                        <div class="col-6 my-2">
-                                            <div class="customizing-box upload-file rounded d-grid" id="wrapper-file-upload" onclick="uploadCustomImg()">
-                                                <input type="file" class="d-none print-image" id="custom-wrapper" name="print-image" onchange="displayCustomImg(this)" accept="image/*" required>
-                                                <div class="customizing-content m-auto">
-                                                    <div class="row justify-content-center">
-                                                        <div class="accessory-icon rounded-circle d-grid">
-                                                            <i class="material-icons bg-white fa-3x text-whitesmoke m-auto">add</i>
-                                                        </div>
-                                                    </div>
-                                                    <p class="mt-2 py-0 text-center px-2">Click to upload your custom wrapper</p>
-                                                </div>
-                                            </div>
-                                            <!-- /.File Upload -->
-                                        </div>
-                                        <div class="col-6 my-2 d-none display-img">
-                                            <img src="{{ asset('img/app/spinner.svg') }}" height="200" alt="" class="rounded w-100 uploaded-print-img">
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- Wrapper Hidden Details -->
-                                <input name="card-product-id" id="card-product-id" type="hidden">
-                                <input id="wrapper-name" type="hidden">
-                                <input name="print-text" id="print-text" type="hidden">
-                                <input name="card-image" id="card-image" type="hidden">
-                                <input name="card-usd-price" id="card-usd-price" type="hidden">
-                                <input name="card-zar-price" id="card-zar-price" type="hidden">
-                                <input name="card-zwl-price" id="card-zwl-price" type="hidden">
-                                <input name="print-usd-price" id="print-usd-price" type="hidden">
-                                <input name="print-zar-price" id="print-zar-price" type="hidden">
-                                <input name="print-zwl-price" id="print-zwl-price" type="hidden">
-                                <input id="wrapper-sale-usd-price" type="hidden">
-                                <input id="wrapper-sale-zar-price" type="hidden">
-                                <input id="wrapper-sale-zwl-price" type="hidden">
-                                <input id="wrapper-end-time" type="hidden">
-                                <input id="wrapper-category-name" type="hidden">
-                                <input id="wrapper-product-units" type="hidden">
-                                <input value="1" id="wrapper-quantity" type="hidden">
-                                <input id="wrapper-sale-end-date" type="hidden">
-                                <input id="wrapper-description" type="hidden">
-                                <!-- /.Wrapper Hidden Details -->
-                                <input type="hidden" class="text-capitalize" name="product-name" id="product-name">
-                                <input type="hidden" name="text-chars" id="text-chars">
-                                <input type="hidden" name="text-sentences" id="text-sentences">
-                                <input type="hidden" name="text-words" id="text-words">
-                                <input type="hidden" name="print-cost" id="print-cost">
-                                <input type="hidden" name="action" id="action" value="gift-customization">
-                                <div class="d-flex align-items-center justify-content-sm-center justify-content-md-end mt-2">
-                                    <a role="button" href="#" class="btn btn-link font-600" data-dismiss="modal">Cancel</a>
-                                    <button class="btn btn-primary btn-sm px-3 ml-2 font-600 rounded-pill buy-wrapper">No, I want this one</button>
-                                    <button type="submit" class="btn btn-outline-primary btn-sm px-3 ml-2 font-600 rounded-pill">Upload new wrapper</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @endauth
-        @guest
-            <!-- SigninFirst Modal -->
-            <div class="modal text-sm p-0" id="wrapper-customizing-modal" tabindex="-1" role="dialog" aria-labelledby="wrapper-customizing-modal" aria-hidden="true">
-                <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
-                    <div class="modal-content p-0">
-                        <div class="modal-header pt-0 pb-1 shadow-sm">
-                            <div class="modal-title d-block" id="exampleModalLabel">
-                                <h5 class="mb-0 p-3">Want to use your own wrapper?</h5>
-                                <small class="mt-0 write-review-title text-capitalize">
-                                </small>
-                            </div>
-                            <button type="button" class="close mt-0" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <p class="text-justify">
-                                You need to be signed in with your account to customize this wrapper.
-                            </p>
-                            <div class="row justify-content-center w-100 px-0 mx-0">
-                                <div class="col">
-                                    <a role="button" href="index.php?redirect=" class="btn border-primary text-primary btn-sm btn-block font-600">
-                                        Sign in
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a role="button" href="signup.php?redirect=" class="btn btn-primary btn-sm btn-block font-600 ml-1">
-                                        Sign up
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- /.signin-first modal -->
-        @endguest
-        <!-- /. Wrapper Customizing Modal -->
 
         <!-- Upload Progress Modal -->
         <div class="modal p-0 upload-progress-modal" tabindex="-1" role="dialog" aria-labelledby="upload-progress-modal" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -1112,86 +872,6 @@
         </div>
         <!-- /.Upload Progress Modal -->
 
-        <!-- Glass Toast Animation Modal -->
-        <div class="modal p-0 glass-toast-modal" tabindex="-1" role="dialog" aria-labelledby="glass-toast-modal" aria-hidden="true" data-backdrop="static" data-keyboard="false">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content bg-transparent border-0">
-                    <div class="modal-body row justify-content-center">
-                        <p class="toast-title">Cheers!</p>
-                        <div class="cheersLine1"></div>
-                        <div class="cheersLine2"></div>
-                        <div class="cheersLine3"></div>
-                        <div class="glass-left">
-                            <div class="stem"></div>
-                        </div>
-                        <div class="glass-right">
-                            <div class="stem"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.Glass Toast Animation Modal -->
-
-        <!-- Animated Card Modal -->
-        <div class="modal p-0" id="animated-card-modal" tabindex="-1" role="dialog" aria-labelledby="animated-card-modal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content bg-transparent border-0">
-                    <div class="modal-body text-center">
-                        <h4 class="font-600 text-warning d-flex justify-content-center align-items-center">
-                            <i class="material-icons fa-2x mr-1">mood</i>
-                            <span class="display-4 text-warning">Lovely!</span>
-                        </h4>
-                        <img src="{{ asset('img/backgrounds/animated-card.gif') }}" class="img-fluid">
-                        <h5 class="text-white my-2" id="animated-card-msg">A customized greeting card will be added in your order. Now select the gift wrapper.</h5>
-                        <button role="button" class="btn btn-primary rounded-pill px-5" id="go-to-wrappers">Okay. Great!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.Animated Card Modal -->
-
-        <!-- Animated Box Modal -->
-        <div class="modal p-0" id="animated-box-modal" tabindex="-1" role="dialog" aria-labelledby="animated-card-modal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content bg-transparent border-0">
-                    <div class="modal-body text-center">
-                        <h4 class="font-600 text-warning d-flex justify-content-center align-items-center">
-                            <i class="material-icons fa-2x mr-1">mood</i>
-                            <span class="display-4 text-warning">Wonderful!</span>
-                        </h4>
-                        <img src="{{ asset('img/backgrounds/box-animation.gif') }}" class="img-fluid">
-                        <h5 class="text-white my-2">Your customized wrapper has been successfully added. Now add accessories.</h5>
-                        <button role="button" class="btn btn-primary rounded-pill px-5" id="go-to-accessories">Okay. Great!</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.Animated Box Modal -->
-
-        <!-- Animated Gift Added -->
-        <div class="modal p-0" id="gift-added-modal" tabindex="-1" role="dialog" aria-labelledby="gift-added-modal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content bg-transparent border-0">
-                    <div class="modal-body text-center">
-                        <h2 class="font-600 text-white d-flex justify-content-center align-items-center animated animate-slow bounceInDown">
-                            <i class="material-icons fa-2x mr-1">add_shopping_cart</i>
-                            <span class="display-5 text-white">Added into giftbox</span>
-                        </h2>
-                        <div class="gift-box-container">
-                            <div class="animated-count-ball d-grid animated bounceInUp">
-                                <div class="m-auto">
-                                    +<span class="gift-count"></span>
-                                </div>
-                            </div>
-                            <img src="{{ asset('img/backgrounds/giftbox-animation.gif') }}" class="img-fluid">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.Animated Gift Added -->
-
         <!-- Animated Box Emptied -->
         <div class="modal p-0" id="empty-giftbox-modal" tabindex="-1" role="dialog" aria-labelledby="empty-giftbox-modal" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -1204,24 +884,6 @@
             </div>
         </div>
         <!-- /.Animated Box Emptied -->
-
-        <!-- Accessory Animation Modal -->
-        <div class="modal p-0" id="accessory-animation-modal" tabindex="-1" role="dialog" aria-labelledby="accessory-animation-modal" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content bg-transparent border-0">
-                    <div class="modal-body text-center">
-                        <div class="d-flex align-items-center justify-content-center animated bounceInDown delay-1s my-1">
-                            <i class="material-icons fa-2x text-white">check_circle</i>
-                            <h4 class="display-5 font-600 text-white my-0 py-0" id="animation-title"></h4>
-                        </div>
-                        <img src="" alt="" height="140" width="140" class="animated slideInLeft animate-slow rounded" id="original-image">
-                        <i class="material-icons text-white fa-2x">link</i>
-                        <img src="" alt="" height="140" width="140" class="animated slideInRight animate-slow rounded uploaded-custom-img">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- /.Accessory Animation Modal -->
 
         <!-- Get user's geolocation details -->
         <input type="hidden" name="address" class="address">

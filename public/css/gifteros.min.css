@@ -9,7 +9,7 @@
 }
 
 
-/* Utility Classes .dropdown-menu.mega-menu */
+/* Utility Classes .custom-type-radio */
 
 :root {
     --search-border-color: #ced4da;
@@ -488,12 +488,19 @@ textarea#custom-text {
     color: #fff !important;
 }
 
-.custom-type-radio>.color-inset {
+.custom-type-radio>.color-inset,
+.custom-type-radio.active>.color-inset {
     background-color: var(--light);
 }
 
-.custom-type-radio>.color-inset>.color-selected-icon {
+.custom-type-radio>.color-inset>.color-selected-icon,
+.custom-type-radio.active>.color-inset>.color-selected-icon {
     color: var(--success);
+}
+
+.custom-type-label:hover,
+.custom-type-label * {
+    cursor: pointer;
 }
 
 .btn-link.gift-sizes:hover,
@@ -1117,19 +1124,19 @@ i.icon-lg {
 }
 
 .border-top {
-    border-top: 1px solid var(--bg-inverse) !important;
+    border-top: 1px solid var(--bg-inverse);
 }
 
 .border-right {
-    border-right: 1px solid var(--bg-inverse) !important;
+    border-right: 1px solid var(--bg-inverse);
 }
 
 .border-bottom {
-    border-bottom: 1px solid var(--bg-inverse) !important;
+    border-bottom: 1px solid var(--bg-inverse);
 }
 
 .border-left {
-    border-left: 1px solid var(--bg-inverse) !important;
+    border-left: 1px solid var(--bg-inverse);
 }
 
 .btn-inverse {
