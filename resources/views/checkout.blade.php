@@ -30,7 +30,7 @@
                 <!-- Recipient -->
                 <li class="list-group-item d-flex align-items-center">
                     <!-- Custom Type -->
-                    <div class="custom-type-radio custom-color shadow-sm" id="checkbox-id{{ Auth::user()->mobile_phone }}">
+                    <div class="custom-type-radio custom-color shadow-sm" id="checkbox-id{{ Auth::user()->mobile_phone }}" data-cell="{{ Auth::user()->mobile_phone }}" data-name="{{ Auth::user()->name }}" data-address="{{ Auth::user()->address ?? '' }}" data-email="{{ Auth::user()->email }}">
                         <div class="color-inset">
                             <i class="material-icons color-selected-icon">done</i>
                         </div>
@@ -38,11 +38,11 @@
                     <!-- /.Custom Type -->
 
                     <!-- Recipient's Details -->
-                    <div class="media ml-2 custom-type-label" data-id="{{ Auth::user()->mobile_phone }}">
+                    <div class="media ml-2 custom-type-label" data-id="{{ Auth::user()->mobile_phone }}" data-name="{{ Auth::user()->name }}" data-address="{{ Auth::user()->address ?? '' }}" data-email="{{ Auth::user()->email }}">
                         <img src="/storage/users/{{ Auth::user()->profile_pic }}" alt="" height="40" width="40" class="rounded-circle align-self-start mr-2">
                         <div class="media-body">
                             <h6 class="font-600 mb-0 text-capitalize">Me</h6>
-                            <p class="text-sm my-0 text-capitalize">{{ Auth::user()->address }}</p>
+                            <p class="text-sm my-0 text-capitalize">{{ Auth::user()->address ?? 'No delivery address found.' }}</p>
                         </div>
                     </div>
                     <!-- /.Recipient's Details -->
@@ -51,9 +51,9 @@
                 @if (count(recipients(Auth::user()->id)) > 0)
                     @foreach (recipients(Auth::user()->id) as $recipient)
                         <!-- Recipient -->
-                        <li class="list-group-item d-flex align-items-center" data-cell="{{ $recipient->recipients_cell }}">
+                        <li class="list-group-item d-flex align-items-center">
                             <!-- Custom Type -->
-                            <div class="custom-type-radio custom-color shadow-sm">
+                            <div class="custom-type-radio custom-color shadow-sm" id="checkbox-id{{ $recipient->recipients_cell }}" data-cell="{{ $recipient->recipients_cell }}" data-name="{{ recipientsName($recipient->recipients_cell) }}" data-address="{{ recipientsAddress($recipient->recipients_cell) }}" data-email="{{ recipientsAddress($recipient->recipients_cell) ?? '' }}">
                                 <div class="color-inset">
                                     <i class="material-icons color-selected-icon">done</i>
                                 </div>
@@ -61,7 +61,7 @@
                             <!-- /.Custom Type -->
 
                             <!-- Recipient's Details -->
-                            <div class="media ml-2 custom-type-label">
+                            <div class="media ml-2 custom-type-label" data-id="{{ $recipient->recipients_cell }}" data-name="{{ recipientsName($recipient->recipients_cell) }}" data-address="{{ recipientsAddress($recipient->recipients_cell) }}" data-email="{{ recipientsAddress($recipient->recipients_cell) ?? '' }}">
                                 <img src="{{ recipientsPic($recipient->recipients_cell) }}" alt="" height="40" width="40" class="rounded-circle align-self-start mr-2">
                                 <div class="media-body">
                                     <h6 class="font-600 mb-0 text-capitalize">{{ recipientsName($recipient->recipients_cell) }}</h6>
@@ -247,6 +247,8 @@
                     </div>
                     <!-- /.Payment method -->
 
+                    <img src="{{ asset('img/app/payments.png') }}" alt="" class="img-fluid">
+
                     <!-- Recipient's Fullname -->
                     <div class="form-group mb-1">
                         <div class="form-group my-0 pt-0">
@@ -262,7 +264,7 @@
                     <div class="form-group mb-1">
                         <label for="email" class="mb-0 text-sm text-faded font-500">Customer email (Optional)</label>
                         <i class="material-icons text-faded">email</i>
-                        <input type="email" name="email" id="email" class="form-control font-500 text-faded box-shadow-sm" placeholder="email@example.com" onblur="emailValidation(this)">
+                        <input type="email" name="customer-email" id="customer-email" class="form-control font-500 text-faded box-shadow-sm" placeholder="email@example.com" onblur="emailValidation(this)">
                         <small class="text-danger form-error font-400 mt-0 pt-0">Email required!</small>
                     </div>
                     <!-- /.Recipient's Email -->
@@ -347,8 +349,6 @@
                         </div>
                     </div>
                     <!-- /.ZimSwitch -->
-
-                    <img src="{{ asset('img/app/payments.png') }}" alt="" class="img-fluid">
 
                     <!-- Hidden inputs -->
                     <input type="hidden" name="action" id="action" value="customer-order">
