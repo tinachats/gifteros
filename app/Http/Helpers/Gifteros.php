@@ -157,7 +157,7 @@
 
     // Create the order number 
     function trackID($order_id, $order_date){
-        $track_id = 'GIFT' . date('YmD', $order_date) . $order_id;
+        $track_id = 'GIFT' . date('YmD', strtotime($order_date)) . $order_id;
         return strtoupper($track_id);
     }
 

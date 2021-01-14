@@ -9,12 +9,13 @@ class Stripe extends Controller
 {
     public function checkout(Request $request)
     {
-        if($request->ajax){
+        if($request->ajax()){
             if($request->action == 'customer-order'){
                 // Cart details 
                 $usd_subtotal = $zar_subtotal = $zwl_subtotal = 0;
                 $usd_total = $zar_total = $zwl_total = $stripe_amount = 0;
                 $has_coupon = false;
+                $cart_items = [];
                 $usd_delivery_cost = session()->get('shipping_costs')['usd_delivery_cost'] ?? 0;
                 $zar_delivery_cost = number_format($usd_delivery_cost * zaRate(), 2) ?? 0;
                 $zwl_delivery_cost = number_format($usd_delivery_cost * zwRate(), 2) ?? 0;
@@ -30,7 +31,6 @@ class Stripe extends Controller
                 }
 
                 $cart = session()->get('cart');
-                $cart_items = [];
                 foreach($cart as $key => $value){
                     $usd_subtotal += ($value['qty'] * $value['usd_price']);
                     $zar_subtotal += ($value['qty'] * $value['zar_price']);
@@ -38,22 +38,22 @@ class Stripe extends Controller
                     $usd_total = ($usd_subtotal + $usd_delivery_cost) - $usd_discount;
                     $zar_total = ($zar_subtotal + $zar_delivery_cost) - $zar_discount;
                     $zwl_total = ($zwl_subtotal + $zwl_delivery_cost) - $zwl_discount;
-                    $cart_items[] = $value['gift_name'].' ('.$value['gift_quantity'].')';
+                    $cart_items[] = $value['gift_name'].' ('.$value['qty'].')';
                 }
                 $count_cart = count($cart);
 
                 // User details
                 $user_id = Auth::user()->id;
                 $suburb = $request->input('suburb');
-                $fullname = $request->input('fullname');
+                $fullname = explode(' ', $request->input('fullname'));
                 $first_name = $fullname[0];
                 $last_name = $fullname[1];
                 $recipient_cell = $request->input('mobile-number');
-                $recipient_address = $request->input('customer-address') + ', ' + $suburb;
+                $recipient_address = $request->input('customer-address');
                 $recipient_email = $request->input('customer-email') ?? '';
                 $delivery_date = date('Y-m-d H:i:s', strtotime($request->input('delivery-date')));
-                $date = date('d', $request->input('delivery-date'));
-                $month = date('M', $request->input('delivery-date'));
+                $date = date('d', strtotime($request->input('delivery-date')));
+                $month = date('M', strtotime($request->input('delivery-date')));
                 $order_date = date('Y-m-d H:i:s');
                 $occasion = $request->occasion;
                 $currency = $request->input('currency');
@@ -66,7 +66,7 @@ class Stripe extends Controller
 
                 $data = [
                     'user_id'                => $user_id,
-                    'order_items'            => $cart_items,
+                    'gift_items'             => json_encode($cart_items),
                     'ordered_items'          => $count_cart,
                     'customer_name'          => $first_name,
                     'customer_surname'       => $last_name,
@@ -75,6 +75,7 @@ class Stripe extends Controller
                     'customer_address'       => $recipient_address,
                     'customer_city'          => $suburb,
                     'occasion'               => $occasion,
+                    'order_gateway'          => 'stripe',
                     'usd_total'              => $usd_total,
                     'zar_total'              => $zar_total,
                     'zwl_total'              => $zwl_total,
@@ -114,7 +115,7 @@ class Stripe extends Controller
 
                 // Check if recipient is a registered customer
                 $customer_id = DB::table('users')
-                               ->where('mobile_number', $recipient_cell)
+                               ->where('mobile_phone', $recipient_cell)
                                ->value('id');
                 if(isset($customer_id)){
                     $data = [
@@ -126,7 +127,7 @@ class Stripe extends Controller
                         'recipients_email'   => $recipient_email, 
                         'recipients_address' => $recipient_address, 
                         'recipients_city'    => $suburb, 
-                        'friendship'         => 'friend'
+                        'status'             => 'friend'
                     ];
                     DB::table('recipients')->insert($data);
                 } else {
@@ -138,7 +139,7 @@ class Stripe extends Controller
                         'recipients_email'   => $recipient_email, 
                         'recipients_address' => $recipient_address, 
                         'recipients_city'    => $suburb, 
-                        'friendship'         => 'recipient'
+                        'status'             => 'recipient'
                     ];
                     DB::table('recipients')->insert($data);
                 }
@@ -148,21 +149,26 @@ class Stripe extends Controller
                 $address = preg_replace('/\s/', '', $recipient_address);
                 $suburb = preg_replace('/\s/', '', $suburb);
                 $params = [
-                    'recipient' => $name,
-                    'email'     => $recipient_email,
+                    'name'      => $first_name,
+                    'surname'   => $last_name,
+                    'email'     => $recipient_email ?? 'Null',
                     'cell'      => $recipient_cell,
                     'address'   => $address,
                     'suburb'    => $suburb,
                     'items'     => $count_cart,
-                    'usd_total' => $usd_total,
-                    'track_id'  => $track_id,
+                    'total'     => $usd_total,
+                    'trackid'   => $track_id,
                     'coupon'    => $has_coupon,
                     'delivery_date' => $delivery_date,    
                     'date'      => $date,
                     'month'     => $month,
-                    'occasion'  => $occasion
+                    'occasion'  => $occasion ?? 'Null'
                 ];
-                return redirect()->route('success_page', $params);
+                $url = url('/success', $params);
+                return response()->json([
+                    'message' => 'success',
+                    'url'     => $url
+                ]);
             }
         }
     }
