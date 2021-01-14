@@ -364,7 +364,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-body text-center">
-                        <h6 class="font-600 text-white">Processing please wait...</h6>
+                        <h6 class="font-600 text-faded">Processing please wait...</h6>
                         <img src="{{ asset('img/app/animated-spinner.svg') }}" height="80" width="80">
                     </div>
                 </div>

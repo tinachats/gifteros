@@ -259,21 +259,17 @@ class CartController extends Controller
                     ->orderBy('suburb_name', 'asc')
                     ->distinct()
                     ->get();
+        $occasions = DB::table('occasions')
+                    ->orderBy('occasion', 'asc')
+                    ->distinct()
+                    ->get();
         $title = 'Checkout Page';
         $data = [
-            'suburbs' => $suburbs,
-            'title' => $title
+            'occasions' => $occasions,
+            'suburbs'   => $suburbs,
+            'title'     => $title
         ];
         return view('checkout')->with($data);
-    }
-
-    // Success page
-    public function success()
-    {
-        $data = [
-            'title' => 'Order Success'
-        ];
-        return view('success')->with($data);
     }
 
     // Delivery (Shipping) costs

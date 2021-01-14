@@ -232,13 +232,13 @@
         <div class="col-12 col-xl-4 order-md-2">
             <div class="bg-whitesmoke box-shadow-sm bordered rounded-2 px-2 pt-3 pb-2">
                 <h6 class="font-600">Fill in your delivery information.</h6>
-                <form action="/checkout" method="post" class="needs-validation" id="checkout-form" novalidate>
+                <form method="post" class="needs-validation" id="checkout-form" novalidate>
                     
                     <!-- Payment method -->
-                    <label for="customer-suburb" class="mb-0 text-sm text-faded font-500">Add payment method</label>
+                    <label for="payment-option" class="mb-0 text-sm text-faded font-500">Add payment method</label>
                     <div class="form-group icon-form-group mb-1">
                         <i class="material-icons select-icon icon text-faded">credit_card</i>
-                        <select name="customer-suburb" id="customer-suburb" class="custom-control form-control font-500 text-faded text-capitalize box-shadow-sm" onchange="deliveryCharge()" required>
+                        <select name="payment-option" id="payment-option" class="custom-control form-control font-500 text-faded text-capitalize box-shadow-sm" onchange="deliveryCharge()" required>
                             <option value="credit-card" selected>Credit/Debit Cart</option>
                             <option value="credit-card">Paypal</option>
                             <option value="credit-card">Ecocash/One Money</option>
@@ -264,7 +264,7 @@
                     <div class="form-group mb-1">
                         <label for="email" class="mb-0 text-sm text-faded font-500">Customer email (Optional)</label>
                         <i class="material-icons text-faded">email</i>
-                        <input type="email" name="customer-email" id="customer-email" class="form-control font-500 text-faded box-shadow-sm" placeholder="email@example.com" onblur="emailValidation(this)">
+                        <input type="email" name="customer-email" id="customer-email" class="form-control font-500 text-faded box-shadow-sm" placeholder="email@example.com">
                         <small class="text-danger form-error font-400 mt-0 pt-0">Email required!</small>
                     </div>
                     <!-- /.Recipient's Email -->
@@ -291,6 +291,22 @@
                     </div>
                     <!-- /.Form Row -->
 
+                    <!-- Occasion -->
+                    <label for="occasion" class="mb-0 text-sm text-faded font-500">Occasion</label>
+                    <div class="form-group icon-form-group mb-1">
+                        <i class="material-icons select-icon icon text-faded">event</i>
+                        <select name="occasion" id="occasion" class="custom-control form-control font-500 text-faded text-capitalize box-shadow-sm" required>
+                            <option value="null" selected>Select Occasion</option>
+                            @foreach ($occasions as $occasion)
+                                <option value="{{ $occasion->occasion }}">
+                                    {{ $occasion->occasion }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <small class="text-danger form-error font-400 mt-0 pt-0">Customer city required!</small>
+                    </div>
+                    <!-- /.Occasion -->
+
                     <!-- Billing Address -->
                     <div class="form-group mb-1">
                         <label for="customer-address" class="mb-0 text-sm text-faded font-500">Customer address</label>
@@ -307,7 +323,7 @@
                         <select name="customer-suburb" id="customer-suburb" class="custom-control form-control font-500 text-faded text-capitalize box-shadow-sm" required>
                             <option value="0" selected>Select Suburb</option>
                             @foreach ($suburbs as $row)
-                                <option value="{{ number_format($row->usd_price, 2) }}">
+                                <option value="{{ number_format($row->usd_price, 2) }}" data-suburb="{{ $row->suburb_name }}">
                                     {{ $row->suburb_name }}
                                 </option>
                             @endforeach
@@ -352,11 +368,8 @@
 
                     <!-- Hidden inputs -->
                     <input type="hidden" name="action" id="action" value="customer-order">
-                    <input type="hidden" name="usd-total" id="usd-total-cart">
-                    <input type="hidden" name="zar-total" id="zar-total-cart">
-                    <input type="hidden" name="zwl-total" id="zwl-total-cart">
-                    <input type="hidden" name="count-cart" id="count-cart">
                     <input type="hidden" name="currency" id="currency">
+                    <input type="hidden" name="suburb" id="suburb">
                     <!-- /.Hidden inputs -->
 
                     <!-- Submission button -->

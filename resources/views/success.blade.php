@@ -25,14 +25,16 @@
             <div class="bg-whitesmoke box-shadow-sm rounded-2 bordered">
                 <div class="d-flex align-items-center justify-content-between box-shadow-sm p-2">
                     <div class="media">
-                        <img src="{{ asset('storage/users/15f957febc6cdf.jpg') }}" alt="" height="50" width="50" class="align-self-start mr-2 rounded-circle">
+                        <img src="{{ recipientsPic($cell) }}" alt="" height="50" width="50" class="align-self-start mr-2 rounded-circle">
                         <div class="media-body">
-                            <h6 class="font-600 text-capitalize my-0">Tatiana Hemsworth</h6>
+                            <h6 class="font-600 text-capitalize my-0">
+                                {{ $name . ' ' . $surname }}
+                            </h6>
                             <address class="lh-100">
-                                <p class="my-0 text-capitalize text-sm">175 bradley rd, waterfalls</p>
-                                <p class="my-0 text-capitalize text-sm">Harare, zimbabwe</p>
-                                <p class="my-0 text-sm">+263 77 602 1140</p>
-                                <p class="my-0 text-sm">marshallchaterera@gmail.com</p>
+                                <p class="my-0 text-capitalize text-sm">{{ $address }}</p>
+                                <p class="my-0 text-capitalize text-sm">{{ $suburb }}</p>
+                                <p class="my-0 text-sm">+263{{ $cell }}</p>
+                                <p class="my-0 text-sm">{{ $email ?? ''}}</p>
                             </address>
                         </div>
                     </div>
@@ -40,22 +42,23 @@
                         <div class="order-date box-shadow-sm rounded-2">
                             <div class="date-header bg-brick-red w-100"></div>
                             <div class="ordered-on bg-white text-center">
-                                <h5 class="font-700 lead-2x text-dark my-0 py-0">19</h5>
-                                <h6 class="my-0 py-0 text-uppercase text-dark font-600">aug</h6>
+                                <h5 class="font-700 lead-2x text-dark my-0 py-0">{{ $date }}</h5>
+                                <h6 class="my-0 py-0 text-uppercase text-dark font-600">{{ $month }}</h6>
                             </div>
                         </div>
                         <div class="w-100 ml-2">
-                            <h6 class="font-weight-bold text-sm text-faded text-uppercase d-flex align-items-center my-0">
-                                <i class="material-icons mr-2">access_time</i>
-                                Jan 2, 2021 
-                                <span class="text-lowercase mx-1 text-faded">at</span> 
-                                19:28 
+                            <h6 class="font-weight-bold text-sm text-faded text-uppercase my-0">
+                                Delivery details:
                             </h6>
                             <h6 class="font-weight-bold text-sm text-faded d-flex align-items-center my-0">
                                 <i class="material-icons mr-2">redeem</i> 
-                                1 gift item
+                                @if($items == 1)
+                                    1 gift item
+                                @else 
+                                    {{ $items }} gift items
+                                @endif
                             </h6>
-                            <h5 class="font-600 text-faded text-capitalize">Birthday present</h5>
+                            <h5 class="font-600 text-faded text-capitalize">{{ $occasion }}</h5>
                         </div>
                     </div>
                 </div>
@@ -73,34 +76,40 @@
                     </div>
                     <div class="d-flex align-items-center">
                         <i class="material-icons text-faded mr-1">receipt</i>
-                        <span class="text-faded text-sm">283620373</span>
+                        <span class="text-faded text-sm">{{ $trackid }}</span>
                     </div>
                 </li>
                 <li class="list-group-item d-flex align-items-center justify-content-around rounded-bottom-2">
                     <div class="d-block text-center lh-100">
                         <p class="text-sm text-faded mb-0">Delivery In</p>
-                        <p class="text-sm mt-1">3d</p>
+                        <p class="text-sm mt-1">{{ deliveryTime($delivery_date) }}</p>
                     </div>
 
                     <div class="d-block text-center lh-100">
                         <p class="text-sm text-faded mb-0">Amount</p>
-                        <p class="text-sm mt-1">$123.37</p>
+                        <p class="text-sm mt-1 usd-price">US${{ $total }}</p>
+                        <p class="text-sm mt-1 zar-price d-none">R{{ number_format($total * zaRate(), 2) }}</p>
+                        <p class="text-sm mt-1 zwl-price d-none">ZW${{ number_format($total * zwRate(), 2) }}</p>
                     </div>
 
                     <div class="d-block text-center lh-100">
                         <p class="text-sm text-faded mb-0">Coupon</p>
-                        <p class="text-sm mt-1">$123.37</p>
+                        @if ($coupon == true)
+                            <i class="material-icons text-success">done_all</i>
+                        @else
+                            <p class="text-sm mt-1">Null</p>
+                        @endif
                     </div>
                     <div class="d-block text-center lh-100">
                         <p class="text-sm text-faded mb-0">Items</p>
-                        <p class="text-sm mt-1">4</p>
+                        <p class="text-sm mt-1">{{ $items }}</p>
                     </div>
                 </li>
             </ul>
             <div class="my-2">
-                <button class="btn btn-primary px-3 rounded-pill d-flex align-items-center justify-content-center">
+                <a href="/orders" role="button" class="btn btn-primary px-3 rounded-pill d-flex align-items-center justify-content-center">
                     <i class="material-icons mr-1">arrow_back</i> View Order Details
-                </button>
+                </a>
             </div>
         </div>
     </div>

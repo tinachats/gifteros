@@ -155,6 +155,12 @@
         return number_format($zw_rate, 2);
     }
 
+    // Create the order number 
+    function trackID($order_id, $order_date){
+        $track_id = 'GIFT' . date('YmD', $order_date) . $order_id;
+        return strtoupper($track_id);
+    }
+
     // Count user's received orders
     function countReceivedOrders(){
         $count = DB::table('orders')
@@ -1529,5 +1535,58 @@
             return $years."y ago";
         }
         return $time;
+    } 
+
+    // Count time difference between now and the delivery date
+    function deliveryTime($delivery_time){
+        $delivery_time = strtotime($delivery_time);
+        $current_time = time();
+        $time_difference = $delivery_time - $current_time;
+        $seconds = $time_difference;
+        $minutes = round($seconds / 60);
+        $hours   = round($seconds / 3600);
+        $days    = round($seconds / 86400);
+        $weeks   = round($seconds / 604800);
+        $months  = round($seconds / 2629800); //((365 + 365 + 365 + 366)/4/12) * 24 * 3600
+        $years   = round($seconds / 31557600); //$months * 12
+
+        if ($seconds < 60) {
+            return 'now';
+        } else if ($minutes < 60) {
+            if ($minutes == 1) {
+                return '1m';
+            } else {
+                return $minutes."m";
+            }
+        } else if ($hours < 24) {
+            if ($hours == 1) {
+                return '1h';
+            } else {
+                return $hours."h";
+            }
+        } else if ($days < 7) {
+            if ($days == 1) {
+                return '1d';
+            } else {
+                return $days."d";
+            }
+        } else if ($weeks < 4) {
+            if ($weeks == 1) {
+                return '1w';
+            } else {
+                return $weeks."w";
+            }
+        } else if ($months < 12) {
+            if ($months == 1) {
+                return '1mn';
+            } else {
+                return $months."mn";
+            }
+        } else if ($years == 1) {
+            return '1y';
+        } else {
+            return $years."y";
+        }
+        return $delivery_time;
     } 
 ?>

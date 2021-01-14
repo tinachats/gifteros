@@ -12,8 +12,10 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\MailingList;
 use App\Http\Controllers\Occasions;
 use App\Http\Controllers\Orders;
+use App\Http\Controllers\OrderSuccess;
 use App\Http\Controllers\Search;
 use App\Http\Controllers\SubCategories;
+use App\Http\Controllers\Stripe;
 use App\Http\Controllers\UI;
 use App\Http\Controllers\Users;
 use App\Http\Controllers\Wishlist;
@@ -70,13 +72,14 @@ Route::get('/remove_item/{gift_id}', [CartController::class, 'removeItem'])->nam
 Route::get('/shopping_cart', [CartController::class, 'shoppingCart'])->name('shopping_cart');
 Route::get('/clear_cart', [CartController::class, 'clearCart'])->name('clear_cart');
 Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
-Route::get('/success', [CartController::class, 'success'])->name('success');
 
 // Coupons & Discounts Routes
 Route::post('/newbie-coupon', [CouponController::class, 'newbieCoupon'])->name('newbie_coupon');
 
-// Delivery Charges
+// Checking-out Routs
 Route::post('/shipping-costs', [CartController::class, 'shippingCosts'])->name('shipping_costs');
+Route::post('/stripe', [Stripe::class, 'checkout'])->name('stripe_checkout');
+Route::get('/success/{name}/{surname}/{email}/{cell}/{address}/{suburb}/{items}/{total}/{trackid}/{coupon}/{delivery_date}/{date}/{month}/{occasion}', [OrderSuccess::class, 'index'])->name('success_page');
 
 // Wishlist Routes
 Route::get('/wishlist', [Wishlist::class, 'index'])->name('wishlist');
