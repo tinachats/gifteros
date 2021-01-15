@@ -110,6 +110,28 @@
         return $output;
     }
 
+    // Count number of views of a gift
+    function viewCounter($gift_id){
+        $counter = '';
+        // Increment gift views on every load
+        $views = DB::table('gifts')
+                    ->where('id', $gift_id)
+                    ->value('views');
+        if($views < 1000){
+            $counter = $views;
+        } else if($views < 1000000){
+            $count = number_format(($views / 1000), 1);
+            $counter = $count . 'k';
+        } else if($views < 1000000000){
+            $count = number_format(($views / 1000000), 1);
+            $counter = $count . 'M';
+        } else {
+            $count = number_format(($views / 1000000000), 1);
+            $counter = $count . 'B';
+        }
+        return $counter;
+    }
+
     // Count user's sent orders
     function countSentOrders(){
         $count = DB::table('orders')

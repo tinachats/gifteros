@@ -122,7 +122,7 @@ class Gifts extends Controller
                                 <div class="overlay d-flex justify-content-around py-1">
                                     <div class="d-flex flex-column text-center" title="Total Views">
                                         <i class="fa fa-eye text-light"></i>
-                                        <span class="text-light text-sm">12k</span>
+                                        <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
                                     </div>
                                     <div class="d-flex flex-column text-center" title="Wishlisted by '. totalWishes($gift->id) .' customer(s)">
                                         '.$wishlist_icon.'
@@ -294,7 +294,7 @@ class Gifts extends Controller
                                 <div class="overlay d-flex justify-content-around py-1">
                                     <div class="d-flex flex-column text-center" title="Total Views">
                                         <i class="fa fa-eye text-light"></i>
-                                        <span class="text-light text-sm">12k</span>
+                                        <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
                                     </div>
                                     <div class="d-flex flex-column text-center" title="Wishlisted by '. totalWishes($gift->id) .' customer(s)">
                                         '.$wishlist_icon.'
@@ -466,7 +466,7 @@ class Gifts extends Controller
                                 <div class="overlay d-flex justify-content-around py-1">
                                     <div class="d-flex flex-column text-center" title="Total Views">
                                         <i class="fa fa-eye text-light"></i>
-                                        <span class="text-light text-sm">12k</span>
+                                        <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
                                     </div>
                                     <div class="d-flex flex-column text-center" title="Wishlisted by '. totalWishes($gift->id) .' customer(s)">
                                         '.$wishlist_icon.'
@@ -638,7 +638,7 @@ class Gifts extends Controller
                                 <div class="overlay d-flex justify-content-around py-1">
                                     <div class="d-flex flex-column text-center" title="Total Views">
                                         <i class="fa fa-eye text-light"></i>
-                                        <span class="text-light text-sm">12k</span>
+                                        <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
                                     </div>
                                     <div class="d-flex flex-column text-center" title="Wishlisted by '. totalWishes($gift->id) .' customer(s)">
                                         '.$wishlist_icon.'
@@ -810,7 +810,7 @@ class Gifts extends Controller
                                 <div class="overlay d-flex justify-content-around py-1">
                                     <div class="d-flex flex-column text-center" title="Total Views">
                                         <i class="fa fa-eye text-light"></i>
-                                        <span class="text-light text-sm">12k</span>
+                                        <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
                                     </div>
                                     <div class="d-flex flex-column text-center" title="Wishlisted by '. totalWishes($gift->id) .' customer(s)">
                                         '.$wishlist_icon.'
@@ -982,7 +982,7 @@ class Gifts extends Controller
                                 <div class="overlay d-flex justify-content-around py-1">
                                     <div class="d-flex flex-column text-center" title="Total Views">
                                         <i class="fa fa-eye text-light"></i>
-                                        <span class="text-light text-sm">12k</span>
+                                        <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
                                     </div>
                                     <div class="d-flex flex-column text-center" title="Wishlisted by '. totalWishes($gift->id) .' customer(s)">
                                         '.$wishlist_icon.'
@@ -1480,37 +1480,13 @@ class Gifts extends Controller
         return view('category.index')->with($data);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    // Increment the gift view table
+    public function giftViews(Request $request)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        if($request->ajax()){
+            if($request->action == 'increment-view'){
+                Gift::find($request->gift_id)->increment('views');
+            }
+        }
     }
 }

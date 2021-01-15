@@ -102,11 +102,10 @@ class Stripe extends Controller
                         'zwl_price'     => $value['zwl_price']
                     ];
                     DB::table('ordered_gifts')->insert($gift_array);
-                    $qty = DB::table('gifts')->where('id', $value['gift_id'])->value('units');
-                    $new_qty = $qty - $value['qty'];
+                    
+                    // Decrease the gift units 
                     DB::table('gifts')
-                        ->where('id', $value['gift_id'])
-                        ->update(['units' => $new_qty]);
+                       ->decrement('units', $value['qty'], ['id'=> $value['gift_id']]);
                 }
 
                 DB::table('gift_customizations')

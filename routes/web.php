@@ -46,6 +46,7 @@ Route::get('/showcase', [Gifts::class, 'showcase'])->name('showcase');
 Route::get('/details/{slug}/{id}', [Gifts::class, 'show'])->name('details.show');
 Route::post('/details/wishlist_btn', [Gifts::class, 'wishlist_btn'])->name('wishlist_btn');
 Route::post('/details/gift_ratings', [Gifts::class, 'gift_ratings'])->name('gift_ratings');
+Route::post('/gift_views', [Gifts::class, 'giftViews'])->name('gift_views');
 Route::get('/search', [Search::class, 'fetch'])->name('search.fetch');
 
 // Gift Comparisons

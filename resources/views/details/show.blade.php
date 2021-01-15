@@ -480,6 +480,23 @@
         var gift_id = {{ $id }};
         var gift_name = "{!! $title !!}";
 
+        // Increment the gift view counter
+        viewCounter(gift_id);
+        function viewCounter(gift_id){
+            var action = 'increment-view';
+            $.ajax({
+                url: '{{ route("gift_views") }}',
+                method: 'post',
+                data: {
+                    action: action,
+                    gift_id: gift_id
+                },
+                success: function(){
+
+                }
+            });
+        }
+
         // Fetch wishlist button
         wishlistBtn();
         function wishlistBtn(){
@@ -489,8 +506,7 @@
                 method: 'post',
                 data: {
                     action: action,
-                    gift_id: gift_id,
-                    _token: _token
+                    gift_id: gift_id
                 },
                 dataType: 'json',
                 success: function(data){
@@ -518,8 +534,7 @@
                 method: 'post',
                 data: {
                     action: action,
-                    gift_id: gift_id,
-                    _token: _token
+                    gift_id: gift_id
                 },
                 dataType: 'json',
                 success: function(data){
@@ -544,8 +559,7 @@
                 data: {
                     action: action,
                     gift_id: gift_id,
-                    user_id: user_id,
-                    _token: _token
+                    user_id: user_id
                 },
                 dataType: 'json',
                 success: function(data) {
@@ -613,8 +627,7 @@
                     rating_id: rating_id,
                     gift_id: gift_id,
                     action: action,
-                    notification_type: 'like',
-                    _token: _token
+                    notification_type: 'like'
                 },
                 dataType: 'json',
                 success: function(data) {
@@ -651,8 +664,7 @@
                     rating_id: rating_id,
                     gift_id: gift_id,
                     action: action,
-                    notification_type: 'dislike',
-                    _token: _token
+                    notification_type: 'dislike'
                 },
                 dataType: 'json',
                 success: function(data) {
@@ -688,8 +700,7 @@
                 data: {
                     action: action,
                     post_id: post_id,
-                    user_id: user_id,
-                    _token: _token
+                    user_id: user_id
                 },
                 dataType: 'json',
                 success: function(data) {
@@ -786,8 +797,7 @@
                         action: action,
                         post_id: post_id,
                         receiver_id: receiver_id,
-                        comment: comment,
-                        _token: _token
+                        comment: comment
                     },
                     dataType: 'json',
                     success: function(data) {
