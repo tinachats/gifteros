@@ -96,7 +96,7 @@
             @auth
                 <!-- Side-menu-item -->
                 <li class="side-menu-item p-2">
-                    <a class="d-flex align-items-center" href="orders.php">
+                    <a class="d-flex align-items-center" href="/orders">
                         <i class="material-icons mr-2">local_shipping</i>
                         <span class="text-capitalize">My Orders</span>
                         <span class="badge app-badge ml-auto">

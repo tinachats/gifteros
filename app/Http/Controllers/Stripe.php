@@ -114,22 +114,24 @@ class Stripe extends Controller
                    ->update(['status' => 'customized']);
 
                 // Check if recipient is a registered customer
-                $customer_id = DB::table('users')
+                $customer_data = DB::table('users')
                                ->where('mobile_phone', $recipient_cell)
-                               ->value('id');
-                if(isset($customer_id)){
-                    $data = [
-                        'user_id'            => $user_id, 
-                        'friend_id'          => $customer_id, 
-                        'recipients_name'    => $first_name, 
-                        'recipients_surname' => $last_name, 
-                        'recipients_cell'    => $recipient_cell, 
-                        'recipients_email'   => $recipient_email, 
-                        'recipients_address' => $recipient_address, 
-                        'recipients_city'    => $suburb, 
-                        'status'             => 'friend'
-                    ];
-                    DB::table('recipients')->insert($data);
+                               ->get();
+                if(count($customer_data) > 0){
+                    foreach($customer_data as $row){
+                        $data = [
+                            'user_id'            => $user_id, 
+                            'friend_id'          => $row->id, 
+                            'recipients_name'    => $first_name, 
+                            'recipients_surname' => $last_name, 
+                            'recipients_cell'    => $recipient_cell, 
+                            'recipients_email'   => $recipient_email, 
+                            'recipients_address' => $recipient_address, 
+                            'recipients_city'    => $suburb, 
+                            'status'             => 'friend'
+                        ];
+                        DB::table('recipients')->insert($data);
+                    }
                 } else {
                     $data = [
                         'user_id'            => $user_id, 
@@ -143,9 +145,6 @@ class Stripe extends Controller
                     ];
                     DB::table('recipients')->insert($data);
                 }
-                // Clear the cart
-                session()->forget('cart');
-                $name = str_replace(' ', '.', $fullname);
                 $address = preg_replace('/\s/', '', $recipient_address);
                 $suburb = preg_replace('/\s/', '', $suburb);
                 $params = [
@@ -164,6 +163,22 @@ class Stripe extends Controller
                     'month'     => $month,
                     'occasion'  => $occasion ?? 'Null'
                 ];
+                // Clear the cart
+                session()->forget('cart');
+
+                // Clear the shipping session
+                session()->forget('shipping_costs');
+
+                // Update the coupons table set newbie_coupon status to used
+                DB::table('coupons')->where([
+                    'user_id'   => $user_id,
+                    'type'      => 'newbie_coupon',
+                    'status'    => 'not-used'
+                ])->update(['status' => 'used']);
+
+                // Forget the coupons session
+                session()->forget('coupons');
+
                 $url = url('/success', $params);
                 return response()->json([
                     'message' => 'success',

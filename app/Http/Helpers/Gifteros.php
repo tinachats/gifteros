@@ -161,6 +161,14 @@
         return strtoupper($track_id);
     }
 
+    // Get order number 
+    function getTrackID($order_id){
+        $track_id = DB::table('ordered_gifts')
+                        ->where('order_id', $order_id)
+                        ->value('track_id');
+        return strtoupper($track_id);
+    }
+
     // Count user's received orders
     function countReceivedOrders(){
         $count = DB::table('orders')
@@ -274,22 +282,33 @@
                        'user_id'         => $user_id,
                        'customer_phone'  => $recipients_cell
                    ])
-                   ->sum('ordered_items');
+                   ->sum('quantity');
         return $count;
+    }
+
+    // Get gift image given the gift_id
+    function giftImg($gift_id){
+        $gift_img = DB::table('gifts')->where('id', $gift_id)->value('gift_image');
+        return $gift_img;
+    }
+
+    // Get gift name given the gift_id
+    function giftName($gift_id){
+        $gift_name = DB::table('gifts')->where('id', $gift_id)->value('gift_name');
+        return $gift_name;
+    }
+
+    // Get gift name given the gift_id
+    function giftPrice($gift_id){
+        $usd_price = DB::table('gifts')->where('id', $gift_id)->value('usd_price');
+        return $usd_price;
     }
 
     // Fetch all ordered gifts
     function orderedItems($order_id){
-        $ordered_gifts = DB::table('ordered_gifts')
-                 ->where('order_id', $order_id)
-                 ->pluck('gift_id');
-        $gifts = DB::table('gifts')
-                    ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
-                    ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                    ->join('ordered_gifts', 'ordered_gifts.gift_id', '=', 'gifts.id')
-                    ->select('gifts.*', 'categories.*', 'sub_categories.*', 'ordered_gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug')
-                    ->whereIn('gifts.id', $ordered_gifts)
-                    ->get();
+        $gifts = DB::select('select gift_id, count(*) as qty 
+        from ordered_gifts where order_id = :order_id
+        group by gift_id asc', ['order_id' => $order_id]);
         return $gifts;
     }
 
@@ -337,6 +356,14 @@
             $address = $location->address . ', '  . $location->city;
         }
         return $address;
+    }
+
+    // Sender's address
+    function sendersCell($user_id){
+        $cell = DB::table('users')
+                    ->where('id', $user_id)
+                    ->value('mobile_phone');
+        return $cell;
     }
 
     // Recipient's

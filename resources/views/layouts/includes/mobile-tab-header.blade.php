@@ -1,4 +1,4 @@
-@include('layouts.includes.header')
+@include('layouts.includes.main-nav')
 <style>
 
     @media(max-width: 360px){

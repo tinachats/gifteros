@@ -1,9 +1,8 @@
 @include('layouts.includes.main-nav')
-@include('layouts.includes.mobile-tab-header')
 <!-- Page Content -->
-<div class="container page-content" id="profile-page">
+<div class="container page-content">
     <!-- Content Header (Page header) -->
-    <div class="content-header mt-md-5">
+    <div class="content-header mt-md-5 d-none d-md-block">
         <div class="d-flex justify-content-between align-items-center mb-2">
             <h5 class="text-capitalize font-600 m-0 p-0">
                 My Orders
@@ -24,30 +23,52 @@
 
     <!-- Page Content -->
     <div class="container justify-content-center mb-5">
-        <div class="d-flex align-items-start">
+        <!-- Small Screen Order Tabs -->
+        <div class="d-md-flex align-items-md-start">
+            <nav class="rounded-0 bg-whitesmoke box-shadow-sm border-top d-sm-block d-md-none fixed-top" id="mobile-tabs">
+                <div class="nav nav-tabs px-0 w-100 justify-content-around" id="nav-tab" role="tablist">
+                    <a class="nav-item nav-link rounded-0 active" id="nav-sent-tab" data-toggle="tab" href="#nav-sent" role="tab" aria-controls="nav-sent" aria-selected="true">
+                        <div class="d-flex flex-column text-center font-600">
+                            <i class="material-icons">local_shipping</i>
+                            <span class="text-capitalize ml-1">Sent</span>
+                        </div>
+                    </a>
+                    <a class="nav-item nav-link rounded-0" id="nav-receiving-tab" data-toggle="tab" href="#nav-received" role="tab" aria-controls="nav-receiving" aria-selected="false">
+                        <div class="d-flex flex-column text-center font-600">
+                            <i class="fa fa-dropbox icon-md"></i>
+                            <span class="text-capitalize ml-1">Received</span>
+                        </div>
+                    </a>
+                    <a class="nav-item nav-link rounded-0" id="nav-cancelled-tab" data-toggle="tab" href="#nav-cancelled" role="tab" aria-controls="nav-cancelled" aria-selected="false">
+                        <div class="d-flex flex-column text-center font-600">
+                            <i class="material-icons">cancel</i>
+                            <span class="text-capitalize ml-1">Cancelled</span>
+                        </div>
+                    </a>
+                </div>
+            </nav>
             <div class="nav flex-column nav-pills me-3 d-none d-md-block" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a href="#v-pills-sent" data-toggle="pill" class="nav-link active" id="v-pills-sent-orders-tab" role="tab" aria-controls="v-pills-sent" aria-selected="true">
+                <a href="#nav-sent" data-toggle="pill" class="nav-link active" id="nav-sent-tab" role="tab" aria-controls="nav-sent" aria-selected="true">
                     Sent Orders
                     <span class="badge badge-light ml-auto">
                         {{ countSentOrders() }}
                     </span>
                 </a>
-                <a href="#v-pills-received" data-toggle="pill" class="nav-link" id="v-pills-received-orders-tab" role="tab" aria-controls="v-pills-received" aria-selected="false">
+                <a href="#nav-received" data-toggle="pill" class="nav-link" id="nav-receiving-tab" role="tab" aria-controls="nav-receiving" aria-selected="false">
                     Received Orders
                     <span class="badge badge-light ml-auto">
                         {{ countReceivedOrders() }}
                     </span>
                 </a>
-                <a href="#v-pills-cancelled" data-toggle="pill" class="nav-link" id="v-pills-cancelled-orders-tab" role="tab" aria-controls="v-pills-cancelled" aria-selected="false">
+                <a href="#nav-cancelled" data-toggle="pill" class="nav-link" id="nav-cancelled-tab" role="tab" aria-controls="nav-cancelled" aria-selected="false">
                     Cancelled Orders
                     <span class="badge badge-light ml-auto">
                         {{ countCancelledOrders() }}
                     </span>
                 </a>
             </div>
-            <div class="tab-content w-75 ml-md-5" id="v-pills-tabContent">
-                <!-- Sent Orders -->
-                <div class="tab-pane fade show active" id="v-pills-sent" role="tabpanel" aria-labelledby="v-pills-sent-orders-tab">
+            <div class="tab-content w-md-75 ml-md-5 rounded-0 mt-2" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-sent" role="tabpanel" aria-labelledby="nav-sent-tab">
                     @if(countSentOrders() > 0)
                         @foreach (sentOrders() as $order)
                             <div class="row main-section justify-content-center mb-2">
@@ -121,7 +142,7 @@
                                                             {{ $order->ordered_items}} gift items
                                                         @endif
                                                     </h6>
-                                                    <h5 class="font-600 text-faded text-capitalize">Birthday present</h5>
+                                                    <h5 class="font-600 text-faded text-capitalize">{{ $order->occasion }}</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -131,7 +152,7 @@
                                                     <!-- Ordered Gift -->
                                                     <div class="item mx-2 my-2">
                                                         <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
-                                                            <img src="/storage/gifts/{{ $gift->gift_image }}" height="150" class="card-img-top w-100 rounded-0">
+                                                            <img src="/storage/gifts/{{ $gift->gift_image }}" height="150" class="card-img-top rounded-0">
                                                             <div class="gift-content mx-1">
                                                                 <h6 class="my-0 py-0 text-capitalize text-sm">{{ mb_strimwidth($gift->gift_name, 0, 25, '...') }}</h6>
                                                                 <div class="d-inline-block w-100 lh-100">
@@ -188,7 +209,7 @@
                                                 <img src="{{ asset('img/app/order-map.PNG') }}" alt="" class="img-fluid">
                                             </div>
                                             <div class="card-body rounded-2">
-                                                <h6 class="font-600 mb-0">{{ $order->customer_name }}'s location</h6>
+                                                <h6 class="font-600 mb-0 text-capitalize">{{ $order->customer_name }}'s location</h6>
                                                 <p class="my-0 text-capitalize">{{ $order->customer_address }}, {{ $order->customer_city }}</p>
                                             </div>
                                         </div>
@@ -222,20 +243,17 @@
                             </div>
                         @endforeach
                     @else 
-                        <div class="box-shadow-sm bg-whitesmoke rounded-2 d-grid py-5">
-                            <div class="m-auto d-flex flex-column text-center w-50">
+                        <div class="null-set d-grid py-5">
+                            <div class="m-auto d-flex flex-column text-center w-md-50">
                                 <i class="material-icons fa-5x text-muted">local_shipping</i>
-                                <h6 class="font-600 text-muted lead mt-3">
+                                <h6 class="font-600 text-muted mt-3 px-2">
                                     You've not sent any gifts to anyone yet! If you do, they'll show up here.
                                 </h6>
                             </div>
                         </div>
                     @endif
                 </div>
-                <!-- /.Sent Orders -->
-
-                <!-- Received Orders -->
-                <div class="tab-pane fade" id="v-pills-received" role="tabpanel" aria-labelledby="v-pills-received-orders-tab">
+                <div class="tab-pane fade" id="nav-received" role="tabpanel" aria-labelledby="nav-receiving-tab">
                     @if(countReceivedOrders() > 0)
                         @foreach (receivedOrders() as $order)
                             <div class="row main-section justify-content-center mb-2">
@@ -309,7 +327,7 @@
                                                             {{ $order->ordered_items}} gift items
                                                         @endif
                                                     </h6>
-                                                    <h5 class="font-600 text-faded text-capitalize">Birthday present</h5>
+                                                    <h5 class="font-600 text-faded text-capitalize">{{ $order->occasion }}</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -319,7 +337,7 @@
                                                     <!-- Ordered Gift -->
                                                     <div class="item mx-2 my-2">
                                                         <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
-                                                            <img src="/storage/gifts/{{ $gift->gift_image }}" height="150" class="card-img-top w-100 rounded-0">
+                                                            <img src="/storage/gifts/{{ $gift->gift_image }}" height="150" class="card-img-top rounded-0">
                                                             <div class="gift-content mx-1">
                                                                 <h6 class="my-0 py-0 text-capitalize text-sm">{{ mb_strimwidth($gift->gift_name, 0, 25, '...') }}</h6>
                                                                 <div class="d-inline-block w-100 lh-100">
@@ -376,7 +394,7 @@
                                                 <img src="{{ asset('img/app/order-map.PNG') }}" alt="" class="img-fluid">
                                             </div>
                                             <div class="card-body rounded-2">
-                                                <h6 class="font-600 mb-0">{{ sendersFname($order->user_id) }}'s location</h6>
+                                                <h6 class="font-600 mb-0 text-capaitalize">{{ sendersFname($order->user_id) }}'s location</h6>
                                                 <p class="my-0 text-capitalize">{{ sendersAddress($order->user_id) ?? 'Location not found.' }}</p>
                                             </div>
                                         </div>
@@ -410,20 +428,17 @@
                             </div>
                         @endforeach
                     @else
-                        <div class="box-shadow-sm bg-whitesmoke rounded-2 d-grid py-5">
-                            <div class="m-auto d-flex flex-column text-center w-50">
+                        <div class="null-set d-grid py-5">
+                            <div class="m-auto d-flex flex-column text-center w-md-50">
                                 <i class="fa fa-dropbox fa-5x text-muted"></i>
-                                <h6 class="font-600 text-muted lead mt-3">
+                                <h6 class="font-600 text-muted mt-3 px-2">
                                     You've not received any gifts from anyone yet! If you do, they'll show up here.
                                 </h6>
                             </div>
                         </div>
                     @endif
                 </div>
-                <!-- /.Received Orders -->
-
-                <!-- Cancelled Orders -->
-                <div class="tab-pane fade" id="v-pills-cancelled" role="tabpanel" aria-labelledby="v-pills-cancelled-orders-tab">
+                <div class="tab-pane fade" id="nav-cancelled" role="tabpanel" aria-labelledby="nav-cancelled-tab">
                     @if(countCancelledOrders() > 0)
                         @foreach (cancelledOrders() as $order)
                             <div class="row main-section justify-content-center mb-2">
@@ -498,7 +513,7 @@
                                                             {{ $order->ordered_items}} gift items
                                                         @endif
                                                     </h6>
-                                                    <h5 class="font-600 text-faded text-capitalize">Birthday present</h5>
+                                                    <h5 class="font-600 text-faded text-capitalize">{{ $order->occasion }}</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -508,7 +523,7 @@
                                                     <!-- Ordered Gift -->
                                                     <div class="item mx-2 my-2">
                                                         <div class="related-gift card bg-whitesmoke box-shadow-sm rounded-0 border-0 w-100">
-                                                            <img src="/storage/gifts/{{ $gift->gift_image }}" height="150" class="card-img-top w-100 rounded-0">
+                                                            <img src="/storage/gifts/{{ $gift->gift_image }}" height="150" class="card-img-top rounded-0">
                                                             <div class="gift-content mx-1">
                                                                 <h6 class="my-0 py-0 text-capitalize text-sm">{{ mb_strimwidth($gift->gift_name, 0, 25, '...') }}</h6>
                                                                 <div class="d-inline-block w-100 lh-100">
@@ -565,7 +580,7 @@
                                                 <img src="{{ asset('img/app/order-map.PNG') }}" alt="" class="img-fluid">
                                             </div>
                                             <div class="card-body rounded-2">
-                                                <h6 class="font-600 mb-0">{{ sendersFname($order->user_id) }}'s location</h6>
+                                                <h6 class="font-600 mb-0 text-capitalize">{{ sendersFname($order->user_id) }}'s location</h6>
                                                 <p class="my-0 text-capitalize">{{ sendersAddress($order->user_id) ?? 'Location not found.' }}</p>
                                             </div>
                                         </div>
@@ -599,19 +614,19 @@
                             </div>
                         @endforeach
                     @else
-                        <div class="box-shadow-sm bg-whitesmoke rounded-2 d-grid py-5">
-                            <div class="m-auto d-flex flex-column text-center w-50">
+                        <div class="null-set d-grid py-5">
+                            <div class="m-auto d-flex flex-column text-center w-md-50">
                                 <i class="material-icons fa-5x text-muted">cancel</i>
-                                <h6 class="font-600 text-muted lead mt-3">
+                                <h6 class="font-600 text-muted mt-3 px-2">
                                     You've not cancelled any orders to anyone yet! If you do, they'll show up here.
                                 </h6>
                             </div>
                         </div>
                     @endif
                 </div>
-                <!-- /.Cancelled Orders -->
             </div>
         </div>
+        <!-- /.Small Screen Order Tabs -->
     </div>
     <!-- Page Content -->
 </div>
