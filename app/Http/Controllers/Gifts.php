@@ -48,7 +48,7 @@ class Gifts extends Controller
                 $customized_gifts = $wishlist_icon = $kitchenware_gifts = $custom_link = '';
                 $care_gifts = $plasticware_gifts = $combos = $appliance_gifts = '';
                 $end_dates = $gift_ids = [];
-                $gift_label = '';
+                $gift_label = $browsed_gifts = '';
 
                 $customizables = DB::table('gifts')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
@@ -120,7 +120,7 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
-                                    <div class="d-flex flex-column text-center" title="Total Views">
+                                    <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
                                     </div>
@@ -292,7 +292,7 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
-                                    <div class="d-flex flex-column text-center" title="Total Views">
+                                    <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
                                     </div>
@@ -464,7 +464,7 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
-                                    <div class="d-flex flex-column text-center" title="Total Views">
+                                    <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
                                     </div>
@@ -636,7 +636,7 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
-                                    <div class="d-flex flex-column text-center" title="Total Views">
+                                    <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
                                     </div>
@@ -808,7 +808,7 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
-                                    <div class="d-flex flex-column text-center" title="Total Views">
+                                    <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
                                     </div>
@@ -980,7 +980,7 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
-                                    <div class="d-flex flex-column text-center" title="Total Views">
+                                    <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
                                     </div>
@@ -1081,6 +1081,170 @@ class Gifts extends Controller
                         <!-- /.Product Card -->
                     ';
                 }
+                // $viewed_gifts = $request->session()->get('viewed-gifts', []);
+                // if($request->session()->has('viewed-gifts')){
+                //     foreach($viewed_gifts as $key => $value){
+                //         // Gift star rating
+                //         $star_rating = giftStarRating($viewed_gifts[$key]);
+                //         $usd_before = number_format(($value['usd_price'] + ($value['usd_price'] * 0.275)), 2); 
+                //         $zar_before = number_format(($value['zar_price'] + ($value['zar_price'] * 0.275)), 2);
+                //         $zwl_before = number_format(($value['zwl_price'] + ($value['zwl_price'] * 0.275)), 2);
+                //         $short_name = mb_strimwidth($value['gift_name'], 0, 15, '...');
+
+                //         if(isset(Auth::user()->id)){
+                //             $wishlist_icon = wishlistIcon($viewed_gifts[$key], Auth::user()->id);
+                //             if(!empty(customizedLabel($viewed_gifts[$key], Auth::user()->id))){
+                //                 $gift_label = customizedLabel($viewed_gifts[$key], Auth::user()->id);
+                //             } else {
+                //                 $gift_label = giftLabel($viewed_gifts[$key]);
+                //             }
+                //         } else {
+                //             $wishlist_icon = '
+                //                 <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
+                //             ';
+                //             $gift_label = giftLabel($viewed_gifts[$key]);
+                //         }
+
+                //         // Fetch sale end-date
+                //         $end_dates[] = strtotime($value['ends_on']) * 1000;
+                //         $now = time() * 1000;
+
+                //         // Fetch all gif-ids
+                //         $gift_ids[] = $viewed_gifts[$key];
+
+                //         if($value['label'] == 'customizable'){
+                //             $custom_link = '
+                //                 <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$viewed_gifts[$key].'" title="Customize gift" data-id="'. $viewed_gifts[$key] .'">
+                //                     <i class="material-icons notifications">palette</i>
+                //                 </a>
+                //             ';
+                //         }
+
+                //         $browsed_gifts .= '
+                //             <!-- Product Card -->
+                //             <div class="card product-card rounded-2 box-shadow-sm" data-id="'.$viewed_gifts[$key].'">
+                //                 <!-- Cart Actions -->
+                //                 <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$viewed_gifts[$key].'">
+                //                     <div class="d-flex align-items-center px-2">
+                //                         <div class="d-flex align-items-center justify-content-around m-0 p-0">
+                //                             <span role="button" class="product-actions material-icons text-success subtract-product" data-id="'.$viewed_gifts[$key].'" title="Decrease quantity">remove_circle</span>
+                //                             <span role="button" class="product-actions item-quantity text-faded" id="item-count'.$viewed_gifts[$key].'">0</span>
+                //                             <span role="button" class="product-actions material-icons text-success increase-qty" data-id="'.$viewed_gifts[$key].'" title="Increase quantity">add_circle</span>
+                //                         </div>
+                //                         <div class="ml-auto d-flex align-items-center">
+                //                             '.$custom_link.'
+                //                             <a href="#" class="nav-link icon-link text-danger remove-item ml-2" title="Remove Item" data-id="'.$viewed_gifts[$key].'">
+                //                                 <i class="material-icons notifications">delete</i>
+                //                             </a>
+                //                         </div>
+                //                     </div>
+                //                 </div>
+                //                 <!-- /.Cart Actions -->
+                //                 <div class="product-img-wrapper">
+                //                     '. $gift_label .'
+                //                     <a href="details/'. $value['slug'] .'/'. $viewed_gifts[$key] .'" title="View product">
+                //                         <img src="/storage/gifts/'. $value['gift_image'] .'" alt="'. $value['gift_name'] .'" height="200" class="card-img-top">
+                //                     </a>
+                //                     <div class="overlay d-flex justify-content-around py-1">
+                //                         <div class="d-flex flex-column text-center" title="'. viewCounter($viewed_gifts[$key]) .' Total Views">
+                //                             <i class="fa fa-eye text-light"></i>
+                //                             <span class="text-light text-sm">'. viewCounter($viewed_gifts[$key]) .'</span>
+                //                         </div>
+                //                         <div class="d-flex flex-column text-center" title="Wishlisted by '. totalWishes($viewed_gifts[$key]) .' customer(s)">
+                //                             '.$wishlist_icon.'
+                //                             <span class="text-light text-sm">'. totalWishes($viewed_gifts[$key]) .'</span>
+                //                         </div>
+                //                         <div class="d-flex flex-column text-center" title="'. giftsSold($viewed_gifts[$key]) .' gift(s) sold">
+                //                             <div class="d-flex align-items-center overlay-metric">
+                //                                 <i class="fa fa-shopping-bag text-light"></i>
+                //                                 <span class="badge badge-danger badge-pill overlay-badge">'. giftsSold($viewed_gifts[$key]) .'</span>
+                //                             </div>
+                //                             <span class="text-light text-sm">Sold</span>
+                //                         </div>
+                //                         <div class="d-flex flex-column text-center" title="Items that go with this gift">
+                //                             <div class="d-flex align-items-center overlay-metric">
+                //                                 <i class="fa fa-puzzle-piece text-light"></i>
+                //                                 <span class="badge badge-danger badge-pill overlay-badge">'. countRatings($viewed_gifts[$key]) .'</span>
+                //                             </div>
+                //                             <span class="text-light text-sm">Add-ons</span>
+                //                         </div>
+                //                     </div>
+                //                 </div>
+                //                 <div class="card-content">
+                //                     <div class="card-body my-0 py-0">
+                //                         <div class="lh-100 mb-0 pb-0">
+                //                             <a href="details/'. $value['slug'] .'/'. $viewed_gifts[$key] .'">
+                //                                 <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $viewed_gifts[$key] .'">
+                //                                     '. Str::words($value['gift_name'], 2, '') .'
+                //                                 </p>
+                //                             </a>
+                //                             <a href="/category/'. $value['category_name'] .'" class="text-sm font-500 text-capitalize my-0 py-0">
+                //                                 '. $value['category_name'] .'
+                //                             </a>
+                //                             '. $star_rating .'
+                //                         </div>
+                //                         <div class="pull-up-1">
+                //                             <div class="usd-price">
+                //                                 <div class="d-flex align-items-center justify-content-between">
+                //                                     <span class="font-600">US$<span class="product-price">'. number_format($value['usd_price'], 2) .'</span></span>
+                //                                     <div class="d-flex align-items-center before-prices">
+                //                                         <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
+                //                                     </div>
+                //                                 </div>
+                //                             </div>
+                //                             <div class="zar-price d-none">
+                //                                 <div class="d-flex align-items-center justify-content-between">
+                //                                     <span class="font-600">R<span class="product-price">'. number_format($value['zar_price'], 2) .'</span></span>
+                //                                     <div class="d-flex align-items-center before-prices">
+                //                                         <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
+                //                                     </div>
+                //                                 </div>
+                //                             </div>
+                //                             <div class="zwl-price d-none">
+                //                                 <div class="d-flex align-items-center justify-content-between">
+                //                                     <span class="font-600">ZW$<span class="product-price">'. number_format($value['zwl_price'], 2) .'</span></span>
+                //                                     <div class="d-flex align-items-center before-prices">
+                //                                         <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
+                //                                     </div>
+                //                                 </div>
+                //                             </div>
+                //                         </div>
+                //                         <div class="d-flex align-items-center justify-content-between text-sm">
+                //                             <span>Sale Ends:</span>
+                //                             <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$viewed_gifts[$key].'">00d:00h:00m:00s</span>
+                //                         </div>
+                //                         <div class="row justify-content-center w-100">
+                //                             <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
+                //                                 <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $viewed_gifts[$key] .'">
+                //                                     <i class="material-icons text-white mr-1">add_shopping_cart</i>
+                //                                     Buy <span class="text-white text-white ml-1">gift</span>
+                //                                 </button>
+                //                                 <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $viewed_gifts[$key] .'" data-name="'. $short_name .'" data-id="'. $viewed_gifts[$key] .'">
+                //                                     <i class="material-icons text-primary mr-1">compare_arrows</i>
+                //                                     Compare
+                //                                 </button>
+                //                             </div>
+                //                         </div>
+                //                         <input value="'. $viewed_gifts[$key] .'" id="gift_id" type="hidden">
+                //                         <input value="'. $value['gift_name'] .'" id="name'. $viewed_gifts[$key] .'" type="hidden">
+                //                         <input value="'. $value['label'] .'" id="label'. $viewed_gifts[$key] .'" type="hidden">
+                //                         <input value="'. $value['gift_image'] .'" id="image'. $viewed_gifts[$key] .'" type="hidden">
+                //                         <input value="'. $value['usd_price'] .'" id="usd-price'. $viewed_gifts[$key] .'" type="hidden">
+                //                         <input value="'. $value['zar_price'] .'" id="zar-price'. $viewed_gifts[$key] .'" type="hidden">
+                //                         <input value="'. $value['zwl_price'] .'" id="zwl-price'. $viewed_gifts[$key] .'" type="hidden">
+                //                         <input value="'. strtotime($value['ends_on']) * 1000 .'" id="end-time'. $viewed_gifts[$key] .'" type="hidden">
+                //                         <input value="'. $value['category_id'] .'" id="category-id'. $viewed_gifts[$key] .'" type="hidden">
+                //                         <input value="'. $value['category_name'] .'" id="category-name'. $viewed_gifts[$key] .'" type="hidden">
+                //                         <input value="'. $value['units'] .'" id="product-units'. $viewed_gifts[$key] .'" type="hidden">
+                //                         <input value="1" id="quantity'. $viewed_gifts[$key] .'" type="hidden">
+                //                         <input value="'. $value['description'] .'" id="description'. $viewed_gifts[$key] .'" type="hidden">
+                //                     </div>
+                //                 </div>
+                //             </div>
+                //             <!-- /.Product Card -->
+                //         ';
+                //     }
+                // }
                 $data = [
                     'message'          => 'success',
                     'customized_gifts' => $customized_gifts, 
@@ -1089,6 +1253,7 @@ class Gifts extends Controller
                     'plasticware'      => $plasticware_gifts,
                     'combo_gifts'      => $combos, 
                     'appliances'       => $appliance_gifts,
+                    'viewed_gifts'     => $browsed_gifts,
                     'countdown_date'   => $end_dates,
                     'now'              => $now,
                     'gift_ids'         => $gift_ids
@@ -1447,7 +1612,7 @@ class Gifts extends Controller
                     'star_rating'     => $star_rating,
                     'gift_rating'     => $gift_rating,
                     'count_ratings'   => $count_ratings,
-                    'reviews'         =>  $output
+                    'reviews'         => $output
                 ]);
             }
         }
@@ -1484,8 +1649,35 @@ class Gifts extends Controller
     public function giftViews(Request $request)
     {
         if($request->ajax()){
-            if($request->action == 'increment-view'){
-                Gift::find($request->gift_id)->increment('views');
+            if($request->action == 'viewed-gift'){
+                $gift_id = $request->gift_id;
+
+                // Create an array from the given gift_id
+                $item = Gift::find($gift_id);
+
+                // Increment the view column when the gift item is viewed
+                $item->increment('views');
+
+                // Get the session of all user's viewed gifts
+                $viewed_gifts = $request->session()->get('viewed-gifts', []);
+
+                if($request->session()->has('viewed-gifts')){
+                    if(!in_array($gift_id, $viewed_gifts)){
+                        // if the session is empty then this the first gift
+                        $viewed_gifts[$gift_id] = $item;
+                        $request->session()->push('viewed-gifts', $viewed_gifts);
+                    }
+                } else {
+                    // if the session is empty then this the first gift
+                    $viewed_gifts = [
+                        $gift_id => $item
+                    ];
+                    $request->session()->put('viewed-gifts', $viewed_gifts);
+                }
+                return response()->json([
+                    'viewed_gifts' => $viewed_gifts,
+                    'count'        => count($viewed_gifts)
+                ]);
             }
         }
     }

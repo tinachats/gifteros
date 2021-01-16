@@ -1305,7 +1305,7 @@
     // Helpful button
     function helpful_btn($rating_id, $gift_id, $user_id){
         $output = '';
-        $count = DB::table('helpful')
+        $count = DB::table('comment_helpful')
                    ->where([
                         'rating_id' => $rating_id,
                         'gift_id' => $gift_id,
@@ -1333,7 +1333,7 @@
     // Unhelpful button
     function unhelpful_btn($rating_id, $gift_id, $user_id){
         $output = '';
-        $count = DB::table('unhelpful')
+        $count = DB::table('comment_unhelpful')
                    ->where([
                         'rating_id' => $rating_id,
                         'gift_id' => $gift_id,

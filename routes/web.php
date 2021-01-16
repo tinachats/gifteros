@@ -44,8 +44,8 @@ Route::get('/category_ui', [UI::class, 'category_ui'])->name('category_ui');
 Route::get('/', [Gifts::class, 'index'])->name('index');
 Route::get('/showcase', [Gifts::class, 'showcase'])->name('showcase');
 Route::get('/details/{slug}/{id}', [Gifts::class, 'show'])->name('details.show');
-Route::post('/details/wishlist_btn', [Gifts::class, 'wishlist_btn'])->name('wishlist_btn');
-Route::post('/details/gift_ratings', [Gifts::class, 'gift_ratings'])->name('gift_ratings');
+Route::get('/details/wishlist_btn', [Gifts::class, 'wishlist_btn'])->name('wishlist_btn');
+Route::get('/details/gift_ratings', [Gifts::class, 'gift_ratings'])->name('gift_ratings');
 Route::post('/gift_views', [Gifts::class, 'giftViews'])->name('gift_views');
 Route::get('/search', [Search::class, 'fetch'])->name('search.fetch');
 
@@ -105,7 +105,7 @@ Route::post('/helpful', [Users::class, 'helpful'])->name('helpful');
 Route::post('/unhelpful', [Users::class, 'unhelpful'])->name('unhelpful');
 Route::post('/like', [Users::class, 'like'])->name('like');
 Route::post('/unlike', [Users::class, 'unlike'])->name('unlike');
-Route::post('/review_comments', [Users::class, 'review_comments'])->name('review_comments');
+Route::get('/review_comments', [Users::class, 'review_comments'])->name('review_comments');
 Route::post('/submit_comment', [Users::class, 'submit_comment'])->name('submit_comment');
 Route::get('/notifications', [Users::class, 'notifications'])->name('notifications');
 

@@ -483,7 +483,7 @@
         // Increment the gift view counter
         viewCounter(gift_id);
         function viewCounter(gift_id){
-            var action = 'increment-view';
+            var action = 'viewed-gift';
             $.ajax({
                 url: '{{ route("gift_views") }}',
                 method: 'post',
@@ -503,7 +503,7 @@
             var action = 'wishlist-btn';
             $.ajax({
                 url: '{{ route("wishlist_btn") }}',
-                method: 'post',
+                method: 'get',
                 data: {
                     action: action,
                     gift_id: gift_id
@@ -531,7 +531,7 @@
             var action = 'gift-ratings';
             $.ajax({
                 url: '{{ route("gift_ratings") }}',
-                method: 'post',
+                method: 'get',
                 data: {
                     action: action,
                     gift_id: gift_id
@@ -696,7 +696,7 @@
             var action = 'review-comments';
             $.ajax({
                 url: '{{ route("review_comments") }}',
-                method: 'post',
+                method: 'get',
                 data: {
                     action: action,
                     post_id: post_id,
