@@ -13,6 +13,7 @@ use App\Http\Controllers\MailingList;
 use App\Http\Controllers\Occasions;
 use App\Http\Controllers\Orders;
 use App\Http\Controllers\OrderSuccess;
+use App\Http\Controllers\Sales;
 use App\Http\Controllers\Search;
 use App\Http\Controllers\SubCategories;
 use App\Http\Controllers\Stripe;
@@ -48,6 +49,7 @@ Route::get('/details/wishlist_btn', [Gifts::class, 'wishlist_btn'])->name('wishl
 Route::get('/details/gift_ratings', [Gifts::class, 'gift_ratings'])->name('gift_ratings');
 Route::post('/gift_views', [Gifts::class, 'giftViews'])->name('gift_views');
 Route::get('/search', [Search::class, 'fetch'])->name('search.fetch');
+Route::post('/close-sale', [Sales::class, 'closeSale'])->name('close_sale');
 
 // Gift Comparisons
 Route::post('/remove_comparison', [Gifts::class, 'remove_comparison'])->name('remove_comparison');

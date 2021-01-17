@@ -45,10 +45,10 @@ class Gifts extends Controller
     {
         if($request->ajax()){
             if($request->action){
-                $customized_gifts = $wishlist_icon = $kitchenware_gifts = $custom_link = '';
+                $customized_gifts = $wishlist_icon = $kitchenware_gifts = '';
                 $care_gifts = $plasticware_gifts = $combos = $appliance_gifts = '';
+                $gift_label = $browsed_gifts = $timer = $custom_link = '';
                 $end_dates = $gift_ids = [];
-                $gift_label = $browsed_gifts = '';
 
                 $customizables = DB::table('gifts')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
@@ -60,36 +60,93 @@ class Gifts extends Controller
                 foreach($customizables as $gift){
                     // Gift star rating
                     $star_rating = giftStarRating($gift->id);
-                    $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
-                    $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
-                    $zwl_before = number_format(($gift->zwl_price + ($gift->zwl_price * 0.275)), 2);
+
+                    // Gift sale percentage
+                    $sale_percentage = $gift->sale_percentage;
+                    
+                    // Gift's short name to show on comparison pane
                     $short_name = mb_strimwidth($gift->gift_name, 0, 15, '...');
 
+                    // Show if user customized or wishlisted the gift
                     if(isset(Auth::user()->id)){
                         $wishlist_icon = wishlistIcon($gift->id, Auth::user()->id);
                         if(!empty(customizedLabel($gift->id, Auth::user()->id))){
                             $gift_label = customizedLabel($gift->id, Auth::user()->id);
                         } else {
-                            $gift_label = giftLabel($gift->id);
+                            $gift_label = giftLabel($gift->id, round(100 * $gift->sale_percentage));
                         }
                     } else {
                         $wishlist_icon = '
                             <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
                         ';
-                        $gift_label = giftLabel($gift->id);
+                        $gift_label = giftLabel($gift->id, round(100 * $gift->sale_percentage));
                     }
 
                     // Fetch sale end-date
-                    $end_dates[] = strtotime($gift->ends_on) * 1000;
+                    $end_date = strtotime($gift->ends_on) * 1000;
+                    $end_dates[] = $end_date;
                     $now = time() * 1000;
+
+                    // Determine if end date is greater than today
+                    $date_diff = floor(abs($end_date - $now));
 
                     // Fetch all gif-ids
                     $gift_ids[] = $gift->id;
 
+                    // Only show the timer if it's the gift item is on sale or hot-offer
+                    if($gift->label == 'sale' || $gift->label == 'hot-offer'){
+                        if($date_diff > 0){
+                            // Discount the price when on sale
+                            $sale_price = number_format($gift->usd_price - ($gift->usd_price * $sale_percentage), 2);
+
+                            // Discounted prices
+                            $usd_price = $sale_price;
+                            $zar_price = number_format(($sale_price * zaRate()), 2);
+                            $zwl_price = number_format(($sale_price * zwRate()), 2);
+
+                            // The slashed price is the original price
+                            $usd_before = number_format($gift->usd_price, 2); 
+                            $zar_before = number_format(($gift->usd_price * zaRate()), 2);
+                            $zwl_before = number_format(($gift->usd_price * zwRate()), 2);
+
+                            // Show countdown timer
+                            $timer = '
+                                <div class="d-flex align-items-center justify-content-between text-sm">
+                                    <span>Sale Ends:</span>
+                                    <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
+                                </div>
+                            ';
+                        } else {
+                            // Revert back to the old price without the sale percentage
+                            $usd_price = number_format($gift->usd_price, 2);
+                            $zar_price = number_format(($gift->usd_price * zaRate()), 2);
+                            $zwl_price = number_format(($gift->usd_price * zwRate()), 2);
+
+                            // Slashed prices 
+                            $sale_price = number_format($gift->usd_price - ($gift->usd_price * 0.2), 2);
+                            $usd_before = $sale_price; 
+                            $zar_before = number_format(($sale_price * zaRate()), 2);
+                            $zwl_before = number_format(($sale_price * zwRate()), 2);
+                        }
+                    } else {
+                        $timer = '';
+
+                        // Gift prices and currency rates
+                        $usd_price = number_format($gift->usd_price, 2);
+                        $zar_price = number_format(($gift->usd_price * zaRate()), 2);
+                        $zwl_price = number_format(($gift->usd_price * zwRate()), 2);
+
+                        // Slashed prices
+                        $usd_before = number_format(($usd_price + ($usd_price * 0.275)), 2); 
+                        $zar_before = number_format((($gift->usd_price * zaRate()) + (($gift->usd_price * zaRate()) * 0.275)), 2);
+                        $zwl_before = number_format((($gift->usd_price * zwRate()) + (($gift->usd_price * zwRate()) * 0.275)), 2);
+                    }
+
+                    // Show the customize link if gift item is customizable
                     if($gift->label == 'customizable'){
                         $custom_link = '
                             <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$gift->id.'" title="Customize gift" data-id="'. $gift->id .'">
-                                <i class="material-icons notifications">palette</i>
+                                <i class="material-icons">palette</i>
                             </a>
                         ';
                     }
@@ -156,14 +213,11 @@ class Gifts extends Controller
                                             '. $gift->category_name .'
                                         </a>
                                         '. $star_rating .'
-                                        <p class="grid-view-d-none d-none d-md-block text-justify text-sm">
-                                           '.Str::words($gift->description, 10, ' ...').'
-                                        </p>
                                     </div>
                                     <div class="pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
+                                                <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
                                                 </div>
@@ -171,7 +225,7 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zar-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
+                                                <span class="font-600">R<span class="product-price">'. $zar_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
                                                 </div>
@@ -179,22 +233,19 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zwl-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
+                                                <span class="font-600">ZW$<span class="product-price">'. $zwl_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-between text-sm">
-                                        <span>Sale Ends:</span>
-                                        <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
-                                    </div>
+                                    '. $timer .'
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
                                             <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
-                                                Buy <span class="text-white text-white ml-1">gift</span>
+                                                Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
                                             <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
@@ -206,10 +257,10 @@ class Gifts extends Controller
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->label .'" id="label'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->gift_image .'" id="image'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. strtotime($gift->ends_on) * 1000 .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. $usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $end_date .'" id="end-time'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_id .'" id="category-id'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_name .'" id="category-name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->units .'" id="product-units'. $gift->id .'" type="hidden">
@@ -231,43 +282,99 @@ class Gifts extends Controller
                 foreach($kitchenware as $gift){
                     // Gift star rating
                     $star_rating = giftStarRating($gift->id);
-                    $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
-                    $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
-                    $zwl_before = number_format(($gift->zwl_price + ($gift->zwl_price * 0.275)), 2);
+
+                    // Gift sale percentage
+                    $sale_percentage = $gift->sale_percentage;
+                    
+                    // Gift's short name to show on comparison pane
                     $short_name = mb_strimwidth($gift->gift_name, 0, 15, '...');
 
+                    // Show if user customized or wishlisted the gift
                     if(isset(Auth::user()->id)){
                         $wishlist_icon = wishlistIcon($gift->id, Auth::user()->id);
                         if(!empty(customizedLabel($gift->id, Auth::user()->id))){
                             $gift_label = customizedLabel($gift->id, Auth::user()->id);
                         } else {
-                            $gift_label = giftLabel($gift->id);
+                            $gift_label = giftLabel($gift->id, round(100 * $gift->sale_percentage));
                         }
                     } else {
                         $wishlist_icon = '
                             <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
                         ';
-                        $gift_label = giftLabel($gift->id);
+                        $gift_label = giftLabel($gift->id, round(100 * $gift->sale_percentage));
                     }
 
                     // Fetch sale end-date
-                    $end_dates[] = strtotime($gift->ends_on) * 1000;
+                    $end_date = strtotime($gift->ends_on) * 1000;
+                    $end_dates[] = $end_date;
                     $now = time() * 1000;
+
+                    // Determine if end date is greater than today
+                    $date_diff = floor(abs($end_date - $now));
 
                     // Fetch all gif-ids
                     $gift_ids[] = $gift->id;
 
+                    // Only show the timer if it's the gift item is on sale or hot-offer
+                    if($gift->label == 'sale' || $gift->label == 'hot-offer'){
+                        if($date_diff > 0){
+                            // Discount the price when on sale
+                            $sale_price = number_format($gift->usd_price - ($gift->usd_price * $sale_percentage), 2);
+
+                            // Discounted prices
+                            $usd_price = $sale_price;
+                            $zar_price = number_format(($sale_price * zaRate()), 2);
+                            $zwl_price = number_format(($sale_price * zwRate()), 2);
+
+                            // The slashed price is the original price
+                            $usd_before = number_format($gift->usd_price, 2); 
+                            $zar_before = number_format(($gift->usd_price * zaRate()), 2);
+                            $zwl_before = number_format(($gift->usd_price * zwRate()), 2);
+
+                            // Show countdown timer
+                            $timer = '
+                                <div class="d-flex align-items-center justify-content-between text-sm">
+                                    <span>Sale Ends:</span>
+                                    <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
+                                </div>
+                            ';
+                        } else {
+                            // Revert back to the old price without the sale percentage
+                            $usd_price = number_format($gift->usd_price, 2);
+                            $zar_price = number_format(($gift->usd_price * zaRate()), 2);
+                            $zwl_price = number_format(($gift->usd_price * zwRate()), 2);
+
+                            // Slashed prices 
+                            $sale_price = number_format($gift->usd_price - ($gift->usd_price * 0.2), 2);
+                            $usd_before = $sale_price; 
+                            $zar_before = number_format(($sale_price * zaRate()), 2);
+                            $zwl_before = number_format(($sale_price * zwRate()), 2);
+                        }
+                    } else {
+                        $timer = '';
+
+                        // Gift prices and currency rates
+                        $usd_price = number_format($gift->usd_price, 2);
+                        $zar_price = number_format(($gift->usd_price * zaRate()), 2);
+                        $zwl_price = number_format(($gift->usd_price * zwRate()), 2);
+
+                        // Slashed prices
+                        $usd_before = number_format(($usd_price + ($usd_price * 0.275)), 2); 
+                        $zar_before = number_format((($gift->usd_price * zaRate()) + (($gift->usd_price * zaRate()) * 0.275)), 2);
+                        $zwl_before = number_format((($gift->usd_price * zwRate()) + (($gift->usd_price * zwRate()) * 0.275)), 2);
+                    }
+
+                    // Show the customize link if gift item is customizable
                     if($gift->label == 'customizable'){
                         $custom_link = '
                             <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$gift->id.'" title="Customize gift" data-id="'. $gift->id .'">
-                                <i class="material-icons notifications">palette</i>
+                                <i class="material-icons">palette</i>
                             </a>
                         ';
                     }
 
-
                     $kitchenware_gifts .= '
-                         <!-- Product Card -->
+                        <!-- Product Card -->
                         <div class="card product-card rounded-2 box-shadow-sm" data-id="'.$gift->id.'">
                             <!-- Cart Actions -->
                             <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$gift->id.'">
@@ -328,14 +435,11 @@ class Gifts extends Controller
                                             '. $gift->category_name .'
                                         </a>
                                         '. $star_rating .'
-                                        <p class="grid-view-d-none d-none d-md-block text-justify text-sm">
-                                           '.Str::words($gift->description, 10, ' ...').'
-                                        </p>
                                     </div>
                                     <div class="pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
+                                                <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
                                                 </div>
@@ -343,7 +447,7 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zar-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
+                                                <span class="font-600">R<span class="product-price">'. $zar_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
                                                 </div>
@@ -351,24 +455,21 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zwl-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
+                                                <span class="font-600">ZW$<span class="product-price">'. $zwl_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-between text-sm">
-                                        <span>Sale Ends:</span>
-                                        <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
-                                    </div>
+                                    '. $timer .'
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
                                             <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
                                                 Compare
                                             </button>
@@ -378,10 +479,10 @@ class Gifts extends Controller
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->label .'" id="label'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->gift_image .'" id="image'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. strtotime($gift->ends_on) * 1000 .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. $usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $end_date .'" id="end-time'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_id .'" id="category-id'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_name .'" id="category-name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->units .'" id="product-units'. $gift->id .'" type="hidden">
@@ -403,43 +504,99 @@ class Gifts extends Controller
                 foreach($personal_care as $gift){
                     // Gift star rating
                     $star_rating = giftStarRating($gift->id);
-                    $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
-                    $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
-                    $zwl_before = number_format(($gift->zwl_price + ($gift->zwl_price * 0.275)), 2);
+
+                    // Gift sale percentage
+                    $sale_percentage = $gift->sale_percentage;
+                    
+                    // Gift's short name to show on comparison pane
                     $short_name = mb_strimwidth($gift->gift_name, 0, 15, '...');
 
+                    // Show if user customized or wishlisted the gift
                     if(isset(Auth::user()->id)){
                         $wishlist_icon = wishlistIcon($gift->id, Auth::user()->id);
                         if(!empty(customizedLabel($gift->id, Auth::user()->id))){
                             $gift_label = customizedLabel($gift->id, Auth::user()->id);
                         } else {
-                            $gift_label = giftLabel($gift->id);
+                            $gift_label = giftLabel($gift->id, round(100 * $gift->sale_percentage));
                         }
                     } else {
                         $wishlist_icon = '
                             <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
                         ';
-                        $gift_label = giftLabel($gift->id);
+                        $gift_label = giftLabel($gift->id, round(100 * $gift->sale_percentage));
                     }
 
                     // Fetch sale end-date
-                    $end_dates[] = strtotime($gift->ends_on) * 1000;
+                    $end_date = strtotime($gift->ends_on) * 1000;
+                    $end_dates[] = $end_date;
                     $now = time() * 1000;
+
+                    // Determine if end date is greater than today
+                    $date_diff = floor(abs($end_date - $now));
 
                     // Fetch all gif-ids
                     $gift_ids[] = $gift->id;
 
+                    // Only show the timer if it's the gift item is on sale or hot-offer
+                    if($gift->label == 'sale' || $gift->label == 'hot-offer'){
+                        if($date_diff > 0){
+                            // Discount the price when on sale
+                            $sale_price = number_format($gift->usd_price - ($gift->usd_price * $sale_percentage), 2);
+
+                            // Discounted prices
+                            $usd_price = $sale_price;
+                            $zar_price = number_format(($sale_price * zaRate()), 2);
+                            $zwl_price = number_format(($sale_price * zwRate()), 2);
+
+                            // The slashed price is the original price
+                            $usd_before = number_format($gift->usd_price, 2); 
+                            $zar_before = number_format(($gift->usd_price * zaRate()), 2);
+                            $zwl_before = number_format(($gift->usd_price * zwRate()), 2);
+
+                            // Show countdown timer
+                            $timer = '
+                                <div class="d-flex align-items-center justify-content-between text-sm">
+                                    <span>Sale Ends:</span>
+                                    <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
+                                </div>
+                            ';
+                        } else {
+                            // Revert back to the old price without the sale percentage
+                            $usd_price = number_format($gift->usd_price, 2);
+                            $zar_price = number_format(($gift->usd_price * zaRate()), 2);
+                            $zwl_price = number_format(($gift->usd_price * zwRate()), 2);
+
+                            // Slashed prices 
+                            $sale_price = number_format($gift->usd_price - ($gift->usd_price * 0.2), 2);
+                            $usd_before = $sale_price; 
+                            $zar_before = number_format(($sale_price * zaRate()), 2);
+                            $zwl_before = number_format(($sale_price * zwRate()), 2);
+                        }
+                    } else {
+                        $timer = '';
+
+                        // Gift prices and currency rates
+                        $usd_price = number_format($gift->usd_price, 2);
+                        $zar_price = number_format(($gift->usd_price * zaRate()), 2);
+                        $zwl_price = number_format(($gift->usd_price * zwRate()), 2);
+
+                        // Slashed prices
+                        $usd_before = number_format(($usd_price + ($usd_price * 0.275)), 2); 
+                        $zar_before = number_format((($gift->usd_price * zaRate()) + (($gift->usd_price * zaRate()) * 0.275)), 2);
+                        $zwl_before = number_format((($gift->usd_price * zwRate()) + (($gift->usd_price * zwRate()) * 0.275)), 2);
+                    }
+
+                    // Show the customize link if gift item is customizable
                     if($gift->label == 'customizable'){
                         $custom_link = '
                             <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$gift->id.'" title="Customize gift" data-id="'. $gift->id .'">
-                                <i class="material-icons notifications">palette</i>
+                                <i class="material-icons">palette</i>
                             </a>
                         ';
                     }
 
-
                     $care_gifts .= '
-                         <!-- Product Card -->
+                        <!-- Product Card -->
                         <div class="card product-card rounded-2 box-shadow-sm" data-id="'.$gift->id.'">
                             <!-- Cart Actions -->
                             <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$gift->id.'">
@@ -500,14 +657,11 @@ class Gifts extends Controller
                                             '. $gift->category_name .'
                                         </a>
                                         '. $star_rating .'
-                                        <p class="grid-view-d-none d-none d-md-block text-justify text-sm">
-                                           '.Str::words($gift->description, 10, ' ...').'
-                                        </p>
                                     </div>
                                     <div class="pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
+                                                <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
                                                 </div>
@@ -515,7 +669,7 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zar-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
+                                                <span class="font-600">R<span class="product-price">'. $zar_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
                                                 </div>
@@ -523,24 +677,21 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zwl-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
+                                                <span class="font-600">ZW$<span class="product-price">'. $zwl_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-between text-sm">
-                                        <span>Sale Ends:</span>
-                                        <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
-                                    </div>
+                                    '. $timer .'
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
                                             <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
                                                 Compare
                                             </button>
@@ -550,10 +701,10 @@ class Gifts extends Controller
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->label .'" id="label'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->gift_image .'" id="image'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. strtotime($gift->ends_on) * 1000 .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. $usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $end_date .'" id="end-time'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_id .'" id="category-id'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_name .'" id="category-name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->units .'" id="product-units'. $gift->id .'" type="hidden">
@@ -575,43 +726,99 @@ class Gifts extends Controller
                 foreach($plasticware as $gift){
                     // Gift star rating
                     $star_rating = giftStarRating($gift->id);
-                    $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
-                    $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
-                    $zwl_before = number_format(($gift->zwl_price + ($gift->zwl_price * 0.275)), 2);
+
+                    // Gift sale percentage
+                    $sale_percentage = $gift->sale_percentage;
+                    
+                    // Gift's short name to show on comparison pane
                     $short_name = mb_strimwidth($gift->gift_name, 0, 15, '...');
 
+                    // Show if user customized or wishlisted the gift
                     if(isset(Auth::user()->id)){
                         $wishlist_icon = wishlistIcon($gift->id, Auth::user()->id);
                         if(!empty(customizedLabel($gift->id, Auth::user()->id))){
                             $gift_label = customizedLabel($gift->id, Auth::user()->id);
                         } else {
-                            $gift_label = giftLabel($gift->id);
+                            $gift_label = giftLabel($gift->id, round(100 * $gift->sale_percentage));
                         }
                     } else {
                         $wishlist_icon = '
                             <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
                         ';
-                        $gift_label = giftLabel($gift->id);
+                        $gift_label = giftLabel($gift->id, round(100 * $gift->sale_percentage));
                     }
 
                     // Fetch sale end-date
-                    $end_dates[] = strtotime($gift->ends_on) * 1000;
+                    $end_date = strtotime($gift->ends_on) * 1000;
+                    $end_dates[] = $end_date;
                     $now = time() * 1000;
+
+                    // Determine if end date is greater than today
+                    $date_diff = floor(abs($end_date - $now));
 
                     // Fetch all gif-ids
                     $gift_ids[] = $gift->id;
 
+                    // Only show the timer if it's the gift item is on sale or hot-offer
+                    if($gift->label == 'sale' || $gift->label == 'hot-offer'){
+                        if($date_diff > 0){
+                            // Discount the price when on sale
+                            $sale_price = number_format($gift->usd_price - ($gift->usd_price * $sale_percentage), 2);
+
+                            // Discounted prices
+                            $usd_price = $sale_price;
+                            $zar_price = number_format(($sale_price * zaRate()), 2);
+                            $zwl_price = number_format(($sale_price * zwRate()), 2);
+
+                            // The slashed price is the original price
+                            $usd_before = number_format($gift->usd_price, 2); 
+                            $zar_before = number_format(($gift->usd_price * zaRate()), 2);
+                            $zwl_before = number_format(($gift->usd_price * zwRate()), 2);
+
+                            // Show countdown timer
+                            $timer = '
+                                <div class="d-flex align-items-center justify-content-between text-sm">
+                                    <span>Sale Ends:</span>
+                                    <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
+                                </div>
+                            ';
+                        } else {
+                            // Revert back to the old price without the sale percentage
+                            $usd_price = number_format($gift->usd_price, 2);
+                            $zar_price = number_format(($gift->usd_price * zaRate()), 2);
+                            $zwl_price = number_format(($gift->usd_price * zwRate()), 2);
+
+                            // Slashed prices 
+                            $sale_price = number_format($gift->usd_price - ($gift->usd_price * 0.2), 2);
+                            $usd_before = $sale_price; 
+                            $zar_before = number_format(($sale_price * zaRate()), 2);
+                            $zwl_before = number_format(($sale_price * zwRate()), 2);
+                        }
+                    } else {
+                        $timer = '';
+
+                        // Gift prices and currency rates
+                        $usd_price = number_format($gift->usd_price, 2);
+                        $zar_price = number_format(($gift->usd_price * zaRate()), 2);
+                        $zwl_price = number_format(($gift->usd_price * zwRate()), 2);
+
+                        // Slashed prices
+                        $usd_before = number_format(($usd_price + ($usd_price * 0.275)), 2); 
+                        $zar_before = number_format((($gift->usd_price * zaRate()) + (($gift->usd_price * zaRate()) * 0.275)), 2);
+                        $zwl_before = number_format((($gift->usd_price * zwRate()) + (($gift->usd_price * zwRate()) * 0.275)), 2);
+                    }
+
+                    // Show the customize link if gift item is customizable
                     if($gift->label == 'customizable'){
                         $custom_link = '
                             <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$gift->id.'" title="Customize gift" data-id="'. $gift->id .'">
-                                <i class="material-icons notifications">palette</i>
+                                <i class="material-icons">palette</i>
                             </a>
                         ';
                     }
 
-
                     $plasticware_gifts .= '
-                         <!-- Product Card -->
+                        <!-- Product Card -->
                         <div class="card product-card rounded-2 box-shadow-sm" data-id="'.$gift->id.'">
                             <!-- Cart Actions -->
                             <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$gift->id.'">
@@ -672,14 +879,11 @@ class Gifts extends Controller
                                             '. $gift->category_name .'
                                         </a>
                                         '. $star_rating .'
-                                        <p class="grid-view-d-none d-none d-md-block text-justify text-sm">
-                                           '.Str::words($gift->description, 10, ' ...').'
-                                        </p>
                                     </div>
                                     <div class="pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
+                                                <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
                                                 </div>
@@ -687,7 +891,7 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zar-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
+                                                <span class="font-600">R<span class="product-price">'. $zar_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
                                                 </div>
@@ -695,24 +899,21 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zwl-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
+                                                <span class="font-600">ZW$<span class="product-price">'. $zwl_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-between text-sm">
-                                        <span>Sale Ends:</span>
-                                        <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
-                                    </div>
+                                    '. $timer .'
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
                                             <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
                                                 Compare
                                             </button>
@@ -722,10 +923,10 @@ class Gifts extends Controller
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->label .'" id="label'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->gift_image .'" id="image'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. strtotime($gift->ends_on) * 1000 .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. $usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $end_date .'" id="end-time'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_id .'" id="category-id'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_name .'" id="category-name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->units .'" id="product-units'. $gift->id .'" type="hidden">
@@ -747,43 +948,99 @@ class Gifts extends Controller
                 foreach($combo_gifts as $gift){
                     // Gift star rating
                     $star_rating = giftStarRating($gift->id);
-                    $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
-                    $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
-                    $zwl_before = number_format(($gift->zwl_price + ($gift->zwl_price * 0.275)), 2);
+
+                    // Gift sale percentage
+                    $sale_percentage = $gift->sale_percentage;
+                    
+                    // Gift's short name to show on comparison pane
                     $short_name = mb_strimwidth($gift->gift_name, 0, 15, '...');
 
+                    // Show if user customized or wishlisted the gift
                     if(isset(Auth::user()->id)){
                         $wishlist_icon = wishlistIcon($gift->id, Auth::user()->id);
                         if(!empty(customizedLabel($gift->id, Auth::user()->id))){
                             $gift_label = customizedLabel($gift->id, Auth::user()->id);
                         } else {
-                            $gift_label = giftLabel($gift->id);
+                            $gift_label = giftLabel($gift->id, round(100 * $gift->sale_percentage));
                         }
                     } else {
                         $wishlist_icon = '
                             <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
                         ';
-                        $gift_label = giftLabel($gift->id);
+                        $gift_label = giftLabel($gift->id, round(100 * $gift->sale_percentage));
                     }
 
                     // Fetch sale end-date
-                    $end_dates[] = strtotime($gift->ends_on) * 1000;
+                    $end_date = strtotime($gift->ends_on) * 1000;
+                    $end_dates[] = $end_date;
                     $now = time() * 1000;
+
+                    // Determine if end date is greater than today
+                    $date_diff = floor(abs($end_date - $now));
 
                     // Fetch all gif-ids
                     $gift_ids[] = $gift->id;
 
+                    // Only show the timer if it's the gift item is on sale or hot-offer
+                    if($gift->label == 'sale' || $gift->label == 'hot-offer'){
+                        if($date_diff > 0){
+                            // Discount the price when on sale
+                            $sale_price = number_format($gift->usd_price - ($gift->usd_price * $sale_percentage), 2);
+
+                            // Discounted prices
+                            $usd_price = $sale_price;
+                            $zar_price = number_format(($sale_price * zaRate()), 2);
+                            $zwl_price = number_format(($sale_price * zwRate()), 2);
+
+                            // The slashed price is the original price
+                            $usd_before = number_format($gift->usd_price, 2); 
+                            $zar_before = number_format(($gift->usd_price * zaRate()), 2);
+                            $zwl_before = number_format(($gift->usd_price * zwRate()), 2);
+
+                            // Show countdown timer
+                            $timer = '
+                                <div class="d-flex align-items-center justify-content-between text-sm">
+                                    <span>Sale Ends:</span>
+                                    <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
+                                </div>
+                            ';
+                        } else {
+                            // Revert back to the old price without the sale percentage
+                            $usd_price = number_format($gift->usd_price, 2);
+                            $zar_price = number_format(($gift->usd_price * zaRate()), 2);
+                            $zwl_price = number_format(($gift->usd_price * zwRate()), 2);
+
+                            // Slashed prices 
+                            $sale_price = number_format($gift->usd_price - ($gift->usd_price * 0.2), 2);
+                            $usd_before = $sale_price; 
+                            $zar_before = number_format(($sale_price * zaRate()), 2);
+                            $zwl_before = number_format(($sale_price * zwRate()), 2);
+                        }
+                    } else {
+                        $timer = '';
+
+                        // Gift prices and currency rates
+                        $usd_price = number_format($gift->usd_price, 2);
+                        $zar_price = number_format(($gift->usd_price * zaRate()), 2);
+                        $zwl_price = number_format(($gift->usd_price * zwRate()), 2);
+
+                        // Slashed prices
+                        $usd_before = number_format(($usd_price + ($usd_price * 0.275)), 2); 
+                        $zar_before = number_format((($gift->usd_price * zaRate()) + (($gift->usd_price * zaRate()) * 0.275)), 2);
+                        $zwl_before = number_format((($gift->usd_price * zwRate()) + (($gift->usd_price * zwRate()) * 0.275)), 2);
+                    }
+
+                    // Show the customize link if gift item is customizable
                     if($gift->label == 'customizable'){
                         $custom_link = '
                             <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$gift->id.'" title="Customize gift" data-id="'. $gift->id .'">
-                                <i class="material-icons notifications">palette</i>
+                                <i class="material-icons">palette</i>
                             </a>
                         ';
                     }
 
-
                     $combos .= '
-                         <!-- Product Card -->
+                        <!-- Product Card -->
                         <div class="card product-card rounded-2 box-shadow-sm" data-id="'.$gift->id.'">
                             <!-- Cart Actions -->
                             <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$gift->id.'">
@@ -844,14 +1101,11 @@ class Gifts extends Controller
                                             '. $gift->category_name .'
                                         </a>
                                         '. $star_rating .'
-                                        <p class="grid-view-d-none d-none d-md-block text-justify text-sm">
-                                           '.Str::words($gift->description, 10, ' ...').'
-                                        </p>
                                     </div>
                                     <div class="pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
+                                                <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
                                                 </div>
@@ -859,7 +1113,7 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zar-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
+                                                <span class="font-600">R<span class="product-price">'. $zar_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
                                                 </div>
@@ -867,24 +1121,21 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zwl-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
+                                                <span class="font-600">ZW$<span class="product-price">'. $zwl_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-between text-sm">
-                                        <span>Sale Ends:</span>
-                                        <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
-                                    </div>
+                                    '. $timer .'
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
                                             <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
                                                 Compare
                                             </button>
@@ -894,10 +1145,10 @@ class Gifts extends Controller
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->label .'" id="label'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->gift_image .'" id="image'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. strtotime($gift->ends_on) * 1000 .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. $usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $end_date .'" id="end-time'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_id .'" id="category-id'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_name .'" id="category-name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->units .'" id="product-units'. $gift->id .'" type="hidden">
@@ -919,43 +1170,99 @@ class Gifts extends Controller
                 foreach($appliances as $gift){
                     // Gift star rating
                     $star_rating = giftStarRating($gift->id);
-                    $usd_before = number_format(($gift->usd_price + ($gift->usd_price * 0.275)), 2); 
-                    $zar_before = number_format(($gift->zar_price + ($gift->zar_price * 0.275)), 2);
-                    $zwl_before = number_format(($gift->zwl_price + ($gift->zwl_price * 0.275)), 2);
+
+                    // Gift sale percentage
+                    $sale_percentage = $gift->sale_percentage;
+                    
+                    // Gift's short name to show on comparison pane
                     $short_name = mb_strimwidth($gift->gift_name, 0, 15, '...');
 
+                    // Show if user customized or wishlisted the gift
                     if(isset(Auth::user()->id)){
                         $wishlist_icon = wishlistIcon($gift->id, Auth::user()->id);
                         if(!empty(customizedLabel($gift->id, Auth::user()->id))){
                             $gift_label = customizedLabel($gift->id, Auth::user()->id);
                         } else {
-                            $gift_label = giftLabel($gift->id);
+                            $gift_label = giftLabel($gift->id, round(100 * $gift->sale_percentage));
                         }
                     } else {
                         $wishlist_icon = '
                             <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
                         ';
-                        $gift_label = giftLabel($gift->id);
+                        $gift_label = giftLabel($gift->id, round(100 * $gift->sale_percentage));
                     }
 
                     // Fetch sale end-date
-                    $end_dates[] = strtotime($gift->ends_on) * 1000;
+                    $end_date = strtotime($gift->ends_on) * 1000;
+                    $end_dates[] = $end_date;
                     $now = time() * 1000;
+
+                    // Determine if end date is greater than today
+                    $date_diff = floor(abs($end_date - $now));
 
                     // Fetch all gif-ids
                     $gift_ids[] = $gift->id;
 
+                    // Only show the timer if it's the gift item is on sale or hot-offer
+                    if($gift->label == 'sale' || $gift->label == 'hot-offer'){
+                        if($date_diff > 0){
+                            // Discount the price when on sale
+                            $sale_price = number_format($gift->usd_price - ($gift->usd_price * $sale_percentage), 2);
+
+                            // Discounted prices
+                            $usd_price = $sale_price;
+                            $zar_price = number_format(($sale_price * zaRate()), 2);
+                            $zwl_price = number_format(($sale_price * zwRate()), 2);
+
+                            // The slashed price is the original price
+                            $usd_before = number_format($gift->usd_price, 2); 
+                            $zar_before = number_format(($gift->usd_price * zaRate()), 2);
+                            $zwl_before = number_format(($gift->usd_price * zwRate()), 2);
+
+                            // Show countdown timer
+                            $timer = '
+                                <div class="d-flex align-items-center justify-content-between text-sm">
+                                    <span>Sale Ends:</span>
+                                    <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
+                                </div>
+                            ';
+                        } else {
+                            // Revert back to the old price without the sale percentage
+                            $usd_price = number_format($gift->usd_price, 2);
+                            $zar_price = number_format(($gift->usd_price * zaRate()), 2);
+                            $zwl_price = number_format(($gift->usd_price * zwRate()), 2);
+
+                            // Slashed prices 
+                            $sale_price = number_format($gift->usd_price - ($gift->usd_price * 0.2), 2);
+                            $usd_before = $sale_price; 
+                            $zar_before = number_format(($sale_price * zaRate()), 2);
+                            $zwl_before = number_format(($sale_price * zwRate()), 2);
+                        }
+                    } else {
+                        $timer = '';
+
+                        // Gift prices and currency rates
+                        $usd_price = number_format($gift->usd_price, 2);
+                        $zar_price = number_format(($gift->usd_price * zaRate()), 2);
+                        $zwl_price = number_format(($gift->usd_price * zwRate()), 2);
+
+                        // Slashed prices
+                        $usd_before = number_format(($usd_price + ($usd_price * 0.275)), 2); 
+                        $zar_before = number_format((($gift->usd_price * zaRate()) + (($gift->usd_price * zaRate()) * 0.275)), 2);
+                        $zwl_before = number_format((($gift->usd_price * zwRate()) + (($gift->usd_price * zwRate()) * 0.275)), 2);
+                    }
+
+                    // Show the customize link if gift item is customizable
                     if($gift->label == 'customizable'){
                         $custom_link = '
                             <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$gift->id.'" title="Customize gift" data-id="'. $gift->id .'">
-                                <i class="material-icons notifications">palette</i>
+                                <i class="material-icons">palette</i>
                             </a>
                         ';
                     }
 
-
                     $appliance_gifts .= '
-                         <!-- Product Card -->
+                        <!-- Product Card -->
                         <div class="card product-card rounded-2 box-shadow-sm" data-id="'.$gift->id.'">
                             <!-- Cart Actions -->
                             <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$gift->id.'">
@@ -1016,14 +1323,11 @@ class Gifts extends Controller
                                             '. $gift->category_name .'
                                         </a>
                                         '. $star_rating .'
-                                        <p class="grid-view-d-none d-none d-md-block text-justify text-sm">
-                                           '.Str::words($gift->description, 10, ' ...').'
-                                        </p>
                                     </div>
                                     <div class="pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">US$<span class="product-price">'. number_format($gift->usd_price, 2) .'</span></span>
+                                                <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
                                                 </div>
@@ -1031,7 +1335,7 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zar-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">R<span class="product-price">'. number_format($gift->zar_price, 2) .'</span></span>
+                                                <span class="font-600">R<span class="product-price">'. $zar_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">R'. $zar_before .'</span>
                                                 </div>
@@ -1039,24 +1343,21 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zwl-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">ZW$<span class="product-price">'. number_format($gift->zwl_price, 2) .'</span></span>
+                                                <span class="font-600">ZW$<span class="product-price">'. $zwl_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-between text-sm">
-                                        <span>Sale Ends:</span>
-                                        <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
-                                    </div>
+                                    '. $timer .'
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
                                             <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
                                                 Compare
                                             </button>
@@ -1066,10 +1367,10 @@ class Gifts extends Controller
                                     <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->label .'" id="label'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->gift_image .'" id="image'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
-                                    <input value="'. $gift->zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
-                                    <input value="'. strtotime($gift->ends_on) * 1000 .'" id="end-time'. $gift->id .'" type="hidden">
+                                    <input value="'. $usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
+                                    <input value="'. $end_date .'" id="end-time'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_id .'" id="category-id'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->category_name .'" id="category-name'. $gift->id .'" type="hidden">
                                     <input value="'. $gift->units .'" id="product-units'. $gift->id .'" type="hidden">

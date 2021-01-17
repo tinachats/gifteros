@@ -486,7 +486,7 @@
     }
 
     // Gift Label 
-    function giftLabel($gift_id){
+    function giftLabel($gift_id, $sale_pcnt){
         $gift_label = '';
         $result = DB::table('gifts')
                     ->select('label')
@@ -510,8 +510,8 @@
             } else if($row->label == 'sale'){
                 $gift_label = '
                     <div class="badge bg-danger rounded-right customize-ribbon d-flex align-items-center">
-                        <i class="material-icons text-white mr-1">alarm_on</i>
-                        <span class="text-white pr-2">SALE</span>
+                        <i class="material-icons text-white mr-1" id="sale-icon'.$gift_id.'">alarm_on</i>
+                        <span class="text-white pr-2" id="sale-status'.$gift_id.'">SALE - '.$sale_pcnt.'% OFF</span>
                     </div>
                 ';
             } else if($row->label == 'customizable'){
