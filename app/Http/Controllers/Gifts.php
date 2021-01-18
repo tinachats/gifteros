@@ -49,6 +49,7 @@ class Gifts extends Controller
                 $care_gifts = $plasticware_gifts = $combos = $appliance_gifts = '';
                 $gift_label = $browsed_gifts = $timer = $custom_link = '';
                 $end_dates = $gift_ids = [];
+                $date_diff = 0;
 
                 $customizables = DB::table('gifts')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
@@ -88,7 +89,7 @@ class Gifts extends Controller
                     $now = time() * 1000;
 
                     // Determine if end date is greater than today
-                    $date_diff = floor(abs($end_date - $now));
+                    $date_diff = floor(abs(($end_date - $now) / (1000 * 3600 * 24)));
 
                     // Fetch all gif-ids
                     $gift_ids[] = $gift->id;
@@ -105,9 +106,10 @@ class Gifts extends Controller
                             $zwl_price = number_format(($sale_price * zwRate()), 2);
 
                             // The slashed price is the original price
-                            $usd_before = number_format($gift->usd_price, 2); 
-                            $zar_before = number_format(($gift->usd_price * zaRate()), 2);
-                            $zwl_before = number_format(($gift->usd_price * zwRate()), 2);
+                            $discount_price = $gift->usd_price;
+                            $usd_before = number_format($discount_price, 2); 
+                            $zar_before = number_format(($discount_price * zaRate()), 2);
+                            $zwl_before = number_format(($discount_price * zwRate()), 2);
 
                             // Show countdown timer
                             $timer = '
@@ -117,6 +119,14 @@ class Gifts extends Controller
                                 </div>
                             ';
                         } else {
+                            // Show that the sale is closed
+                            $timer = '
+                                <div class="d-flex align-items-center justify-content-between text-sm">
+                                    <span>Sale Ends:</span>
+                                    <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
+                                </div>
+                            ';
+
                             // Revert back to the old price without the sale percentage
                             $usd_price = number_format($gift->usd_price, 2);
                             $zar_price = number_format(($gift->usd_price * zaRate()), 2);
@@ -177,6 +187,7 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
+                                    <img role="button" class="rounded-circle cursor popover-info" id="gift-popover'. $gift->id .'" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" data-id="'. $gift->id .'">
                                     <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
@@ -191,13 +202,6 @@ class Gifts extends Controller
                                             <span class="badge badge-danger badge-pill overlay-badge">'. giftsSold($gift->id) .'</span>
                                         </div>
                                         <span class="text-light text-sm">Sold</span>
-                                    </div>
-                                    <div class="d-flex flex-column text-center" title="Items that go with this gift">
-                                        <div class="d-flex align-items-center overlay-metric">
-                                            <i class="fa fa-puzzle-piece text-light"></i>
-                                            <span class="badge badge-danger badge-pill overlay-badge">'. countRatings($gift->id) .'</span>
-                                        </div>
-                                        <span class="text-light text-sm">Add-ons</span>
                                     </div>
                                 </div>
                             </div>
@@ -310,7 +314,7 @@ class Gifts extends Controller
                     $now = time() * 1000;
 
                     // Determine if end date is greater than today
-                    $date_diff = floor(abs($end_date - $now));
+                    $date_diff = floor(abs(($end_date - $now) / (1000 * 3600 * 24)));
 
                     // Fetch all gif-ids
                     $gift_ids[] = $gift->id;
@@ -327,9 +331,10 @@ class Gifts extends Controller
                             $zwl_price = number_format(($sale_price * zwRate()), 2);
 
                             // The slashed price is the original price
-                            $usd_before = number_format($gift->usd_price, 2); 
-                            $zar_before = number_format(($gift->usd_price * zaRate()), 2);
-                            $zwl_before = number_format(($gift->usd_price * zwRate()), 2);
+                            $discount_price = $gift->usd_price;
+                            $usd_before = number_format($discount_price, 2); 
+                            $zar_before = number_format(($discount_price * zaRate()), 2);
+                            $zwl_before = number_format(($discount_price * zwRate()), 2);
 
                             // Show countdown timer
                             $timer = '
@@ -339,6 +344,14 @@ class Gifts extends Controller
                                 </div>
                             ';
                         } else {
+                            // Show that the sale is closed
+                            $timer = '
+                                <div class="d-flex align-items-center justify-content-between text-sm">
+                                    <span>Sale Ends:</span>
+                                    <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
+                                </div>
+                            ';
+
                             // Revert back to the old price without the sale percentage
                             $usd_price = number_format($gift->usd_price, 2);
                             $zar_price = number_format(($gift->usd_price * zaRate()), 2);
@@ -399,6 +412,7 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
+                                    <img role="button" class="rounded-circle cursor popover-info" id="gift-popover'. $gift->id .'" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" data-id="'. $gift->id .'">
                                     <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
@@ -413,13 +427,6 @@ class Gifts extends Controller
                                             <span class="badge badge-danger badge-pill overlay-badge">'. giftsSold($gift->id) .'</span>
                                         </div>
                                         <span class="text-light text-sm">Sold</span>
-                                    </div>
-                                    <div class="d-flex flex-column text-center" title="Items that go with this gift">
-                                        <div class="d-flex align-items-center overlay-metric">
-                                            <i class="fa fa-puzzle-piece text-light"></i>
-                                            <span class="badge badge-danger badge-pill overlay-badge">'. countRatings($gift->id) .'</span>
-                                        </div>
-                                        <span class="text-light text-sm">Add-ons</span>
                                     </div>
                                 </div>
                             </div>
@@ -532,7 +539,7 @@ class Gifts extends Controller
                     $now = time() * 1000;
 
                     // Determine if end date is greater than today
-                    $date_diff = floor(abs($end_date - $now));
+                    $date_diff = floor(abs(($end_date - $now) / (1000 * 3600 * 24)));
 
                     // Fetch all gif-ids
                     $gift_ids[] = $gift->id;
@@ -549,9 +556,10 @@ class Gifts extends Controller
                             $zwl_price = number_format(($sale_price * zwRate()), 2);
 
                             // The slashed price is the original price
-                            $usd_before = number_format($gift->usd_price, 2); 
-                            $zar_before = number_format(($gift->usd_price * zaRate()), 2);
-                            $zwl_before = number_format(($gift->usd_price * zwRate()), 2);
+                            $discount_price = $gift->usd_price;
+                            $usd_before = number_format($discount_price, 2); 
+                            $zar_before = number_format(($discount_price * zaRate()), 2);
+                            $zwl_before = number_format(($discount_price * zwRate()), 2);
 
                             // Show countdown timer
                             $timer = '
@@ -561,6 +569,14 @@ class Gifts extends Controller
                                 </div>
                             ';
                         } else {
+                            // Show that the sale is closed
+                            $timer = '
+                                <div class="d-flex align-items-center justify-content-between text-sm">
+                                    <span>Sale Ends:</span>
+                                    <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
+                                </div>
+                            ';
+
                             // Revert back to the old price without the sale percentage
                             $usd_price = number_format($gift->usd_price, 2);
                             $zar_price = number_format(($gift->usd_price * zaRate()), 2);
@@ -621,6 +637,7 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
+                                    <img role="button" class="rounded-circle cursor popover-info" id="gift-popover'. $gift->id .'" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" data-id="'. $gift->id .'">
                                     <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
@@ -635,13 +652,6 @@ class Gifts extends Controller
                                             <span class="badge badge-danger badge-pill overlay-badge">'. giftsSold($gift->id) .'</span>
                                         </div>
                                         <span class="text-light text-sm">Sold</span>
-                                    </div>
-                                    <div class="d-flex flex-column text-center" title="Items that go with this gift">
-                                        <div class="d-flex align-items-center overlay-metric">
-                                            <i class="fa fa-puzzle-piece text-light"></i>
-                                            <span class="badge badge-danger badge-pill overlay-badge">'. countRatings($gift->id) .'</span>
-                                        </div>
-                                        <span class="text-light text-sm">Add-ons</span>
                                     </div>
                                 </div>
                             </div>
@@ -754,7 +764,7 @@ class Gifts extends Controller
                     $now = time() * 1000;
 
                     // Determine if end date is greater than today
-                    $date_diff = floor(abs($end_date - $now));
+                    $date_diff = floor(abs(($end_date - $now) / (1000 * 3600 * 24)));
 
                     // Fetch all gif-ids
                     $gift_ids[] = $gift->id;
@@ -771,9 +781,10 @@ class Gifts extends Controller
                             $zwl_price = number_format(($sale_price * zwRate()), 2);
 
                             // The slashed price is the original price
-                            $usd_before = number_format($gift->usd_price, 2); 
-                            $zar_before = number_format(($gift->usd_price * zaRate()), 2);
-                            $zwl_before = number_format(($gift->usd_price * zwRate()), 2);
+                            $discount_price = $gift->usd_price;
+                            $usd_before = number_format($discount_price, 2); 
+                            $zar_before = number_format(($discount_price * zaRate()), 2);
+                            $zwl_before = number_format(($discount_price * zwRate()), 2);
 
                             // Show countdown timer
                             $timer = '
@@ -783,6 +794,14 @@ class Gifts extends Controller
                                 </div>
                             ';
                         } else {
+                            // Show that the sale is closed
+                            $timer = '
+                                <div class="d-flex align-items-center justify-content-between text-sm">
+                                    <span>Sale Ends:</span>
+                                    <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
+                                </div>
+                            ';
+
                             // Revert back to the old price without the sale percentage
                             $usd_price = number_format($gift->usd_price, 2);
                             $zar_price = number_format(($gift->usd_price * zaRate()), 2);
@@ -843,6 +862,7 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
+                                    <img role="button" class="rounded-circle cursor popover-info" id="gift-popover'. $gift->id .'" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" data-id="'. $gift->id .'">
                                     <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
@@ -857,13 +877,6 @@ class Gifts extends Controller
                                             <span class="badge badge-danger badge-pill overlay-badge">'. giftsSold($gift->id) .'</span>
                                         </div>
                                         <span class="text-light text-sm">Sold</span>
-                                    </div>
-                                    <div class="d-flex flex-column text-center" title="Items that go with this gift">
-                                        <div class="d-flex align-items-center overlay-metric">
-                                            <i class="fa fa-puzzle-piece text-light"></i>
-                                            <span class="badge badge-danger badge-pill overlay-badge">'. countRatings($gift->id) .'</span>
-                                        </div>
-                                        <span class="text-light text-sm">Add-ons</span>
                                     </div>
                                 </div>
                             </div>
@@ -976,7 +989,7 @@ class Gifts extends Controller
                     $now = time() * 1000;
 
                     // Determine if end date is greater than today
-                    $date_diff = floor(abs($end_date - $now));
+                    $date_diff = floor(abs(($end_date - $now) / (1000 * 3600 * 24)));
 
                     // Fetch all gif-ids
                     $gift_ids[] = $gift->id;
@@ -993,9 +1006,10 @@ class Gifts extends Controller
                             $zwl_price = number_format(($sale_price * zwRate()), 2);
 
                             // The slashed price is the original price
-                            $usd_before = number_format($gift->usd_price, 2); 
-                            $zar_before = number_format(($gift->usd_price * zaRate()), 2);
-                            $zwl_before = number_format(($gift->usd_price * zwRate()), 2);
+                            $discount_price = $gift->usd_price;
+                            $usd_before = number_format($discount_price, 2); 
+                            $zar_before = number_format(($discount_price * zaRate()), 2);
+                            $zwl_before = number_format(($discount_price * zwRate()), 2);
 
                             // Show countdown timer
                             $timer = '
@@ -1005,6 +1019,14 @@ class Gifts extends Controller
                                 </div>
                             ';
                         } else {
+                            // Show that the sale is closed
+                            $timer = '
+                                <div class="d-flex align-items-center justify-content-between text-sm">
+                                    <span>Sale Ends:</span>
+                                    <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
+                                </div>
+                            ';
+
                             // Revert back to the old price without the sale percentage
                             $usd_price = number_format($gift->usd_price, 2);
                             $zar_price = number_format(($gift->usd_price * zaRate()), 2);
@@ -1065,6 +1087,7 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
+                                    <img role="button" class="rounded-circle cursor popover-info" id="gift-popover'. $gift->id .'" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" data-id="'. $gift->id .'">
                                     <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
@@ -1079,13 +1102,6 @@ class Gifts extends Controller
                                             <span class="badge badge-danger badge-pill overlay-badge">'. giftsSold($gift->id) .'</span>
                                         </div>
                                         <span class="text-light text-sm">Sold</span>
-                                    </div>
-                                    <div class="d-flex flex-column text-center" title="Items that go with this gift">
-                                        <div class="d-flex align-items-center overlay-metric">
-                                            <i class="fa fa-puzzle-piece text-light"></i>
-                                            <span class="badge badge-danger badge-pill overlay-badge">'. countRatings($gift->id) .'</span>
-                                        </div>
-                                        <span class="text-light text-sm">Add-ons</span>
                                     </div>
                                 </div>
                             </div>
@@ -1198,7 +1214,7 @@ class Gifts extends Controller
                     $now = time() * 1000;
 
                     // Determine if end date is greater than today
-                    $date_diff = floor(abs($end_date - $now));
+                    $date_diff = floor(abs(($end_date - $now) / (1000 * 3600 * 24)));
 
                     // Fetch all gif-ids
                     $gift_ids[] = $gift->id;
@@ -1215,9 +1231,10 @@ class Gifts extends Controller
                             $zwl_price = number_format(($sale_price * zwRate()), 2);
 
                             // The slashed price is the original price
-                            $usd_before = number_format($gift->usd_price, 2); 
-                            $zar_before = number_format(($gift->usd_price * zaRate()), 2);
-                            $zwl_before = number_format(($gift->usd_price * zwRate()), 2);
+                            $discount_price = $gift->usd_price;
+                            $usd_before = number_format($discount_price, 2); 
+                            $zar_before = number_format(($discount_price * zaRate()), 2);
+                            $zwl_before = number_format(($discount_price * zwRate()), 2);
 
                             // Show countdown timer
                             $timer = '
@@ -1227,6 +1244,14 @@ class Gifts extends Controller
                                 </div>
                             ';
                         } else {
+                            // Show that the sale is closed
+                            $timer = '
+                                <div class="d-flex align-items-center justify-content-between text-sm">
+                                    <span>Sale Ends:</span>
+                                    <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
+                                </div>
+                            ';
+
                             // Revert back to the old price without the sale percentage
                             $usd_price = number_format($gift->usd_price, 2);
                             $zar_price = number_format(($gift->usd_price * zaRate()), 2);
@@ -1287,6 +1312,7 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
+                                    <img role="button" class="rounded-circle cursor popover-info" id="gift-popover'. $gift->id .'" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" data-id="'. $gift->id .'">
                                     <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
@@ -1301,13 +1327,6 @@ class Gifts extends Controller
                                             <span class="badge badge-danger badge-pill overlay-badge">'. giftsSold($gift->id) .'</span>
                                         </div>
                                         <span class="text-light text-sm">Sold</span>
-                                    </div>
-                                    <div class="d-flex flex-column text-center" title="Items that go with this gift">
-                                        <div class="d-flex align-items-center overlay-metric">
-                                            <i class="fa fa-puzzle-piece text-light"></i>
-                                            <span class="badge badge-danger badge-pill overlay-badge">'. countRatings($gift->id) .'</span>
-                                        </div>
-                                        <span class="text-light text-sm">Add-ons</span>
                                     </div>
                                 </div>
                             </div>
@@ -1659,25 +1678,72 @@ class Gifts extends Controller
         return view('compare_page')->with($data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    // Fetch gift's popover info
+    public function popoverInfo(Request $request)
     {
-        //
-    }
+        if($request->ajax()){
+            if($request->action == 'gift-info'){
+                $gift_id = $request->gift_id;
+                $gift = Gift::find($gift_id);
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+                $output = '
+                    <!-- Gift Popover Info -->
+                    <div class="popover-card card border-0 rounded-0">
+                        <div class="card-img-top rounded-0">
+                            <div class="d-grid grid-2">
+                                <img src="/storage/gifts/'. $gift->gift_image .'" height="150" class="popover-img w-100">
+                            </div>
+                        </div>
+                        <div class="card-body border-top border-bottom lh-100">
+                            <div class="d-flex align-items-center">
+                                <div class="d-block">
+                                    <h6 class="lead my-0 py-0 font-600 text-capitalize">'. $gift->gift_name .'</h6>
+                                    <p class="text-muted text-capitalize my-0 py-0 font-500">'. categoryName($gift_id) .'</p>
+                                    '. giftStarRating($gift_id) .'
+                                </div>
+                                <div class="ml-auto">
+                                    <a role="button" href="details.php?id='. $gift_id .'" class="btn btn-sm border-primary text-primary rounded-pill px-4">View</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-around w-100 my-1 border-bottom">
+                            <div class="d-block text-center">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <i class="material-icons text-faded">add_shopping_cart</i>
+                                    <span class="text-faded font-600">'. giftsSold($gift->id) .'</span>
+                                </div>
+                                <span class="text-muted">Items sold</span>
+                            </div>
+                            <div class="d-block text-center">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <i class="material-icons text-faded">account_balance_wallet</i>
+                                    <span class="text-faded font-600 usd-price">US$'.number_format(totalproductAmt($gift_id), 2).'</span>
+                                    <span class="text-faded font-600 zar-price d-none">R'.number_format(totalproductAmt($gift_id) * zaRate(), 2).'</span>
+                                    <span class="text-faded font-600 zwl-price d-none">ZW$'.number_format(totalproductAmt($gift_id) * zwRate(), 2).'</span>
+                                </div>
+                                <span class="text-muted">Total Sold</span>
+                            </div>
+                            <div class="d-block text-center">
+                                <div class="d-flex align-items-center justify-content-center">
+                                    <i class="material-icons text-faded">favorite</i>
+                                    <span class="text-faded font-600">'.totalWishes($gift_id).'</span>
+                                </div>
+                                <span class="text-muted">Total Wishes</span>
+                            </div>
+                        </div>
+                        <div class="card-footer border-0 bg-transparent">
+                            <p class="text-justify text-faded">
+                                '.mb_strimwidth($gift->description, 0, 400, '...<a href="details.php?id='. $gift_id .'" class="font-600">Read more</a>').'
+                            </p>
+                        </div>
+                    </div>
+                    <!-- /.Gift Popover Info -->
+                ';
+                return response()->json([
+                    'content' => $output
+                ]);
+            }
+        }
     }
 
     /**

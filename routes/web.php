@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AppRatings;
@@ -50,6 +50,7 @@ Route::get('/details/gift_ratings', [Gifts::class, 'gift_ratings'])->name('gift_
 Route::post('/gift_views', [Gifts::class, 'giftViews'])->name('gift_views');
 Route::get('/search', [Search::class, 'fetch'])->name('search.fetch');
 Route::post('/close-sale', [Sales::class, 'closeSale'])->name('close_sale');
+Route::post('/popover-info', [Gifts::class, 'popoverInfo'])->name('popover_info');
 
 // Gift Comparisons
 Route::post('/remove_comparison', [Gifts::class, 'remove_comparison'])->name('remove_comparison');
