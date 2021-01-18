@@ -175,7 +175,7 @@
         <!-- Main Content -->
         <div class="main-content mb-5 pb-5">
            <!-- Categories Chips Slider -->
-            <div class="chip-sliders bg-whitesmoke box-shadow-sm border-bottom d-none d-md-block">
+            <div class="chip-sliders bg-whitesmoke box-shadow-sm border">
                 <div class="owl-carousel owl-theme category-filters m-2">
                     @isset($sub_categories)
                         @foreach ($sub_categories as $sub_category)

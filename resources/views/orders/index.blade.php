@@ -81,7 +81,7 @@
                                         <div class="row justify-content-between align-items-center w-100">
                                             <div class="col">
                                                 <h6 class="font-600 my-0 lead text-capitalize">
-                                                    {{ $order->occasion }} Present
+                                                    {{ $order->occasion }} Gift
                                                 </h6>
                                             </div>
                                             <div class="col d-flex justify-content-end">
@@ -248,7 +248,7 @@
                                         <div class="row justify-content-between align-items-center w-100">
                                             <div class="col">
                                                 <h6 class="font-600 my-0 lead text-capitalize">
-                                                    {{ $order->occasion }} Present
+                                                    {{ $order->occasion }} Gift
                                                 </h6>
                                             </div>
                                             <div class="col d-flex justify-content-end">
@@ -415,7 +415,7 @@
                                         <div class="row justify-content-between align-items-center w-100">
                                             <div class="col">
                                                 <h6 class="font-600 my-0 lead text-capitalize">
-                                                    {{ $order->occasion }} Present
+                                                    {{ $order->occasion }} Gift
                                                 </h6>
                                             </div>
                                             <div class="col d-flex justify-content-end">

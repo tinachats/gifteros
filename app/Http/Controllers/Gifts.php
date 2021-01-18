@@ -187,7 +187,10 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
-                                    <img role="button" class="rounded-circle cursor popover-info" id="gift-popover'. $gift->id .'" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" data-id="'. $gift->id .'">
+                                    <div class="d-flex flex-column text-center" title="'. $gift->units .' In Stock">
+                                        <i class="fa fa-home text-light"></i>
+                                        <span class="text-light text-sm">'. $gift->units .'</span>
+                                    </div>
                                     <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
@@ -412,7 +415,10 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
-                                    <img role="button" class="rounded-circle cursor popover-info" id="gift-popover'. $gift->id .'" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" data-id="'. $gift->id .'">
+                                    <div class="d-flex flex-column text-center" title="'. $gift->units .' In Stock">
+                                        <i class="fa fa-home text-light"></i>
+                                        <span class="text-light text-sm">'. $gift->units .'</span>
+                                    </div>
                                     <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
@@ -637,7 +643,10 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
-                                    <img role="button" class="rounded-circle cursor popover-info" id="gift-popover'. $gift->id .'" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" data-id="'. $gift->id .'">
+                                    <div class="d-flex flex-column text-center" title="'. $gift->units .' In Stock">
+                                        <i class="fa fa-home text-light"></i>
+                                        <span class="text-light text-sm">'. $gift->units .'</span>
+                                    </div>
                                     <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
@@ -862,7 +871,10 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
-                                    <img role="button" class="rounded-circle cursor popover-info" id="gift-popover'. $gift->id .'" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" data-id="'. $gift->id .'">
+                                    <div class="d-flex flex-column text-center" title="'. $gift->units .' In Stock">
+                                        <i class="fa fa-home text-light"></i>
+                                        <span class="text-light text-sm">'. $gift->units .'</span>
+                                    </div>
                                     <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
@@ -1087,7 +1099,10 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
-                                    <img role="button" class="rounded-circle cursor popover-info" id="gift-popover'. $gift->id .'" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" data-id="'. $gift->id .'">
+                                    <div class="d-flex flex-column text-center" title="'. $gift->units .' In Stock">
+                                        <i class="fa fa-home text-light"></i>
+                                        <span class="text-light text-sm">'. $gift->units .'</span>
+                                    </div>
                                     <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
@@ -1312,7 +1327,10 @@ class Gifts extends Controller
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
-                                    <img role="button" class="rounded-circle cursor popover-info" id="gift-popover'. $gift->id .'" src="/storage/gifts/'. $gift->gift_image .'" height="30" width="30" data-id="'. $gift->id .'">
+                                    <div class="d-flex flex-column text-center" title="'. $gift->units .' In Stock">
+                                        <i class="fa fa-home text-light"></i>
+                                        <span class="text-light text-sm">'. $gift->units .'</span>
+                                    </div>
                                     <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
                                         <i class="fa fa-eye text-light"></i>
                                         <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
