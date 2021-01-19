@@ -5,7 +5,7 @@
         <!-- Main Navbar -->
         <nav class="nav navbar-expand-md main-nav">
             <!-- App logo -->
-            <span role="button" class="material-icons menu-btn d-inline-block d-md-none" title="Toggle Sidebar">menu</span>
+            <span role="button" class="material-icons menu-btn d-sm-inline-block d-md-none" title="Toggle Sidebar">menu</span>
             <a href="/" class="navbar-brand font-700">
                 <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" class="targets-logo" width="35" alt=""> 
                 <span class="mobile-brand brandname">{{ config('app.name') }}</span>

@@ -1,5 +1,5 @@
  <!-- Side Nav -->
- <aside class="main-sidebar box-shadow-sm" tabindex="-1">
+ <aside class="main-sidebar box-shadow-sm">
     <!-- Sidebar-header -->
     <div class="sidebar-header d-flex align-items-center pl-3 box-shadow-sm sticky-top">
         <span role="button" class="material-icons menu-btn" title="Toggle Sidebar">menu</span>

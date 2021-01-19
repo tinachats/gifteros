@@ -18,8 +18,8 @@
 </style>
 <!-- Page Content -->
 <div class="container page-content mt-5">
-    <div class="row no-gutters">
-        <div class="col-12 col-md-3">
+    <div class="row no-gutters w-100">
+        <div class="col-12 col-md-3 col-xl-2">
             <ul class="filter-section list-group bg-whitesmoke box-shadow-sm rounded-0">
                 <li class="list-group-item rounded-0">
                     <div class="d-flex align-items-center justify-content-between">
@@ -131,7 +131,7 @@
                 </li>
             </ul>
         </div>
-        <div class="col-12 col-md-9">
+        <div class="col-12 col-md-9 col-xl-10">
             <div class="filter-page main-content">
                 <!-- Categories Chips Slider -->
                 <div class="chip-sliders box-shadow-sm bg-whitesmoke border px-2 py-1">
@@ -261,11 +261,11 @@
                 <div class="d-grid grid-view grid-p-1 mt-2 products-shelf w-100" id="category-gifts">
                     <!-- All fetched gifts will show up here -->
                 </div>
+                {{-- /.Category Gifts --}}
                 <!-- Gifts Preloader -->
                 <div id="fuzzy-loader">
-                    <div class="d-grid grid-view grid-p-1 mt-2 products-shelf w-100 gifts-preloader">
-                        <!-- All fetched products will show up here -->
-                        @for ($i = 0; $i < 8; $i++)
+                    <div class="d-grid grid-view grid-p-1 mt-3 gifts-preloader">
+                        @for ($i = 0; $i < 4; $i++)
                             <!-- Product Placeholder Card -->
                             <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
                                 <div class="img-wrapper-placeholder">
@@ -299,7 +299,7 @@
                         @endfor
                     </div>
                 </div>
-                {{-- /.Category Gifts --}}
+                <!-- /.Gifts Preloader -->
             </div>
         </div>
     </div>
@@ -353,7 +353,7 @@
                     trending: trending
                 },
                 dataType: 'json',
-                cache: false,
+                cache: true,
                 success: function(data) {
                     if(data.result.length > 0){
                         status = 'inactive';
@@ -400,7 +400,7 @@
                 },
                 dataType: 'json',
                 beforeSend: loading(),
-                cache: false,
+                cache: true,
                 success: function(data) {
                     if(data.gifts){
                         status = 'active';
