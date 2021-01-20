@@ -3,31 +3,44 @@
    use Illuminate\Support\Str;
 @endphp
 <style>
-    .filter-list,
-    .form-check-label{
+    .filtering-pane .filter-list,
+    .filtering-pane .form-check-label{
         margin-left: -20px
     }
     .btn-group-placeholder {
         width: 190px !important
     }
+    .category-page{
+        display: grid;
+        grid-template-columns: 20% 80%;
+        grid-column-gap: 5px;
+    }
+    .filter-section{
+        max-width: 100%;
+        overflow-y: auto
+    }
+    .range-bars{
+        margin-top: 2px
+    }
     @media(min-width: 1200px){
-        .grid-view>.product-card>.card-content>.card-body .btn-group{
-            left: 1.2%;
+        .grid-view>.product-card>.card-content>.card-body .btn-group,
+        .placeholder-card .btn-group-placeholder{
+            left: 4%;
         }
     }
 </style>
 <!-- Page Content -->
 <div class="container page-content mt-5">
-    <div class="row no-gutters w-100">
-        <div class="col-12 col-md-3 col-xl-2">
-            <ul class="filter-section list-group bg-whitesmoke box-shadow-sm rounded-0">
-                <li class="list-group-item rounded-0">
+    <div class="d-grid category-page">
+        <aside class="filtering-pane">
+            <ul class="filter-section list-group bg-whitesmoke box-shadow-sm rounded-2">
+                <li class="list-group-item rounded-top-2">
                     <div class="d-flex align-items-center justify-content-between">
                         <h6 class="lead text-app-color font-600">filter by</h6>
                         <button class="btn btn-sm btn-default">clear all</button>
                     </div>
                 </li>
-                <li class="list-group-item rounded-0">
+                <li class="list-group-item">
                     <h6 class="font-600">Availability</h6>
                     <div class="col-12 ml-md-2">
                         <div class="form-check">
@@ -50,37 +63,47 @@
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item rounded-0">
+                <li class="list-group-item">
                     <h6 class="font-600">Pricing</h6>
                     <div class="col-12 ml-md-2">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="under-25">
+                            <input class="form-check-input price-filter" type="checkbox" value="under-25" id="under-25">
                             <label class="form-check-label" for="under-25">
-                                Under 25
+                                <span class="usd-price">Under $25</span>
+                                <span class="zar-price d-none">Under R{{ round(25 * zaRate()) }}</span>
+                                <span class="zwl-price d-none">Under ${{ round(25 * zwRate()) }}</span>
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="25-to-50">
-                            <label class="form-check-label" for="25-to-50">
-                                $25 - $50
+                            <input class="form-check-input price-filter" type="checkbox" value="5-to-20" id="5-to-20">
+                            <label class="form-check-label" for="5-to-20">
+                                <span class="usd-price">$5 - $20</span>
+                                <span class="zar-price d-none">R{{ round(5 * zaRate()) }} - R{{ round(20 * zaRate()) }}</span>
+                                <span class="zwl-price d-none">${{ round(5 * zwRate()) }} - ${{ round(20 * zwRate()) }}</span>
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="50-to-100">
+                            <input class="form-check-input price-filter" type="checkbox" value="20-to-50" id="20-to-50">
+                            <label class="form-check-label" for="20-to-50">
+                                <span class="usd-price">$20 - $50</span>
+                                <span class="zar-price d-none">R{{ round(20 * zaRate()) }} - R{{ round(50 * zaRate()) }}</span>
+                                <span class="zwl-price d-none">${{ round(20 * zwRate()) }} - ${{ round(50 * zwRate()) }}</span>
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input price-filter" type="checkbox" value="50-to-100" id="50-to-100">
                             <label class="form-check-label" for="50-to-100">
-                                $50 - $100
+                                <span class="usd-price">$50 - $100</span>
+                                <span class="zar-price d-none">R{{ round(50 * zaRate()) }} - R{{ round(100 * zaRate()) }}</span>
+                                <span class="zwl-price d-none">${{ round(50 * zwRate()) }} - ${{ round(100 * zwRate()) }}</span>
                             </label>
                         </div>
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="100-to-200">
-                            <label class="form-check-label" for="100-to-200">
-                                $100 - $200
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="50-to-100">
-                            <label class="form-check-label" for="50-to-100">
-                                Above $200
+                            <input class="form-check-input price-filter" type="checkbox" value="above-100" id="above-100">
+                            <label class="form-check-label" for="above-100">
+                                <span class="usd-price">Above $100</span>
+                                <span class="zar-price d-none">Above R{{ round(100 * zaRate()) }}</span>
+                                <span class="zwl-price d-none">Above ${{ round(100 * zwRate()) }}</span>
                             </label>
                         </div>
                     </div>
@@ -92,7 +115,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="list-group-item rounded-0">
+                <li class="list-group-item">
                     <h6 class="font-600">Avg. Customer Review</h6>
                     <div class="col-12 ml-md-2">
                         <ul class="list-inline filter-list">
@@ -130,177 +153,175 @@
                     </div>
                 </li>
             </ul>
-        </div>
-        <div class="col-12 col-md-9 col-xl-10">
-            <div class="filter-page main-content">
-                <!-- Categories Chips Slider -->
-                <div class="chip-sliders box-shadow-sm bg-whitesmoke border px-2 py-1">
-                    <div class="owl-carousel owl-theme category-filters">
-                        @isset($sub_categories)
-                            @foreach ($sub_categories as $sub_category)
-                                <!-- Category Item -->
-                                <div class="item">
-                                    <!-- Category Chip -->
-                                    <a role="button" href="#" class="sub-category-filter" data-id="{{ $sub_category->id }}">
-                                        <div class="category-chip rounded-pill">
-                                            <img src="/storage/sub-categories/{{ $sub_category->image }}" class="img-circle rounded-circle mr-2" width="40" height="40" alt="{{ $sub_category->name }}">
-                                            <span class="text-lowercase text-faded">{{ Str::words($sub_category->name, 1, '') }}</span>
-                                        </div>
-                                    </a>
-                                    <!-- /.Category Chip -->
-                                </div>
-                                <!-- /.Category Item -->
-                            @endforeach
-                        @endisset
-
-                        @isset($filters)
-                            @foreach ($filters as $sub_category)
-                                <!-- Category Item -->
-                                <div class="item">
-                                    <!-- Category Chip -->
-                                    <a role="button" href="#" class="sub-category-filter" data-id="{{ $sub_category->id }}">
-                                        <div class="category-chip rounded-pill">
-                                            <img src="/storage/sub-categories/{{ $sub_category->image }}" class="img-circle rounded-circle mr-2" width="40" height="40" alt="{{ $sub_category->name }}">
-                                            <span class="text-lowercase text-faded">{{ Str::words($sub_category->name, 1, '') }}</span>
-                                        </div>
-                                    </a>
-                                    <!-- /.Category Chip -->
-                                </div>
-                                <!-- /.Category Item -->
-                            @endforeach
-                        @endisset
-
-                        @isset($sub_filters)
-                            @foreach ($sub_filters as $sub_category)
-                                <!-- Category Item -->
-                                <div class="item">
-                                    <!-- Category Chip -->
-                                    <a role="button" href="#" class="sub-category-filter active" data-id="{{ $sub_category->id }}">
-                                        <div class="category-chip rounded-pill">
-                                            <img src="/storage/sub-categories/{{ $sub_category->image }}" class="img-circle rounded-circle mr-2" width="40" height="40" alt="{{ $sub_category->name }}">
-                                            <span class="text-lowercase text-faded">{{ Str::words($sub_category->name, 1, '') }}</span>
-                                        </div>
-                                    </a>
-                                    <!-- /.Category Chip -->
-                                </div>
-                                <!-- /.Category Item -->
-                            @endforeach
-                        @endisset
-                    </div>
-                </div>
-                <!-- /.Categories Chips Slider -->
-                {{-- Range Bars --}}
-                <div class="bg-whitesmoke box-shadow-sm d-sm-block d-xl-flex justify-content-xl-between align-items-center p-2" style="margin-top: 2px">
-                    <!-- Left Settings -->
-                    <div class="d-flex align-items-center lh-100">
-                        <!-- Category Title & Results -->
-                        <div class="d-block lh-100">
-                            <h6 class="font-600 text-capitalize d-none d-md-block">{{ $title }}</h6>
-                            <p class="text-sm my-0 py-0" id="gift-count">loading gift items in stock...</p>
-                        </div>
-                        <!-- /.Category Title & Results -->
-            
-                        <!-- Filter Progress Bars -->
-                        <div class="filter-bars d-none">
-                            <div class="d-flex ml-5 rating-bars">
-                                <div class="progress" id="lowest-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ lowestPriceRange() }}% of customers bought gifts in this price range.">
-                                    <div id="lowest-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ lowestPriceRange() }}%" aria-valuenow="{{ lowestPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <div class="progress" id="lower-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ lowerPriceRange() }}% of customers bought gifts in this price range.">
-                                    <div id="lower-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ lowerPriceRange() }}%" aria-valuenow="{{ lowerPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <div class="progress" id="medium-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ mediumPriceRange() }}% of customers bought gifts in this price range.">
-                                    <div id="medium-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ mediumPriceRange() }}%" aria-valuenow="{{ mediumPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <div class="progress" id="high-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ highPriceRange() }}% of customers bought gifts in this price range.">
-                                    <div id="high-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ highPriceRange() }}%" aria-valuenow="{{ highPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                                <div class="progress" id="highest-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ highestPriceRange() }}% of customers bought gifts in this price range.">
-                                    <div id="highest-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ highestPriceRange() }}%" aria-valuenow="{{ highestPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- /.Filter Progress Bars -->
-                    </div>
-                    <!-- /Left Settings -->
-            
-                    <!-- Right Settings -->
-                    <div class="d-none d-md-block">
-                        <div class="d-flex justify-content-around align-items-center">
-                            <div class="d-flex align-items-center">
-                                <span class="text-sm">Sort by:</span>
-                                <div class="btn-group btn-group-sm mx-2" role="group" aria-label="Filter Buttons">
-                                    <button type="button" class="btn btn-default btn-sm" title="Sort gifts by trending">
-                                        Trending
-                                    </button>
-                                    <button type="button" class="btn btn-default btn-sm" title="Sort gifts by their wishlist">
-                                        Likes
-                                    </button>
-                                    <button type="button" class="btn btn-default btn-sm" title="Sort gifts by the date they were added">
-                                        Latest
-                                    </button>
-                                    <div class="btn-group btn-group-sm" role="group">
-                                        <button type="button" class="btn btn-default btn-sm dropdown-toggle" id="btnDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            Price
-                                        </button>
-                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnDropdown">
-                                            <a href="#" class="dropdown-items">Price - Low to High</a>
-                                            <a href="#" class="dropdown-items">Price - High to low</a>
-                                        </div>
+        </aside>
+        <div class="filter-page main-content">
+            <!-- Categories Chips Slider -->
+            <div class="chip-sliders box-shadow-sm bg-whitesmoke border rounded-2 px-2 py-1">
+                <div class="owl-carousel owl-theme category-filters">
+                    @isset($sub_categories)
+                        @foreach ($sub_categories as $sub_category)
+                            <!-- Category Item -->
+                            <div class="item">
+                                <!-- Category Chip -->
+                                <a role="button" href="#" class="sub-category-filter" data-id="{{ $sub_category->id }}">
+                                    <div class="category-chip rounded-pill">
+                                        <img src="/storage/sub-categories/{{ $sub_category->image }}" class="img-circle rounded-circle mr-2" width="40" height="40" alt="{{ $sub_category->name }}">
+                                        <span class="text-lowercase text-faded">{{ Str::words($sub_category->name, 1, '') }}</span>
                                     </div>
-                                </div>
+                                </a>
+                                <!-- /.Category Chip -->
                             </div>
-                            <i role="button" class="material-icons view-option grid-icon active" data-view="grid-view" title="Grid View">view_comfy</i>
-                            <i role="button" class="material-icons view-option list-icon mx-3" data-view="list-view" title="List view">view_list</i>
-                        </div>
-                    </div>
-                    <!-- /.Right Settings -->
-                </div>
-                {{-- /.Range Bars --}}
-                {{-- Category Gifts --}}
-                <div class="d-grid grid-view grid-p-1 mt-2 products-shelf w-100" id="category-gifts">
-                    <!-- All fetched gifts will show up here -->
-                </div>
-                {{-- /.Category Gifts --}}
-                <!-- Gifts Preloader -->
-                <div id="fuzzy-loader">
-                    <div class="d-grid grid-view grid-p-1 mt-3 gifts-preloader">
-                        @for ($i = 0; $i < 4; $i++)
-                            <!-- Product Placeholder Card -->
-                            <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
-                                <div class="img-wrapper-placeholder">
-                                    <div class="badge customize-ribbon d-flex align-items-center placeholder-label rounded-right"></div>
-                                    <div class="placeholder-img"></div>
-                                </div>
-                                <hr class="grid-view-hr my-0 py-0">
-                                <div class="placeholder-card-content">
-                                    <div class="card-body placeholder-body m-0 p-0 rounded-bottom-2">
-                                        <div class="content-placeholder title-placeholder mt-1 ml-2"></div>
-                                        <div class="content-placeholder category-placeholder my-1 ml-2"></div>
-                                        <div class="d-flex align-items-center">
-                                            <div class="content-placeholder rating-placeholder ml-2"></div>
-                                        </div>
-                                        <div class="content-placeholder description-placeholder mt-2 mb-1 mx-2"></div>
-                                        <div class="content-placeholder half-description-placeholder ml-2"></div>
-                                        <div class="d-flex align-items-center justify-content-between mt-2">
-                                            <div class="content-placeholder price-placeholder mr-2 ml-2"></div>
-                                            <div class="content-placeholder before-price-placeholder mr-2"></div>
-                                        </div>
-                                        <div class="text-center w-100 mx-0 px-0 mb-1">
-                                            <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
-                                                <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
-                                                <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
-                                            </div>
-                                        </div>
+                            <!-- /.Category Item -->
+                        @endforeach
+                    @endisset
+
+                    @isset($filters)
+                        @foreach ($filters as $sub_category)
+                            <!-- Category Item -->
+                            <div class="item">
+                                <!-- Category Chip -->
+                                <a role="button" href="#" class="sub-category-filter" data-id="{{ $sub_category->id }}">
+                                    <div class="category-chip rounded-pill">
+                                        <img src="/storage/sub-categories/{{ $sub_category->image }}" class="img-circle rounded-circle mr-2" width="40" height="40" alt="{{ $sub_category->name }}">
+                                        <span class="text-lowercase text-faded">{{ Str::words($sub_category->name, 1, '') }}</span>
                                     </div>
-                                </div>
+                                </a>
+                                <!-- /.Category Chip -->
                             </div>
-                            <!-- /.Product Placeholder Card -->
-                        @endfor
-                    </div>
+                            <!-- /.Category Item -->
+                        @endforeach
+                    @endisset
+
+                    @isset($sub_filters)
+                        @foreach ($sub_filters as $sub_category)
+                            <!-- Category Item -->
+                            <div class="item">
+                                <!-- Category Chip -->
+                                <a role="button" href="#" class="sub-category-filter active" data-id="{{ $sub_category->id }}">
+                                    <div class="category-chip rounded-pill">
+                                        <img src="/storage/sub-categories/{{ $sub_category->image }}" class="img-circle rounded-circle mr-2" width="40" height="40" alt="{{ $sub_category->name }}">
+                                        <span class="text-lowercase text-faded">{{ Str::words($sub_category->name, 1, '') }}</span>
+                                    </div>
+                                </a>
+                                <!-- /.Category Chip -->
+                            </div>
+                            <!-- /.Category Item -->
+                        @endforeach
+                    @endisset
                 </div>
-                <!-- /.Gifts Preloader -->
             </div>
+            <!-- /.Categories Chips Slider -->
+            {{-- Range Bars --}}
+            <div class="bg-whitesmoke box-shadow-sm d-xl-flex justify-content-xl-between align-items-center p-2 border rounded-2 range-bars">
+                <!-- Left Settings -->
+                <div class="d-flex align-items-center lh-100">
+                    <!-- Category Title & Results -->
+                    <div class="d-block lh-100">
+                        <h6 class="font-600 text-capitalize d-none d-md-block">{{ $title }}</h6>
+                        <p class="text-sm my-0 py-0" id="gift-count">loading gift items in stock...</p>
+                    </div>
+                    <!-- /.Category Title & Results -->
+        
+                    <!-- Filter Progress Bars -->
+                    <div class="filter-bars d-none">
+                        <div class="d-flex ml-5 rating-bars">
+                            <div class="progress" id="lowest-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ lowestPriceRange() }}% of customers bought gifts in this price range.">
+                                <div id="lowest-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ lowestPriceRange() }}%" aria-valuenow="{{ lowestPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="progress" id="lower-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ lowerPriceRange() }}% of customers bought gifts in this price range.">
+                                <div id="lower-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ lowerPriceRange() }}%" aria-valuenow="{{ lowerPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="progress" id="medium-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ mediumPriceRange() }}% of customers bought gifts in this price range.">
+                                <div id="medium-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ mediumPriceRange() }}%" aria-valuenow="{{ mediumPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="progress" id="high-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ highPriceRange() }}% of customers bought gifts in this price range.">
+                                <div id="high-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ highPriceRange() }}%" aria-valuenow="{{ highPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                            <div class="progress" id="highest-price-range" data-toggle="popover" data-trigger="hover" data-placement="bottom" data-content="{{ highestPriceRange() }}% of customers bought gifts in this price range.">
+                                <div id="highest-filter-rating" class="progress-bar bg-grey filter-ratings" role="progressbar" style="width: {{ highestPriceRange() }}%" aria-valuenow="{{ highestPriceRange() }}" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.Filter Progress Bars -->
+                </div>
+                <!-- /Left Settings -->
+        
+                <!-- Right Settings -->
+                <div class="d-none d-md-block">
+                    <div class="d-flex justify-content-around align-items-center">
+                        <div class="d-flex align-items-center">
+                            <span class="text-sm">Sort by:</span>
+                            <div class="btn-group btn-group-sm mx-2" role="group" aria-label="Filter Buttons">
+                                <button type="button" class="btn btn-default btn-sm trending-gifts">
+                                    Trending
+                                </button>
+                                <button type="button" class="btn btn-default btn-sm liked-gifts">
+                                    Likes
+                                </button>
+                                <button type="button" class="btn btn-default btn-sm latest-gifts">
+                                    Latest
+                                </button>
+                                <div class="btn-group btn-group-sm" role="group">
+                                    <button type="button" class="btn btn-default btn-sm dropdown-toggle price-sorting" id="btnDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Price
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="btnDropdown">
+                                        <a href="#" class="dropdown-items asc">Price - Low to High</a>
+                                        <a href="#" class="dropdown-items desc">Price - High to low</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <i role="button" class="material-icons view-option grid-icon active ml-3" data-view="grid-view" title="Grid View">view_comfy</i>
+                        <i role="button" class="material-icons view-option list-icon mx-3" data-view="list-view" title="List view">view_list</i>
+                    </div>
+                </div>
+                <!-- /.Right Settings -->
+            </div>
+            {{-- /.Range Bars --}}
+            {{-- Category Gifts --}}
+            <div id="category-gifts">
+                <!-- All fetched gifts will show up here -->
+            </div>
+            {{-- /.Category Gifts --}}
+            <!-- Gifts Preloader -->
+            <div class="d-none" id="fuzzy-loader">
+                <div class="d-grid grid-view grid-p-1 mt-3 gifts-preloader">
+                    @for ($i = 0; $i < 8; $i++)
+                        <!-- Product Placeholder Card -->
+                        <div class="card placeholder-card bg-whitesmoke rounded-2 box-shadow-sm">
+                            <div class="img-wrapper-placeholder">
+                                <div class="badge customize-ribbon d-flex align-items-center placeholder-label rounded-right"></div>
+                                <div class="placeholder-img"></div>
+                            </div>
+                            <hr class="grid-view-hr my-0 py-0">
+                            <div class="placeholder-card-content">
+                                <div class="card-body placeholder-body m-0 p-0 rounded-bottom-2">
+                                    <div class="content-placeholder title-placeholder mt-1 ml-2"></div>
+                                    <div class="content-placeholder category-placeholder my-1 ml-2"></div>
+                                    <div class="d-flex align-items-center">
+                                        <div class="content-placeholder rating-placeholder ml-2"></div>
+                                    </div>
+                                    <div class="content-placeholder description-placeholder mt-2 mb-1 mx-2"></div>
+                                    <div class="content-placeholder half-description-placeholder ml-2"></div>
+                                    <div class="d-flex align-items-center justify-content-between mt-2">
+                                        <div class="content-placeholder price-placeholder mr-2 ml-2"></div>
+                                        <div class="content-placeholder before-price-placeholder mr-2"></div>
+                                    </div>
+                                    <div class="text-center w-100 mx-0 px-0 mb-1">
+                                        <div class="btn-group btn-group-sm mt-0 pt-0 btn-group-placeholder pulse">
+                                            <button class="btn btn-sm btn-cart-placeholder rounded-left"></button>
+                                            <button class="btn btn-sm compare-btn-placeholder rounded-right"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.Product Placeholder Card -->
+                    @endfor
+                </div>
+            </div>
+            <!-- /.Gifts Preloader -->
         </div>
     </div>
 </div>
@@ -308,6 +329,7 @@
 @include('layouts.includes.footer')
 <script>
     $(function(){
+        var action = 'category-gifts';
         var start = 0;
         var limit = 12;
         var min_price = '';
@@ -322,6 +344,22 @@
         var sub_category_id = '';
         var currency = userCurrency();
         var price_ordering =  priceOrdering();
+        var data = {
+            action: action,
+            category_id: category_id,
+            sub_category_id: sub_category_id,
+            start: start,
+            limit: limit,
+            filter: filter,
+            currency: currency,
+            min_price: min_price,
+            max_price: max_price,
+            rating: rating,
+            price_ordering: price_ordering,
+            latest: latest,
+            likes: likes,
+            trending: trending
+        };
 
         // Clear previous results
         function loading(){
@@ -332,28 +370,13 @@
 
         // Fetch category gifts
         function categoryGifts(start, limit, category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending, currency) {
-            var action = 'category-gifts';
             $.ajax({
                 url: '{{ route("category_gifts") }}',
                 method: 'post',
-                data: {
-                    action: action,
-                    category_id: category_id,
-                    sub_category_id: sub_category_id,
-                    start: start,
-                    limit: limit,
-                    filter: filter,
-                    currency: currency,
-                    min_price: min_price,
-                    max_price: max_price,
-                    rating: rating,
-                    price_ordering: price_ordering,
-                    latest: latest,
-                    likes: likes,
-                    trending: trending
-                },
+                data: data,
                 dataType: 'json',
-                cache: true,
+                cache: false,
+                beforeSend: loading(),
                 success: function(data) {
                     if(data.result.length > 0){
                         status = 'inactive';
@@ -361,11 +384,6 @@
                         $('#gift-count').html(data.gift_count);
                         userCurrency();
                         viewOption();
-                        // Loop every gift_id and assign trigger the countdown time
-                        var gift_ids = data.gift_ids;
-                        for (i = 0; i < gift_ids.length; i++) {
-                            countdownTimer(gift_ids[i], data.countdown_date, data.now);
-                        }
                     } else {
                         status = 'active';
                         $('#fuzzy-loader').addClass('d-none');
@@ -380,27 +398,14 @@
 
         // Fetch filtered gifts
         function filteredGifts(category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending, currency) {
-            var action = 'category-gifts';
             $.ajax({
                 url: '{{ route("category_gifts") }}',
                 method: 'post',
-                data: {
-                    action: action,
-                    category_id: category_id,
-                    sub_category_id: sub_category_id,
-                    filter: filter,
-                    currency: currency,
-                    min_price: min_price,
-                    max_price: max_price,
-                    rating: rating,
-                    price_ordering: price_ordering,
-                    latest: latest,
-                    likes: likes,
-                    trending: trending
-                },
+                data: data,
                 dataType: 'json',
                 beforeSend: loading(),
-                cache: true,
+                cache: false,
+                beforeSend: loading(),
                 success: function(data) {
                     if(data.gifts){
                         status = 'active';
@@ -465,6 +470,16 @@
                 $('#high-filter-rating').removeClass('bg-switch');
                 $('#highest-filter-rating').addClass('bg-switch');
             }
+        }
+
+        // Reset the price range inputs
+        function resetRangeInputs(){
+            $('#min-price').val('');
+            $('#max-price').val('');
+            $('#min-price').removeClass('is-valid');
+            $('#max-price').removeClass('is-valid');
+            $('#min-price').removeClass('is-invalid');
+            $('#max-price').removeClass('is-invalid');
         }
 
         /*** Insert price range data into range inputs on hovering on filter bars ***/
@@ -563,29 +578,21 @@
             }
         });
 
-        // Reset the price range inputs
-        function resetRangeInputs(){
-            $('#min-price').val('');
-            $('#max-price').val('');
-            $('#min-price').removeClass('is-valid');
-            $('#max-price').removeClass('is-valid');
-            $('#min-price').removeClass('is-invalid');
-            $('#max-price').removeClass('is-invalid');
-        }
-
         // Filter category gifts by price
-        $(document).on('click', '.price-filter', function(e){
-            e.preventDefault();
-            e.stopPropagation();
-            $('.customer-rated-value').removeClass('active');
-            $('.sub-category-filter').removeClass('active');
-            $('.price-filter').not(this).removeClass('active');
-            $(this).addClass('active');
-            $('.filter-bars').removeClass('d-none');
-            var filter = $(this).attr('id');
-            filteredGifts(category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending, currency);
-            filterBars(filter, min_price, max_price);
-            resetRangeInputs();
+        $(document).on('click', '.price-filter', function(){
+            if($('.price-filter:checked')){
+                $('.price-filter').not(this).attr('checked', false);
+                $('.customer-rated-value').removeClass('active');
+                $('.sub-category-filter').removeClass('active');
+                $('.price-filter').not(this).removeClass('active');
+                $(this).addClass('active');
+                $('.filter-bars').removeClass('d-none');
+                filter = $(this).attr('id');
+                console.log(filter);
+                filteredGifts(category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending, currency);
+                filterBars(filter, min_price, max_price);
+                resetRangeInputs();
+            }
         });
 
         // Filter category gifts by price
@@ -698,6 +705,7 @@
             $(this).addClass('active');
             $('#category-gifts').html('');
             sub_category_id = $(this).data('id');
+            console.log(sub_category_id);
             resetRangeInputs();
             filteredGifts(category_id, sub_category_id, filter, min_price, max_price, rating, price_ordering, latest, likes, trending, currency);
         });

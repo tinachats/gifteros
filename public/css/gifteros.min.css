@@ -9,7 +9,7 @@
 }
 
 
-/* Default Styling */
+/* Default Styling .occasion-card */
 
 :root {
     --search-border-color: #ced4da;
@@ -370,7 +370,7 @@ header.header,
 }
 
 .occasion-card * {
-    color: #fff;
+    color: #fff !important;
     z-index: 10
 }
 
@@ -463,6 +463,10 @@ header.header,
 
 
 /* /.Mega Menu Styling */
+
+.shopping-bag .product-actions {
+    font-size: 2.5rem
+}
 
 .grid-view .product-actions {
     font-size: 2rem
@@ -666,8 +670,7 @@ input[name="search"]:focus .search-list li {
     display: none;
 }
 
-.list-view .product-actions,
-.shopping-bag .product-actions,
+.list-view .prod .product-actions,
 #checkout-page .product-actions {
     font-size: 2.5rem;
 }
@@ -4880,6 +4883,12 @@ input.form-control.lockscreen-input {
 /* Medium devices (tablets, 768px and up) */
 
 @media(min-width: 768px) {
+    .fixed-md-top {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+    }
     .fabs {
         top: 30%
     }
@@ -4897,6 +4906,11 @@ input.form-control.lockscreen-input {
     }
     .dropdown-menu.cart-menu {
         width: 22rem;
+    }
+    .dropdown-menu.cart-menu>.shopping-bag {
+        max-height: 432px;
+        overflow-y: auto;
+        overflow-x: hidden
     }
     .targets-banner * {
         z-index: 999
@@ -5400,7 +5414,7 @@ input.form-control.lockscreen-input {
     }
     .grid-view>.product-card>.card-content>.card-body .btn-group,
     .grid-view>.placeholder-card .btn-group-placeholder {
-        left: 3%;
+        left: 4.5%;
     }
     .policy-banner {
         top: 91%;

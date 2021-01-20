@@ -27,7 +27,7 @@ class Categories extends Controller
             'sub_categories' => $sub_categories,
             'title'          => ucfirst($category .' Gifts')
         ];
-        return view('category.category')->with($data);
+        return view('category')->with($data);
     }
 
      /**
@@ -45,27 +45,27 @@ class Categories extends Controller
                 $end_dates = $gift_ids = $result = [];
                 $date_diff =  $count = 0;
 
+                // Current time
+                $now = time() * 1000;
+
                 $filter = $request->filter;
                 $filter_rating = $request->rating;
+                $category_id = $request->category_id;
                 $sub_category_id = $request->sub_category_id;
+
+                $main_query = DB::table('gifts')
+                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
+                                ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
+                                ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
+                                ->where('gifts.category_id', $category_id);
 
                 // Filter category gifts by the created_at date (desc)
                 if(!empty($request->latest) && $request->latest == 'created_at'){
-                    $result = DB::table('gifts')
-                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                                ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
-                                ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                ->where('gifts.category_id', $request->category_id)
+                    $query = $main_query
                                 ->orderBy('gifts.created_at', 'desc')
-                                ->distinct()
-                                ->get();
-                    $count = DB::table('gifts')
-                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                                ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
-                                ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                ->where('gifts.category_id', $request->category_id)
-                                ->distinct()
-                                ->count();
+                                ->distinct();
+                    $result = $query->get();
+                    $count = $query->count();
                 }
 
                 // Filter category gifts by their wishlist rankings
@@ -75,7 +75,7 @@ class Categories extends Controller
                                 ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                 ->join('wishlist', 'wishlist.gift_id', '=', 'gifts.id')
                                 ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                ->where('gifts.category_id', $request->category_id)
+                                ->where('gifts.category_id', $category_id)
                                 ->whereIn('gifts.id', wishlistedGifts())
                                 ->orderBy('usd_price', $request->price_ordering)
                                 ->distinct()
@@ -85,29 +85,19 @@ class Categories extends Controller
                                 ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                 ->join('wishlist', 'wishlist.gift_id', '=', 'gifts.id')
                                 ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                ->where('gifts.category_id', $request->category_id)
+                                ->where('gifts.category_id', $category_id)
                                 ->whereIn('gifts.id', wishlistedGifts())
                                 ->count();
                 }
 
                 // Filter category gifts by their wishlist rankings
                 if(!empty($request->trending) && $request->trending == 'top-sold'){
-                    $result = DB::table('gifts')
-                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                                ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
-                                ->join('ordered_gifts', 'ordered_gifts.gift_id', '=', 'gifts.id')
-                                ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                ->where('gifts.category_id', $request->category_id)
+                    $result = $main_query
                                 ->whereIn('gifts.id', orderedGifts())
                                 ->orderBy('usd_price', $request->price_ordering)
                                 ->distinct()
                                 ->get();
-                    $count = DB::table('gifts')
-                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                                ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
-                                ->join('ordered_gifts', 'ordered_gifts.gift_id', '=', 'gifts.id')
-                                ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                ->where('gifts.category_id', $request->category_id)
+                    $count = $main_query
                                 ->whereIn('gifts.id', orderedGifts())
                                 ->distinct()
                                 ->count();
@@ -140,7 +130,7 @@ class Categories extends Controller
                                     ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
-                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['gifts.category_id', '=', $category_id],
                                         ['usd_price', '<', 25]
                                     ])
                                     ->orderBy('usd_price', $request->price_ordering)
@@ -151,7 +141,7 @@ class Categories extends Controller
                                     ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
-                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['gifts.category_id', '=', $category_id],
                                         ['usd_price', '<', 25]
                                     ])
                                     ->distinct()
@@ -161,7 +151,7 @@ class Categories extends Controller
                                     ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                    ->where('gifts.category_id', $request->category_id)
+                                    ->where('gifts.category_id', $category_id)
                                     ->whereBetween('usd_price', [5, 20])
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
@@ -170,7 +160,7 @@ class Categories extends Controller
                                     ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                    ->where('gifts.category_id', $request->category_id)
+                                    ->where('gifts.category_id', $category_id)
                                     ->whereBetween('usd_price', [5, 20])
                                     ->distinct()
                                     ->count();
@@ -179,7 +169,7 @@ class Categories extends Controller
                                     ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                    ->where('gifts.category_id', $request->category_id)
+                                    ->where('gifts.category_id', $category_id)
                                     ->whereBetween('usd_price', [20, 50])
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
@@ -188,7 +178,7 @@ class Categories extends Controller
                                     ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                    ->where('gifts.category_id', $request->category_id)
+                                    ->where('gifts.category_id', $category_id)
                                     ->whereBetween('usd_price', [20, 50])
                                     ->distinct()
                                     ->count();
@@ -197,7 +187,7 @@ class Categories extends Controller
                                     ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                    ->where('gifts.category_id', $request->category_id)
+                                    ->where('gifts.category_id', $category_id)
                                     ->whereBetween('usd_price', [50, 100])
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
@@ -206,7 +196,7 @@ class Categories extends Controller
                                     ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                    ->where('gifts.category_id', $request->category_id)
+                                    ->where('gifts.category_id', $category_id)
                                     ->whereBetween('usd_price', [50, 100])
                                     ->distinct()
                                     ->count();
@@ -216,7 +206,7 @@ class Categories extends Controller
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
-                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['gifts.category_id', '=', $category_id],
                                         ['usd_price', '>', 100]
                                     ])
                                     ->orderBy('usd_price', $request->price_ordering)
@@ -227,7 +217,7 @@ class Categories extends Controller
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
-                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['gifts.category_id', '=', $category_id],
                                         ['usd_price', '>', 100]
                                     ])
                                     ->distinct()
@@ -242,7 +232,7 @@ class Categories extends Controller
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                    ->where('gifts.category_id', $request->category_id)
+                                    ->where('gifts.category_id', $category_id)
                                     ->whereBetween('usd_price', [$request->min_price, $request->max_price])
                                     ->orderBy('usd_price', $request->price_ordering)
                                     ->distinct()
@@ -251,7 +241,7 @@ class Categories extends Controller
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                    ->where('gifts.category_id', $request->category_id)
+                                    ->where('gifts.category_id', $category_id)
                                     ->whereBetween('usd_price', [$request->min_price, $request->max_price])
                                     ->distinct()
                                     ->count();
@@ -260,7 +250,7 @@ class Categories extends Controller
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                    ->where('gifts.category_id', $request->category_id)
+                                    ->where('gifts.category_id', $category_id)
                                     ->whereBetween('zar_price', [$request->min_price, $request->max_price])
                                     ->orderBy('zar_price', $request->price_ordering)
                                     ->distinct()
@@ -269,7 +259,7 @@ class Categories extends Controller
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                    ->where('gifts.category_id', $request->category_id)
+                                    ->where('gifts.category_id', $category_id)
                                     ->whereBetween('zar_price', [$request->min_price, $request->max_price])
                                     ->distinct()
                                     ->count();
@@ -278,7 +268,7 @@ class Categories extends Controller
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                    ->where('gifts.category_id', $request->category_id)
+                                    ->where('gifts.category_id', $category_id)
                                     ->whereBetween('zwl_price', [$request->min_price, $request->max_price])
                                     ->orderBy('zwl_price', $request->price_ordering)
                                     ->distinct()
@@ -287,7 +277,7 @@ class Categories extends Controller
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
                                     ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                    ->where('gifts.category_id', $request->category_id)
+                                    ->where('gifts.category_id', $category_id)
                                     ->whereBetween('zwl_price', [$request->min_price, $request->max_price])
                                     ->distinct()
                                     ->count();
@@ -303,7 +293,7 @@ class Categories extends Controller
                                     ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
                                     ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
-                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['gifts.category_id', '=', $category_id],
                                         ['customer_rating', '>=', 4]
                                     ])
                                     ->orderBy('usd_price', $request->price_ordering)
@@ -315,7 +305,7 @@ class Categories extends Controller
                                     ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
                                     ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
-                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['gifts.category_id', '=', $category_id],
                                         ['customer_rating', '>=', 4]
                                     ])
                                     ->distinct()
@@ -327,7 +317,7 @@ class Categories extends Controller
                                     ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
                                     ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
-                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['gifts.category_id', '=', $category_id],
                                         ['customer_rating', '>=', 3]
                                     ])
                                     ->orderBy('usd_price', $request->price_ordering)
@@ -339,7 +329,7 @@ class Categories extends Controller
                                     ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
                                     ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
-                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['gifts.category_id', '=', $category_id],
                                         ['customer_rating', '>=', 3]
                                     ])
                                     ->distinct()
@@ -351,7 +341,7 @@ class Categories extends Controller
                                     ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
                                     ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
-                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['gifts.category_id', '=', $category_id],
                                         ['customer_rating', '>=', 2]
                                     ])
                                     ->orderBy('usd_price', $request->price_ordering)
@@ -363,7 +353,7 @@ class Categories extends Controller
                                     ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
                                     ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
-                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['gifts.category_id', '=', $category_id],
                                         ['customer_rating', '>=', 2]
                                     ])
                                     ->distinct()
@@ -375,7 +365,7 @@ class Categories extends Controller
                                     ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
                                     ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
-                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['gifts.category_id', '=', $category_id],
                                         ['customer_rating', '>=', 1]
                                     ])
                                     ->orderBy('usd_price', $request->price_ordering)
@@ -387,7 +377,7 @@ class Categories extends Controller
                                     ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
                                     ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
-                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['gifts.category_id', '=', $category_id],
                                         ['customer_rating', '>=', 1]
                                     ])
                                     ->distinct()
@@ -399,7 +389,7 @@ class Categories extends Controller
                                     ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
                                     ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
-                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['gifts.category_id', '=', $category_id],
                                         ['customer_rating', '>=', 0]
                                     ])
                                     ->orderBy('usd_price', $request->price_ordering)
@@ -411,7 +401,7 @@ class Categories extends Controller
                                     ->join('gift_ratings', 'gift_ratings.gift_id', '=', 'gifts.id')
                                     ->select('gifts.*', 'gifts.slug as gift_slug', 'categories.*', 'gift_ratings.*', 'sub_categories.*', 'sub_categories.name as sub_category')
                                     ->where([
-                                        ['gifts.category_id', '=', $request->category_id],
+                                        ['gifts.category_id', '=', $category_id],
                                         ['customer_rating', '>=', 0]
                                     ])
                                     ->distinct()
@@ -423,29 +413,22 @@ class Categories extends Controller
                 if(empty($filter) && empty($request->min_price) && empty($request->max_price) 
                 && empty($request->rating) && empty($sub_category_id) && empty($request->latest)
                 && empty($request->likes) && empty($request->trending && $request->currency == 'usd')){
-                    $result = DB::table('gifts')
-                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                                ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
-                                ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                ->where('gifts.category_id', $request->category_id)
+                    $result = $main_query
                                 ->offset($request->start)
                                 ->limit($request->limit)
                                 ->orderBy('usd_price', $request->price_ordering)
                                 ->distinct()
                                 ->get();
-                    $count = DB::table('gifts')
-                                ->join('categories', 'categories.id', '=', 'gifts.category_id')
-                                ->join('sub_categories', 'sub_categories.id', '=', 'gifts.sub_category_id')
-                                ->select('gifts.*', 'gifts.id as gift_id', 'gifts.slug as gift_slug', 'categories.*', 'sub_categories.*', 'sub_categories.name as sub_category')
-                                ->where('gifts.category_id', $request->category_id)
-                                ->distinct()
-                                ->count();
+                    $count = $main_query->distinct()->count();
                 }
 
                 if($count > 0){
+                    $output = '
+                        <div class="d-grid grid-view grid-p-1 mt-3 products-shelf" id="customizable-gifts">
+                    ';
                     foreach($result as $gift){
                         // Gift star rating
-                        $star_rating = giftStarRating($gift->id);
+                        $star_rating = giftStarRating($gift->gift_id);
 
                         // Gift sale percentage
                         $sale_percentage = $gift->sale_percentage;
@@ -455,29 +438,28 @@ class Categories extends Controller
 
                         // Show if user customized or wishlisted the gift
                         if(isset(Auth::user()->id)){
-                            $wishlist_icon = wishlistIcon($gift->id, Auth::user()->id);
-                            if(!empty(customizedLabel($gift->id, Auth::user()->id))){
-                                $gift_label = customizedLabel($gift->id, Auth::user()->id);
+                            $wishlist_icon = wishlistIcon($gift->gift_id, Auth::user()->id);
+                            if(!empty(customizedLabel($gift->gift_id, Auth::user()->id))){
+                                $gift_label = customizedLabel($gift->gift_id, Auth::user()->id);
                             } else {
-                                $gift_label = giftLabel($gift->id, round(100 * $gift->sale_percentage));
+                                $gift_label = giftLabel($gift->gift_id, round(100 * $gift->sale_percentage));
                             }
                         } else {
                             $wishlist_icon = '
-                                <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->id .'" data-name="'. $gift->gift_name .'"></i>
+                                <i role="button" class="fa fa-heart-o text-light guest-wishes" id="'. $gift->gift_id .'" data-name="'. $gift->gift_name .'"></i>
                             ';
-                            $gift_label = giftLabel($gift->id, round(100 * $gift->sale_percentage));
+                            $gift_label = giftLabel($gift->gift_id, round(100 * $gift->sale_percentage));
                         }
 
                         // Fetch sale end-date
                         $end_date = strtotime($gift->ends_on) * 1000;
                         $end_dates[] = $end_date;
-                        $now = time() * 1000;
 
                         // Determine if end date is greater than today
                         $date_diff = floor(abs(($end_date - $now) / (1000 * 3600 * 24)));
 
                         // Fetch all gif-ids
-                        $gift_ids[] = $gift->id;
+                        $gift_ids[] = $gift->gift_id;
 
                         // Only show the timer if it's the gift item is on sale or hot-offer
                         if($gift->label == 'sale' || $gift->label == 'hot-offer'){
@@ -500,7 +482,7 @@ class Categories extends Controller
                                 $timer = '
                                     <div class="d-flex align-items-center justify-content-between text-sm">
                                         <span>Sale Ends:</span>
-                                        <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
+                                        <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->gift_id.'">00d:00h:00m:00s</span>
                                     </div>
                                 ';
                             } else {
@@ -508,7 +490,7 @@ class Categories extends Controller
                                 $timer = '
                                     <div class="d-flex align-items-center justify-content-between text-sm">
                                         <span>Sale Ends:</span>
-                                        <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
+                                        <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->gift_id.'">Sale closed</span>
                                     </div>
                                 ';
 
@@ -540,7 +522,7 @@ class Categories extends Controller
                         // Show the customize link if gift item is customizable
                         if($gift->label == 'customizable'){
                             $custom_link = '
-                                <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$gift->id.'" title="Customize gift" data-id="'. $gift->id .'">
+                                <a href="#" class="nav-link icon-link toggle-customization" id="customize'.$gift->gift_id.'" title="Customize gift" data-id="'. $gift->gift_id .'">
                                     <i class="material-icons">palette</i>
                                 </a>
                             ';
@@ -548,18 +530,18 @@ class Categories extends Controller
 
                         $output .= '
                             <!-- Product Card -->
-                            <div class="card product-card rounded-2 box-shadow-sm" data-id="'.$gift->id.'">
+                            <div class="card product-card rounded-2 box-shadow-sm" data-id="'.$gift->gift_id.'">
                                 <!-- Cart Actions -->
-                                <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$gift->id.'">
+                                <div class="gift-cart-options bg-whitesmoke box-shadow-sm d-none" id="cart-options'.$gift->gift_id.'">
                                     <div class="d-flex align-items-center px-2">
                                         <div class="d-flex align-items-center justify-content-around m-0 p-0">
-                                            <span role="button" class="product-actions material-icons text-success subtract-product" data-id="'.$gift->id.'" title="Decrease quantity">remove_circle</span>
-                                            <span role="button" class="product-actions item-quantity text-faded" id="item-count'.$gift->id.'">0</span>
-                                            <span role="button" class="product-actions material-icons text-success increase-qty" data-id="'.$gift->id.'" title="Increase quantity">add_circle</span>
+                                            <span role="button" class="product-actions material-icons text-success subtract-product" data-id="'.$gift->gift_id.'" title="Decrease quantity">remove_circle</span>
+                                            <span role="button" class="product-actions item-quantity text-faded" id="item-count'.$gift->gift_id.'">0</span>
+                                            <span role="button" class="product-actions material-icons text-success increase-qty" data-id="'.$gift->gift_id.'" title="Increase quantity">add_circle</span>
                                         </div>
                                         <div class="ml-auto d-flex align-items-center">
                                             '.$custom_link.'
-                                            <a href="#" class="nav-link icon-link text-danger remove-item ml-2" title="Remove Item" data-id="'.$gift->id.'">
+                                            <a href="#" class="nav-link icon-link text-danger remove-item ml-2" title="Remove Item" data-id="'.$gift->gift_id.'">
                                                 <i class="material-icons notifications">delete</i>
                                             </a>
                                         </div>
@@ -568,7 +550,7 @@ class Categories extends Controller
                                 <!-- /.Cart Actions -->
                                 <div class="product-img-wrapper">
                                     '. $gift_label .'
-                                    <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
+                                    <a href="details/'. $gift->slug .'/'. $gift->gift_id .'" title="View product">
                                         <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                     </a>
                                     <div class="overlay d-flex justify-content-around py-1">
@@ -576,18 +558,18 @@ class Categories extends Controller
                                             <i class="fa fa-home text-light"></i>
                                             <span class="text-light text-sm">'. $gift->units .'</span>
                                         </div>
-                                        <div class="d-flex flex-column text-center" title="'. viewCounter($gift->id) .' Total Views">
+                                        <div class="d-flex flex-column text-center" title="'. viewCounter($gift->gift_id) .' Total Views">
                                             <i class="fa fa-eye text-light"></i>
-                                            <span class="text-light text-sm">'. viewCounter($gift->id) .'</span>
+                                            <span class="text-light text-sm">'. viewCounter($gift->gift_id) .'</span>
                                         </div>
-                                        <div class="d-flex flex-column text-center" title="Wishlisted by '. totalWishes($gift->id) .' customer(s)">
+                                        <div class="d-flex flex-column text-center" title="Wishlisted by '. totalWishes($gift->gift_id) .' customer(s)">
                                             '.$wishlist_icon.'
-                                            <span class="text-light text-sm">'. totalWishes($gift->id) .'</span>
+                                            <span class="text-light text-sm">'. totalWishes($gift->gift_id) .'</span>
                                         </div>
-                                        <div class="d-flex flex-column text-center" title="'. giftsSold($gift->id) .' gift(s) sold">
+                                        <div class="d-flex flex-column text-center" title="'. giftsSold($gift->gift_id) .' gift(s) sold">
                                             <div class="d-flex align-items-center overlay-metric">
                                                 <i class="fa fa-shopping-bag text-light"></i>
-                                                <span class="badge badge-danger badge-pill overlay-badge">'. giftsSold($gift->id) .'</span>
+                                                <span class="badge badge-danger badge-pill overlay-badge">'. giftsSold($gift->gift_id) .'</span>
                                             </div>
                                             <span class="text-light text-sm">Sold</span>
                                         </div>
@@ -596,8 +578,8 @@ class Categories extends Controller
                                 <div class="card-content">
                                     <div class="card-body my-0 py-0">
                                         <div class="lh-100 mb-0 pb-0">
-                                            <a href="details/'. $gift->slug .'/'. $gift->id .'">
-                                                <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
+                                            <a href="details/'. $gift->slug .'/'. $gift->gift_id .'">
+                                                <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->gift_id .'">
                                                     '. Str::words($gift->gift_name, 2, '') .'
                                                 </p>
                                             </a>
@@ -635,35 +617,36 @@ class Categories extends Controller
                                         '. $timer .'
                                         <div class="row justify-content-center w-100">
                                             <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
-                                                <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $gift->id .'">
+                                                <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $gift->gift_id .'">
                                                     <i class="material-icons text-white mr-1">add_shopping_cart</i>
                                                     Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                                 </button>
-                                                <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                                <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $gift->gift_id .'" data-name="'. $short_name .'" data-id="'. $gift->gift_id .'">
                                                     <i class="material-icons text-primary mr-1">compare_arrows</i>
                                                     Compare
                                                 </button>
                                             </div>
                                         </div>
-                                        <input value="'. $gift->id .'" id="gift_id" type="hidden">
-                                        <input value="'. $gift->gift_name .'" id="name'. $gift->id .'" type="hidden">
-                                        <input value="'. $gift->label .'" id="label'. $gift->id .'" type="hidden">
-                                        <input value="'. $gift->gift_image .'" id="image'. $gift->id .'" type="hidden">
-                                        <input value="'. $usd_price .'" id="usd-price'. $gift->id .'" type="hidden">
-                                        <input value="'. $zar_price .'" id="zar-price'. $gift->id .'" type="hidden">
-                                        <input value="'. $zwl_price .'" id="zwl-price'. $gift->id .'" type="hidden">
-                                        <input value="'. $end_date .'" id="end-time'. $gift->id .'" type="hidden">
-                                        <input value="'. $gift->category_id .'" id="category-id'. $gift->id .'" type="hidden">
-                                        <input value="'. $gift->category_name .'" id="category-name'. $gift->id .'" type="hidden">
-                                        <input value="'. $gift->units .'" id="product-units'. $gift->id .'" type="hidden">
-                                        <input value="1" id="quantity'. $gift->id .'" type="hidden">
-                                        <input value="'. $gift->description .'" id="description'. $gift->id .'" type="hidden">
+                                        <input value="'. $gift->gift_id .'" id="gift_id" type="hidden">
+                                        <input value="'. $gift->gift_name .'" id="name'. $gift->gift_id .'" type="hidden">
+                                        <input value="'. $gift->label .'" id="label'. $gift->gift_id .'" type="hidden">
+                                        <input value="'. $gift->gift_image .'" id="image'. $gift->gift_id .'" type="hidden">
+                                        <input value="'. $usd_price .'" id="usd-price'. $gift->gift_id .'" type="hidden">
+                                        <input value="'. $zar_price .'" id="zar-price'. $gift->gift_id .'" type="hidden">
+                                        <input value="'. $zwl_price .'" id="zwl-price'. $gift->gift_id .'" type="hidden">
+                                        <input value="'. $end_date .'" id="end-time'. $gift->gift_id .'" type="hidden">
+                                        <input value="'. $gift->category_id .'" id="category-id'. $gift->gift_id .'" type="hidden">
+                                        <input value="'. $gift->category_name .'" id="category-name'. $gift->gift_id .'" type="hidden">
+                                        <input value="'. $gift->units .'" id="product-units'. $gift->gift_id .'" type="hidden">
+                                        <input value="1" id="quantity'. $gift->gift_id .'" type="hidden">
+                                        <input value="'. $gift->description .'" id="description'. $gift->gift_id .'" type="hidden">
                                     </div>
                                 </div>
                             </div>
                             <!-- /.Product Card -->
                         ';
                     }
+                    $output .= '</div>';
                 } else {
                     $output = '
                         <div class="container justify-content-center w-100 my-5">

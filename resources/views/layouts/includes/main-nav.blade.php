@@ -1,6 +1,6 @@
 @include('layouts.includes.header')
 <!-- Header -->
-<header class="header fixed-top box-shadow-sm">
+<header class="header fixed-md-top box-shadow-sm">
     <div class="container">
         <!-- Main Navbar -->
         <nav class="nav navbar-expand-md main-nav">

@@ -51,6 +51,9 @@ class Gifts extends Controller
                 $end_dates = $gift_ids = [];
                 $date_diff = 0;
 
+                // Current time
+                $now = time() * 1000;
+
                 $customizables = DB::table('gifts')
                                     ->join('categories', 'categories.id', '=', 'gifts.category_id')
                                     ->select('gifts.*', 'categories.category_name')
@@ -86,7 +89,6 @@ class Gifts extends Controller
                     // Fetch sale end-date
                     $end_date = strtotime($gift->ends_on) * 1000;
                     $end_dates[] = $end_date;
-                    $now = time() * 1000;
 
                     // Determine if end date is greater than today
                     $date_diff = floor(abs(($end_date - $now) / (1000 * 3600 * 24)));
@@ -250,11 +252,11 @@ class Gifts extends Controller
                                     '. $timer .'
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
                                                 Compare
                                             </button>
@@ -314,7 +316,6 @@ class Gifts extends Controller
                     // Fetch sale end-date
                     $end_date = strtotime($gift->ends_on) * 1000;
                     $end_dates[] = $end_date;
-                    $now = time() * 1000;
 
                     // Determine if end date is greater than today
                     $date_diff = floor(abs(($end_date - $now) / (1000 * 3600 * 24)));
@@ -478,11 +479,11 @@ class Gifts extends Controller
                                     '. $timer .'
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
                                                 Compare
                                             </button>
@@ -542,7 +543,6 @@ class Gifts extends Controller
                     // Fetch sale end-date
                     $end_date = strtotime($gift->ends_on) * 1000;
                     $end_dates[] = $end_date;
-                    $now = time() * 1000;
 
                     // Determine if end date is greater than today
                     $date_diff = floor(abs(($end_date - $now) / (1000 * 3600 * 24)));
@@ -706,11 +706,11 @@ class Gifts extends Controller
                                     '. $timer .'
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
                                                 Compare
                                             </button>
@@ -770,7 +770,6 @@ class Gifts extends Controller
                     // Fetch sale end-date
                     $end_date = strtotime($gift->ends_on) * 1000;
                     $end_dates[] = $end_date;
-                    $now = time() * 1000;
 
                     // Determine if end date is greater than today
                     $date_diff = floor(abs(($end_date - $now) / (1000 * 3600 * 24)));
@@ -934,11 +933,11 @@ class Gifts extends Controller
                                     '. $timer .'
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
                                                 Compare
                                             </button>
@@ -998,7 +997,6 @@ class Gifts extends Controller
                     // Fetch sale end-date
                     $end_date = strtotime($gift->ends_on) * 1000;
                     $end_dates[] = $end_date;
-                    $now = time() * 1000;
 
                     // Determine if end date is greater than today
                     $date_diff = floor(abs(($end_date - $now) / (1000 * 3600 * 24)));
@@ -1162,11 +1160,11 @@ class Gifts extends Controller
                                     '. $timer .'
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
                                                 Compare
                                             </button>
@@ -1226,7 +1224,6 @@ class Gifts extends Controller
                     // Fetch sale end-date
                     $end_date = strtotime($gift->ends_on) * 1000;
                     $end_dates[] = $end_date;
-                    $now = time() * 1000;
 
                     // Determine if end date is greater than today
                     $date_diff = floor(abs(($end_date - $now) / (1000 * 3600 * 24)));
@@ -1390,11 +1387,11 @@ class Gifts extends Controller
                                     '. $timer .'
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
-                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $gift->id .'">
+                                            <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-white mr-1">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
-                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
+                                            <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
                                                 <i class="material-icons text-primary mr-1">compare_arrows</i>
                                                 Compare
                                             </button>
@@ -1553,11 +1550,11 @@ class Gifts extends Controller
                 //                         </div>
                 //                         <div class="row justify-content-center w-100">
                 //                             <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
-                //                                 <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left font-600" data-id="'. $viewed_gifts[$key] .'">
+                //                                 <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $viewed_gifts[$key] .'">
                 //                                     <i class="material-icons text-white mr-1">add_shopping_cart</i>
                 //                                     Buy <span class="text-white text-white ml-1">gift</span>
                 //                                 </button>
-                //                                 <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right font-600" id="compare-btn'. $viewed_gifts[$key] .'" data-name="'. $short_name .'" data-id="'. $viewed_gifts[$key] .'">
+                //                                 <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $viewed_gifts[$key] .'" data-name="'. $short_name .'" data-id="'. $viewed_gifts[$key] .'">
                 //                                     <i class="material-icons text-primary mr-1">compare_arrows</i>
                 //                                     Compare
                 //                                 </button>
