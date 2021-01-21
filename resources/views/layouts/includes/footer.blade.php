@@ -49,7 +49,7 @@
                 </div>
                 <hr>
                 <div class="row justify-content-between">
-                    <div class="col-12 col-md-3">
+                    <div class="col-6 col-md-3">
                         <h6 class="font-600 text-white">Discover Gifteros</h6>
                         <ul>
                             <li>
@@ -66,7 +66,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="col-12 col-md-3">
+                    <div class="col-6 col-md-3">
                         <h6 class="font-600 text-white">Shopping with us</h6>
                         <ul>
                             <li>
@@ -89,7 +89,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="col-12 col-md-3">
+                    <div class="col-6 col-md-3">
                         <h6 class="font-600 text-white">Legal</h6>
                         <ul>
                             <li>
@@ -103,7 +103,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="col-12 col-md-3">
+                    <div class="col-6 col-md-3">
                         <h6 class="font-600 text-white">Help</h6>
                         <ul>
                             <li>

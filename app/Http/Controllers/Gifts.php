@@ -116,15 +116,15 @@ class Gifts extends Controller
                             // Show countdown timer
                             $timer = '
                                 <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span>Sale Ends:</span>
+                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
                                     <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
                                 </div>
                             ';
                         } else {
                             // Show that the sale is closed
                             $timer = '
-                                <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span>Sale Ends:</span>
+                                <div class="sale-timer d-flex align-items-center justify-content-between text-sm pt-sm-2">
+                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
                                     <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
                                 </div>
                             ';
@@ -214,8 +214,11 @@ class Gifts extends Controller
                                 <div class="card-body my-0 py-0">
                                     <div class="lh-100 mb-0 pb-0">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
-                                            <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
+                                            <p class="d-sm-none d-md-block font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
                                                 '. Str::words($gift->gift_name, 2, '') .'
+                                            </p>
+                                            <p class="d-md-none font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
+                                                '. Str::words($gift->gift_name, 1, '') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
@@ -223,7 +226,7 @@ class Gifts extends Controller
                                         </a>
                                         '. $star_rating .'
                                     </div>
-                                    <div class="pull-up-1">
+                                    <div class="price-tag pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
@@ -253,11 +256,11 @@ class Gifts extends Controller
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
                                             <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
+                                                <i class="material-icons text-white mr-1 d-sm-none d-md-inline-block">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
                                             <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
+                                                <i class="material-icons text-primary mr-1 d-sm-none d-md-inline-block">compare_arrows</i>
                                                 Compare
                                             </button>
                                         </div>
@@ -343,15 +346,15 @@ class Gifts extends Controller
                             // Show countdown timer
                             $timer = '
                                 <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span>Sale Ends:</span>
+                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
                                     <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
                                 </div>
                             ';
                         } else {
                             // Show that the sale is closed
                             $timer = '
-                                <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span>Sale Ends:</span>
+                                <div class="sale-timer d-flex align-items-center justify-content-between text-sm pt-sm-2">
+                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
                                     <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
                                 </div>
                             ';
@@ -441,8 +444,11 @@ class Gifts extends Controller
                                 <div class="card-body my-0 py-0">
                                     <div class="lh-100 mb-0 pb-0">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
-                                            <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
+                                            <p class="d-sm-none d-md-block font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
                                                 '. Str::words($gift->gift_name, 2, '') .'
+                                            </p>
+                                            <p class="d-md-none font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
+                                                '. Str::words($gift->gift_name, 1, '') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
@@ -450,7 +456,7 @@ class Gifts extends Controller
                                         </a>
                                         '. $star_rating .'
                                     </div>
-                                    <div class="pull-up-1">
+                                    <div class="price-tag pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
@@ -480,11 +486,11 @@ class Gifts extends Controller
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
                                             <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
+                                                <i class="material-icons text-white mr-1 d-sm-none d-md-inline-block">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
                                             <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
+                                                <i class="material-icons text-primary mr-1 d-sm-none d-md-inline-block">compare_arrows</i>
                                                 Compare
                                             </button>
                                         </div>
@@ -570,15 +576,15 @@ class Gifts extends Controller
                             // Show countdown timer
                             $timer = '
                                 <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span>Sale Ends:</span>
+                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
                                     <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
                                 </div>
                             ';
                         } else {
                             // Show that the sale is closed
                             $timer = '
-                                <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span>Sale Ends:</span>
+                                <div class="sale-timer d-flex align-items-center justify-content-between text-sm pt-sm-2">
+                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
                                     <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
                                 </div>
                             ';
@@ -668,8 +674,11 @@ class Gifts extends Controller
                                 <div class="card-body my-0 py-0">
                                     <div class="lh-100 mb-0 pb-0">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
-                                            <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
+                                            <p class="d-sm-none d-md-block font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
                                                 '. Str::words($gift->gift_name, 2, '') .'
+                                            </p>
+                                            <p class="d-md-none font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
+                                                '. Str::words($gift->gift_name, 1, '') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
@@ -677,7 +686,7 @@ class Gifts extends Controller
                                         </a>
                                         '. $star_rating .'
                                     </div>
-                                    <div class="pull-up-1">
+                                    <div class="price-tag pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
@@ -707,11 +716,11 @@ class Gifts extends Controller
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
                                             <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
+                                                <i class="material-icons text-white mr-1 d-sm-none d-md-inline-block">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
                                             <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
+                                                <i class="material-icons text-primary mr-1 d-sm-none d-md-inline-block">compare_arrows</i>
                                                 Compare
                                             </button>
                                         </div>
@@ -797,15 +806,15 @@ class Gifts extends Controller
                             // Show countdown timer
                             $timer = '
                                 <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span>Sale Ends:</span>
+                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
                                     <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
                                 </div>
                             ';
                         } else {
                             // Show that the sale is closed
                             $timer = '
-                                <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span>Sale Ends:</span>
+                                <div class="sale-timer d-flex align-items-center justify-content-between text-sm pt-sm-2">
+                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
                                     <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
                                 </div>
                             ';
@@ -895,8 +904,11 @@ class Gifts extends Controller
                                 <div class="card-body my-0 py-0">
                                     <div class="lh-100 mb-0 pb-0">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
-                                            <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
+                                            <p class="d-sm-none d-md-block font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
                                                 '. Str::words($gift->gift_name, 2, '') .'
+                                            </p>
+                                            <p class="d-md-none font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
+                                                '. Str::words($gift->gift_name, 1, '') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
@@ -904,7 +916,7 @@ class Gifts extends Controller
                                         </a>
                                         '. $star_rating .'
                                     </div>
-                                    <div class="pull-up-1">
+                                    <div class="price-tag pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
@@ -934,11 +946,11 @@ class Gifts extends Controller
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
                                             <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
+                                                <i class="material-icons text-white mr-1 d-sm-none d-md-inline-block">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
                                             <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
+                                                <i class="material-icons text-primary mr-1 d-sm-none d-md-inline-block">compare_arrows</i>
                                                 Compare
                                             </button>
                                         </div>
@@ -1024,15 +1036,15 @@ class Gifts extends Controller
                             // Show countdown timer
                             $timer = '
                                 <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span>Sale Ends:</span>
+                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
                                     <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
                                 </div>
                             ';
                         } else {
                             // Show that the sale is closed
                             $timer = '
-                                <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span>Sale Ends:</span>
+                                <div class="sale-timer d-flex align-items-center justify-content-between text-sm pt-sm-2">
+                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
                                     <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
                                 </div>
                             ';
@@ -1122,8 +1134,11 @@ class Gifts extends Controller
                                 <div class="card-body my-0 py-0">
                                     <div class="lh-100 mb-0 pb-0">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
-                                            <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
+                                            <p class="d-sm-none d-md-block font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
                                                 '. Str::words($gift->gift_name, 2, '') .'
+                                            </p>
+                                            <p class="d-md-none font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
+                                                '. Str::words($gift->gift_name, 1, '') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
@@ -1131,7 +1146,7 @@ class Gifts extends Controller
                                         </a>
                                         '. $star_rating .'
                                     </div>
-                                    <div class="pull-up-1">
+                                    <div class="price-tag pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
@@ -1161,11 +1176,11 @@ class Gifts extends Controller
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
                                             <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
+                                                <i class="material-icons text-white mr-1 d-sm-none d-md-inline-block">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
                                             <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
+                                                <i class="material-icons text-primary mr-1 d-sm-none d-md-inline-block">compare_arrows</i>
                                                 Compare
                                             </button>
                                         </div>
@@ -1251,15 +1266,15 @@ class Gifts extends Controller
                             // Show countdown timer
                             $timer = '
                                 <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span>Sale Ends:</span>
+                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
                                     <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
                                 </div>
                             ';
                         } else {
                             // Show that the sale is closed
                             $timer = '
-                                <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span>Sale Ends:</span>
+                                <div class="sale-timer d-flex align-items-center justify-content-between text-sm pt-sm-2">
+                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
                                     <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
                                 </div>
                             ';
@@ -1349,8 +1364,11 @@ class Gifts extends Controller
                                 <div class="card-body my-0 py-0">
                                     <div class="lh-100 mb-0 pb-0">
                                         <a href="details/'. $gift->slug .'/'. $gift->id .'">
-                                            <p class="font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
+                                            <p class="d-sm-none d-md-block font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
                                                 '. Str::words($gift->gift_name, 2, '') .'
+                                            </p>
+                                            <p class="d-md-none font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
+                                                '. Str::words($gift->gift_name, 1, '') .'
                                             </p>
                                         </a>
                                         <a href="/category/'. $gift->category_name .'" class="text-sm font-500 text-capitalize my-0 py-0">
@@ -1358,7 +1376,7 @@ class Gifts extends Controller
                                         </a>
                                         '. $star_rating .'
                                     </div>
-                                    <div class="pull-up-1">
+                                    <div class="price-tag pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
                                                 <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
@@ -1388,11 +1406,11 @@ class Gifts extends Controller
                                     <div class="row justify-content-center w-100">
                                         <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
                                             <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-white mr-1">add_shopping_cart</i>
+                                                <i class="material-icons text-white mr-1 d-sm-none d-md-inline-block">add_shopping_cart</i>
                                                 Buy <span class="text-white text-white ml-1">gift</span rounded-right>
                                             </button>
                                             <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $gift->id .'" data-name="'. $short_name .'" data-id="'. $gift->id .'">
-                                                <i class="material-icons text-primary mr-1">compare_arrows</i>
+                                                <i class="material-icons text-primary mr-1 d-sm-none d-md-inline-block">compare_arrows</i>
                                                 Compare
                                             </button>
                                         </div>
@@ -1545,17 +1563,17 @@ class Gifts extends Controller
                 //                             </div>
                 //                         </div>
                 //                         <div class="d-flex align-items-center justify-content-between text-sm">
-                //                             <span>Sale Ends:</span>
+                //                             <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
                 //                             <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$viewed_gifts[$key].'">00d:00h:00m:00s</span>
                 //                         </div>
                 //                         <div class="row justify-content-center w-100">
                 //                             <div class="btn-group btn-group-sm mt-0 pt-0 pulse">
                 //                                 <button class="btn btn-primary btn-sm d-flex align-items-center add-to-cart-btn rounded-left" data-id="'. $viewed_gifts[$key] .'">
-                //                                     <i class="material-icons text-white mr-1">add_shopping_cart</i>
+                //                                     <i class="material-icons text-white mr-1 d-sm-none d-md-inline-block">add_shopping_cart</i>
                 //                                     Buy <span class="text-white text-white ml-1">gift</span>
                 //                                 </button>
                 //                                 <button class="btn border-primary btn-sm text-primary compare-btn d-flex align-items-center rounded-right" id="compare-btn'. $viewed_gifts[$key] .'" data-name="'. $short_name .'" data-id="'. $viewed_gifts[$key] .'">
-                //                                     <i class="material-icons text-primary mr-1">compare_arrows</i>
+                //                                     <i class="material-icons text-primary mr-1 d-sm-none d-md-inline-block">compare_arrows</i>
                 //                                     Compare
                 //                                 </button>
                 //                             </div>

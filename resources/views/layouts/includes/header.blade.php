@@ -11,6 +11,8 @@
         <link rel="shortcut icon" href="{{ asset('img/app/visionaries-logo.png') }}" type="image/x-icon">
         <!-- Bootstrap -->
         <link rel="stylesheet" href="{{ asset('plugins/bootstrap/css/bootstrap.min.css') }}">
+        <!-- Bootstrap-Icons -->
+        <link rel="stylesheet" href="{{ asset('plugins/bootstrap-icons-1.2.2/font/bootstrap-icons.css') }}">
         <!-- Material-Icons -->
         <link rel="stylesheet" href="{{ asset('plugins/material-design-icons/iconfont/material-icons.css') }}">
         <!-- Ionicons -->

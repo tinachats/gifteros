@@ -1,6 +1,143 @@
 @include('layouts.includes.header')
-<!-- Header -->
-<header class="header fixed-md-top box-shadow-sm">
+<style>
+    @media(max-width: 576px){
+        .mobile-nav{
+            background-color: var(--whitesmoke);
+        }
+        .scroll-menu{
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap;
+            overflow: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .scroll-item{
+            display: inline-block;
+            text-decoration: none;
+            color: grey;
+            text-align: center;
+            padding: 10px;
+            border-bottom: 2px solid transparent;
+        }
+
+        .scroll-item:hover,
+        .scroll-item.active{
+            color: var(--danger);
+            border-bottom: 2px solid var(--danger);
+        }
+
+        .bottom-nav{
+            display: flex;
+            justify-content: space-evenly !important;
+            height:  59.2px;
+            position: fixed;
+            left: 0;
+            top: 91.55%;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .nav-menu-item{
+            position: relative;
+            cursor: pointer;
+        }
+
+        .nav-menu-item,
+        .nav-menu-item i,
+        .nav-menu-item p{
+            color: var(--switch);
+        }
+
+        .nav-menu-item.active{
+            color: var(--danger);
+        }
+
+        .app-badge{
+            position: absolute;
+            left: 20px;
+            top: 3px
+        }
+        
+        .app-badge.fa-circle{
+            background: none !important;
+        }
+
+        #nav-home>i.fa-circle{
+            left: 15px
+        }
+
+        #nav-wishlist>span.badge-pill{
+            left: 30px
+        }
+
+        #nav-occasions>i.fa-circle,
+        #nav-notifications>span.badge-pill{
+            left: 35px
+        }
+
+        .gift-categories{
+            margin-right: 0;
+            margin-left: 0;
+            padding-left: 0;
+            padding-right: 0
+        }
+
+        .app-rating-box,
+        .container,
+        .container-fluid,
+        .row,
+        .col-12,
+        #stats-tab.nav-tabs {
+            width: 100%;
+            padding-right: 3px;
+            padding-left: 3px;
+        }
+
+        .col-12>* {
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+
+        #index-page.page-content{
+            margin-top: -5rem
+        }
+
+        .grid-view > .product-card > .product-img-wrapper > .overlay {
+            opacity: 1;
+            top: 46%;
+        }
+
+        .products-shelf{
+            grid-template-columns: repeat(2, 1fr);
+        }
+        .grid-view>.product-card {
+            width: 100%;
+            height: 350px
+        }
+        .btn-group{
+            position: absolute;
+        }
+        
+        .btn-group{
+            top: 88%;
+            width: 90%;
+            left: 5%;
+        }
+        .fabs{
+            left: 80%
+        }
+
+        .pt-sm-2, 
+        .py-sm-2 {
+            padding-top: .5rem!important;
+        }
+    }
+</style>
+<!-- Main Header -->
+<header class="header fixed-md-top box-shadow-sm d-sm-none d-md-block">
     <div class="container">
         <!-- Main Navbar -->
         <nav class="nav navbar-expand-md main-nav">
@@ -558,7 +695,7 @@
                     <li class="nav-item dropdown ml-3" title="View your Wishlist">
                         <a href="{{ route('wishlist') }}" class="nav-link icon-link wishlist">
                             <i class="material-icons">favorite_border</i>
-                            <span class="badge nav-badge" id="count-wishlist"></span>
+                            <span class="badge nav-badge count-wishlist"></span>
                         </a>
                     </li>
                     <!-- /.Wishlist -->
@@ -645,48 +782,135 @@
                 </li>
             </ul>
             <!-- /.Right Navbar Links -->
-
-            <!-- Search Form -->
-            <form method="get" action="/search" id="search-form" class="bg-whitesmoke">
-                <div class="form-group icon-form-group" id="search-bar">
-                    <i class="material-icons icon text-faded">search</i>
-                    <input type="search" name="search" id="search" class="form-control" placeholder="Search...">
-                    <ul class="list-group search-list rounded-bottom-2 d-none">
-                        @for ($i = 0; $i < 5; $i++)
-                            <!-- Search results loading -->
-                            <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">
-                                <div class="d-flex justify-content-between align-items-start">
-                                    <div class="d-flex w-100">
-                                        <!-- Product Item -->
-                                        <div class="media align-items-center">
-                                            <div class="cart-item-img-placeholder rounded-2 align-self-center mr-2"></div>
-        
-                                            <!-- Product Item Details -->
-                                            <div class="media-body cart-details-placeholder">
-                                                <div class="content-placeholder cart-item-name-placeholder"></div>
-                                                <div class="content-placeholder cart-category-placeholder"></div>
-                                                <div class="cart-rating-placeholder content-placeholder"></div>
-                                                <div class="content-placeholder cart-stock-placeholder"></div>
-                                            </div>
-                                            <!-- Product Item Details -->
-                                        </div>
-                                        <!-- /.Product Item -->
-                                    </div>
-                                    <div class="d-block text-center">
-                                        <p class="content-placeholder my-0 pt-0 pb-1 cart-item-price"></p>
-                                        <button class="btn btn-cart-placeholder pt-1"></button>
-                                    </div>
-                                </div>
-                            </li>
-                            <!-- /.Search Results Loading -->
-                        @endfor
-                        <!-- Search results will be shown here -->
-                    </ul>
-                </div>
-            </form>
-            <!-- /.Search Form -->
         </nav>
         <!-- Main Navbar -->
+
+        <!-- Search Form -->
+        <form method="get" action="/search" id="search-form" class="bg-whitesmoke">
+            <div class="form-group icon-form-group" id="search-bar">
+                <i class="material-icons icon text-faded">search</i>
+                <input type="search" name="search" id="search" class="form-control" placeholder="Search...">
+                <ul class="list-group search-list rounded-bottom-2 d-none">
+                    @for ($i = 0; $i < 5; $i++)
+                        <!-- Search results loading -->
+                        <li class="list-group-item rounded-0 lh-100 px-1 py-2 cart-menu-item">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <div class="d-flex w-100">
+                                    <!-- Product Item -->
+                                    <div class="media align-items-center">
+                                        <div class="cart-item-img-placeholder rounded-2 align-self-center mr-2"></div>
+
+                                        <!-- Product Item Details -->
+                                        <div class="media-body cart-details-placeholder">
+                                            <div class="content-placeholder cart-item-name-placeholder"></div>
+                                            <div class="content-placeholder cart-category-placeholder"></div>
+                                            <div class="cart-rating-placeholder content-placeholder"></div>
+                                            <div class="content-placeholder cart-stock-placeholder"></div>
+                                        </div>
+                                        <!-- Product Item Details -->
+                                    </div>
+                                    <!-- /.Product Item -->
+                                </div>
+                                <div class="d-block text-center">
+                                    <p class="content-placeholder my-0 pt-0 pb-1 cart-item-price"></p>
+                                    <button class="btn btn-cart-placeholder pt-1"></button>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- /.Search Results Loading -->
+                    @endfor
+                    <!-- Search results will be shown here -->
+                </ul>
+            </div>
+        </form>
+        <!-- /.Search Form -->
     </div>
 </header>
-<!-- /.Header -->
+<!-- /.Main Header -->
+
+<!-- Mobile Phones Navbars -->
+<!-- Sticky-top Header -->
+<header class="sticky-top box-shadow-sm d-md-none mobile-nav">
+    {{-- Top Navbar --}}
+    <nav class="navbar navbar-light mobile-nav py-0">
+        <div class="container-fluid">
+            <a class="navbar-brand font-700" href="/">
+                <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" class="d-inline-block align-top" width="35" alt="Logo"> 
+                <span class="text-app-color">{{ config('app.name') }}</span>
+            </a>
+            <ul class="d-flex align-items-center my-0 py-0">
+                <li class="nav-item">
+                    <a class="nav-link icon-link" href="#">
+                        <i class="fa fa-fire"></i>
+                    </a>
+                </li>
+                <li class="nav-item ml-2">
+                    <a class="nav-link icon-link toggle-search-icon" href="#">
+                        <i class="fa fa-search"></i>
+                    </a>
+                </li>
+                <li class="nav-item mx-2">
+                    <img src="/storage/users/{{ Auth::user()->profile_pic }}" height="30" width="30" alt="{{ Auth::user()->name }}" class="rounded-circle prof-pic d-cursor">
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link icon-link menu-btn" href="#">
+                        <i class="fa fa-navicon"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {{-- /.Top Navbar --}}
+
+    {{-- Navscroller --}}
+    <nav class="nav scroll-menu border-top mobile-nav">
+        <div class="container-fluid">
+            <a class="scroll-item" href="#">All</a>
+            <a class="scroll-item" href="#">Apparel</a>
+            <a class="scroll-item" href="#">Fashion Accessories</a>
+            <a class="scroll-item" href="#">Home & Garden</a>
+            <a class="scroll-item" href="#">Toys, Kids & Babies</a>
+            <a class="scroll-item" href="#">Beauty & Hair</a>
+            <a class="scroll-item" href="#">Sports & Outdoors</a>
+            <a class="scroll-item" href="#">Shoes & Bags</a>
+            <a class="scroll-item" href="#">Electronics</a>
+            <a class="scroll-item" href="#">Computers & Office</a>
+        </div>
+    </nav>
+    {{-- /.Navscroller --}}
+</header>
+<!-- /.Sticky-top Header -->
+
+{{-- Fixed-bottom Navbar --}}
+<div class="navbar navbar-light box-shadow-sm mobile-nav bottom-nav py-0 w-100">
+    <div class="container-fluid pt-1">
+        <div class="d-block text-center nav-menu-item" id="nav-home">
+            <i class="bi bi-shop icon-md"></i>
+            <i class="app-badge fa fa-circle new-products d-none"></i>
+            <p class="text-sm mb-0">Shop</p>
+        </div>
+        <div class="d-block text-center nav-menu-item" id="nav-occasions">
+            <i class="bi bi-calendar-date icon-md"></i>
+            <i class="app-badge fa fa-circle upcoming-events d-none"></i>
+            <p class="text-sm mb-0">Occasions</p>
+        </div>
+        <div class="d-block text-center nav-menu-item" id="nav-cart">
+            <i class="bi bi-cart4 icon-md"></i>
+            <span class="app-badge badge badge-pill gift-count"></span>
+            <p class="text-sm mb-0">Cart</p>
+        </div>
+        <div class="d-block text-center nav-menu-item" id="nav-wishlist">
+            <i class="bi bi-heart icon-md"></i>
+            <span class="app-badge badge badge-pill count-wishlist"></span>
+            <p class="text-sm mb-0">Wishlist</p>
+        </div>
+        <div class="d-block text-center nav-menu-item" id="nav-notifications">
+            <i class="bi bi-bell icon-md"></i>
+            <span class="app-badge badge badge-pill notifications-counter"></span>
+            <p class="text-sm mb-0">Notifications</p>
+        </div>
+    </div>
+</div>
+{{-- /.Fixed-bottom Navbar --}}
+
+<!-- /.Mobile Phones Navbars -->

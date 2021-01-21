@@ -632,11 +632,11 @@
 
         if($count_ratings == 1){
             $reviews = '
-                <li class="list-inline-item text-faded star-rating text-sm ml-1">(1 rating)</li>
+                <li class="list-inline-item text-faded star-rating text-sm  d-md-inline-block ml-1">(1 rating)</li>
             ';
         } else {
             $reviews = '
-                <li class="list-inline-item text-faded star-rating text-sm ml-1">('.$count_ratings.' ratings)</li>
+                <li class="list-inline-item text-faded star-rating text-sm ml-1 d-sm-none d-md-inline-block">('.$count_ratings.' ratings)</li>
             ';
         }
         // gift star rating
