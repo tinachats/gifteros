@@ -31,18 +31,17 @@
 
         .bottom-nav{
             display: flex;
-            justify-content: space-evenly !important;
             height:  59.2px;
             position: fixed;
             left: 0;
-            top: 91.55%;
+            bottom: 0;
+            margin: 0;
             width: 100%;
             z-index: 1000;
         }
 
         .nav-menu-item{
             position: relative;
-            cursor: pointer;
         }
 
         .nav-menu-item,
@@ -51,18 +50,28 @@
             color: var(--switch);
         }
 
-        .nav-menu-item.active{
-            color: var(--danger);
+        .nav-menu-item.active,
+        .nav-menu-item.active .mob-icon,
+        .nav-menu-item.active i.fa-circle,
+        .nav-menu-item.active p{
+            color: var(--danger) !important;
+        }
+
+        .nav-menu-item.active .badge-pill{
+            background: var(--danger) !important;
+            color: #fff !important
         }
 
         .app-badge{
             position: absolute;
+            border: 2px solid var(--whitesmoke);
             left: 20px;
             top: 3px
         }
         
         .app-badge.fa-circle{
             background: none !important;
+            border: 2px solid var(--whitesmoke);
         }
 
         #nav-home>i.fa-circle{
@@ -102,7 +111,7 @@
         }
 
         #index-page.page-content{
-            margin-top: -5rem
+            margin-top: 5.8rem
         }
 
         .grid-view > .product-card > .product-img-wrapper > .overlay {
@@ -127,7 +136,8 @@
             left: 5%;
         }
         .fabs{
-            left: 80%
+            bottom: 10%;
+            right: 30px;
         }
 
         .pt-sm-2, 
@@ -830,87 +840,81 @@
 
 <!-- Mobile Phones Navbars -->
 <!-- Sticky-top Header -->
-<header class="sticky-top box-shadow-sm d-md-none mobile-nav">
+<header class="fixed-top box-shadow-sm d-md-none mobile-nav">
     {{-- Top Navbar --}}
-    <nav class="navbar navbar-light mobile-nav py-0">
-        <div class="container-fluid">
-            <a class="navbar-brand font-700" href="/">
-                <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" class="d-inline-block align-top" width="35" alt="Logo"> 
-                <span class="text-app-color">{{ config('app.name') }}</span>
-            </a>
-            <ul class="d-flex align-items-center my-0 py-0">
-                <li class="nav-item">
-                    <a class="nav-link icon-link" href="#">
-                        <i class="fa fa-fire"></i>
-                    </a>
-                </li>
-                <li class="nav-item ml-2">
-                    <a class="nav-link icon-link toggle-search-icon" href="#">
-                        <i class="fa fa-search"></i>
-                    </a>
-                </li>
-                <li class="nav-item mx-2">
-                    <img src="/storage/users/{{ Auth::user()->profile_pic }}" height="30" width="30" alt="{{ Auth::user()->name }}" class="rounded-circle prof-pic d-cursor">
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link icon-link menu-btn" href="#">
-                        <i class="fa fa-navicon"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
+    <nav class="navbar navbar-light mobile-nav p-1">
+        <a class="navbar-brand font-700" href="/">
+            <img src="{{ asset('img/app/visionaries-logo.png') }}" height="35" class="d-inline-block align-top" width="35" alt="Logo"> 
+            <span class="text-app-color">{{ config('app.name') }}</span>
+        </a>
+        <ul class="d-flex align-items-center my-0 p-0">
+            <li class="nav-item">
+                <a class="nav-link icon-link" href="#">
+                    <i class="fa fa-fire"></i>
+                </a>
+            </li>
+            <li class="nav-item ml-2">
+                <a class="nav-link icon-link toggle-search-icon" href="#">
+                    <i class="fa fa-search"></i>
+                </a>
+            </li>
+            <li class="nav-item mx-2">
+                <img src="/storage/users/{{ Auth::user()->profile_pic }}" height="30" width="30" alt="{{ Auth::user()->name }}" class="rounded-circle prof-pic d-cursor">
+            </li>
+            <li class="nav-item">
+                <a class="nav-link icon-link menu-btn" href="#">
+                    <i class="fa fa-navicon"></i>
+                </a>
+            </li>
+        </ul>
     </nav>
     {{-- /.Top Navbar --}}
 
     {{-- Navscroller --}}
     <nav class="nav scroll-menu border-top mobile-nav">
-        <div class="container-fluid">
-            <a class="scroll-item" href="#">All</a>
-            <a class="scroll-item" href="#">Apparel</a>
-            <a class="scroll-item" href="#">Fashion Accessories</a>
-            <a class="scroll-item" href="#">Home & Garden</a>
-            <a class="scroll-item" href="#">Toys, Kids & Babies</a>
-            <a class="scroll-item" href="#">Beauty & Hair</a>
-            <a class="scroll-item" href="#">Sports & Outdoors</a>
-            <a class="scroll-item" href="#">Shoes & Bags</a>
-            <a class="scroll-item" href="#">Electronics</a>
-            <a class="scroll-item" href="#">Computers & Office</a>
-        </div>
+        <a class="scroll-item" href="#">All</a>
+        <a class="scroll-item" href="#">Apparel</a>
+        <a class="scroll-item" href="#">Fashion Accessories</a>
+        <a class="scroll-item" href="#">Home & Garden</a>
+        <a class="scroll-item" href="#">Toys, Kids & Babies</a>
+        <a class="scroll-item" href="#">Beauty & Hair</a>
+        <a class="scroll-item" href="#">Sports & Outdoors</a>
+        <a class="scroll-item" href="#">Shoes & Bags</a>
+        <a class="scroll-item" href="#">Electronics</a>
+        <a class="scroll-item" href="#">Computers & Office</a>
     </nav>
     {{-- /.Navscroller --}}
 </header>
 <!-- /.Sticky-top Header -->
 
 {{-- Fixed-bottom Navbar --}}
-<div class="navbar navbar-light box-shadow-sm mobile-nav bottom-nav py-0 w-100">
-    <div class="container-fluid pt-1">
-        <div class="d-block text-center nav-menu-item" id="nav-home">
-            <i class="bi bi-shop icon-md"></i>
-            <i class="app-badge fa fa-circle new-products d-none"></i>
-            <p class="text-sm mb-0">Shop</p>
-        </div>
-        <div class="d-block text-center nav-menu-item" id="nav-occasions">
-            <i class="bi bi-calendar-date icon-md"></i>
-            <i class="app-badge fa fa-circle upcoming-events d-none"></i>
-            <p class="text-sm mb-0">Occasions</p>
-        </div>
-        <div class="d-block text-center nav-menu-item" id="nav-cart">
-            <i class="bi bi-cart4 icon-md"></i>
-            <span class="app-badge badge badge-pill gift-count"></span>
-            <p class="text-sm mb-0">Cart</p>
-        </div>
-        <div class="d-block text-center nav-menu-item" id="nav-wishlist">
-            <i class="bi bi-heart icon-md"></i>
-            <span class="app-badge badge badge-pill count-wishlist"></span>
-            <p class="text-sm mb-0">Wishlist</p>
-        </div>
-        <div class="d-block text-center nav-menu-item" id="nav-notifications">
-            <i class="bi bi-bell icon-md"></i>
-            <span class="app-badge badge badge-pill notifications-counter"></span>
-            <p class="text-sm mb-0">Notifications</p>
-        </div>
-    </div>
-</div>
+<nav class="navbar navbar-light box-shadow-sm mobile-nav bottom-nav py-0 w-100">
+    <a href="/" class="d-block text-center nav-menu-item active" id="nav-home">
+        <i class="bi bi-shop mob-icon icon-md"></i>
+        <i class="app-badge fa fa-circle new-products d-none"></i>
+        <p class="text-sm mb-0">Shop</p>
+    </a>
+    <a href="/occasions" class="d-block text-center nav-menu-item" id="nav-occasions">
+        <i class="bi bi-calendar-date mob-icon icon-md"></i>
+        <i class="app-badge fa fa-circle upcoming-events d-none"></i>
+        <p class="text-sm mb-0">Occasions</p>
+    </a>
+    <a href="/cart" class="d-block text-center nav-menu-item" id="nav-cart">
+        <i class="bi bi-cart4 mob-icon icon-md"></i>
+        <span class="app-badge badge badge-pill gift-count"></span>
+        <p class="text-sm mb-0">Cart</p>
+    </a>
+    <a href="/wishlist" class="d-block text-center nav-menu-item" id="nav-wishlist">
+        <i class="bi bi-heart mob-icon icon-md"></i>
+        <span class="app-badge badge badge-pill count-wishlist"></span>
+        <p class="text-sm mb-0">Wishlist</p>
+    </a>
+    <a href="/notifications" class="d-block text-center nav-menu-item" id="nav-notifications">
+        <i class="bi bi-bell mob-icon icon-md"></i>
+        <span class="app-badge badge badge-pill notifications-counter"></span>
+        <p class="text-sm mb-0">Notifications</p>
+    </a>
+</nav>
 {{-- /.Fixed-bottom Navbar --}}
 
 <!-- /.Mobile Phones Navbars -->
