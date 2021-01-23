@@ -21,7 +21,7 @@
         "laravel/ui": "^3.0",
         "laravelcollective/html": "^6.2",
         "socialiteproviders/facebook": "^1.0",
-        "stripe/stripe-php": "^7.67"
+        "stripe/stripe-php": "^7.68"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",

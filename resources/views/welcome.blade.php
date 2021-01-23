@@ -1,5 +1,11 @@
 @include('layouts.includes.main-nav')
 <style>
+    .fixed-md-top {
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+    }
     .product-img{
         height: 180px;
     }
@@ -36,13 +42,6 @@
 @include('layouts.includes.footer')
 <script>
     $(function(){
-        // Pass the csrf token to all ajax calls
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        
         // Showcase all gift categories
         showcase();
         

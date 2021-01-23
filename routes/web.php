@@ -80,7 +80,7 @@ Route::get('/checkout', [CartController::class, 'checkout'])->name('checkout');
 // Coupons & Discounts Routes
 Route::post('/newbie-coupon', [CouponController::class, 'newbieCoupon'])->name('newbie_coupon');
 
-// Checking-out Routs
+// Checking-out Routes
 Route::post('/shipping-costs', [CartController::class, 'shippingCosts'])->name('shipping_costs');
 Route::post('/stripe', [Stripe::class, 'checkout'])->name('stripe_checkout');
 Route::get('/success/{name}/{surname}/{email}/{cell}/{address}/{suburb}/{items}/{total}/{trackid}/{coupon}/{delivery_date}/{date}/{month}/{occasion}', [OrderSuccess::class, 'index'])->name('success_page');

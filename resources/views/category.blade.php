@@ -3,8 +3,7 @@
    use Illuminate\Support\Str;
 @endphp
 <style>
-    .filtering-pane .filter-list,
-    .filtering-pane .form-check-label{
+    .filtering-pane .filter-list{
         margin-left: -20px
     }
     .btn-group-placeholder {

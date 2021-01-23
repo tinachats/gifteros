@@ -1,4 +1,3 @@
-@include('layouts.includes.header')
 @include('layouts.includes.main-nav')
 <!-- Page Content -->
 <div class="container page-content">
@@ -87,5 +86,7 @@
 <script>
     $(function(){
         myWishlist();
+        $('#nav-wishlist').addClass('active');
+        $('.nav-menu-item').not('#nav-wishlist').removeClass('active');
     });
 </script>

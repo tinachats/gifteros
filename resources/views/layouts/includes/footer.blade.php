@@ -359,6 +359,103 @@
         </div>
         <!-- /.App-Rating -->
 
+        <!-- Shirt Sizes Modal -->
+        <div class="modal fade" id="shirt-sizes-modal" tabindex="-1" role="dialog" aria-labelledby="shirt-sizes-modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header d-flex justify-ccontent-between">
+                        <h6 class="text-sm my-0">
+                            Measurement <i class="fa fa-question-circle"></i>
+                        </h6>
+                        <i role="button" class="material-icons fa-2x" data-dismiss="modal"></i>
+                    </div>
+                    <div class="modal-body text-center">
+                        <ul class="nav nav-tabs mr-auto" id="nav-tab" role="tablist">
+                            <li class="nav-item m-0">
+                                <a role="button" class="nav-link btn btn-default custom-size active font-600" id="nav-cm-tab" data-toggle="tab" href="#nav-cm" role="tab" aria-controls="nav-cm" aria-selected="true">CM</a>
+                            </li>
+                            <li class="nav-item m-0">
+                                <a role="button" class="nav-link btn btn-default custom-size font-600" id="nav-in-tab" data-toggle="tab" href="#nav-in" role="tab" aria-controls="nav-in" aria-selected="false">Customer Reviews ({{ countRatings($id) }})</a>
+                            </li>
+                        </ul>
+                        <h6>Sizes Chart</h6>
+                        <div class="tab-content main-pane box-shadow-sm bg-whitesmoke p-2" id="nav-tabContent" id="sizes-tabContent">
+                            <div class="tab-pane fade show active" id="nav-cm" role="tabpanel" aria-labelledby="nav-cm-tab">
+                                <div class="table-responsive table-sm">
+                                    <table class="table-bordered table-hover">
+                                        <thead>
+                                            <tr class="bg-light">
+                                                <th>Size</th>
+                                                <th>Chest Width</th>
+                                                <th>Length</th>
+                                                <th>Shoulder</th>
+                                                <th>Sleeve Length</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="bg-light">S</td>
+                                                <td>92</td>
+                                                <td>64</td>
+                                                <td>43</td>
+                                                <td>17</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bg-light">M</td>
+                                                <td>96</td>
+                                                <td>65</td>
+                                                <td>44</td>
+                                                <td>18</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bg-light">L</td>
+                                                <td>100</td>
+                                                <td>67</td>
+                                                <td>46</td>
+                                                <td>19</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bg-light">XL</td>
+                                                <td>104</td>
+                                                <td>69</td>
+                                                <td>47</td>
+                                                <td>20</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bg-light">XXL</td>
+                                                <td>108</td>
+                                                <td>71</td>
+                                                <td>50</td>
+                                                <td>21</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bg-light">XXL</td>
+                                                <td>110</td>
+                                                <td>73</td>
+                                                <td>54</td>
+                                                <td>22</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bg-light">XL</td>
+                                                <td>112</td>
+                                                <td>75</td>
+                                                <td>57</td>
+                                                <td>23</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <img src="" alt="" class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="nav-in" role="tabpanel" aria-labelledby="nav-in-tab">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        <!-- /.Shirt Sizes Modal -->
+
         <!-- Processing Modal -->
         <div class="modal fade" id="processing-modal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">

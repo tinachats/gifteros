@@ -50,7 +50,7 @@
                                 <i class="fa fa-angle-right ml-1"></i>
                             </div>
                         </h3>
-                        <h5 class="display-5 ml-2 animated animate-slow delay-2s slideInLeft">Customized Bracelets and Necklaces</h5>
+                        <h5 class="display-5 ml-2 animated animate-slow delay-2s slideInLeft text-white">Customized Bracelets and Necklaces</h5>
                         <h5 class="font-600 ml-2 animated animate-slow delay-3s slideInRight">From only $15.99</h5>
                         <button class="btn btn-dark rounded-0 d-flex align-items-center justify-content-center px-5 font-600 animated animate-slow slideInUp delay-4s ml-2">
                             <span class="text-white">Shop now</span>
@@ -72,6 +72,23 @@
             </div>
         </div>
     </div>
+    {{-- Showcase trending gifts and Actions --}}
+    <div class="action-bars w-100 d-md-none">
+        @guest
+            {{-- Sign In --}}
+            <div class="box-shadow bg-whitesmoke my-2 p-2">
+                <h5 class="text-faded">
+                    Sign in for the best experience
+                    <a href="/login" class="btn bg-switch btn-lg btn-block text-white my-2">
+                        Sign in
+                    </a>
+                </h5>
+                <a href="/register">Create an account</a>
+            </div>
+            {{-- Sign In --}}
+        @endguest
+    </div>
+    {{-- /.Showcase trending gifts and Actions --}}
     <div class="supporting-cards">
         <div class="display-shelf">
             <a href="/category/for_her">

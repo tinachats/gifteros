@@ -553,6 +553,28 @@
         return $label;
     }
 
+    // Positive feedback
+    function positiveFeedback($gift_id){
+        $gift_rating = 0;
+        $avg = DB::table('gift_ratings')
+                    ->join('gifts', 'gifts.id', '=', 'gift_ratings.gift_id')
+                    ->where([
+                        ['gift_id', '=', $gift_id],
+                        ['customer_rating', '>', 2.4]
+                    ])
+                    ->sum('customer_rating');
+        $total = DB::table('gift_ratings')
+                    ->join('gifts', 'gifts.id', '=', 'gift_ratings.gift_id')
+                    ->where('gift_id', $gift_id)
+                    ->sum('customer_rating');
+        if($total > 0){
+            $gift_rating = round(($avg / $total) * 100);
+        } else {
+            $gift_rating = 0;
+        }
+        return $gift_rating;
+}
+
     // Fetch user rating for particular product
     function customerRating($rating_id, $gift_id, $user_id){
         $stars = $star = $color = '';
@@ -632,7 +654,7 @@
 
         if($count_ratings == 1){
             $reviews = '
-                <li class="list-inline-item text-faded star-rating text-sm  d-md-inline-block ml-1">(1 rating)</li>
+                <li class="list-inline-item text-faded star-rating text-sm d-sm-none d-md-inline-block ml-1">(1 rating)</li>
             ';
         } else {
             $reviews = '
@@ -982,7 +1004,6 @@
                         ->get();
         if(count($relatives) > 0){
             $output .= '
-                <h4 class="display-5 font-600 mt-2">You may also like</h4>
                 <div class="owl-carousel owl-theme target-gifts">
             ';
             foreach($relatives as $gift){

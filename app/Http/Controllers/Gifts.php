@@ -115,16 +115,16 @@ class Gifts extends Controller
 
                             // Show countdown timer
                             $timer = '
-                                <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
+                                <div class="d-flex align-items-center text-sm">
+                                    <span class="d-xs-none">Ends<span class="d-sm-none d-md-inline ml-1">in</span>:</span>
                                     <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
                                 </div>
                             ';
                         } else {
                             // Show that the sale is closed
                             $timer = '
-                                <div class="sale-timer d-flex align-items-center justify-content-between text-sm pt-sm-2">
-                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
+                                <div class="sale-timer d-flex align-items-center text-sm pt-sm-2">
+                                    <span class="d-xs-none">Ends<span class="d-sm-none d-md-inline ml-1">in</span>:</span>
                                     <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
                                 </div>
                             ';
@@ -185,7 +185,7 @@ class Gifts extends Controller
                             <!-- /.Cart Actions -->
                             <div class="product-img-wrapper">
                                 '. $gift_label .'
-                                <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
+                                <a href="/details/'. $gift->slug .'/'. $gift->id .'" title="View product">
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
@@ -213,7 +213,7 @@ class Gifts extends Controller
                             <div class="card-content">
                                 <div class="card-body my-0 py-0">
                                     <div class="lh-100 mb-0 pb-0">
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'">
+                                        <a href="/details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="d-sm-none d-md-block font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
                                                 '. Str::words($gift->gift_name, 2, '') .'
                                             </p>
@@ -229,9 +229,9 @@ class Gifts extends Controller
                                     <div class="price-tag pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
+                                                <span class="font-600">$<span class="product-price">'. $usd_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
-                                                    <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
+                                                    <span class="font-600 text-muted strikethrough ml-1">$'. $usd_before .'</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -245,7 +245,7 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zwl-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">ZW$<span class="product-price">'. $zwl_price .'</span></span>
+                                                <span class="font-600">$<span class="product-price">'. $zwl_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
                                                 </div>
@@ -345,16 +345,16 @@ class Gifts extends Controller
 
                             // Show countdown timer
                             $timer = '
-                                <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
+                                <div class="d-flex align-items-center text-sm">
+                                    <span class="d-xs-none">Ends<span class="d-sm-none d-md-inline ml-1">in</span>:</span>
                                     <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
                                 </div>
                             ';
                         } else {
                             // Show that the sale is closed
                             $timer = '
-                                <div class="sale-timer d-flex align-items-center justify-content-between text-sm pt-sm-2">
-                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
+                                <div class="sale-timer d-flex align-items-center text-sm pt-sm-2">
+                                    <span class="d-xs-none">Ends<span class="d-sm-none d-md-inline ml-1">in</span>:</span>
                                     <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
                                 </div>
                             ';
@@ -415,7 +415,7 @@ class Gifts extends Controller
                             <!-- /.Cart Actions -->
                             <div class="product-img-wrapper">
                                 '. $gift_label .'
-                                <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
+                                <a href="/details/'. $gift->slug .'/'. $gift->id .'" title="View product">
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
@@ -443,7 +443,7 @@ class Gifts extends Controller
                             <div class="card-content">
                                 <div class="card-body my-0 py-0">
                                     <div class="lh-100 mb-0 pb-0">
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'">
+                                        <a href="/details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="d-sm-none d-md-block font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
                                                 '. Str::words($gift->gift_name, 2, '') .'
                                             </p>
@@ -459,9 +459,9 @@ class Gifts extends Controller
                                     <div class="price-tag pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
+                                                <span class="font-600">$<span class="product-price">'. $usd_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
-                                                    <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
+                                                    <span class="font-600 text-muted strikethrough ml-1">$'. $usd_before .'</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -475,7 +475,7 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zwl-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">ZW$<span class="product-price">'. $zwl_price .'</span></span>
+                                                <span class="font-600">$<span class="product-price">'. $zwl_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
                                                 </div>
@@ -575,16 +575,16 @@ class Gifts extends Controller
 
                             // Show countdown timer
                             $timer = '
-                                <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
+                                <div class="d-flex align-items-center text-sm">
+                                    <span class="d-xs-none">Ends<span class="d-sm-none d-md-inline ml-1">in</span>:</span>
                                     <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
                                 </div>
                             ';
                         } else {
                             // Show that the sale is closed
                             $timer = '
-                                <div class="sale-timer d-flex align-items-center justify-content-between text-sm pt-sm-2">
-                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
+                                <div class="sale-timer d-flex align-items-center text-sm pt-sm-2">
+                                    <span class="d-xs-none">Ends<span class="d-sm-none d-md-inline ml-1">in</span>:</span>
                                     <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
                                 </div>
                             ';
@@ -645,7 +645,7 @@ class Gifts extends Controller
                             <!-- /.Cart Actions -->
                             <div class="product-img-wrapper">
                                 '. $gift_label .'
-                                <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
+                                <a href="/details/'. $gift->slug .'/'. $gift->id .'" title="View product">
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
@@ -673,7 +673,7 @@ class Gifts extends Controller
                             <div class="card-content">
                                 <div class="card-body my-0 py-0">
                                     <div class="lh-100 mb-0 pb-0">
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'">
+                                        <a href="/details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="d-sm-none d-md-block font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
                                                 '. Str::words($gift->gift_name, 2, '') .'
                                             </p>
@@ -689,9 +689,9 @@ class Gifts extends Controller
                                     <div class="price-tag pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
+                                                <span class="font-600">$<span class="product-price">'. $usd_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
-                                                    <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
+                                                    <span class="font-600 text-muted strikethrough ml-1">$'. $usd_before .'</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -705,7 +705,7 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zwl-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">ZW$<span class="product-price">'. $zwl_price .'</span></span>
+                                                <span class="font-600">$<span class="product-price">'. $zwl_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
                                                 </div>
@@ -805,16 +805,16 @@ class Gifts extends Controller
 
                             // Show countdown timer
                             $timer = '
-                                <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
+                                <div class="d-flex align-items-center text-sm">
+                                    <span class="d-xs-none">Ends<span class="d-sm-none d-md-inline ml-1">in</span>:</span>
                                     <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
                                 </div>
                             ';
                         } else {
                             // Show that the sale is closed
                             $timer = '
-                                <div class="sale-timer d-flex align-items-center justify-content-between text-sm pt-sm-2">
-                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
+                                <div class="sale-timer d-flex align-items-center text-sm pt-sm-2">
+                                    <span class="d-xs-none">Ends<span class="d-sm-none d-md-inline ml-1">in</span>:</span>
                                     <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
                                 </div>
                             ';
@@ -875,7 +875,7 @@ class Gifts extends Controller
                             <!-- /.Cart Actions -->
                             <div class="product-img-wrapper">
                                 '. $gift_label .'
-                                <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
+                                <a href="/details/'. $gift->slug .'/'. $gift->id .'" title="View product">
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
@@ -903,7 +903,7 @@ class Gifts extends Controller
                             <div class="card-content">
                                 <div class="card-body my-0 py-0">
                                     <div class="lh-100 mb-0 pb-0">
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'">
+                                        <a href="/details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="d-sm-none d-md-block font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
                                                 '. Str::words($gift->gift_name, 2, '') .'
                                             </p>
@@ -919,9 +919,9 @@ class Gifts extends Controller
                                     <div class="price-tag pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
+                                                <span class="font-600">$<span class="product-price">'. $usd_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
-                                                    <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
+                                                    <span class="font-600 text-muted strikethrough ml-1">$'. $usd_before .'</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -935,7 +935,7 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zwl-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">ZW$<span class="product-price">'. $zwl_price .'</span></span>
+                                                <span class="font-600">$<span class="product-price">'. $zwl_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
                                                 </div>
@@ -1035,16 +1035,16 @@ class Gifts extends Controller
 
                             // Show countdown timer
                             $timer = '
-                                <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
+                                <div class="d-flex align-items-center text-sm">
+                                    <span class="d-xs-none">Ends<span class="d-sm-none d-md-inline ml-1">in</span>:</span>
                                     <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
                                 </div>
                             ';
                         } else {
                             // Show that the sale is closed
                             $timer = '
-                                <div class="sale-timer d-flex align-items-center justify-content-between text-sm pt-sm-2">
-                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
+                                <div class="sale-timer d-flex align-items-center text-sm pt-sm-2">
+                                    <span class="d-xs-none">Ends<span class="d-sm-none d-md-inline ml-1">in</span>:</span>
                                     <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
                                 </div>
                             ';
@@ -1105,7 +1105,7 @@ class Gifts extends Controller
                             <!-- /.Cart Actions -->
                             <div class="product-img-wrapper">
                                 '. $gift_label .'
-                                <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
+                                <a href="/details/'. $gift->slug .'/'. $gift->id .'" title="View product">
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
@@ -1133,7 +1133,7 @@ class Gifts extends Controller
                             <div class="card-content">
                                 <div class="card-body my-0 py-0">
                                     <div class="lh-100 mb-0 pb-0">
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'">
+                                        <a href="/details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="d-sm-none d-md-block font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
                                                 '. Str::words($gift->gift_name, 2, '') .'
                                             </p>
@@ -1149,9 +1149,9 @@ class Gifts extends Controller
                                     <div class="price-tag pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
+                                                <span class="font-600">$<span class="product-price">'. $usd_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
-                                                    <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
+                                                    <span class="font-600 text-muted strikethrough ml-1">$'. $usd_before .'</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1165,7 +1165,7 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zwl-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">ZW$<span class="product-price">'. $zwl_price .'</span></span>
+                                                <span class="font-600">$<span class="product-price">'. $zwl_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
                                                 </div>
@@ -1265,16 +1265,16 @@ class Gifts extends Controller
 
                             // Show countdown timer
                             $timer = '
-                                <div class="d-flex align-items-center justify-content-between text-sm">
-                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
+                                <div class="d-flex align-items-center text-sm">
+                                    <span class="d-xs-none">Ends<span class="d-sm-none d-md-inline ml-1">in</span>:</span>
                                     <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$gift->id.'">00d:00h:00m:00s</span>
                                 </div>
                             ';
                         } else {
                             // Show that the sale is closed
                             $timer = '
-                                <div class="sale-timer d-flex align-items-center justify-content-between text-sm pt-sm-2">
-                                    <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
+                                <div class="sale-timer d-flex align-items-center text-sm pt-sm-2">
+                                    <span class="d-xs-none">Ends<span class="d-sm-none d-md-inline ml-1">in</span>:</span>
                                     <span class="ml-1 d-flex text-danger align-items-center" id="countdown-timer'.$gift->id.'">Sale closed</span>
                                 </div>
                             ';
@@ -1335,7 +1335,7 @@ class Gifts extends Controller
                             <!-- /.Cart Actions -->
                             <div class="product-img-wrapper">
                                 '. $gift_label .'
-                                <a href="details/'. $gift->slug .'/'. $gift->id .'" title="View product">
+                                <a href="/details/'. $gift->slug .'/'. $gift->id .'" title="View product">
                                     <img src="/storage/gifts/'. $gift->gift_image .'" alt="'. $gift->gift_name .'" height="200" class="card-img-top">
                                 </a>
                                 <div class="overlay d-flex justify-content-around py-1">
@@ -1363,7 +1363,7 @@ class Gifts extends Controller
                             <div class="card-content">
                                 <div class="card-body my-0 py-0">
                                     <div class="lh-100 mb-0 pb-0">
-                                        <a href="details/'. $gift->slug .'/'. $gift->id .'">
+                                        <a href="/details/'. $gift->slug .'/'. $gift->id .'">
                                             <p class="d-sm-none d-md-block font-600 text-capitalize mt-1 mb-0 py-0 product-name popover-info" id="'. $gift->id .'">
                                                 '. Str::words($gift->gift_name, 2, '') .'
                                             </p>
@@ -1379,9 +1379,9 @@ class Gifts extends Controller
                                     <div class="price-tag pull-up-1">
                                         <div class="usd-price">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">US$<span class="product-price">'. $usd_price .'</span></span>
+                                                <span class="font-600">$<span class="product-price">'. $usd_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
-                                                    <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
+                                                    <span class="font-600 text-muted strikethrough ml-1">$'. $usd_before .'</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -1395,7 +1395,7 @@ class Gifts extends Controller
                                         </div>
                                         <div class="zwl-price d-none">
                                             <div class="d-flex align-items-center justify-content-between">
-                                                <span class="font-600">ZW$<span class="product-price">'. $zwl_price .'</span></span>
+                                                <span class="font-600">$<span class="product-price">'. $zwl_price .'</span></span>
                                                 <div class="d-flex align-items-center before-prices">
                                                     <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
                                                 </div>
@@ -1541,7 +1541,7 @@ class Gifts extends Controller
                 //                                 <div class="d-flex align-items-center justify-content-between">
                 //                                     <span class="font-600">US$<span class="product-price">'. number_format($value['usd_price'], 2) .'</span></span>
                 //                                     <div class="d-flex align-items-center before-prices">
-                //                                         <span class="font-600 text-muted strikethrough ml-1">US$'. $usd_before .'</span>
+                //                                         <span class="font-600 text-muted strikethrough ml-1">$'. $usd_before .'</span>
                 //                                     </div>
                 //                                 </div>
                 //                             </div>
@@ -1555,7 +1555,7 @@ class Gifts extends Controller
                 //                             </div>
                 //                             <div class="zwl-price d-none">
                 //                                 <div class="d-flex align-items-center justify-content-between">
-                //                                     <span class="font-600">ZW$<span class="product-price">'. number_format($value['zwl_price'], 2) .'</span></span>
+                //                                     <span class="font-600">$<span class="product-price">'. number_format($value['zwl_price'], 2) .'</span></span>
                 //                                     <div class="d-flex align-items-center before-prices">
                 //                                         <span class="font-600 text-muted strikethrough ml-1">$'. $zwl_before .'</span>
                 //                                     </div>
@@ -1563,7 +1563,7 @@ class Gifts extends Controller
                 //                             </div>
                 //                         </div>
                 //                         <div class="d-flex align-items-center justify-content-between text-sm">
-                //                             <span><span class="d-sm-none d-md-inline-block">Sale</span>Ends:</span>
+                //                             <span class="d-xs-none">Ends<span class="d-sm-none d-md-inline ml-1">in</span>:</span>
                 //                             <span class="ml-1 d-flex align-items-center" id="countdown-timer'.$viewed_gifts[$key].'">00d:00h:00m:00s</span>
                 //                         </div>
                 //                         <div class="row justify-content-center w-100">
@@ -1835,7 +1835,7 @@ class Gifts extends Controller
                      ->distinct()
                      ->get();
         $data = [
-            'title' => $title,
+            'title'          => $title,
             'category_name'  => $category_name,
             'gift'           => $gift,
             'id'             => $id,
@@ -1845,7 +1845,7 @@ class Gifts extends Controller
             'review_count'   => $review_count,
             'app_reviews'    => $app_reviews
         ];
-        return view('details.show')->with($data);
+        return view('details')->with($data);
     }
 
     // Show the user's gift item wishlist button

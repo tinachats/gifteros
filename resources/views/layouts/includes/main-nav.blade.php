@@ -1,151 +1,4 @@
 @include('layouts.includes.header')
-<style>
-    @media(max-width: 576px){
-        .mobile-nav{
-            background-color: var(--whitesmoke);
-        }
-        .scroll-menu{
-            display: -ms-flexbox;
-            display: flex;
-            -ms-flex-wrap: nowrap;
-            flex-wrap: nowrap;
-            overflow: auto;
-            white-space: nowrap;
-            -webkit-overflow-scrolling: touch;
-        }
-
-        .scroll-item{
-            display: inline-block;
-            text-decoration: none;
-            color: grey;
-            text-align: center;
-            padding: 10px;
-            border-bottom: 2px solid transparent;
-        }
-
-        .scroll-item:hover,
-        .scroll-item.active{
-            color: var(--danger);
-            border-bottom: 2px solid var(--danger);
-        }
-
-        .bottom-nav{
-            display: flex;
-            height:  59.2px;
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            margin: 0;
-            width: 100%;
-            z-index: 1000;
-        }
-
-        .nav-menu-item{
-            position: relative;
-        }
-
-        .nav-menu-item,
-        .nav-menu-item i,
-        .nav-menu-item p{
-            color: var(--switch);
-        }
-
-        .nav-menu-item.active,
-        .nav-menu-item.active .mob-icon,
-        .nav-menu-item.active i.fa-circle,
-        .nav-menu-item.active p{
-            color: var(--danger) !important;
-        }
-
-        .nav-menu-item.active .badge-pill{
-            background: var(--danger) !important;
-            color: #fff !important
-        }
-
-        .app-badge{
-            position: absolute;
-            border: 2px solid var(--whitesmoke);
-            left: 20px;
-            top: 3px
-        }
-        
-        .app-badge.fa-circle{
-            background: none !important;
-            border: 2px solid var(--whitesmoke);
-        }
-
-        #nav-home>i.fa-circle{
-            left: 15px
-        }
-
-        #nav-wishlist>span.badge-pill{
-            left: 30px
-        }
-
-        #nav-occasions>i.fa-circle,
-        #nav-notifications>span.badge-pill{
-            left: 35px
-        }
-
-        .gift-categories{
-            margin-right: 0;
-            margin-left: 0;
-            padding-left: 0;
-            padding-right: 0
-        }
-
-        .app-rating-box,
-        .container,
-        .container-fluid,
-        .row,
-        .col-12,
-        #stats-tab.nav-tabs {
-            width: 100%;
-            padding-right: 3px;
-            padding-left: 3px;
-        }
-
-        .col-12>* {
-            padding-left: 5px;
-            padding-right: 5px;
-        }
-
-        #index-page.page-content{
-            margin-top: 5.8rem
-        }
-
-        .grid-view > .product-card > .product-img-wrapper > .overlay {
-            opacity: 1;
-            top: 46%;
-        }
-
-        .products-shelf{
-            grid-template-columns: repeat(2, 1fr);
-        }
-        .grid-view>.product-card {
-            width: 100%;
-            height: 350px
-        }
-        .btn-group{
-            position: absolute;
-        }
-        
-        .btn-group{
-            top: 88%;
-            width: 90%;
-            left: 5%;
-        }
-        .fabs{
-            bottom: 10%;
-            right: 30px;
-        }
-
-        .pt-sm-2, 
-        .py-sm-2 {
-            padding-top: .5rem!important;
-        }
-    }
-</style>
 <!-- Main Header -->
 <header class="header fixed-md-top box-shadow-sm d-sm-none d-md-block">
     <div class="container">
@@ -420,7 +273,8 @@
 
             <!-- Right Navbar Links -->
             <ul class="ml-auto justify-content-sm-around d-flex align-items-center m-0 p-0">
-                <li class="nav-item d-none d-md-flex" title="Select currency">
+                <!-- App Currencies -->
+                <li class="nav-item d-none d-md-flex" data-toggle="tooltip"  title="Select currency">
                     <div class="usd-price d-none nav-link font-600 navbar-text">
                         <div class="dropdown dropdown-toggle d-cursor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="{{ asset('img/app/usflag.png') }}" height="15" width="22" alt="">
@@ -482,14 +336,15 @@
                         </div>
                     </div>
                 </li>
+                <!-- /.App Currencies -->
+
                 <!-- Shopping Cart -->
                 <li class="nav-item dropdown ml-3">
                     <a href="#" class="nav-link icon-link" id="shopping-cart" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-dropbox icon-md giftbox-empty"></i>
-                        <i class="material-icons giftbox-filled d-none">redeem</i>
+                        <i class="bi bi-cart4 icon-md pull-up"></i>
                         <span class="badge nav-badge gift-count"></span>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-right rounded-2 box-shadow-sm cart-menu mt-0 py-0">
+                    <ul class="dropdown-menu dropdown-menu-right app-menu rounded-2 box-shadow-sm cart-menu mt-0 py-0">
                         <div class="shopping-bag rounded-2">
                             <!-- Shopping Cart details will be shown here -->
                         </div>
@@ -623,11 +478,11 @@
                 @guest
                     <!-- Visitor -->
                     <li class="nav-item dropdown ml-3">
-                        <div class="d-flex align-items-center d-cursor font-600 dropdown-toggle text-color-switch" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Toggle Sign-in Form">
-                            <i class="material-icons text-color-switch">person_outline</i>
-                            <span class="ml-1 d-none d-md-inline text-color-switch">Account</span>
-                        </div>
-                        <div class="dropdown-menu dropdown-menu-right user-menu box-shadow-sm rounded-2 px-3" id="visitor-menu">
+                        <a role="button" class="btn btn-danger btn-sm rounded-pill d-flex align-items-center font-600 dropdown-toggle text-white" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons mr-2">person_outline</i>
+                            <span class="text-white">Sign in</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right user-menu app-menu box-shadow-sm rounded-2 px-3" id="visitor-menu">
                             <div class="d-flex justify-content-center align-items-center text-skyblue font-600">
                                 <?= greetingIcon().greeting(); ?>
                             </div>
@@ -685,8 +540,8 @@
                                     <a role="button" href="" class="btn btn-outline-primary btn-sm social-login-btn mr-3" title="Sign-in with Twitter">
                                         <i class="fa fa-twitter text-primary-inverse"></i>
                                     </a>
-                                    <a role="button" href="" class="btn btn-outline-primary btn-sm social-login-btn" title="Sign-in with LinkedIn">
-                                        <i class="fa fa-linkedin text-primary-inverse"></i>
+                                    <a role="button" href="" class="btn btn-outline-primary btn-sm social-login-btn" title="Sign-in with Instagram">
+                                        <i class="fa fa-instagram text-primary-inverse"></i>
                                     </a>
                                 </div>
                             </div>
@@ -701,6 +556,7 @@
     
                 @auth
                     <!-- Signed-in User -->
+
                     <!-- Wishlist -->
                     <li class="nav-item dropdown ml-3" title="View your Wishlist">
                         <a href="{{ route('wishlist') }}" class="nav-link icon-link wishlist">
@@ -709,21 +565,23 @@
                         </a>
                     </li>
                     <!-- /.Wishlist -->
+                    
                     <!-- Notifications -->
                     <li class="nav-item dropdown ml-3 notification-link">
                         <a href="#" class="nav-link icon-link" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="material-icons notifications">notifications_none</i>
                             <span class="badge nav-badge notifications-counter"></span>
                         </a>
-                        <div class="dropdown-menu notification-menu dropdown-menu-right rounded-2 box-shadow-sm" id="notifications">
+                        <div class="dropdown-menu notification-menu app-menu dropdown-menu-right rounded-2 box-shadow-sm" id="notifications">
                             <!-- Notifications will show up here -->
                         </div>
                     </li>
                     <!-- /.Notifications -->
+
                     <!-- Signed-in User -->
                     <li class="nav-item dropdown ml-3" title="Account Settings">
                         <img src="/storage/users/{{ Auth::user()->profile_pic }}" height="30" width="30" alt="{{ Auth::user()->name }}" class="rounded-circle prof-pic d-cursor" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <div class="dropdown-menu dropdown-menu-right user-menu box-shadow-sm rounded-2">
+                        <div class="dropdown-menu dropdown-menu-right user-menu app-menu box-shadow-sm rounded-2">
                             <div class="text-center pb-2">
                                 <form action="/profile_pic" method="post">
                                     @csrf
@@ -787,8 +645,8 @@
                     <!-- /.Signed-in User -->
                 @endauth
     
-                <li class="nav-item d-md-flex ml-3" id="app-settings" title="See more settings">
-                    <a class="toggle-settings nav-link icon-link material-icons">settings</a>
+                <li class="nav-item d-md-flex ml-3" id="app-settings" data-toggle="tooltip" title="See more settings">
+                    <a class="toggle-settings nav-link icon-link material-icons">tune</a>
                 </li>
             </ul>
             <!-- /.Right Navbar Links -->
@@ -859,7 +717,14 @@
                 </a>
             </li>
             <li class="nav-item mx-2">
-                <img src="/storage/users/{{ Auth::user()->profile_pic }}" height="30" width="30" alt="{{ Auth::user()->name }}" class="rounded-circle prof-pic d-cursor">
+                @auth
+                    <img src="/storage/users/{{ Auth::user()->profile_pic }}" height="30" width="30" alt="{{ Auth::user()->name }}" class="rounded-circle prof-pic d-cursor">
+                @endauth
+                @guest
+                    <a href="/login" class="btn btn-danger btn-sm rounded-pill d-flex align-items-center">
+                        Sign in
+                    </a>
+                @endguest
             </li>
             <li class="nav-item">
                 <a class="nav-link icon-link menu-btn" href="#">
@@ -887,19 +752,20 @@
 </header>
 <!-- /.Sticky-top Header -->
 
+@auth
 {{-- Fixed-bottom Navbar --}}
-<nav class="navbar navbar-light box-shadow-sm mobile-nav bottom-nav py-0 w-100">
+<nav class="navbar navbar-light box-shadow-sm mobile-nav bottom-nav py-0 w-100 d-md-none">
     <a href="/" class="d-block text-center nav-menu-item active" id="nav-home">
         <i class="bi bi-shop mob-icon icon-md"></i>
         <i class="app-badge fa fa-circle new-products d-none"></i>
         <p class="text-sm mb-0">Shop</p>
     </a>
-    <a href="/occasions" class="d-block text-center nav-menu-item" id="nav-occasions">
+    <a href="#occasions" class="d-block text-center nav-menu-item" id="nav-occasions">
         <i class="bi bi-calendar-date mob-icon icon-md"></i>
         <i class="app-badge fa fa-circle upcoming-events d-none"></i>
         <p class="text-sm mb-0">Occasions</p>
     </a>
-    <a href="/cart" class="d-block text-center nav-menu-item" id="nav-cart">
+    <a href="#cart" class="d-block text-center nav-menu-item" id="nav-cart">
         <i class="bi bi-cart4 mob-icon icon-md"></i>
         <span class="app-badge badge badge-pill gift-count"></span>
         <p class="text-sm mb-0">Cart</p>
@@ -909,12 +775,12 @@
         <span class="app-badge badge badge-pill count-wishlist"></span>
         <p class="text-sm mb-0">Wishlist</p>
     </a>
-    <a href="/notifications" class="d-block text-center nav-menu-item" id="nav-notifications">
+    <a href="#notifications" class="d-block text-center nav-menu-item" id="nav-notifications">
         <i class="bi bi-bell mob-icon icon-md"></i>
         <span class="app-badge badge badge-pill notifications-counter"></span>
         <p class="text-sm mb-0">Notifications</p>
     </a>
 </nav>
 {{-- /.Fixed-bottom Navbar --}}
-
+@endauth
 <!-- /.Mobile Phones Navbars -->
